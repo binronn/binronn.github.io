@@ -493,6 +493,17 @@ main {
   color: var(--color-text-secondary);
 }
 
+/* ==================== ADSENSE ==================== */
+.adsense {
+  margin: var(--space-lg) 0;
+  min-height: 90px; /* Reserve space for ad */
+}
+
+.adsense ins {
+  margin: var(--space-lg) 0;
+  display: block;
+}
+
 /* ==================== SIDEBAR & WIDGETS ==================== */
 .widget {
   background: var(--color-bg-secondary);

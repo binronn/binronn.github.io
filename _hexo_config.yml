@@ -86,10 +86,11 @@ translator:
   enabled: false
   provider: "openai"
 
-# AdSense config (placeholder)
+# AdSense config
 adsense:
-  enabled: false
-  client: "ca-pub-XXXXXXXXXX"
-  slot_top: "1234567890"
-  slot_bottom: "0987654321"
-  slot_sidebar: "5678901234"
+  enabled: true
+  client: "ca-pub-1206611804757181"
+  adsense_client_id: "1206611804757181"
+  slot_top: "4232191576"
+  slot_bottom: "4232191576"
+  slot_sidebar: "4232191576"
