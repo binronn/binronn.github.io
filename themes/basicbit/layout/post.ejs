@@ -1,0 +1,103 @@
+<div class="main-container">
+  <article class="post-content">
+    <!-- Article Header -->
+    <header class="post-header">
+      <h1 class="post-title"><%= page.title %></h1>
+      <%- partial('_partial/article-meta', {post: page}) %>
+    </header>
+
+    <!-- Article Actions -->
+    <% if (page.original_url) { %>
+    <div class="article-actions">
+      <a href="<%= page.original_url %>" class="action-btn primary" target="_blank" rel="noopener noreferrer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=<%= encodeURIComponent(page.original_url) %>" class="action-btn secondary" target="_blank" rel="noopener noreferrer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+    <% } %>
+
+    <!-- AdSense Top -->
+    <% if (theme.adsense.enabled) { %>
+    <div class="adsense-top">
+      <ins class="adsbygoogle"
+           style="display:block; text-align:center;"
+           data-ad-client="<%= theme.adsense.client %>"
+           data-ad-slot="<%= theme.adsense.slot_top %>"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+    <% } else { %>
+    <div class="adsense-placeholder">广告位预留 - AdSense (顶部)</div>
+    <% } %>
+
+    <!-- Post Body -->
+    <div class="post-body">
+      <%- page.content %>
+    </div>
+
+    <!-- AdSense Bottom -->
+    <% if (theme.adsense.enabled) { %>
+    <div class="adsense-bottom">
+      <ins class="adsbygoogle"
+           style="display:block; text-align:center;"
+           data-ad-client="<%= theme.adsense.client %>"
+           data-ad-slot="<%= theme.adsense.slot_bottom %>"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+    <% } else { %>
+    <div class="adsense-placeholder">广告位预留 - AdSense (底部)</div>
+    <% } %>
+
+    <!-- Tags -->
+    <% if (page.tags && page.tags.length > 0) { %>
+    <div class="post-tags">
+      <span>标签:</span>
+      <% page.tags.forEach(function(tag) { %>
+        <a href="<%- url_for('/tag/' + tag.name) %>" class="tag-link">#<%= tag.name %></a>
+      <% }); %>
+    </div>
+    <% } %>
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <ul class="category-list">
+        <% site.categories.forEach(function(category) { %>
+        <li>
+          <a href="<%- url_for('/category/' + category.name) %>"><%= category.name %></a>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <div class="tag-cloud">
+        <% if (page.tags && page.tags.length > 0) { %>
+          <% page.tags.forEach(function(tag) { %>
+          <a href="<%- url_for('/tag/' + tag.name) %>">#<%= tag.name %></a>
+          <% }); %>
+        <% } else { %>
+          <% site.tags.limit(20).forEach(function(tag) { %>
+          <a href="<%- url_for('/tag/' + tag.name) %>"><%= tag.name %></a>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+  </aside>
+</div>

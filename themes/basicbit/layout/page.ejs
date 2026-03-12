@@ -1,0 +1,27 @@
+<div class="main-container">
+  <div class="post-list">
+    <%- page.content %>
+  </div>
+
+  <aside class="sidebar">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <ul class="category-list">
+        <% site.categories.forEach(function(category) { %>
+        <li>
+          <a href="<%- url_for('/category/' + category.name) %>"><%= category.name %></a>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <div class="tag-cloud">
+        <% site.tags.limit(20).forEach(function(tag) { %>
+        <a href="<%- url_for('/tag/' + tag.name) %>"><%= tag.name %></a>
+        <% }); %>
+      </div>
+    </div>
+  </aside>
+</div>

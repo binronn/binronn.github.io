@@ -1,0 +1,103 @@
+<% if (page.current === 1) { %>
+<section class="home-hero">
+  <div class="container">
+    <h1 class="hero-title">思考，在此发生</h1>
+    <p class="hero-subtitle">记录技术点滴，分享生活感悟。在这里，我们一起探索代码背后的逻辑与美学。</p>
+  </div>
+</section>
+<% } %>
+
+<div class="main-container">
+  <div class="post-list">
+    <% if (page.posts.length > 0) { %>
+      <% page.posts.forEach(function(post) { %>
+      <article class="post-card">
+        <h2 class="post-title">
+          <a href="<%- url_for(post.path) %>"><%= post.title %></a>
+        </h2>
+
+        <div class="post-meta">
+          <span class="meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <%= date(post.date, 'YYYY-MM-DD') %>
+          </span>
+
+          <% if (post.categories && post.categories.length > 0) { %>
+          <span class="meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <% post.categories.forEach(function(category, idx) { %>
+              <a href="<%- url_for('/category/' + category.name) %>"><%= category.name %></a><%= idx < post.categories.length - 1 ? ', ' : '' %>
+            <% }); %>
+          </span>
+          <% } %>
+        </div>
+
+        <div class="post-excerpt">
+          <p><%- post.description || post.excerpt %></p>
+        </div>
+
+        <a href="<%- url_for(post.path) %>" class="read-more">
+          阅读全文
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </article>
+      <% }); %>
+    <% } else { %>
+      <div class="no-results">
+        <p>暂无文章，敬请期待...</p>
+      </div>
+    <% } %>
+
+    <!-- Pagination -->
+    <% if (page.total > 1) { %>
+    <div class="pagination">
+      <% if (page.prev) { %>
+      <a href="<%- url_for(page.prev_link) %>" class="prev">上一页</a>
+      <% } else { %>
+      <span class="disabled">上一页</span>
+      <% } %>
+
+      <% if (page.next) { %>
+      <a href="<%- url_for(page.next_link) %>" class="next">下一页</a>
+      <% } else { %>
+      <span class="disabled">下一页</span>
+      <% } %>
+    </div>
+    <% } %>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="widget">
+      <h3 class="widget-title">探索分类</h3>
+      <ul class="category-list">
+        <% site.categories.forEach(function(category) { %>
+        <li>
+          <a href="<%- url_for('/category/' + category.name) %>">
+            <span><%= category.name %></span>
+            <span class="category-count"><%= category.length %></span>
+          </a>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <div class="widget">
+      <h3 class="widget-title">热门标签</h3>
+      <div class="tag-cloud">
+        <% site.tags.forEach(function(tag) { %>
+        <a href="<%- url_for('/tag/' + tag.name) %>"><%= tag.name %></a>
+        <% }); %>
+      </div>
+    </div>
+  </aside>
+</div>

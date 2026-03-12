@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+npm-debug.log
+git-page/
+public/
+
+# Claude
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+.pytest_cache/
+
+# Environment
+.env
+.env.local
+
+# Coverage
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Test files
+tests/
+requirements-test.txt
+pytest.ini
+run_tests.py
+*.py
+*.md

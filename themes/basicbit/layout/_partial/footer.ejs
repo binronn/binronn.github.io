@@ -1,0 +1,13 @@
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <p>&copy; <%= new Date().getFullYear() %> <%= config.title %>. All rights reserved.</p>
+      <p class="footer-description"><%= config.description %></p>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      <span class="separator">|</span>
+      <a href="<%- url_for('/sitemap.xml') %>">Sitemap</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,16 @@
+{
+  "name": "basicbit",
+  "version": "1.0.0",
+  "description": "安全逆向技术文章博客",
+  "author": "BasicBit",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.js",
+    "preview": "npx serve public",
+    "clean": "rm -rf public"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.1",
+    "marked": "^17.0.4"
+  }
+}
