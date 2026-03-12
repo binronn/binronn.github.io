@@ -93,7 +93,8 @@ const config = {
   postsDir: 'source/_posts',
   pagesDir: 'source',
   themeDir: 'themes/basicbit',
-  adsense: siteConfig.adsense || { enabled: false }
+  adsense: siteConfig.adsense || { enabled: false },
+  url: siteConfig.url || 'https://basicbit.cn'
 };
 
 // Categories and tags data
@@ -265,6 +266,20 @@ function generateAdSense() {
   ` : '';
 
   return { head, top, bottom, sidebar };
+}
+
+// Generate robots.txt
+function generateRobotsTxt() {
+  const siteUrl = config.url.replace(/\/$/, '');
+  return `User-agent: *
+Allow: /
+
+Sitemap: ${siteUrl}/search.json
+
+# Disallow admin and private pages
+Disallow: /admin/
+Disallow: /api/
+`;
 }
 
 // Generate header HTML
@@ -974,6 +989,14 @@ function build() {
 
   // Create .nojekyll to prevent GitHub Pages from using Jekyll
   fs.writeFileSync(path.join(config.public, '.nojekyll'), '');
+
+  // Generate robots.txt
+  fs.writeFileSync(path.join(config.public, 'robots.txt'), generateRobotsTxt());
+  console.log('Generated robots.txt');
+
+  // Generate CNAME
+  fs.writeFileSync(path.join(config.public, 'CNAME'), 'basicbit.cn');
+  console.log('Generated CNAME');
 
   // Copy images directory
   copyDir(path.join(config.source, 'images'), path.join(config.public, 'images'));
