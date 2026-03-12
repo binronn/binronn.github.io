@@ -94,7 +94,8 @@ const config = {
   pagesDir: 'source',
   themeDir: 'themes/basicbit',
   adsense: siteConfig.adsense || { enabled: false },
-  url: siteConfig.url || 'https://basicbit.cn'
+  url: siteConfig.url || 'https://basicbit.cn',
+  postsPerPage: 20
 };
 
 // Categories and tags data
@@ -268,6 +269,30 @@ function generateAdSense() {
   return { head, top, bottom, sidebar };
 }
 
+// Generate pagination HTML
+function generatePagination(baseUrl, currentPage, totalPages) {
+  if (totalPages <= 1) return '';
+
+  // Handle index page (baseUrl = '/') differently
+  let prevUrl, nextUrl;
+  if (baseUrl === '/') {
+    // Index page pagination
+    prevUrl = currentPage > 1 ? (currentPage === 2 ? '/' : `/page/${currentPage - 1}/`) : '';
+    nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : '';
+  } else {
+    // Category/tag pagination
+    prevUrl = currentPage > 1 ? (currentPage === 2 ? baseUrl : `${baseUrl}${currentPage - 1}.html`) : '';
+    nextUrl = currentPage < totalPages ? `${baseUrl}${currentPage + 1}.html` : '';
+  }
+
+  return `
+<nav class="pagination">
+  ${currentPage > 1 ? `<a href="${prevUrl}" class="prev">上一页</a>` : '<span class="disabled">上一页</span>'}
+  <span class="page-info">${currentPage} / ${totalPages}</span>
+  ${currentPage < totalPages ? `<a href="${nextUrl}" class="next">下一页</a>` : '<span class="disabled">下一页</span>'}
+</nav>`;
+}
+
 // Generate robots.txt
 function generateRobotsTxt() {
   const siteUrl = config.url.replace(/\/$/, '');
@@ -400,11 +425,16 @@ function generateSidebar(posts) {
 }
 
 // Generate index page
-function generateIndex(posts) {
+function generateIndex(posts, pageNum = 1) {
   const css = generateCSS();
   const js = generateJS();
 
-  const postsHTML = posts.slice(0, 10).map(post => `
+  const totalPages = Math.ceil(posts.length / config.postsPerPage);
+  pageNum = Math.min(Math.max(1, pageNum), totalPages || 1);
+  const startIdx = (pageNum - 1) * config.postsPerPage;
+  const pagePosts = posts.slice(startIdx, startIdx + config.postsPerPage);
+
+  const postsHTML = pagePosts.map(post => `
     <article class="post-card fade-in">
       <div style="margin-bottom: 1.5rem; border-radius: 12px; overflow: hidden; height: 200px; background: var(--color-bg-secondary);">
         <img src="/images/default-cover.svg" alt="Cover" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -431,12 +461,15 @@ function generateIndex(posts) {
     </article>
   `).join('');
 
+  const pageTitle = pageNum > 1 ? `第${pageNum}页 - BasicBit` : 'BasicBit - 安全逆向技术文章翻译博客';
+  const pagination = generatePagination('/', pageNum, totalPages);
+
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BasicBit - 安全逆向技术文章翻译博客</title>
+  <title>${pageTitle}</title>
   <meta name="description" content="安全逆向技术文章博客 - 逆向工程、恶意软件分析、漏洞研究">
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -456,6 +489,7 @@ function generateIndex(posts) {
     <div class="main-container">
       <div class="post-list">
         ${postsHTML || '<div class="no-results"><p>暂无文章，敬请期待...</p></div>'}
+        ${pagination}
       </div>
       ${generateSidebar(posts)}
     </div>
@@ -659,13 +693,18 @@ function generatePage(page, posts) {
 }
 
 // Generate category page
-function generateCategory(categoryId, posts) {
+function generateCategory(categoryId, posts, pageNum = 1) {
   const category = categoriesData.find(c => c.id === categoryId) || { name: categoryId, description: '' };
   const categoryPosts = posts.filter(p => p.categories.includes(categoryId));
 
+  const totalPages = Math.ceil(categoryPosts.length / config.postsPerPage);
+  pageNum = Math.min(Math.max(1, pageNum), totalPages || 1);
+  const startIdx = (pageNum - 1) * config.postsPerPage;
+  const pagePosts = categoryPosts.slice(startIdx, startIdx + config.postsPerPage);
+
   const css = generateCSS();
 
-  const postsHTML = categoryPosts.map(post => `
+  const postsHTML = pagePosts.map(post => `
     <article class="post-card fade-in">
       <h2 class="post-title">
         <a href="/posts/${post.slug}.html">${post.title}</a>
@@ -681,12 +720,15 @@ function generateCategory(categoryId, posts) {
     </article>
   `).join('');
 
+  const pageTitle = pageNum > 1 ? `${category.name} - 第${pageNum}页` : category.name;
+  const pagination = generatePagination(`/category/${categoryId}/`, pageNum, totalPages);
+
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${category.name} - BasicBit</title>
+  <title>${pageTitle} - BasicBit</title>
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -703,6 +745,7 @@ function generateCategory(categoryId, posts) {
           <p>${category.description} (${categoryPosts.length} 篇文章)</p>
         </div>
         ${postsHTML || '<div class="no-results"><p>该分类下暂无文章</p></div>'}
+        ${pagination}
       </div>
       ${generateSidebar(posts)}
     </div>
@@ -713,12 +756,17 @@ function generateCategory(categoryId, posts) {
 }
 
 // Generate tag page
-function generateTag(tagName, posts) {
+function generateTag(tagName, posts, pageNum = 1) {
   const tagPosts = posts.filter(p => p.tags.includes(tagName));
+
+  const totalPages = Math.ceil(tagPosts.length / config.postsPerPage);
+  pageNum = Math.min(Math.max(1, pageNum), totalPages || 1);
+  const startIdx = (pageNum - 1) * config.postsPerPage;
+  const pagePosts = tagPosts.slice(startIdx, startIdx + config.postsPerPage);
 
   const css = generateCSS();
 
-  const postsHTML = tagPosts.map(post => `
+  const postsHTML = pagePosts.map(post => `
     <article class="post-card fade-in">
       <h2 class="post-title">
         <a href="/posts/${post.slug}.html">${post.title}</a>
@@ -734,12 +782,15 @@ function generateTag(tagName, posts) {
     </article>
   `).join('');
 
+  const pageTitle = pageNum > 1 ? `#${tagName} - 第${pageNum}页` : `#${tagName}`;
+  const pagination = generatePagination(`/tag/${tagName}/`, pageNum, totalPages);
+
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>#${tagName} - BasicBit</title>
+  <title>${pageTitle} - BasicBit</title>
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -756,6 +807,7 @@ function generateTag(tagName, posts) {
           <p>${tagPosts.length} 篇文章</p>
         </div>
         ${postsHTML || '<div class="no-results"><p>该标签下暂无文章</p></div>'}
+        ${pagination}
       </div>
       ${generateSidebar(posts)}
     </div>
@@ -1008,9 +1060,24 @@ function build() {
 
   console.log(`Found ${posts.length} posts and ${pages.length} pages`);
 
-  // Generate index
-  fs.writeFileSync(path.join(config.public, 'index.html'), generateIndex(posts));
-  console.log('Generated index.html');
+  // Generate index with pagination
+  const totalIndexPages = Math.ceil(posts.length / config.postsPerPage);
+  for (let page = 1; page <= totalIndexPages; page++) {
+    const pagePath = page === 1
+      ? path.join(config.public, 'index.html')
+      : path.join(config.public, 'page', `${page}`, 'index.html');
+
+    // Ensure directory exists
+    if (page > 1) {
+      const pageDir = path.join(config.public, 'page', `${page}`);
+      if (!fs.existsSync(pageDir)) {
+        fs.mkdirSync(pageDir, { recursive: true });
+      }
+    }
+
+    fs.writeFileSync(pagePath, generateIndex(posts, page));
+  }
+  console.log(`Generated ${totalIndexPages} index pages`);
 
   // Generate posts
   posts.forEach(post => {
@@ -1052,32 +1119,72 @@ function build() {
   fs.writeFileSync(path.join(config.public, 'category.html'), generateCategoryIndex(posts));
   console.log('Generated category.html');
 
-  // Generate categories
+  // Generate categories with pagination
+  let totalCategoryPages = 0;
   categoriesData.forEach(cat => {
+    const categoryPosts = posts.filter(p => p.categories.includes(cat.id));
+    const totalPages = Math.ceil(categoryPosts.length / config.postsPerPage);
+    totalCategoryPages += totalPages;
+
     const catDir = path.join(config.public, 'category');
     if (!fs.existsSync(catDir)) {
       fs.mkdirSync(catDir, { recursive: true });
     }
-    fs.writeFileSync(path.join(catDir, `${cat.id}.html`), generateCategory(cat.id, posts));
+
+    for (let page = 1; page <= totalPages; page++) {
+      const pagePath = page === 1
+        ? path.join(catDir, `${cat.id}.html`)
+        : path.join(catDir, `${cat.id}`, `${page}.html`);
+
+      // Ensure directory exists for pages > 1
+      if (page > 1) {
+        const pageDir = path.join(catDir, `${cat.id}`);
+        if (!fs.existsSync(pageDir)) {
+          fs.mkdirSync(pageDir, { recursive: true });
+        }
+      }
+
+      fs.writeFileSync(pagePath, generateCategory(cat.id, posts, page));
+    }
   });
-  console.log(`Generated ${categoriesData.length} category pages`);
+  console.log(`Generated ${totalCategoryPages} category pages`);
 
   // Generate tags index
   fs.writeFileSync(path.join(config.public, 'tags.html'), generateTagsIndex(posts));
   console.log('Generated tags.html');
 
-  // Generate tag pages
+  // Generate tag pages with pagination
   const allTags = new Set();
   posts.forEach(post => post.tags.forEach(tag => allTags.add(tag)));
 
+  let totalTagPages = 0;
   allTags.forEach(tag => {
+    const tagPosts = posts.filter(p => p.tags.includes(tag));
+    const totalPages = Math.ceil(tagPosts.length / config.postsPerPage);
+    totalTagPages += totalPages;
+
     const tagDir = path.join(config.public, 'tag');
     if (!fs.existsSync(tagDir)) {
       fs.mkdirSync(tagDir, { recursive: true });
     }
-    fs.writeFileSync(path.join(tagDir, `${tag}.html`), generateTag(tag, posts));
+
+    for (let page = 1; page <= totalPages; page++) {
+      const pagePath = page === 1
+        ? path.join(tagDir, `${tag}.html`)
+        : path.join(tagDir, `${tag}`, `${page}.html`);
+
+      // Ensure directory exists for pages > 1
+      if (page > 1) {
+        const pageDir = path.join(tagDir, `${tag}`);
+        if (!fs.existsSync(pageDir)) {
+          fs.mkdirSync(pageDir, { recursive: true });
+        }
+      }
+
+      fs.writeFileSync(pagePath, generateTag(tag, posts, page));
+    }
   });
-  console.log(`Generated ${allTags.size} tag pages`);
+  console.log(`Generated ${totalTagPages} tag pages`);
 
   // Generate search page
   fs.writeFileSync(path.join(config.public, 'search.html'), generateSearchPage('', posts));
