@@ -496,7 +496,7 @@ main {
 /* ==================== ADSENSE ==================== */
 .adsense {
   margin: var(--space-lg) 0;
-  min-height: 90px; /* Reserve space for ad */
+  min-height: 0;
 }
 
 .adsense ins {
