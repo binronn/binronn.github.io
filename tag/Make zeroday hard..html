@@ -298,6 +298,7 @@ a {
 /* ==================== HERO SECTION ==================== */
 .home-hero {
   padding: var(--space-3xl) 0 var(--space-xl);
+  margin-top: calc(-1 * var(--space-xl));
   background: radial-gradient(circle at top right, var(--color-primary-light), transparent),
               radial-gradient(circle at bottom left, #fff9f0, transparent);
   text-align: center;
@@ -467,6 +468,39 @@ main {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
+}
+
+/* ==================== PAGINATION ==================== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-md);
+  margin: var(--space-xl) 0;
+  padding: var(--space-lg) 0;
+}
+
+.pagination a, .pagination span {
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-full);
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.9375rem;
+}
+
+.pagination a:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+.pagination .disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination .page-info {
+  color: var(--color-text-secondary);
 }
 
 /* ==================== SIDEBAR & WIDGETS ==================== */
@@ -1194,6 +1228,7 @@ main {
       <a href="/posts/20210914-c2c87c66a2ca.html" class="read-more">阅读全文</a>
     </article>
   
+        
       </div>
       
   <aside class="sidebar">
