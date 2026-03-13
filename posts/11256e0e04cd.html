@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>从Chrome渲染器代码执行到内核利用MSG_OOB - BasicBit</title>
+  <meta name="description" content="从Chrome渲染器代码执行到内核利用MSG_OOB">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl)}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl)}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:calc(var(--header-height)+var(--space-lg));align-self:start;max-height:calc(100vh - var(--header-height) - var(--space-2xl));overflow-y:auto}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border-light);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;min-height:0}.adsense ins{margin:var(--space-lg) 0;display:block}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md)}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md)}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg)}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:calc(var(--header-height)+var(--space-lg));width:260px;max-height:calc(100vh - var(--header-height) - var(--space-2xl));overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr}.sidebar{display:none}.post-content{padding:0 16px}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg)}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:1rem}.post-content{padding:0 16px}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单" onclick="document.querySelector('.site-nav').classList.toggle('active')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">从Chrome渲染器代码执行到内核利用MSG_OOB</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2025/8/8
+            </span>
+            <span class="meta-item">Jann Horn</span>
+            <span class="meta-item">网络安全, 漏洞利用, 攻击研究</span>
+          </div>
+        </header>
+        
+  <div class="adsense adsense-top">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2025/08/from-chrome-renderer-code-exec-to-kernel.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2025%2F08%2Ffrom-chrome-renderer-code-exec-to-kernel.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <h2 id="引言">引言</h2><p>六月初，我在审查一个新的Linux内核功能时，了解到了面向流的UNIX域套接字支持的MSG_OOB功能。我审查了MSG_OOB的实现，并发现了一个影响Linux &gt;=6.9的<a href="https://project-zero.issues.chromium.org/issues/423023990">安全漏洞</a>（CVE-2025-38236）。我将这个漏洞报告给了Linux，并且它<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=32ca245464e1479bfea8592b9db227fdc1641705">得到了修复</a>。有趣的是，虽然Chrome没有使用MSG_OOB功能，但它在Chrome渲染器沙箱中是暴露的。（此后，作为对此问题的回应，在Chrome渲染器中发送MSG_OOB消息[已被阻止](<a href="https://chromium-review.googlesource.com/c/chromium/src/+/6711812%EF%BC%89%E3%80%82%EF%BC%89">https://chromium-review.googlesource.com/c/chromium/src/+/6711812）。）</a></p>
+<p>这个漏洞很容易触发；以下操作序列会导致UAF：</p>
+<pre><code>char dummy;
+int socks[2];
+socketpair(AF_UNIX, SOCK_STREAM, 0, socks);
+send(socks[1], &quot;A&quot;, 1, MSG_OOB);
+recv(socks[0], &amp;dummy, 1, MSG_OOB);
+send(socks[1], &quot;A&quot;, 1, MSG_OOB);
+recv(socks[0], &amp;dummy, 1, MSG_OOB);
+send(socks[1], &quot;A&quot;, 1, MSG_OOB);
+recv(socks[0], &amp;dummy, 1, 0);
+recv(socks[0], &amp;dummy, 1, MSG_OOB);
+</code></pre>
+<p>我很好奇，在x86-64 Debian Trixie系统上，从Chrome Linux桌面渲染器沙箱内部实际利用这样的漏洞有多困难，直接从渲染器中的本地代码执行提升权限到内核。即使漏洞是可触达的，找到用于堆对象重新分配、延迟注入等有用的原语又有多难呢？</p>
+<p>利用代码<a href="https://project-zero.issues.chromium.org/423023990#attachment67577205">已发布在我们的bug跟踪器上</a>；在阅读本文时，你可能需要参考它。</p>
+<h2 id="背景故事-该功能">背景故事：该功能</h2><p>2021年，通过<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=314001f0bf92">提交314001f0bf92（“af_unix: Add OOB support”，落地于Linux 5.15）</a>，添加了对MSG_OOB与AF_UNIX流套接字一起使用的支持。有了这个功能，可以发送一个字节的“带外”数据，接收方可以在其余数据之前读取它。这个功能非常有限——带外数据始终是一个字节，并且一次只能有一个待处理的带外数据字节。（连续发送两个带外消息会导致第一个消息变成正常的带内消息。）正如2024年<a href="https://lore.kernel.org/netdev/bef45d8e-35b7-42e4-bf6c-768da5b6d8f2@oracle.com/">一封电子邮件线程</a>中所讨论的，除了Oracle产品外，这个功能几乎无处使用，当时有人提议移除该功能；然而，当内核配置中启用AF_UNIX套接字支持时，它默认是启用的，并且直到2024年12月<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5155cbcdbf03f207095f9a3794942a25aa7e5f58">提交5155cbcdbf03（“af_unix: Add a prompt to CONFIG_AF_UNIX_OOB”）</a>落地之前，甚至无法禁用MSG_OOB支持。</p>
+<p>因为Chrome渲染器沙箱允许面向流的UNIX域套接字，并且没有过滤send()/recv()函数的flags参数，所以这个深奥的功能在沙箱内部是可用的。</p>
+<p>当在两个连接的面向流套接字之间发送消息（由套接字缓冲区/struct sk_buff表示，简称SKB）时，该消息被添加到接收套接字的-&gt;sk_receive_queue中，这是一个链表。一个SKB有一个长度字段-&gt;len，描述其中包含的数据长度（计算SKB“头部缓冲区”中的数据以及SKB以其他方式间接引用的数据）。一个SKB还包含一些暂存空间，当前拥有该SKB的子系统可以使用这些空间（struct sk_buff中的char cb[48]）；UNIX域套接字使用辅助函数#define UNIXCB(skb)	(*(struct unix_skb_parms *)&amp;((skb)-&gt;cb))访问此暂存空间，它们在那里存储的内容之一是字段u32 consumed，它存储了已从套接字读取的SKB字节数。UNIX域套接字使用辅助函数unix_skb_len()计算SKB的剩余长度，该函数返回skb-&gt;len - UNIXCB(skb).consumed。</p>
+<p>MSG_OOB消息（通过类似send(sockfd, &amp;message_byte, 1, MSG_OOB)的方式发送，在内核中经过queue_oob()）也会像普通消息一样添加到-&gt;sk_receive_queue中；但是为了允许接收套接字在队列其余部分之前访问最新的带外消息，接收套接字的-&gt;oob_skb指针会更新以指向此消息。当接收套接字通过类似recv(sockfd, &amp;received_byte, 1, MSG_OOB)的方式接收OOB消息时（在unix_stream_recv_urg()中实现），相应的套接字缓冲区保留在-&gt;sk_receive_queue上，但其consumed字段会增加，导致其剩余长度（unix_skb_len()）变为0，并且-&gt;oob_skb指针被清除；正常的接收路径在遇到剩余长度为0的SKB时必须处理这个问题。</p>
+<p>这意味着正常的recv()路径（unix_stream_read_generic()），在调用recv()而不带MSG_OOB时运行，必须能够处理剩余长度为0的SKB，并且必须在删除OOB SKB时小心地清除-&gt;oob_skb指针。manage_oob()应该负责处理这个问题。本质上，当正常接收路径从-&gt;sk_receive_queue获取SKB时，它会调用manage_oob()来处理处理OOB机制所需的所有修复工作；manage_oob()随后将返回第一个包含至少1字节剩余数据的SKB，并且manage_oob()确保此SKB不再被引用为-&gt;oob_skb。然后unix_stream_read_generic()可以继续进行，就好像OOB机制不存在一样。</p>
+<h2 id="背景故事-漏洞及其成因">背景故事：漏洞及其成因</h2><p>2024年中，发现了一个用户空间API不一致的问题，当尝试从包含剩余长度为0的SKB（由接收OOB SKB遗留）的接收队列的套接字读取时，recv()可能会虚假地返回0（通常表示文件结束）。<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=93c99f21db36">针对此问题的修复</a>引入了两个密切相关的安全问题，可能导致UAF；它被标记为修复了原始MSG_OOB实现引入的错误，但幸运的是实际上只被反向移植到Linux 6.9.8，因此有问题的修复没有进入较旧的LTS内核分支。</p>
+<p>在有问题的修复之后，manage_oob()看起来如下：</p>
+<pre><code>static struct sk_buff *manage_oob(struct sk_buff *skb, struct sock *sk,
+                                  int flags, int copied)
+{
+        struct unix_sock *u = unix_sk(sk);
+
+        if (!unix_skb_len(skb)) {
+                struct sk_buff *unlinked_skb = NULL;
+
+                spin_lock(&amp;sk-&gt;sk_receive_queue.lock);
+
+                if (copied) {
+                        skb = NULL;
+                } else if (flags &amp; MSG_PEEK) {
+                        skb = skb_peek_next(skb, &amp;sk-&gt;sk_receive_queue);
+                } else {
+                        unlinked_skb = skb;
+                        skb = skb_peek_next(skb, &amp;sk-&gt;sk_receive_queue);
+                        __skb_unlink(unlinked_skb, &amp;sk-&gt;sk_receive_queue);
+                }
+
+                spin_unlock(&amp;sk-&gt;sk_receive_queue.lock);
+
+                consume_skb(unlinked_skb);
+        } else {
+                struct sk_buff *unlinked_skb = NULL;
+
+                spin_lock(&amp;sk-&gt;sk_receive_queue.lock);
+
+                if (skb == u-&gt;oob_skb) {
+                        if (copied) {
+                                skb = NULL;
+                        } else if (!(flags &amp; MSG_PEEK)) {
+                                if (sock_flag(sk, SOCK_URGINLINE)) {
+                                        WRITE_ONCE(u-&gt;oob_skb, NULL);
+                                        consume_skb(skb);
+                                } else {
+                                        __skb_unlink(skb, &amp;sk-&gt;sk_receive_queue);
+                                        WRITE_ONCE(u-&gt;oob_skb, NULL);
+                                        unlinked_skb = skb;
+                                        skb = skb_peek(&amp;sk-&gt;sk_receive_queue);
+                                }
+                        } else if (!sock_flag(sk, SOCK_URGINLINE)) {
+                                skb = skb_peek_next(skb, &amp;sk-&gt;sk_receive_queue);
+                        }
+                }
+
+                spin_unlock(&amp;sk-&gt;sk_receive_queue.lock);
+
+                if (unlinked_skb) {
+                        WARN_ON_ONCE(skb_unref(unlinked_skb));
+                        kfree_skb(unlinked_skb);
+                }
+        }
+        return skb;
+}
+</code></pre>
+<p>在此更改之后，syzbot（由Google运营的公共syzkaller实例）<a href="https://lore.kernel.org/netdev/00000000000083b05a06214c9ddc@google.com/">报告</a>了在以下场景中发生use-after-free，如<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5aa57d9f2d53">syzbot报告问题的修复提交</a>所述：</p>
+<pre><code>  1. send(MSG_OOB)
+  2. recv(MSG_OOB)
+     -&gt; The consumed OOB remains in recv queue
+  3. send(MSG_OOB)
+  4. recv()
+     -&gt; manage_oob() returns the next skb of the consumed OOB
+     -&gt; This is also OOB, but unix_sk(sk)-&gt;oob_skb is not cleared
+  5. recv(MSG_OOB)
+     -&gt; unix_sk(sk)-&gt;oob_skb is used but already freed
+</code></pre>
+<p>换句话说，问题是当接收队列看起来像这样时（最旧的消息显示在顶部）：</p>
+<ul>
+<li>SKB 1：unix_skb_len()=0</li>
+<li>SKB 2：unix_skb_len()=1  &lt;--OOB pointer</li>
+</ul>
+<p>并且发生正常的recv()时，manage_oob()会走!unix_skb_len(skb)分支，该分支删除剩余长度为0的SKB并跳转到下一个SKB；但它随后不会像通常那样经过skb == u-&gt;oob_skb检查，这意味着在SKB被正常接收路径消耗之前，它没有清除-&gt;oob_skb指针，从而创建了一个悬空指针，将在后续的recv(... MSG_OOB)上导致UAF。</p>
+<p>这个问题得到了修复，使manage_oob()中对剩余长度为0的SKB和-&gt;oob_skb的检查独立：</p>
+<pre><code>static struct sk_buff *manage_oob(struct sk_buff *skb, struct sock *sk,
+                                  int flags, int copied)
+{
+        struct sk_buff *read_skb = NULL, *unread_skb = NULL;
+        struct unix_sock *u = unix_sk(sk);
+
+        if (likely(unix_skb_len(skb) &amp;&amp; skb != READ_ONCE(u-&gt;oob_skb)))
+                return skb;
+
+        spin_lock(&amp;sk-&gt;sk_receive_queue.lock);
+
+        if (!unix_skb_len(skb)) {
+                if (copied &amp;&amp; (!u-&gt;oob_skb || skb == u-&gt;oob_skb)) {
+                        skb = NULL;
+                } else if (flags &amp; MSG_PEEK) {
+                        skb = skb_peek_next(skb, &amp;sk-&gt;sk_receive_queue);
+                } else {
+                        read_skb = skb;
+                        skb = skb_peek_next(skb, &amp;sk-&gt;sk_receive_queue);
+                        __skb_unlink(read_skb, &amp;sk-&gt;sk_receive_queue);
+                }
+
+                if (!skb)
+                        goto unlock;
+        }
+
+        if (skb != u-&gt;oob_skb)
+                goto unlock;
+
+        if (copied) {
+                skb = NULL;
+        } else if (!(flags &amp; MSG_PEEK)) {
+                WRITE_ONCE(u-&gt;oob_skb, NULL);
+
+                if (!sock_flag(sk, SOCK_URGINLINE)) {
+                        __skb_unlink(skb, &amp;sk-&gt;sk_receive_queue);
+                        unread_skb = skb;
+                        skb = skb_peek(&amp;sk-&gt;sk_receive_queue);
+                }
+        } else if (!sock_flag(sk, SOCK_URGINLINE)) {
+                skb = skb_peek_next(skb, &amp;sk-&gt;sk_receive_queue);
+        }
+
+unlock:
+        spin_unlock(&amp;sk-&gt;sk_receive_queue.lock);
+
+        consume_skb(read_skb);
+        kfree_skb(unread_skb);
+
+        return skb;
+}
+</code></pre>
+<p>但剩下的一个问题是，当此函数发现由recv(..., MSG_OOB)遗留的剩余长度为0的SKB时，它会跳转到下一个SKB<em>并假设它也不是剩余长度为0的SKB</em>。如果这个假设被打破，manage_oob()可以返回指向第二个剩余长度为0的SKB的指针，这很糟糕，因为调用者unix_stream_read_generic()不希望看到剩余长度为0的SKB：</p>
+<pre><code>static int unix_stream_read_generic(struct unix_stream_read_state *state,
+                                    bool freezable)
+{
+[...]
+        int flags = state-&gt;flags;
+[...]
+        int skip;
+[...]
+        skip = max(sk_peek_offset(sk, flags), 0); // 0 if MSG_PEEK isn&#39;t set
+
+        do {
+                struct sk_buff *skb, *last;
+[...]
+                last = skb = skb_peek(&amp;sk-&gt;sk_receive_queue);
+                last_len = last ? last-&gt;len : 0;
+
+again:
+#if IS_ENABLED(CONFIG_AF_UNIX_OOB)
+                if (skb) {
+                        skb = manage_oob(skb, sk, flags, copied);
+                        if (!skb &amp;&amp; copied) {
+                                unix_state_unlock(sk);
+                                break;
+                        }
+                }
+#endif
+                if (skb == NULL) {
+[...]
+                }
+
+                while (skip &gt;= unix_skb_len(skb)) {
+                        skip -= unix_skb_len(skb);
+                        last = skb;
+                        last_len = skb-&gt;len;
+                        skb = skb_peek_next(skb, &amp;sk-&gt;sk_receive_queue);
+                        if (!skb)
+                                goto again;
+                }
+[...]
+                /* Mark read part of skb as used */
+                if (!(flags &amp; MSG_PEEK)) {
+                        UNIXCB(skb).consumed += chunk;
+[...]
+                        if (unix_skb_len(skb))
+                                break;
+
+                        skb_unlink(skb, &amp;sk-&gt;sk_receive_queue);
+                        consume_skb(skb); // frees the SKB
+
+                        if (scm.fp)
+                                break;
+                } else {
+</code></pre>
+<p>如果MSG_PEEK未设置（这是SKB实际上可以被释放的唯一情况），skip始终为0，并且while (skip &gt;= unix_skb_len(skb))循环条件应始终为假；但是当剩余长度为0的SKB意外地到达这里时，条件变为0 &gt;= 0，循环会跳转到第一个剩余长度不为0的SKB。那个SKB可能是-&gt;oob_skb；在这种情况下，这再次绕过了manage_oob()中的逻辑，该逻辑应该在当前-&gt;oob_skb被释放之前将-&gt;oob_skb设置为NULL。</p>
+<p>因此，剩余的漏洞可以通过首先执行以下操作两次来触发，在-&gt;sk_receive_queue中创建两个剩余长度为0的SKB：</p>
+<pre><code>send(socks[1], &quot;A&quot;, 1, MSG_OOB);
+recv(socks[0], &amp;dummy, 1, MSG_OOB);
+</code></pre>
+<p>如果随后使用send(socks[1], &quot;A&quot;, 1, MSG_OOB)发送另一个OOB SKB，-&gt;sk_receive_queue将看起来像这样：</p>
+<ul>
+<li>SKB 1：unix_skb_len()=0</li>
+<li>SKB 2：unix_skb_len()=0</li>
+<li>SKB 3：unix_skb_len()=1  &lt;--OOB pointer</li>
+</ul>
+<p>现在，recv(socks[0], &amp;dummy, 1, 0)将触发漏洞并释放SKB 3，同时让-&gt;oob_skb指向它；使得后续带有MSG_OOB的recv()系统调用可以使用悬空指针。</p>
+<h2 id="初始原语">初始原语</h2><p>这个漏洞产生了一个悬空的-&gt;msg_oob指针。使用这个悬空指针的唯一方式几乎就是带有MSG_OOB的recv()系统调用，无论是否带有MSG_PEEK，这是在unix_stream_recv_urg()中实现的。（还有其他代码路径会触及它，但它们大多只是指针比较，除了SIOCATMARK的unix_ioctl()处理程序，这在Chrome的seccomp沙箱中被阻止。）</p>
+<p>unix_stream_recv_urg()执行以下操作：</p>
+<pre><code>static int unix_stream_recv_urg(struct unix_stream_read_state *state)
+{
+        struct socket *sock = state-&gt;socket;
+        struct sock *sk = sock-&gt;sk;
+        struct unix_sock *u = unix_sk(sk);
+        int chunk = 1;
+        struct sk_buff *oob_skb;
+
+        mutex_lock(&amp;u-&gt;iolock);
+        unix_state_lock(sk);
+        spin_lock(&amp;sk-&gt;sk_receive_queue.lock);
+
+        if (sock_flag(sk, SOCK_URGINLINE) || !u-&gt;oob_skb) {
+[...]
+        }
+
+        // read dangling pointer
+        oob_skb = u-&gt;oob_skb;
+
+        if (!(state-&gt;flags &amp; MSG_PEEK))
+                WRITE_ONCE(u-&gt;oob_skb, NULL);
+
+        spin_unlock(&amp;sk-&gt;sk_receive_queue.lock);
+        unix_state_unlock(sk);
+
+        // read primitive
+        // -&gt;recv_actor() is unix_stream_read_actor()
+        chunk = state-&gt;recv_actor(oob_skb, 0, chunk, state);
+
+        if (!(state-&gt;flags &amp; MSG_PEEK))
+                UNIXCB(oob_skb).consumed += 1; // write primitive
+
+        mutex_unlock(&amp;u-&gt;iolock);
+
+        if (chunk &lt; 0)
+                return -EFAULT;
+
+        state-&gt;msg-&gt;msg_flags |= MSG_OOB;
+        return 1;
+}
+</code></pre>
+<p>在高层次上，对state-&gt;recv_actor()的调用（沿着调用路径unix_stream_read_actor -&gt; skb_copy_datagram_msg -&gt; skb_copy_datagram_iter -&gt; __skb_datagram_iter(cb=simple_copy_to_iter)）提供了一个读取原语：它试图将oob_skb引用的一个字节数据复制到用户空间，因此通过用受控的、可重复写入的数据替换oob_skb指向的内存，可以重复地使用任意内核指针触发copy_to_user(<userspace pointer>, <kernel pointer>, 1)。只要MSG_PEEK被设置，这可以重复进行；只有当MSG_PEEK被清除时，-&gt;msg_oob指针才会被清除。</p>
+<p>这个漏洞产生的唯一<em>写入</em>原语是当MSG_PEEK未设置时发生的增量UNIXCB(oob_skb).consumed += 1。在我查看的构建中，被增量的consumed字段位于oob_skb的0x44字节处，这个对象实际上是以0x100字节对齐分配的。这意味着，如果写入原语应用于64位长度值或指针，它将必须在相对于8字节对齐的覆盖目标偏移4处进行增量，并且它将有效地将64位指针/长度增加4 GiB。</p>
+<h2 id="我对此问题的利用">我对此问题的利用</h2><h3 id="被丢弃的使用写入原语的策略-指针增量">被丢弃的使用写入原语的策略：指针增量</h3><p>可以释放sk_buff并将其重新分配为包含偏移0x40处指针的某个结构。写入原语将有效地将此指针增加4 GiB（因为它会在指针偏移4字节处增加1）。但这从根本上依赖于机器拥有显著超过4 GiB的RAM，这感觉很糟糕，有点像作弊。</p>
+<h3 id="总体策略">总体策略</h3><p>由于这个问题相对直接地导致了一个半任意的读取（受制于usercopy加固限制），但写入原语要棘手得多，我决定采用一般方法：首先让读取原语工作；然后使用读取原语来协助利用写入原语。这样，理想情况下，在读取原语引导之后的一切都可以通过足够的工作变得可靠。</p>
+<h3 id="处理每cpu状态">处理每CPU状态</h3><p>这个利用中的许多事情依赖于每CPU内核数据结构，如果在错误的时间任务在CPU之间迁移，将会失败。在利用的某些地方，我反复使用sched_getcpu()检查利用程序运行在哪个CPU上，如果CPU编号发生变化则重试；尽管我懒得在所有地方都完美地做到这一点，并且通过更直接地依赖<a href="https://git.kernel.org/pub/scm/libs/librseq/librseq.git/tree/doc/man/rseq.2">“可重启序列”子系统</a>可以做得更好。</p>
+<p>请注意，Chrome沙箱策略禁止__NR_getcpu；但这对sched_getcpu()完全没有影响，特别是在x86-64上，因为<a href="https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/sched_getcpu.c;hb=e85dbd8604aedf4f3a30c6c9c2f0efc18183f270">glibc更喜欢使用两种比getcpu()系统调用更快的替代方案</a>：</p>
+<ul>
+<li>内核的rseq子系统为每个线程在用户空间维护一个struct rseq，其中包含线程当前运行的cpu_id；如果rseq可用，glibc将从rseq结构读取。</li>
+<li>在x86-64上，<a href="https://man7.org/linux/man-pages/man7/vdso.7.html">vDSO</a>包含getcpu()系统调用的纯用户空间实现，它依赖于<a href="https://www.felixcloutier.com/x86/rdpid">RDPID指令</a>或，如果该指令不可用，则依赖于<a href="https://www.felixcloutier.com/x86/lsl">LSL指令</a>来确定当前CPU的ID，而无需执行系统调用。（这在内核源代码的vdso_read_cpunode()中实现，该代码被编译到映射到用户空间的vDSO中。）</li>
+</ul>
+<h3 id="设置读取原语-主要是无聊的喷洒">设置读取原语 - 主要是无聊的喷洒</h3><p>在目标Debian内核上，struct sk_buff位于skbuff_head_cache SLUB缓存中，该缓存通常使用order-1不可移动页面。我很难找到也使用order-1页面的良好重新分配原语（尽管maple_node可能是一个选项）；所以我选择了重新分配为管道页面（order-0不可移动），尽管这意味着重新分配将通过伙伴分配器进行，并且需要order-0不可移动列表变空，以便拆分order-1页面。</p>
+<p>这并不新颖，所以我在这里只描述策略的一些有趣方面——如果你想更好地理解如何释放SLUB页面并将其重新分配为其他东西，有很多现有的文章，包括<a href="/2021/10/how-simple-linux-kernel-memory.html#:~:text=Attack%20stage%3A%20Freeing%20the%20object%27s%20page%20to%20the%20page%20allocator">我前段时间写的一篇（章节“攻击阶段：将对象的页面释放到页面分配器”）</a>，尽管那篇没有讨论伙伴分配器。</p>
+<p>为了使order-1页面重新分配为order-0页面更可能成功，利用程序首先分配大量order-0不可移动页面以耗尽order-0和order-1不可移动空闲列表。在沙箱中，大多数分配大量内核内存的方式都受到限制；特别是，Debian上的默认文件描述符表大小软限制（RLIMIT_NOFILE）是4096（Chrome保持此限制不变），我既不能使用setrlimit()来增加这个数字（由于seccomp），也不能创建具有单独文件描述符表的子进程。（真正的利用可能能够通过利用多个渲染器进程来解决这个问题，尽管这似乎很麻烦。）我拥有的用于分配大量不可移动页面的一个原语是页表：通过创建一个巨大的匿名VMA（只读以避免遇到Chrome的RLIMIT_DATA限制），然后在整个VMA上触发读取错误，可以分配无限数量的页表。我使用这个方法来用页表填充大约10%的总RAM。（为了弄清楚机器有多少RAM，我测试mmap()是否适用于不同的大小，依赖于__vm_enough_memory()的OVERCOMMIT_GUESS行为；但由于RLIMIT_DATA限制，这在沙箱中实际上并不精确。一个更干净、噪音更小的方法可能是实际填满RAM，并使用mincore()来弄清楚工作集在页面被换出或丢弃之前可以达到多大。）</p>
+<p>之后，我创建41个UNIX域套接字，并使用它们每个喷洒256个SKB分配；由于每个SKB使用0x100字节，这分配了略超过2.5 MiB的内核内存。这足以稍后将一个slab页面从SLUB的每CPU部分列表以及页面分配器的每CPU空闲列表中刷新出来，一直进入伙伴分配器。</p>
+<p>然后我设置一个包含悬空指针的SLUB页面，尝试将此页面一直刷新到伙伴分配器中，并通过使用256个管道每个分配2个页面（这是管道始终拥有的最小大小，参见PIPE_MIN_DEF_BUFFERS）将其重新分配为管道页面。这分配了256<em>2</em>4KiB = 2 MiB的order-0页面。</p>
+<p>此时，我可能已将SKB重新分配为管道页面；但我不知道SKB位于哪个管道中，或者在哪个偏移处。为了弄清楚这一点，我在管道页面中存储指向不同数据的假SKB；然后，通过使用recv(..., MSG_OOB|MSG_PEEK)触发漏洞，我可以在指向的位置读取一个字节，并缩小SKB在哪个管道中的位置。我还不知道任何内核对象的地址；但copy_to_user()的X86-64实现是对称的，如果你传递用户空间指针作为源，它也可以工作，所以我现在可以简单地在制作的SKB中使用用户空间数据指针。（SMAP在这里不是问题——在copy_to_user()中，所有内存访问都禁用了SMAP。在x86-64上，copy_to_user()实际上是作为copy_user_generic()的包装器实现的，这是一个接受内核和用户空间地址作为源和目标的辅助函数。）</p>
+<p>之后，我能够通过受控的SKB使用recv(..., MSG_OOB|MSG_PEEK)对任意内核指针调用copy_to_user(..., 1)。</p>
+<h3 id="读取原语的属性">读取原语的属性</h3><p>在x86-64上，基于copy_to_user()的读取原语的一个非常酷的方面是，即使在无效的内核指针上调用它也不会崩溃——如果内核内存访问失败，recv()系统调用将简单地返回一个错误（-EFAULT）。</p>
+<p>主要限制是usercopy加固（__check_object_size()）会捕获尝试从某些特定内存范围读取的操作：</p>
+<ul>
+<li>环绕的范围——这里不是问题，反正只能使用长度为1的范围。</li>
+<li>地址&lt;=16——这里不是问题。</li>
+<li>当前进程的内核栈，如果满足某些其他条件。这里不是问题——即使我想从内核栈读取，我可能也想读取另一个线程的内核栈，这是不受保护的。</li>
+<li>内核.text部分——所有.data等都是可访问的，只有.text受到限制。当针对特定的内核构建时，这并不真正相关。</li>
+<li>kmap()映射——这些在x86-64上不存在。</li>
+<li>已释放的vmalloc分配，或跨越vmalloc分配边界的范围。这里不是问题。</li>
+<li>直接映射或内核映像地址范围中跨越高阶folio边界的范围。这里不是问题，反正只能使用长度为1的范围。</li>
+<li>直接映射或内核映像地址范围中用作非kmalloc slab缓存中的SLUB页面的范围，偏移量不被usercopy允许列表允许（参见__check_heap_object()）。这是最烦人的部分。</li>
+</ul>
+<p>（可能还有其他使用此漏洞读取内存的方式，具有不同的约束，例如使用__skb_datagram_iter()中的frag_iter-&gt;len读取来影响随后从中读取已知数据的偏移量，但这似乎很麻烦。）</p>
+<h3 id="定位内核映像">定位内核映像</h3><p>此时，为了打破内核映像的KASLR，有很多选项，部分归功于copy_to_user()在访问无效地址时不会崩溃；但一个不错的选择是通过固定地址0xfffffe0000000000（CPU_ENTRY_AREA_RO_IDT_VADDR）处的只读IDT映射读取中断描述符表（IDT）条目，这会产生内核中断处理程序的地址。</p>
+<h3 id="使用读取原语观察分配器状态和其他内容">使用读取原语观察分配器状态和其他内容</h3><p>从这里开始，我的目标是使用读取原语来协助利用写入原语；我希望能够回答以下问题：</p>
+<ul>
+<li>struct page */struct ptdesc */struct slab *与直接映射中相应区域之间的映射关系是什么？（这很容易，只需要从.data/.bss部分读取一些全局变量。）</li>
+<li>下一个sk_buff分配将在哪个地址？</li>
+<li>这个特定页面的当前状态是什么？</li>
+<li>我的页表位于何处，给定的虚拟地址映射到哪个物理地址？</li>
+</ul>
+<p>因为usercopy加固阻止访问专用slab中的对象，所以读取struct kmem_cache的内容是不可能的，因为kmem_cache是从不允许usercopy的专用slab类型分配的。但有许多重要的内核内存片段是可读的，因此可以解决这个问题：</p>
+<ul>
+<li>内核.data/.bss部分，其中包含诸如指向kmem_cache实例的指针。</li>
+<li>vmemmap区域，其中包含所有struct page/struct folio/struct ptdesc/struct slab实例（这些类型共同有效地形成了一个union），描述了每个页面的状态。这些还包含诸如SLUB空闲列表头指针；指向与给定SLUB页面关联的kmem_cache的指针；或将所有进程的根页表联系在一起的侵入式链表元素。</li>
+<li>其他线程的内核栈（位于vmalloc内存中）。</li>
+<li>每CPU内存分配（位于vmalloc内存中），特别是用于SLUB和页面分配器中的内存分配快速路径；以及描述每CPU内存范围位于何处的元数据。</li>
+<li>页表。</li>
+</ul>
+<p>因此，要观察给定slab缓存的SLUB分配器状态，可以首先从内核.data/.bss部分读取相应的kmem_cache*，然后扫描所有每CPU内存中看起来像struct kmem_cache_cpu的对象（带有struct slab <em>和指向相应直接映射范围的空闲列表指针），并检查struct slab的kmem_cache</em>指向哪个kmem_cache，以确定kmem_cache_cpu是否用于正确的slab缓存。之后，读取原语可用于从struct kmem_cache_cpu中读取slab缓存的每CPU空闲列表头指针。</p>
+<p>要观察struct page/struct slab/…的状态，读取原语可用于简单地读取页面的引用计数和映射计数（其中包含类型信息）。这使得可以观察诸如“这个页面是否已被释放，还是仍然分配”以及“这个页面已被重新分配为什么类型的页面”之类的事情。</p>
+<p>要定位当前进程的页表根，同样不可能直接通过mm_struct，因为它是从不允许usercopy的专用slab类型分配的（除了saved_auxv字段）。但解决这个问题的一种方法是改为遍历所有根页表的全局链表（pgd_list），该链表将其元素存储在struct ptdesc内部，并搜索一个struct ptdesc，其pt_mm字段指向当前进程的mm_struct。这个mm_struct的地址可以从每CPU变量cpu_tlbstate.loaded_mm获得。之后，可以通过读取原语遍历页表。</p>
+<h3 id="寻找重新分配目标-config-randomize-kstack-offset的魔力">寻找重新分配目标：CONFIG_RANDOMIZE_KSTACK_OFFSET的魔力</h3><p>已经丢弃了“将指针增加4 GiB”和“重新分配为maple tree节点”的策略后，我寻找其他一些分配，这些分配会将对象放置在这样的位置：递增地址0x…44处的值会产生一个很好的原语。如果那里有像重要的标志字段、指定指针数组大小的长度字段之类的东西，那就太好了。我花了大量时间查看可以从Chrome沙箱内部在内核堆上分配的各种对象类型，但没有找到什么好的。</p>
+<p>最终，我意识到我走错了路。显然，试图以堆对象为目标是很愚蠢的，因为有更好的东西：可以将目标页面重新分配为内核栈的顶部页面！</p>
+<p>这最初听起来可能是个愚蠢的想法；但Debian的内核配置启用了CONFIG_RANDOMIZE_KSTACK_OFFSET=y和CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT=y，<strong>导致每个系统调用调用随机将栈指针向下移动最多0x3f0字节，粒度为0x10字节</strong>。这应该是一种安全缓解措施，但当我已经拥有任意读取时，它对我有利：我不必找到距离前一个0x100字节边界0x44字节的覆盖目标，而是实际上只需要找到距离前一个0x10字节边界0x4字节的覆盖目标，然后不断进行系统调用并检查它们执行的栈深度，直到我随机幸运地让栈落在正确的位置。</p>
+<p>考虑到这一点，我寻找栈上的覆盖目标，深受<a href="/2022/12/exploiting-CVE-2022-42703-bringing-back-the-stack-attack.html">Seth的利用的启发，该利用覆盖了包含copy_from_user中使用的长度的溢出寄存器</a>。直接以正常的copy_from_user()为目标在这里行不通——如果我将copy_from_user()内部使用的64位长度增加4 GiB，那么即使复制由于用户空间故障在中途失败，copy_from_user()也会尝试memset()剩余的内核内存为零。</p>
+<p>我发现，在代码路径pipe_write -&gt; copy_page_from_iter -&gt; copy_from_iter上，copy_page_from_iter()的64位长度变量bytes存储在寄存器R14中，该寄存器溢出到copy_from_iter()的栈帧中；并且这个栈溢出位于我可以破坏的栈位置。</p>
+<p>当用户空间在管道上调用write()时，内核构造一个迭代器（struct iov_iter），封装传递给write()的用户空间内存范围。（有不同类型的迭代器可以封装单个用户空间范围、一组用户空间范围或各种类型的内核内存。）然后，pipe_write()（在较新的内核中称为anon_pipe_write()）本质上运行一个循环，该循环在管道中分配一个新的pipe_buffer槽，将一个新的页面分配放入此管道缓冲区槽，并使用copy_page_from_iter()从iov_iter复制最多一个页面的数据（PAGE_SIZE字节）到管道缓冲区槽的页面。copy_page_from_iter()有效地接收两个长度值：适合调用者提供的页面的字节数（bytes，此处初始设置为PAGE_SIZE）和封装用户空间内存范围的struct iov_iter中可用的字节数（i-&gt;count）。实际复制的数据量受两者限制。</p>
+<p>如果我设法在copy_from_iter()忙于将数据复制到内核时，将包含bytes的溢出寄存器R14增加4 GiB，那么在copy_from_iter()返回后，copy_page_from_iter()将有效地不再受bytes限制，只受i-&gt;count限制（基于用户空间传递给write()的长度）；因此它将进行第二次迭代，复制到管道缓冲区页面后面的越界内存中。如果用户空间调用write(fd, buf, 0x3000)，并且覆盖发生在将用户空间缓冲区的字节0x1000-0x1fff复制到第二个管道缓冲区页面的过程中，那么字节0x2000-0x2fff将被写入第二个管道缓冲区页面后面的越界内存，此时i-&gt;count将降至0，终止操作。</p>
+<h3 id="将slub页面重新分配为栈页面-借助arb-read辅助">将SLUB页面重新分配为栈页面，借助arb-read辅助</h3><p>因此，为了获得在栈页面中增量释放后值的能力，我再次开始耗尽低阶页面分配器缓存。但这一次，arb-read可用于确定何时在正确页面内偏移处的对象位于sk_buff slub缓存的SLUB空闲列表顶部；并且arb-read还可以确定我是否成功分配了整整一个slab页面的对象，没有其他对象混入。然后，当将页面从SLUB分配器中刷新出来时，arb-read有助于验证页面是否真的已被释放（其引用计数字段应降至0）；之后，页面从页面分配器的每CPU空闲列表中刷新出来。</p>
+<p>然后，为了重新分配页面，我运行一个循环，首先分配一个管道页面，然后检查目标页面的引用计数字段。如果目标页面的引用计数上升，我可能找到了目标页面，可以退出循环；否则，我再次释放管道页面，将其重新分配为页表以耗尽页面，然后重试。（直接分配为页表会很麻烦，因为页表具有RCU生命周期，所以一旦页面被分配为页表，就很难重新分配它。由于文件描述符表大小较小，并且每个管道FD对可能只能引用两个页面，因此将耗尽的页面保留在管道缓冲区中可能效果不佳。）</p>
+<p>一旦我将目标页面重新分配为管道缓冲区，我再次释放它，然后释放另外三个页面（来自其他辅助管道），然后使用clone()系统调用创建一个新线程。如果一切顺利，clone()将为新内核栈分配四个页面：首先是我最后释放的另外三个页面，然后目标页面作为栈的最后一页。通过遍历页表，我可以验证目标页面是否真的被重用为目标栈的最后一页。</p>
+<h3 id="使用写入原语的剩余先决条件">使用写入原语的剩余先决条件</h3><p>此时，我已经设置了写入原语，可以在特定的栈内存位置触发它。写入原语本质上首先读取一些周围的（栈）内存（在unix_stream_read_actor()及其被调用者skb_copy_datagram_msg -&gt; skb_copy_datagram_iter中），并期望该内存具有某种结构，然后才递增特定栈位置的值。</p>
+<p>我也知道我想覆盖哪个栈分配。</p>
+<p>剩下的问题是：</p>
+<ol>
+<li>我需要确保管道缓冲区页面后面的OOB copy_from_user()将覆盖一些有助于破坏内核的数据。</li>
+<li>我需要能够检测pipe_write()运行的栈深度，并根据此决定是重试还是继续触发漏洞。</li>
+<li>UAF增量之前的UAF读取需要看到正确类型的数据以避免崩溃。</li>
+<li>copy_from_iter()需要花费足够的时间，以允许我递增其栈帧中的一个值。</li>
+</ol>
+<h3 id="选择oob覆盖目标">选择OOB覆盖目标</h3><p>页表在这里有几个很好的特性：</p>
+<ul>
+<li>我可以轻松地根据需要分配尽可能多的页表。</li>
+<li>我可以轻松地确定内核为我的进程分配的页表的物理和内核虚拟地址（通过使用arb读取遍历页表）。</li>
+<li>它们是order-0不可移动分配，就像管道缓冲区一样，因此页面分配器将在相同的2MiB页面块中分配它们。</li>
+</ul>
+<p>所以我选择使用OOB copy_from_user()来覆盖页表。</p>
+<p>这要求我能够观察我的管道缓冲区页面位于何处；为此，我再次使用SLUB每CPU空闲列表观察技巧，这次在kmalloc-cg-192 slab缓存上，以弄清楚新创建的管道的pipe_inode_info位于何处。从那里，我可以遍历到管道的pipe_buffer数组，其中包含指向管道使用的页面的指针。</p>
+<p>有了观察我的页表位于何处以及管道缓冲区页面分配在何处的能力，我可以基本上交替分配页表和管道缓冲区页面，直到得到两个相邻的。</p>
+<h3 id="检测pipe-write-栈深度">检测pipe_write()栈深度</h3><p>为了通过write()系统调用运行pipe_write()，以便我可以可靠地确定函数运行的深度并决定是否继续进行破坏，而无需竞争，我可以准备一个管道，使其最初只有一个空闲的pipe_buffer，然后以0x3000的长度调用write()。这将导致pipe_write()首先将0x1000字节存储在最后一个空闲的pipe_buffer槽中，然后等待空间再次可用。从另一个线程，可以通过重复在管道上调用poll()来检测pipe_write()何时使用了最后一个空闲的pipe_buffer槽：当poll()停止报告管道准备好写入（POLLOUT）时，pipe_write()必须已经用完了最后一个空闲的pipe_buffer槽。</p>
+<p>此时，我知道内核栈的系统调用入口部分不再变化。要检查系统调用是否以特定深度执行，只需使用arb读取检查从x64_sys_call返回到do_syscall_64的返回地址是否在内核栈上的预期位置——它不能是先前系统调用留下的返回地址，因为存储该返回地址的相同栈位置总是在系统调用结束时被后续对syscall_exit_to_user_mode的调用破坏。</p>
+<p>如果栈随机化是正确的，那么我可以进行更多设置，并通过使用read()清除管道缓冲区条目来恢复pipe_write()；否则，我将使用read()清除管道缓冲区条目，让pipe_write()运行完成，然后重试。</p>
+<h3 id="让增量原语中的读取看到正确的数据">让增量原语中的读取看到正确的数据</h3><p>增量原语发生在以下调用图中：</p>
+<pre><code>unix_stream_recv_urg
+  [read dangling pointer from -&gt;oob_skb]
+  unix_stream_read_actor [called as state-&gt;recv_actor]
+    [UAF read UNIXCB(skb).consumed]
+    skb_copy_datagram_msg
+      skb_copy_datagram_iter
+        __skb_datagram_iter
+          skb_headlen
+            [UAF read skb-&gt;len]
+            [UAF read skb-&gt;data_len]
+          skb_frags_readable
+            [UAF read skb-&gt;unreadable]
+          skb_shinfo [for reading nr_frags]
+            skb_end_pointer
+              [UAF read skb-&gt;head]
+              [UAF read skb-&gt;end]
+          skb_walk_frags
+            skb_shinfo [for reading frag_list]
+            [forward iteration starting at skb_shinfo(skb)-&gt;frag_list along -&gt;next pointers]
+  [UAF increment of UNIXCB(oob_skb).consumed]
+</code></pre>
+<p>这里一个有希望的方面是，此代码路径首先进行所有读取；然后它通过skb_walk_frags()遍历攻击者控制的指针进行链表遍历；然后它进行写入。skb_walk_frags()定义如下：</p>
+<pre><code>#define skb_walk_frags(skb, iter)	\
+	for (iter = skb_shinfo(skb)-&gt;frag_list; iter; iter = iter-&gt;next)
+</code></pre>
+<p>并且在__skb_datagram_iter()中这样使用：</p>
+<pre><code>	skb_walk_frags(skb, frag_iter) {
+		int end;
+
+		WARN_ON(start &gt; offset + len);
+
+		end = start + frag_iter-&gt;len;
+		if ((copy = end - offset) &gt; 0) {
+			if (copy &gt; len)
+				copy = len;
+			if (__skb_datagram_iter(frag_iter, offset - start,
+						to, copy, fault_short, cb, data))
+				goto fault;
+			if ((len -= copy) == 0)
+				return 0;
+			offset += copy;
+		}
+		start = end;
+	}
+</code></pre>
+<p>因此，如果我在UNIX域套接字上运行recv(..., MSG_OOB)，同时悬空的-&gt;oob_skb指针指向我控制的数据，并制作那个假SKB，使其skb_shinfo(skb)-&gt;frag_list指向另一个带有-&gt;len=0和指向自身的-&gt;next指针的假SKB，我可以导致系统调用陷入无限循环。它将一直循环，直到我将-&gt;next指针替换为NULL，此时它将仅执行UAF增量。</p>
+<p>这是个好消息：我不需要确保栈同时包含UAF读取的正确数据和UAF增量的覆盖目标，我可以首先将受控数据放在栈上，然后单独将覆盖目标放在栈上。</p>
+<p>为了将受控数据放在栈上，我最初考虑使用select()或poll()，因为我知道这些系统调用将大量数据从用户空间复制到栈上；然而，这些系统调用的缺点是立即验证提供的数据，并且很难让它们实际停留在系统调用中，而不是立即因错误返回系统调用，并在此过程中经常破坏栈上的数据数组。最终我发现，在<strong>面向数据报的UNIX域套接字</strong>上使用sendmsg()效果很好：实现sendmsg()系统调用的___sys_sendmsg()会将msg-&gt;msg_name指向的目标地址导入到栈缓冲区（struct sockaddr_storage address）中，然后调用特定于协议的-&gt;sendmsg处理程序——在面向数据报的UNIX域套接字的情况下，是unix_dgram_sendmsg()。此函数粗略验证目标地址的结构（检查它指定了AF_UNIX系列且不大于struct sockaddr_un），然后等待套接字队列中有空间可用，然后再对目标地址进行任何其他操作。这使得可以将108字节的受控数据放在内核栈上，并且该数据将保留在那里，直到系统调用可以继续或在套接字队列中有空间可用或套接字关闭时退出。我实际上需要在栈上再多一点数据，但幸运的是struct iovec iovstack[UIO_FASTIOV]直接在address前面，并且iovstack末尾未使用的元素保证被清零，这要归功于CONFIG_INIT_STACK_ALL_ZERO=y，这恰好是我需要的。</p>
+<p>能够可靠地等待sendmsg()系统调用进入内核并将目标地址复制到内核栈上，然后再检查其栈的状态，这将很有帮助；幸运的是，这是可能的，通过msg-&gt;msg_control和msg-&gt;msg_controllen提供一个单字节的“控制消息”，这将被忽略，因为它太小，不是一个合法的控制消息，但将在目标地址被复制到栈上之后，在____sys_sendmsg()中被复制到内核栈上。可以通过将其指向尚未填充页表条目的用户空间地址，然后在此用户空间地址上轮询<a href="https://man7.org/linux/man-pages/man2/mincore.2.html">mincore()</a>，从用户空间检测此内核访问msg-&gt;msg_control何时发生。</p>
+<p>所以现在我的策略大致是：</p>
+<ol>
+<li>在一个循环中，在悬空的-&gt;oob_skb指针指向的栈的线程</li>
+</ol>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/漏洞利用.html" class="tag-link">#漏洞利用</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/内存安全.html" class="tag-link">#内存安全</a> <a href="/tag/内核漏洞.html" class="tag-link">#内核漏洞</a> <a href="/tag/攻击研究.html" class="tag-link">#攻击研究</a> <a href="/tag/堆漏洞.html" class="tag-link">#堆漏洞</a> <a href="/tag/浏览器安全.html" class="tag-link">#浏览器安全</a> <a href="/tag/栈漏洞.html" class="tag-link">#栈漏洞</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#引言" class="toc-link">
+              <span class="toc-text">引言</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#背景故事-该功能" class="toc-link">
+              <span class="toc-text">背景故事：该功能</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#背景故事-漏洞及其成因" class="toc-link">
+              <span class="toc-text">背景故事：漏洞及其成因</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#初始原语" class="toc-link">
+              <span class="toc-text">初始原语</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#我对此问题的利用" class="toc-link">
+              <span class="toc-text">我对此问题的利用</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#被丢弃的使用写入原语的策略-指针增量" class="toc-link">被丢弃的使用写入原语的策略：指针增量</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#总体策略" class="toc-link">总体策略</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#处理每cpu状态" class="toc-link">处理每CPU状态</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#设置读取原语-主要是无聊的喷洒" class="toc-link">设置读取原语 - 主要是无聊的喷洒</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#读取原语的属性" class="toc-link">读取原语的属性</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#定位内核映像" class="toc-link">定位内核映像</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#使用读取原语观察分配器状态和其他内容" class="toc-link">使用读取原语观察分配器状态和其他内容</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#寻找重新分配目标-config-randomize-kstack-offset的魔力" class="toc-link">寻找重新分配目标：CONFIG_RANDOMIZE_KSTACK_OFFSET的魔力</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#将slub页面重新分配为栈页面-借助arb-read辅助" class="toc-link">将SLUB页面重新分配为栈页面，借助arb-read辅助</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#使用写入原语的剩余先决条件" class="toc-link">使用写入原语的剩余先决条件</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#选择oob覆盖目标" class="toc-link">选择OOB覆盖目标</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#检测pipe-write-栈深度" class="toc-link">检测pipe_write()栈深度</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#让增量原语中的读取看到正确的数据" class="toc-link">让增量原语中的读取看到正确的数据</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');if(menuToggle){menuToggle.addEventListener('click',function(){document.querySelector('.site-nav').classList.toggle('active');});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

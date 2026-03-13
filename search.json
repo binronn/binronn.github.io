@@ -1,52 +1,307 @@
 [
   {
-    "title": "The March 2026 Security Update Review",
-    "url": "/posts/20260310-421c4dad6a30.html",
-    "excerpt": "I am back in the friendly confines of the Mid-South headquarters of TrendAI ZDI (a.k.a. my home office), and am all set for the third patch Tuesday of 2026. Take a break from your regularly scheduled ...",
-    "date": "2026-03-10 00:00:00 +0800",
+    "title": "论变异语法模糊测试的有效性",
+    "url": "/posts/b2e1aad65bf4.html",
+    "excerpt": "变异语法模糊测试是一种模糊测试技术，其中模糊测试器使用预定义的语法来描述样本的结构。当样本发生变异时，变异的发生方式使得任何生成的样本仍然遵守语法规则，因此样本的结构在变异过程中得以保持。在基于覆盖引导的语法模糊测试中，如果生成的样本（变异后）触发了之前未见的代码覆盖，则该样本会被保存到样本语料库中，并用作未来变异的基础。\n这项技术已被证明能够发现复杂问题，我过去曾成功使用它，包括发现网络浏览器中",
+    "date": "2026-03-05T00:00:00.000Z",
     "categories": [
-      "vulnerability-research"
+      "模糊测试",
+      "网络安全"
     ],
     "tags": [
-      "vulnerability",
-      "exploit"
+      "Java安全",
+      "Python安全",
+      "JS安全",
+      "Fuzzing"
     ]
   },
   {
-    "title": "On the Effectiveness of Mutational Grammar Fuzzing",
-    "url": "/posts/20260305-b2e1aad65bf4.html",
-    "excerpt": "Mutational grammar fuzzing is a fuzzing technique in which the fuzzer uses a predefined grammar that describes the structure of the samples. When a sample gets mutated, the mutations happen in such a ...",
-    "date": "2026-03-05 00:00:00 +0800",
+    "title": "深入探究 GetProcessHandleFromHwnd API",
+    "url": "/posts/ca55b84eac53.html",
+    "excerpt": "在我之前的博客文章中，我提到了 GetProcessHandleFromHwnd API。这个 API 我原本不知道它的存在，直到我发现了一个公开披露的 UAC 绕过 利用了 Quick Assist UI Access 应用程序。这个 API 看起来很有趣，所以我认为应该更仔细地研究一下。\n我通常从阅读我不了解的 API 的文档开始，假设它有文档的话。它可以让你了解 API 存在了多久以及其安全",
+    "date": "2026-02-26T00:00:00.000Z",
     "categories": [
-      "vulnerability-research"
+      "防御研究",
+      "漏洞分析",
+      "漏洞利用"
     ],
     "tags": [
-      "Make zeroday hard."
+      "绕过",
+      "Web安全",
+      "API安全",
+      "CVE",
+      "权限提升",
+      "漏洞分析",
+      "Windows安全",
+      "容器安全"
     ]
   },
   {
-    "title": "CVE-2026-20841: Arbitrary Code Execution in the Windows Notepad",
-    "url": "/posts/20260219-035d421ce986.html",
-    "excerpt": "In this excerpt of a TrendAI Research Services vulnerability report, Nikolai Skliarenko and Yazhi Wang of the TrendAI Research team detail a recently patched command injection vulnerability in the Win...",
-    "date": "2026-02-19 00:00:00 +0800",
+    "title": "通过滥用UI Access绕过管理员保护",
+    "url": "/posts/4b281168f5fa.html",
+    "excerpt": "在我上一篇博客文章中，我介绍了Windows的新功能——管理员保护（Administrator Protection），以及它如何旨在为UAC创建一个原本不存在的安全边界。我描述了在该功能发布前我能够绕过它的其中一种方法。在我的研究中，总共发现了9种绕过方法，现在这些方法都已被修复。\n在这篇博客文章中，我想描述这9个问题中5个问题的根本原因，特别是UI Access的实现，这个问题如何成为UAC中",
+    "date": "2026-02-12T00:00:00.000Z",
     "categories": [
-      "vulnerability-research"
+      "漏洞分析",
+      "漏洞利用",
+      "移动安全"
     ],
     "tags": [
-      "vulnerability",
-      "exploit"
+      "绕过",
+      "API安全",
+      "CVE",
+      "权限提升",
+      "iOS安全",
+      "物联网安全",
+      "攻击研究",
+      "Web安全"
     ]
   },
   {
-    "title": "Fuzzing Closed-Source JavaScript Engines with Coverage Feedback",
-    "url": "/posts/20210914-c2c87c66a2ca.html",
-    "excerpt": "Posted by Ivan Fratric, Project Zero tl;dr I combined Fuzzilli (an open-source JavaScript engine fuzzer), with TinyInst (an open-source dynamic instrumentation library for fuzzing). I also added gramm...",
-    "date": "2021-09-14 00:00:00 +0800",
+    "title": "打破声音屏障，第二部分：利用CVE-2024-54529",
+    "url": "/posts/3ccaaa606669.html",
+    "excerpt": "在本系列的第一部分中，我详细介绍了进入macOS安全研究的历程，通过我称之为知识驱动fuzzing的过程，在coreaudiod系统守护进程中发现了类型混淆漏洞（CVE-2024-54529）和双重释放漏洞（CVE-2025-31235）。虽然第一篇文章侧重于发现漏洞的过程，但本文将深入探讨利用类型混淆漏洞的复杂过程。\n我将解释如何将潜在可利用的崩溃转化为有效利用的技术细节：这是一段充满死胡同、创",
+    "date": "2026-01-30T00:00:00.000Z",
     "categories": [
-      "vulnerability-research"
+      "浏览器安全",
+      "云安全",
+      "漏洞利用"
     ],
     "tags": [
-      "Make zeroday hard."
+      "XSS",
+      "DDoS",
+      "栈漏洞",
+      "Rust安全",
+      "WiFi安全",
+      "堆漏洞",
+      "CVE",
+      "USB安全"
+    ]
+  },
+  {
+    "title": "绕过Windows管理员保护",
+    "url": "/posts/38440f74bcd1.html",
+    "excerpt": "Windows 11 最新版本 25H2 引入的一项主打功能是 Administrator Protection。该功能的目标是用一个更健壮、更重要的是更安全的系统来取代用户账户控制（UAC），以便本地用户仅在必要时才能访问管理员权限。\n这篇博客文章将简要概述这项新功能、其工作原理以及与 UAC 的区别。然后，我将描述在 Windows 11 内部预览版中对该功能进行的一些安全研究。最后，我将详细",
+    "date": "2026-01-26T00:00:00.000Z",
+    "categories": [
+      "网络安全",
+      "攻击研究",
+      "防御研究"
+    ],
+    "tags": [
+      "内核漏洞",
+      "API安全",
+      "Linux安全",
+      "身份认证",
+      "Windows安全",
+      "安全研究",
+      "绕过",
+      "漏洞利用"
+    ]
+  },
+  {
+    "title": "Pixel 9 零点击漏洞利用链第三部分：我们该何去何从？",
+    "url": "/posts/a0574d075600.html",
+    "excerpt": "虽然我们之前的两篇博客文章提供了技术建议，以增加攻击者开发0点击漏洞利用链所需的努力，但我们在发现、报告和利用这些漏洞方面的经验突显了Android生态系统中一些更广泛的问题。本文描述了我们在研究过程中遇到的问题以及改进建议。\n音频攻击面杜比UDC是大多数Android设备0点击攻击面的一部分，这源于Google Messages应用中的音频转录功能。在用户与消息交互之前，传入的音频消息就会被转录",
+    "date": "2026-01-14T00:00:00.000Z",
+    "categories": [
+      "网络安全",
+      "漏洞利用",
+      "浏览器安全"
+    ],
+    "tags": [
+      "漏洞利用",
+      "Linux安全",
+      "Rust安全",
+      "Android安全",
+      "浏览器安全",
+      "iOS安全",
+      "PDF安全",
+      "虚拟化安全"
+    ]
+  },
+  {
+    "title": "Pixel 9 零点击漏洞利用链第二部分：用大浪攻破沙箱",
+    "url": "/posts/d2d863b41dad.html",
+    "excerpt": "随着潜在的杜比统一解码器（Dolby Unified Decoder）RCE漏洞利用的出现，谨慎起见，有必要探究在由此产生的用户态上下文（即 mediacodec 上下文）中，可以访问哪些类型的Linux内核驱动程序。根据AOSP文档，mediacodec SELinux上下文旨在成为一个受约束的（即沙盒化的）上下文，用于运行非安全的软件解码器。然而，使用我的DriverCartographer工",
+    "date": "2026-01-14T00:00:00.000Z",
+    "categories": [
+      "云安全",
+      "网络安全",
+      "漏洞利用"
+    ],
+    "tags": [
+      "Java安全",
+      "Linux安全",
+      "AWS安全",
+      "XSS",
+      "Android安全",
+      "GPU安全",
+      "Edge",
+      "容器安全"
+    ]
+  },
+  {
+    "title": "Pixel 9 零点击漏洞利用链 第一部分：解码 Dolby",
+    "url": "/posts/8971107f4b72.html",
+    "excerpt": "概述在 2024 年 12 月，Google 发布了针对 Pixel 9 系列设备的 2024 年 12 月安全更新。该更新修复了 Project Zero 报告的多个漏洞，这些漏洞共同构成了一个针对 Pixel 9 设备的零点击远程代码执行（RCE）漏洞利用链。该漏洞利用链通过蓝牙连接触发，攻击者无需用户交互即可在目标设备上执行代码。\n本系列文章将深入探讨该漏洞利用链的各个组成部分。在第一部分中",
+    "date": "2026-01-13T00:00:00.000Z",
+    "categories": [
+      "网络安全",
+      "漏洞利用",
+      "浏览器安全"
+    ],
+    "tags": [
+      "漏洞利用",
+      "Linux安全",
+      "Rust安全",
+      "Android安全",
+      "浏览器安全",
+      "iOS安全",
+      "PDF安全",
+      "虚拟化安全"
+    ]
+  },
+  {
+    "title": "跳出思维定式 [2017年尘封草稿重见天日]",
+    "url": "/posts/b04bf860b572.html",
+    "excerpt": "前言来自未来的问候！\n这是一篇我最初在2017年初起草的博客文章。我写完了我打算作为本文前半部分的内容（关于利用CVE-2017-3558从虚拟机逃逸到VirtualBox主机用户空间进程），但我一直没有时间写后半部分（从VirtualBox主机用户空间进程到主机内核），最终几乎忘记了这篇旧的草稿……但让这篇旧草稿永远腐烂似乎有点可惜，所以我决定在最初起草8年后的现在，把它放入我们的博客文章队列。",
+    "date": "2025-12-16T00:00:00.000Z",
+    "categories": [
+      "云安全",
+      "网络安全",
+      "漏洞利用"
+    ],
+    "tags": [
+      "Linux安全",
+      "Rust安全",
+      "AWS安全",
+      "USB安全",
+      "堆漏洞",
+      "XSS",
+      "GPU安全",
+      "iOS安全"
+    ]
+  },
+  {
+    "title": "欢迎来到新的 Project Zero 博客",
+    "url": "/posts/f02d8549ce97.html",
+    "excerpt": "在Project Zero团队中，我们致力于让研究保持前沿水平，但我们的博客设计却……并非如此。欢迎读者访问我们焕然一新的博客！\n值此之际，我们邀请Project Zero的成员们重新整理那些从未正式发布的旧博客文章。虽然我们希望这些文章涉及的技术已不再相关，但保护用户免受0day攻击仍需大量工作。我们的新博客将继续揭示攻击者的能力，以及防范攻击的众多可能性。\n来自2016年：Windows利用技",
+    "date": "2025-12-16T00:00:00.000Z",
+    "categories": [
+      "攻击研究",
+      "漏洞利用",
+      "漏洞分析"
+    ],
+    "tags": [
+      "0day",
+      "漏洞利用",
+      "Windows安全"
+    ]
+  },
+  {
+    "title": "Windows利用技术：通过路径查找赢得竞争条件",
+    "url": "/posts/f2f24658fa5b.html",
+    "excerpt": "本文最初于2016年为Project Zero博客撰写。然而，最终它被单独发表在PoC||GTFO期刊第13期以及印刷版的第二卷中。为了庆祝我们的新博客，我们在此博客上重新发布它，并包含了一个更新的分析，以查看它在现代Windows 11系统上是否仍然有效。\n在我的Windows研究过程中，我倾向于发现相当多的竞争条件漏洞。一种相当典型的可利用形式看起来像这样：\n\n执行一些安全检查\n访问某些资源\n",
+    "date": "2025-12-16T00:00:00.000Z",
+    "categories": [
+      "云安全",
+      "网络安全",
+      "漏洞利用"
+    ],
+    "tags": [
+      "漏洞利用",
+      "AWS安全",
+      "USB安全",
+      "Windows安全",
+      "XSS",
+      "GPU安全",
+      "API安全",
+      "iOS安全"
+    ]
+  },
+  {
+    "title": "Android ITW DNG exploit分析",
+    "url": "/posts/e257ce249ece.html",
+    "excerpt": "简介在2024年7月至2025年2月期间，有6个可疑的图像文件被上传到VirusTotal。得益于Meta提供的线索，这些样本引起了Google威胁情报小组的注意。\n对这些图像的分析表明，这些图像是针对Quram库的DNG文件，Quram库是三星设备专用的图像解析库。\n2025年11月7日，Unit 42发布了一篇博客文章，描述了这些exploit的使用方式以及它们投放的间谍软件。在这篇博客文章中",
+    "date": "2025-12-12T00:00:00.000Z",
+    "categories": [
+      "云安全",
+      "网络安全",
+      "漏洞利用"
+    ],
+    "tags": [
+      "Java安全",
+      "AWS安全",
+      "XSS",
+      "Android安全",
+      "GPU安全",
+      "栈漏洞",
+      "Edge",
+      "0day"
+    ]
+  },
+  {
+    "title": "不费吹灰之力击败KASLR",
+    "url": "/posts/37b1f85f6e9f.html",
+    "excerpt": "引言最近我一直在研究Pixel内核漏洞利用，作为这项研究的一部分，我发现自己拥有一个极佳的任意写入原语……但缺少KASLR泄漏。由于需要是发明之母，基于一种直觉，我开始研究Linux内核的线性映射。\nLinux线性映射线性映射是内核虚拟地址空间中的一个区域，它是物理内存的直接1:1非结构化表示。在与Jann合作的过程中，我了解到内核如何决定在虚拟地址空间中放置此区域的位置。为了能够在已root的手",
+    "date": "2025-11-03T00:00:00.000Z",
+    "categories": [
+      "网络安全",
+      "漏洞利用",
+      "攻击研究"
+    ],
+    "tags": [
+      "漏洞利用",
+      "Linux安全",
+      "内存安全",
+      "Rust安全",
+      "USB安全",
+      "内核漏洞",
+      "攻击研究",
+      "XSS"
+    ]
+  },
+  {
+    "title": "指针通过指针键控数据结构泄露",
+    "url": "/posts/e227aace1f19.html",
+    "excerpt": "引言2024年的某个时候，在一次Project Zero团队讨论中，我们谈到了远程ASLR泄露对于利用某些类型的内存破坏漏洞会有多大帮助或必要性，特别是在苹果设备的背景下。从&quot;哪里是寻找远程ASLR泄露的好起点&quot;这个角度出发，我们发现了一个技巧，可能被用来远程泄露指针，无需任何内存安全违规或时序攻击，前提是攻击面能够达到以下条件：能够反序列化攻击者提供的数据，重新序列化生成的对",
+    "date": "2025-09-26T00:00:00.000Z",
+    "categories": [
+      "网络安全",
+      "攻击研究",
+      "浏览器安全"
+    ],
+    "tags": [
+      "Java安全",
+      "Linux安全",
+      "内存安全",
+      "内核漏洞",
+      "攻击研究",
+      "Android安全",
+      "JS安全",
+      "iOS安全"
+    ]
+  },
+  {
+    "title": "从Chrome渲染器代码执行到内核利用MSG_OOB",
+    "url": "/posts/11256e0e04cd.html",
+    "excerpt": "引言六月初，我在审查一个新的Linux内核功能时，了解到了面向流的UNIX域套接字支持的MSG_OOB功能。我审查了MSG_OOB的实现，并发现了一个影响Linux &gt;=6.9的安全漏洞（CVE-2025-38236）。我将这个漏洞报告给了Linux，并且它得到了修复。有趣的是，虽然Chrome没有使用MSG_OOB功能，但它在Chrome渲染器沙箱中是暴露的。（此后，作为对此问题的回应，在",
+    "date": "2025-08-08T00:00:00.000Z",
+    "categories": [
+      "网络安全",
+      "漏洞利用",
+      "攻击研究"
+    ],
+    "tags": [
+      "漏洞利用",
+      "Linux安全",
+      "内存安全",
+      "内核漏洞",
+      "攻击研究",
+      "堆漏洞",
+      "浏览器安全",
+      "栈漏洞"
     ]
   }
 ]

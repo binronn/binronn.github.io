@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel 9 零点击漏洞利用链第三部分：我们该何去何从？ - BasicBit</title>
+  <meta name="description" content="Pixel 9 零点击漏洞利用链第三部分：我们该何去何从？">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl)}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl)}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:calc(var(--header-height)+var(--space-lg));align-self:start;max-height:calc(100vh - var(--header-height) - var(--space-2xl));overflow-y:auto}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border-light);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;min-height:0}.adsense ins{margin:var(--space-lg) 0;display:block}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md)}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md)}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg)}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:calc(var(--header-height)+var(--space-lg));width:260px;max-height:calc(100vh - var(--header-height) - var(--space-2xl));overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr}.sidebar{display:none}.post-content{padding:0 16px}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg)}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:1rem}.post-content{padding:0 16px}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单" onclick="document.querySelector('.site-nav').classList.toggle('active')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Pixel 9 零点击漏洞利用链第三部分：我们该何去何从？</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2026/1/14
+            </span>
+            <span class="meta-item">Natalie Silvanovich</span>
+            <span class="meta-item">网络安全, 漏洞利用, 浏览器安全</span>
+          </div>
+        </header>
+        
+  <div class="adsense adsense-top">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2026/01/pixel-0-click-part-3.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2026%2F01%2Fpixel-0-click-part-3.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>虽然我们之前的两篇博客文章提供了技术建议，以增加攻击者开发0点击漏洞利用链所需的努力，但我们在发现、报告和利用这些漏洞方面的经验突显了Android生态系统中一些更广泛的问题。本文描述了我们在研究过程中遇到的问题以及改进建议。</p>
+<h2 id="音频攻击面">音频攻击面</h2><p>杜比UDC是大多数Android设备0点击攻击面的一部分，这源于Google Messages应用中的音频转录功能。在用户与消息交互之前，传入的音频消息就会被转录。在Pixel 9上，另一个进程 com.google.android.tts 也会解码传入的音频。其目的尚不完全清楚，但似乎与使传入消息可搜索有关。</p>
+<p>这两个进程都使用设备上所有可用的解码器来解码音频，包括UDC（大多数设备的OEM厂商都集成了该解码器），尽管大部分传入消息只使用少数几种音频格式。特别是，传入消息包含杜比UDC支持的格式音频的可能性非常低，因为Android设备不提供这些格式的编码器，而且它们主要用于商业媒体，如电影和电视节目。从Android的0点击攻击面中移除UDC和其他不常用的解码器，可以保护用户免受这些编解码器中漏洞的最严重后果。</p>
+<p>手机AI功能的激增有可能极大地增加其0点击攻击面。虽然这种权衡有时可能对用户有益，但移动厂商必须意识到这对安全性的影响。软件变更无意中增加了攻击者可以远程执行的代码量的情况并不少见。为了保护用户，需要持续审查新功能如何影响0点击和1点击攻击面，并结合审慎的决策。</p>
+<h2 id="漏洞发现时间线">漏洞发现时间线</h2><p>这项研究的一个令人惊讶的方面是我们发现漏洞利用链中使用的两个漏洞的速度之快。Project Zero团队在一次为期一周的黑客马拉松中审查了杜比UDC，Ivan用了不到两天时间就发现了CVE-2025-54957。同样，Seth在审查BigWave驱动不到一天后就发现了CVE-2025-36934。</p>
+<p>当然，很容易忘记发现这些攻击面所付出的努力——杜比黑客马拉松需要大约三周的准备时间来研究编解码器的入口点并设置调试工具，同样，审查BigWave驱动涉及一个驱动程序分析工具，该工具大约花了4周时间开发。在审查杜比UDC之前，我们还审查了其他音频编解码器，结果好坏参半。</p>
+<p>尽管如此，与这个漏洞利用链的影响相比，发现必要漏洞所需的时间投入是很少的，尤其是对于权限提升阶段。此外，我们花费大量时间发现的UDC漏洞是一次性成本，我们预计这将有助于未来的研究。对于一个资源充足的攻击者来说，在Android上发现0点击漏洞利用链所需的时间几乎肯定可以用人周来衡量。</p>
+<p>Android通过漏洞奖励计划和使用OSS-Fuzz等工具进行模糊测试，在媒体编解码器的安全性方面投入了大量资源。虽然模糊测试不太可能发现这个特定的UDC漏洞，但据我们所知，Pixel的模糊测试工作并未覆盖UDC。厂商对其攻击面理解的差距是0点击漏洞的常见来源。虽然漏洞也出现在安全防护严密的组件中，但攻击者更容易专注于被忽视的领域。Android和OEM厂商可以从对其0点击攻击面的严格分析以及全面的模糊测试和审查工作中受益。</p>
+<p>另一方面，驱动程序在Android上<a href="https://googleprojectzero.blogspot.com/2024/06/driving-forward-in-android-drivers.html">继续</a><a href="https://googleprojectzero.blogspot.com/2024/12/qualcomm-dsp-driver-unexpectedly-excavating-exploit.html">成为</a><a href="https://googleprojectzero.blogspot.com/2023/09/analyzing-modern-in-wild-android-exploit.html">一个</a>“软目标”。虽然Android及其上游驱动程序供应商（如三星、高通、ARM和Imagination）已经做出了一些努力来提高驱动程序安全性，但攻击者发现和利用这些漏洞的能力已经超过了这些努力。自2023年以来，Google威胁情报小组（GTIG）已检测并报告了16个在野被攻击者利用的Android驱动程序漏洞。驱动程序安全仍然是影响Android用户的紧迫问题，可能需要多种方法来改进。用Rust等托管语言重写最易受攻击的驱动程序、对新驱动程序进行持续的安全审查、减少非特权上下文对驱动程序的访问以及使驱动程序代码在Android设备上更容易更新，这些措施可能都是必要的，以对抗攻击者在该领域的广泛能力。</p>
+<h2 id="漏洞利用的难易程度">漏洞利用的难易程度</h2><p>我们估计，在漏洞利用链中利用杜比UDC漏洞花费了八人周，而利用BigWave驱动程序漏洞进行基本概念验证则花费了3周。考虑到这类漏洞利用链给攻击者带来的巨大能力，这并不算很长时间。虽然许多Android安全功能增加了我们利用这些问题的挑战，但我们也惊讶地发现有两个缓解措施并未提供其文档中描述的保护。</p>
+<p>Pixel 9上的杜比UDC解码器进程缺少seccomp策略，尽管该策略在AOSP和我们测试的其他几款Android 16设备中<a href="https://android.googlesource.com/platform/frameworks/av/+/22c571b/services/mediacodec/minijail/seccomp_policy/mediacodec-seccomp-arm.policy">已实现</a>。如果AOSP中的策略在Pixel 9上得到执行，它很可能至少会增加一个月的时间来开发这个漏洞利用。为了使安全功能有效，定期验证它们非常重要，最好是在每个版本发布时进行，否则可能出现回归问题而未被察觉。</p>
+<p>我们还发现，由于一个自2016年以来就已知的问题（详见这篇<a href="https://googleprojectzero.blogspot.com/2025/11/defeating-kaslr-by-doing-nothing-at-all.html">博客文章</a>），kASLR在Pixel设备上无效。Android和Linux都决定将恢复其有效性的开发工作优先级降低。这个决定使得利用BigWave漏洞变得更加容易，我们估计，如果kASLR有效，利用这个漏洞大约需要多花六周时间，尽管由于需要额外的时间，我们可能不会去尝试利用它。</p>
+<p>同样值得注意的是，到目前为止，我们尚未能在Mac或iPhone上成功利用杜比UDC漏洞，因为它使用了<a href="https://clang.llvm.org/docs/BoundsSafety.html">-fbounds-safety</a>编译器标志进行编译，该标志添加了内存边界检查，防止漏洞进行越界写入。杜比应考虑在所有平台上提供此类基于编译器的保护。苹果最近也在新设备上实现了MIE，这是一种类似于内存标记（MTE）的基于硬件的内存保护技术。虽然由于UDC使用自定义分配器，MIE无法阻止杜比UDC漏洞在缺少-fbounds-safety的情况下被利用，但它会概率性地阻碍类似于BigWave驱动程序漏洞的iOS内核漏洞被利用。</p>
+<p>Pixel 8及后续版本<a href="https://googleprojectzero.blogspot.com/2023/11/first-handset-with-mte-on-market.html">已搭载</a>MTE，但不幸的是，除了选择加入高级保护模式的用户外，该功能并未启用，这对Pixel的其他用户造成了损害。苹果包含内存保护功能，尽管有财务和性能成本，但在保护其用户免受UDC漏洞利用以及可能的内核权限提升方面显然取得了回报。Android用户也有可能得到类似的保护。</p>
+<p>这个漏洞利用链的另一个显著特点是它包含的漏洞数量之少。从0点击上下文获取内核权限仅需要两个软件缺陷。在某些平台上，由于有效的沙箱和其他权限限制功能，通常需要更长的漏洞利用链。为了绕过这些，攻击者需要找到多个漏洞，通过多个上下文来提升权限。这表明Android上存在潜在的沙箱化机会，特别是在减少经常成为攻击目标的媒体解码进程的权限方面。</p>
+<h2 id="补丁时间线">补丁时间线</h2><p>这个漏洞利用链中的两个漏洞都曾在一段时间内公开且未在Pixel上修复。UDC漏洞于2025年6月26日报告给杜比，首批二进制修复于2025年9月18日推送到ChromeOS。Pixel向我们透露，他们直到2025年10月8日才收到杜比提供的二进制补丁。根据Project Zero的<a href="https://googleprojectzero.blogspot.com/p/vulnerability-disclosure-policy.html">披露政策</a>，我们在30天补丁采用期后，于2025年10月15日公开披露了该漏洞。三星是第一个修补该漏洞的移动厂商，时间是2025年11月12日。Pixel直到2026年1月5日才为该漏洞发布补丁。</p>
+<p>一个在0点击上下文中可利用的漏洞需要139天才能在任意Android设备上获得补丁，而Pixel则多花了54天，这令人担忧。该漏洞在Pixel修补之前已公开了82天。</p>
+<p>修复缓慢的一个原因可能是杜比的<a href="https://professional.dolby.com/siteassets/pdfs/dolby-security-advisory-CVE-2025-54957-Oct-14-25.pdf">公告</a>。我们在提交漏洞时告知杜比此问题高度可利用，并在工作进展过程中提供了状态更新，包括我们漏洞利用的技术细节。尽管如此，公告中对漏洞影响的描述如下：</p>
+<p><em>我们了解到一份关于Google Pixel设备的报告表明，如果此漏洞与其他已知的Pixel漏洞一起使用，可能会增加漏洞风险。其他Android移动设备可能存在类似的漏洞风险。</em></p>
+<p>这不是对该漏洞所构成风险的准确评估。正如本博客文章第一部分所示，该漏洞本身就可被利用，无需额外的漏洞。杜比可能指的是在Android上需要额外的漏洞才能从mediacodec上下文提升权限，但几乎所有现代漏洞都需要这一点，并且我们告知他们，有强有力的证据表明漏洞利用供应商在大多数Android设备上拥有内核权限提升漏洞。我们遇到的其他厂商都没有将允许在沙箱化上下文中执行代码的漏洞描述为需要“与其他已知漏洞一起使用”。</p>
+<p>杜比的公告还说：</p>
+<p><em>对于其他设备类别，我们认为恶意使用此漏洞的风险较低，最常见的结果是媒体播放器崩溃或重启。</em></p>
+<p>我们认为这低估了该漏洞对其他平台的风险。很难确定“攻击者恶意使用此漏洞的风险”，即使是像GTIG这样资源充足的威胁分析团队，也很难对特定漏洞做出任何准确的判断。此外，“最常见的结果是媒体播放器崩溃或重启”这一说法，即使对于最严重的内存损坏漏洞也是成立的。这就是为什么大多数安全团队根据攻击者利用漏洞所能获得的最大访问权限来对漏洞进行分类。除了在苹果设备上（UDC使用-fbounds-safety编译），此漏洞允许在UDC运行的上下文中执行代码。此漏洞对用户的影响也取决于平台，例如，在Android上风险更高，因为Android会在没有用户交互的情况下处理不受信任的音频文件，而智能电视只播放来自少数可信流媒体源的音频，但这并不能改变攻击者通常可以通过利用此漏洞实现代码执行的事实。理想情况下，杜比本应向其集成商提供此信息，并允许他们根据使用和沙箱化UDC的方式做出风险决策。</p>
+<p>目前尚不清楚杜比向Android和Pixel提供了什么信息，但Android在此处<a href="https://source.android.com/docs/security/overview/updates-resources#rating_modifiers">发布</a>了其优先级矩阵。由于mediacodec<a href="https://android-developers.googleblog.com/2019/05/queue-hardening-enhancements.html">被视为</a>受限上下文，当我们报告时，UDC漏洞属于“受限上下文中的远程任意代码执行”类别，并被评级为<em>中等</em>。相反，三星将此漏洞评级为<em>严重</em>。Android向我们透露，他们最近更新了优先级矩阵，未来此类漏洞将被归类为<em>严重</em>。</p>
+<p>我们于2025年6月20日向Pixel报告了BigWave漏洞，它也被评为<em>中等</em>。根据上述矩阵，“特权上下文、引导加载程序链、THB或操作系统内核中的本地任意代码执行”使此漏洞具有<em>高</em>基础严重性，但应用了严重性修饰符“需要以特权上下文运行才能执行攻击”。虽然修饰符文本提到了“特权上下文”，但根据我们的经验，该修饰符经常应用于无法直接从非特权上下文访问的漏洞，包括那些可以从mediacodec等受限上下文访问的漏洞。该严重性于2025年9月18日更改为<em>高</em>，并于2026年1月6日向设备推送了修复。根据我们的披露政策，我们在90天后，即2025年9月19日公开分享了该漏洞。</p>
+<p>虽然不同的软件供应商和项目在漏洞优先级排序方面有不同的理念，但将这两个漏洞的优先级降低，使用户容易受到0点击漏洞利用链的攻击。一些厂商将0点击入口点中的漏洞设为高优先级，而另一些厂商则选择优先处理隔离这些入口点的沙箱中的漏洞。每种方法都有利弊，但厂商至少需要优先处理漏洞链中的一个漏洞，以便为用户提供针对0点击漏洞利用的基本保护。</p>
+<p>这种责任分散在漏洞管理中并不少见。一系列可以组合起来对用户造成严重危害的漏洞通常被单独降低优先级，像杜比这样的编解码器供应商通常认为减轻内存损坏漏洞的影响主要是平台的责任，而像Android这样的平台则过于依赖其供应链无漏洞。具有最佳安全态势的软件开发者倾向于采取这样的立场：所有外部软件都应被视为已遭入侵，并投资于防范这种可能性。这种以及其他纵深防御方法使得攻击者难以构建漏洞利用链，并最有可能保护用户。</p>
+<h2 id="补丁传播">补丁传播</h2><p>尽管杜比UDC漏洞最终被Pixel修补，但所有其他Android用户收到更新还需要一些时间。这是因为移动更新受到多种因素的限制，包括运营商批准，而且并非所有OEM厂商都能及时提供安全更新（如果能提供的话）。</p>
+<p>Android有一种更新特定系统库的机制，可以绕过此过程，称为<a href="https://source.android.com/docs/core/ota/apex">APEX</a>。通过APEX打包的库可以由Google直接通过Google Play商店更新，从而实现更快的更新周期。由于UDC不是作为Android的一部分发布的，因此不具备此功能，尽管通过重大的许可和发布所有权变更可以改变这一点。</p>
+<h2 id="结论">结论</h2><p>很容易将像我们开发的这种0点击漏洞利用链视为一项独特的技术壮举，而它真正揭示的是目前许多攻击者所具备的能力。虽然开发漏洞利用耗时且需要特定的技术知识，但它所涉及的内容只要有足够的投入都是可以实现的。综合考虑，我们对所需投入之少感到惊讶。</p>
+<p>同样，人们可能倾向于将此漏洞利用视为一系列深奥且难以检测的错误，但可以采取一些措施来降低此类漏洞利用的风险，包括分析和减少0点击攻击面、持续测试安全缓解措施、快速修补以及投资于内存缓解措施。</p>
+<p>当今大多数人的隐私、财务福祉，有时甚至是人身安全都依赖于移动设备。有许多可用的措施可以保护他们免受最危险的对手的侵害。厂商应采取行动降低平台内存损坏漏洞的风险，并在合理的时间范围内向用户提供安全补丁。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/漏洞利用.html" class="tag-link">#漏洞利用</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/Rust安全.html" class="tag-link">#Rust安全</a> <a href="/tag/Android安全.html" class="tag-link">#Android安全</a> <a href="/tag/浏览器安全.html" class="tag-link">#浏览器安全</a> <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/虚拟化安全.html" class="tag-link">#虚拟化安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#音频攻击面" class="toc-link">
+              <span class="toc-text">音频攻击面</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#漏洞发现时间线" class="toc-link">
+              <span class="toc-text">漏洞发现时间线</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#漏洞利用的难易程度" class="toc-link">
+              <span class="toc-text">漏洞利用的难易程度</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#补丁时间线" class="toc-link">
+              <span class="toc-text">补丁时间线</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#补丁传播" class="toc-link">
+              <span class="toc-text">补丁传播</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');if(menuToggle){menuToggle.addEventListener('click',function(){document.querySelector('.site-nav').classList.toggle('active');});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

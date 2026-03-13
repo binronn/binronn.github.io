@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>#iOS安全 - BasicBit</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl)}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl)}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:calc(var(--header-height)+var(--space-lg));align-self:start;max-height:calc(100vh - var(--header-height) - var(--space-2xl));overflow-y:auto}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border-light);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;min-height:0}.adsense ins{margin:var(--space-lg) 0;display:block}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md)}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md)}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg)}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:calc(var(--header-height)+var(--space-lg));width:260px;max-height:calc(100vh - var(--header-height) - var(--space-2xl));overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr}.sidebar{display:none}.post-content{padding:0 16px}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg)}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:1rem}.post-content{padding:0 16px}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单" onclick="document.querySelector('.site-nav').classList.toggle('active')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="active">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container">
+      <div class="post-list">
+        <div class="page-header">
+          <h1>#iOS安全</h1>
+          <p>6 篇文章</p>
+        </div>
+        
+    <article class="post-card fade-in">
+      <h2 class="post-title">
+        <a href="/posts/4b281168f5fa.html">通过滥用UI Access绕过管理员保护</a>
+      </h2>
+      <div class="post-meta">
+        <span>2026/2/12</span>
+        <span>James Forshaw</span>
+      </div>
+      <div class="post-excerpt">
+        <p>在我上一篇博客文章中，我介绍了Windows的新功能——管理员保护（Administrator Protection），以及它如何旨在为UAC创建一个原本不存在的安全边界。我描述了在该功能发布前我能够绕过它的其中一种方法。在我的研究中，总共发现了9种绕过方法，现在这些方法都已被修复。
+在这篇博客文章...</p>
+      </div>
+      <a href="/posts/4b281168f5fa.html" class="read-more">阅读全文</a>
+    </article>
+  
+    <article class="post-card fade-in">
+      <h2 class="post-title">
+        <a href="/posts/a0574d075600.html">Pixel 9 零点击漏洞利用链第三部分：我们该何去何从？</a>
+      </h2>
+      <div class="post-meta">
+        <span>2026/1/14</span>
+        <span>Natalie Silvanovich</span>
+      </div>
+      <div class="post-excerpt">
+        <p>虽然我们之前的两篇博客文章提供了技术建议，以增加攻击者开发0点击漏洞利用链所需的努力，但我们在发现、报告和利用这些漏洞方面的经验突显了Android生态系统中一些更广泛的问题。本文描述了我们在研究过程中遇到的问题以及改进建议。
+音频攻击面杜比UDC是大多数Android设备0点击攻击面的一部分，这源...</p>
+      </div>
+      <a href="/posts/a0574d075600.html" class="read-more">阅读全文</a>
+    </article>
+  
+    <article class="post-card fade-in">
+      <h2 class="post-title">
+        <a href="/posts/8971107f4b72.html">Pixel 9 零点击漏洞利用链 第一部分：解码 Dolby</a>
+      </h2>
+      <div class="post-meta">
+        <span>2026/1/13</span>
+        <span>Maddie Stone</span>
+      </div>
+      <div class="post-excerpt">
+        <p>概述在 2024 年 12 月，Google 发布了针对 Pixel 9 系列设备的 2024 年 12 月安全更新。该更新修复了 Project Zero 报告的多个漏洞，这些漏洞共同构成了一个针对 Pixel 9 设备的零点击远程代码执行（RCE）漏洞利用链。该漏洞利用链通过蓝牙连接触发，攻击者...</p>
+      </div>
+      <a href="/posts/8971107f4b72.html" class="read-more">阅读全文</a>
+    </article>
+  
+    <article class="post-card fade-in">
+      <h2 class="post-title">
+        <a href="/posts/b04bf860b572.html">跳出思维定式 [2017年尘封草稿重见天日]</a>
+      </h2>
+      <div class="post-meta">
+        <span>2025/12/16</span>
+        <span>Jann Horn</span>
+      </div>
+      <div class="post-excerpt">
+        <p>前言来自未来的问候！
+这是一篇我最初在2017年初起草的博客文章。我写完了我打算作为本文前半部分的内容（关于利用CVE-2017-3558从虚拟机逃逸到VirtualBox主机用户空间进程），但我一直没有时间写后半部分（从VirtualBox主机用户空间进程到主机内核），最终几乎忘记了这篇旧的草稿…...</p>
+      </div>
+      <a href="/posts/b04bf860b572.html" class="read-more">阅读全文</a>
+    </article>
+  
+    <article class="post-card fade-in">
+      <h2 class="post-title">
+        <a href="/posts/f2f24658fa5b.html">Windows利用技术：通过路径查找赢得竞争条件</a>
+      </h2>
+      <div class="post-meta">
+        <span>2025/12/16</span>
+        <span>James Forshaw</span>
+      </div>
+      <div class="post-excerpt">
+        <p>本文最初于2016年为Project Zero博客撰写。然而，最终它被单独发表在PoC||GTFO期刊第13期以及印刷版的第二卷中。为了庆祝我们的新博客，我们在此博客上重新发布它，并包含了一个更新的分析，以查看它在现代Windows 11系统上是否仍然有效。
+在我的Windows研究过程中，我倾向于...</p>
+      </div>
+      <a href="/posts/f2f24658fa5b.html" class="read-more">阅读全文</a>
+    </article>
+  
+    <article class="post-card fade-in">
+      <h2 class="post-title">
+        <a href="/posts/e227aace1f19.html">指针通过指针键控数据结构泄露</a>
+      </h2>
+      <div class="post-meta">
+        <span>2025/9/26</span>
+        <span>Jann Horn</span>
+      </div>
+      <div class="post-excerpt">
+        <p>引言2024年的某个时候，在一次Project Zero团队讨论中，我们谈到了远程ASLR泄露对于利用某些类型的内存破坏漏洞会有多大帮助或必要性，特别是在苹果设备的背景下。从&quot;哪里是寻找远程ASLR泄露的好起点&quot;这个角度出发，我们发现了一个技巧，可能被用来远程泄露指针，无需任何内...</p>
+      </div>
+      <a href="/posts/e227aace1f19.html" class="read-more">阅读全文</a>
+    </article>
+  
+        
+      </div>
+      
+  <aside class="sidebar">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <ul class="category-list">
+        
+        <li>
+          <a href="/category/漏洞利用.html">漏洞利用</a>
+          <span class="category-count">12</span>
+        </li>
+        
+        <li>
+          <a href="/category/网络安全.html">网络安全</a>
+          <span class="category-count">11</span>
+        </li>
+        
+        <li>
+          <a href="/category/云安全.html">云安全</a>
+          <span class="category-count">5</span>
+        </li>
+        
+        <li>
+          <a href="/category/攻击研究.html">攻击研究</a>
+          <span class="category-count">5</span>
+        </li>
+        
+        <li>
+          <a href="/category/浏览器安全.html">浏览器安全</a>
+          <span class="category-count">4</span>
+        </li>
+        
+        <li>
+          <a href="/category/漏洞分析.html">漏洞分析</a>
+          <span class="category-count">3</span>
+        </li>
+        
+        <li>
+          <a href="/category/防御研究.html">防御研究</a>
+          <span class="category-count">2</span>
+        </li>
+        
+        <li>
+          <a href="/category/模糊测试.html">模糊测试</a>
+          <span class="category-count">1</span>
+        </li>
+        
+        <li>
+          <a href="/category/移动安全.html">移动安全</a>
+          <span class="category-count">1</span>
+        </li>
+        
+      </ul>
+    </div>
+    <div class="widget">
+      <h3 class="widget-title">热门标签</h3>
+      <div class="tag-cloud">
+        
+        <a href="/tag/Linux安全.html">Linux安全</a>
+        
+        <a href="/tag/漏洞利用.html">漏洞利用</a>
+        
+        <a href="/tag/iOS安全.html">iOS安全</a>
+        
+        <a href="/tag/XSS.html">XSS</a>
+        
+        <a href="/tag/Rust安全.html">Rust安全</a>
+        
+        <a href="/tag/Android安全.html">Android安全</a>
+        
+        <a href="/tag/Java安全.html">Java安全</a>
+        
+        <a href="/tag/API安全.html">API安全</a>
+        
+        <a href="/tag/Windows安全.html">Windows安全</a>
+        
+        <a href="/tag/攻击研究.html">攻击研究</a>
+        
+        <a href="/tag/USB安全.html">USB安全</a>
+        
+        <a href="/tag/内核漏洞.html">内核漏洞</a>
+        
+      </div>
+    </div>
+  </aside>
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

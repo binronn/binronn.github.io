@@ -7,10 +7,28 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://basicbit.cn/page/2/</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://basicbit.cn/category.html</loc>
     <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/category/网络安全/2.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/category/漏洞利用/2.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://basicbit.cn/tags.html</loc>
@@ -25,26 +43,92 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://basicbit.cn/posts/20260310-421c4dad6a30.html</loc>
-    <lastmod>2026-03-09</lastmod>
+    <loc>https://basicbit.cn/posts/b2e1aad65bf4.html</loc>
+    <lastmod>2026-03-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://basicbit.cn/posts/20260305-b2e1aad65bf4.html</loc>
-    <lastmod>2026-03-04</lastmod>
+    <loc>https://basicbit.cn/posts/ca55b84eac53.html</loc>
+    <lastmod>2026-02-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://basicbit.cn/posts/20260219-035d421ce986.html</loc>
-    <lastmod>2026-02-18</lastmod>
+    <loc>https://basicbit.cn/posts/4b281168f5fa.html</loc>
+    <lastmod>2026-02-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://basicbit.cn/posts/20210914-c2c87c66a2ca.html</loc>
-    <lastmod>2021-09-13</lastmod>
+    <loc>https://basicbit.cn/posts/3ccaaa606669.html</loc>
+    <lastmod>2026-01-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/38440f74bcd1.html</loc>
+    <lastmod>2026-01-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/a0574d075600.html</loc>
+    <lastmod>2026-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/d2d863b41dad.html</loc>
+    <lastmod>2026-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/8971107f4b72.html</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/b04bf860b572.html</loc>
+    <lastmod>2025-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/f02d8549ce97.html</loc>
+    <lastmod>2025-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/f2f24658fa5b.html</loc>
+    <lastmod>2025-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/e257ce249ece.html</loc>
+    <lastmod>2025-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/37b1f85f6e9f.html</loc>
+    <lastmod>2025-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/e227aace1f19.html</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://basicbit.cn/posts/11256e0e04cd.html</loc>
+    <lastmod>2025-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
