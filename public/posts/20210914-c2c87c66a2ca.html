@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuzzing Closed-Source JavaScript Engines with Coverage Feedback - BasicBit</title>
+  <meta name="description" content="Posted by Ivan Fratric, Project Zero tl;dr I combined Fuzzilli (an open-source JavaScript engine fuzzer), with TinyInst (an open-source dynamic instrumentation library for fuzzing). I also added gramm...">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl)}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl)}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:calc(var(--header-height)+var(--space-lg));align-self:start;max-height:calc(100vh - var(--header-height) - var(--space-2xl));overflow-y:auto}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border-light);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;min-height:0}.adsense ins{margin:var(--space-lg) 0;display:block}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md)}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md)}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg)}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:calc(var(--header-height)+var(--space-lg));width:260px;max-height:calc(100vh - var(--header-height) - var(--space-2xl));overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr}.sidebar{display:none}.post-content{padding:0 16px}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg)}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:1rem}.post-content{padding:0 16px}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单" onclick="document.querySelector('.site-nav').classList.toggle('active')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Fuzzing Closed-Source JavaScript Engines with Coverage Feedback</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2021/9/14
+            </span>
+            <span class="meta-item">Ivan Fratric</span>
+            <span class="meta-item">vulnerability-research</span>
+          </div>
+        </header>
+        
+  <div class="adsense adsense-top">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2021/09/fuzzing-closed-source-javascript.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2021%2F09%2Ffuzzing-closed-source-javascript.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>Posted by Ivan Fratric, Project Zero</p>
+
+<p></p>
+
+<p>tl;dr I combined <a href="https://github.com/googleprojectzero/fuzzilli">Fuzzilli</a> (an open-source JavaScript engine fuzzer), with <a href="https://github.com/googleprojectzero/TinyInst">TinyInst</a> (an open-source dynamic instrumentation library for fuzzing). I also added grammar-based mutation support to <a href="https://github.com/googleprojectzero/Jackalope">Jackalope</a> (my black-box binary fuzzer). So far, these two approaches resulted in finding three security issues in jscript9.dll (default JavaScript engine used by Internet Explorer).</p>
+<h1 id="introduction-or-when-you-can-t-beat-them-join-them-">Introduction or "when you can't beat them, join them"</h1>
+
+<p>In the past, I've invested a lot of time in generation-based fuzzing, which was a successful way to find vulnerabilities in various targets, especially those that take some form of language as input. For example, Domato, my grammar-based generational fuzzer, found <a href="https://bugs.chromium.org/p/project-zero/issues/list?q=ifratric%20webkit&amp;can=1">over 40 vulnerabilities in WebKit</a> and <a href="https://bugs.chromium.org/p/project-zero/issues/list?q=ifratric%20jscript&amp;can=1">numerous bugs in Jscript</a>. </p>
+
+<p></p>
+
+<p>While generation-based fuzzing is still a good way to fuzz many complex targets, it was demonstrated that, for finding vulnerabilities in modern JavaScript engines, especially engines with JIT compilers, better results can be achieved with mutational, coverage-guided approaches. My colleague Samuel Groß gives a compelling case on why that is in his <a href="https://www.youtube.com/watch?v=OHjq9Y66yfc">OffensiveCon talk</a>. Samuel is also the author of <a href="https://github.com/googleprojectzero/fuzzilli">Fuzzilli</a>, an open-source JavaScript engine fuzzer based on mutating a custom intermediate language. Fuzzilli has found a large number of bugs in various JavaScript engines.</p>
+
+<p></p>
+
+<p>While there has been a lot of development on coverage-guided fuzzers over the last few years, most of the public tooling focuses on open-source targets or software running on the Linux operating system. Meanwhile, I focused on developing tooling for fuzzing of closed-source binaries on operating systems where such software is more prevalent (currently Windows and macOS). Some years back, I published <a href="https://github.com/googleprojectzero/winafl">WinAFL</a>, the first performant AFL-based fuzzer for Windows. About a year and a half ago, however, I started working on a brand new toolset for black-box coverage-guided fuzzing. <a href="https://github.com/googleprojectzero/TinyInst">TinyInst</a> and <a href="https://github.com/googleprojectzero/Jackalope">Jackalope</a> are the two outcomes of this effort.</p>
+
+<p></p>
+
+<p>It comes somewhat naturally to combine the tooling I've been working on with techniques that have been so successful in finding JavaScript bugs, and try to use the resulting tooling to fuzz JavaScript engines for which the source code is not available. Of such engines, I know two: jscript and jscript9 (implemented in jscript.dll and jscript9.dll) on Windows, which are both used by the Internet Explorer web browser. Of these two, jscript9 is probably more interesting in the context of mutational coverage-guided fuzzing since it includes a JIT compiler and more advanced engine features.</p>
+
+<p></p>
+
+<p>While you might think that Internet Explorer is a <a href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/">thing of the past</a> and it doesn't make sense to spend energy looking for bugs in it, the fact remains that Internet Explorer is still heavily exploited by real-world attackers. In <a href="https://docs.google.com/spreadsheets/d/1lkNJ0uQwbeC1ZTRrxdtuPLCIl7mlUreoKfSIgajnSyY/edit#gid=1869060786">2020</a> there were two Internet Explorer 0days exploited in the wild and three in <a href="https://docs.google.com/spreadsheets/d/1lkNJ0uQwbeC1ZTRrxdtuPLCIl7mlUreoKfSIgajnSyY/edit#gid=2129022708">2021</a> so far. One of these vulnerabilities was in the JIT compiler of jscript9. I've personally vowed several times that I'm done looking into Internet Explorer, but each time, more 0days in the wild pop up and I change my mind.</p>
+
+<p></p>
+
+<p>Additionally, the techniques described here could be applied to any closed-source or even open-source software, not just Internet Explorer. In particular, grammar-based mutational fuzzing described two sections down can be applied to targets other than JavaScript engines by simply changing the input grammar.</p>
+<h1 id="approach-1-fuzzilli-tinyinst">Approach 1: Fuzzilli + TinyInst</h1>
+
+<p><a href="https://github.com/googleprojectzero/fuzzilli">Fuzzilli</a>, as said above, is a state-of-the-art JavaScript engine fuzzer and <a href="https://github.com/googleprojectzero/TinyInst">TinyInst</a> is a dynamic instrumentation library. Although TinyInst is general-purpose and could be used in other applications, it comes with various features useful for fuzzing, such as out-of-the-box support for persistent fuzzing, various types of coverage instrumentations etc. TinyInst is meant to be simple to integrate with other software, in particular fuzzers, and has already been integrated with some.</p>
+
+<p></p>
+
+<p>So, integrating with Fuzzilli was meant to be simple. However, there were still various challenges to overcome for different reasons:</p>
+
+<p></p>
+
+<p>Challenge 1: Getting Fuzzilli to build on Windows where our targets are.</p>
+
+<p></p>
+
+<p>Edit 2021-09-20: The version of Swift for Windows used in this project was from January 2021, when I first started working on it. Since version 5.4, Swift Package Manager is supported on Windows, so building Swift code should be much easier now. Additionally, static linking is supported for C/C++ code.</p>
+
+<p></p>
+
+<p>Fuzzilli was written in Swift and the support for Swift on Windows is currently not great. While <a href="https://github.com/compnerd/swift-build">Swift on Windows</a> builds exist (I'm linking to the builds by Saleem Abdulrasool instead of the official ones because the latter didn't work for me), not all features that you would find on Linux and macOS are there. For example, one does not simply run swift build on Windows, as the build system is one of the features that didn't get ported (yet). Fortunately, CMake and Ninja  support Swift, so the solution to this problem is to switch to the CMake build system. There are <a href="https://github.com/compnerd/swift-cmake-examples">helpful examples</a> on how to do this, once again from Saleem Abdulrasool.</p>
+
+<p></p>
+
+<p>Another feature that didn't make it to Swift for Windows is statically linking libraries. This means that all libraries (such as those written in C and C++ that the user wants to include in their Swift project) need to be dynamically linked. This goes for libraries already included in the Fuzzilli project, but also for TinyInst. Since TinyInst also uses the CMake build system, my first attempt at integrating TinyInst was to include it via the Fuzzilli CMake project, and simply have it built as a shared library. However, the same tooling that was successful in building Fuzzilli would fail to build TinyInst (probably due to various platform libraries TinyInst uses). That's why, in the end, TinyInst was being built separately into a .dll and this .dll loaded "manually" into Fuzzilli via the <a href="https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya">LoadLibrary</a> API. This turned out not to be so bad - Swift build tooling for Windows was quite slow, and so it was much faster to only build TinyInst when needed, rather than build the entire Fuzzilli project (even when the changes made were minor).</p>
+
+<p></p>
+
+<p>The Linux/macOS parts of Fuzzilli, of course, also needed to be rewritten. Fortunately, it turned out that the parts that needed to be rewritten were the parts written in C, and the parts written in Swift worked as-is (other than a couple of exceptions, mostly related to networking). As someone with no previous experience with Swift, this was quite a relief. The main parts that needed to be rewritten were the networking library (libsocket), the library used to run and monitor the child process (libreprl) and the library for collecting coverage (libcoverage). The latter two were changed to use TinyInst. Since these are separate libraries in Fuzzilli, but TinyInst handles both of these tasks, some plumbing through Swift code was needed to make sure both of these libraries talk to the same TinyInst instance for a given target.</p>
+
+<p></p>
+
+<p>Challenge 2: Threading woes</p>
+
+<p></p>
+
+<p>Another feature that made the integration less straightforward than hoped for was the use of threading in Swift. TinyInst is built on a custom debugger and, on Windows, it uses the Windows debugging API. One specific feature of the Windows debugging API, for example <a href="https://docs.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-waitfordebugevent">WaitForDebugEvent</a>, is that it does not take a debugee pid or a process handle as an argument. So then, the question is, if you have multiple debugees, to which of them does the API call refer? The answer to that is, when a debugger on Windows attaches to a debugee (or starts a debugee process), the thread  that started/attached it is the debugger. Any subsequent calls for that particular debugee need to be issued on that same thread.</p>
+
+<p></p>
+
+<p>In contrast, the preferred Swift coding style (that Fuzzilli also uses) is to take advantage of threading primitives such as <a href="https://developer.apple.com/documentation/dispatch/dispatchqueue">DispatchQueue</a>. When tasks get posted on a DispatchQueue, they can run in parallel on "background" threads. However, with the background threads, there is no guarantee that a certain task is always going to run on the same thread. So it would happen that calls to the same TinyInst instance happened from different threads, thus breaking the Windows debugging model. This is why, for the purposes of this project, TinyInst was modified to create its own thread (one for each target process) and ensure that any debugger calls for a particular child process always happen on that thread.</p>
+
+<p></p>
+
+<p>Various minor changes</p>
+
+<p></p>
+
+<p>Some examples of features Fuzzilli requires that needed to be added to TinyInst are stdin/stdout redirection and a channel for reading out the "status" of JavaScript execution (specifically, to be able to tell if JavaScript code was throwing an exception or executing successfully). Some of these features were already integrated into the "mainline" TinyInst or will be integrated in the future.</p>
+
+<p></p>
+
+<p>After all of that was completed though, the Fuzzilli/Tinyinst hybrid was running in a stable manner:</p>
+
+<p></p>
+
+<p></p>
+
+<p><a href="/images/c2c87c66a2ca/980b242466703b86.png"><img alt="" src="/images/c2c87c66a2ca/980b242466703b86.png"/></a></p>
+
+<p></p>
+
+<p>Note that coverage percentage reported by Fuzzilli is incorrect. Because TinyInst is a dynamic instrumentation library, it cannot know the number of basic blocks/edges in advance. </p>
+
+<p></p>
+
+<p>Primarily because of the current Swift on Windows issues, this closed-source mode of Fuzzilli is not something we want to officially support. However, the sources and the build we used can be downloaded <a href="https://drive.google.com/file/d/10q4bIZHYAxQRkEVSk27Z7NPjKNnB6dKq/view">here</a>.</p>
+<h1 id="approach-2-grammar-based-mutation-fuzzing-with-jackalope">Approach 2: Grammar-based mutation fuzzing with Jackalope</h1>
+
+<p><a href="https://github.com/googleprojectzero/Jackalope">Jackalope</a> is a coverage-guided fuzzer I developed for fuzzing black-box binaries on Windows and, recently, macOS. Jackalope initially included mutators suitable for fuzzing of binary formats. However, a key feature of Jackalope is modularity: it is meant to be easy to plug in or replace individual components, including, but not limited to, sample mutators.</p>
+
+<p></p>
+
+<p>After observing how Fuzzilli works more closely during Approach 1, as well as observing samples it generated and the bugs it found, the idea was to extend Jackalope to allow mutational JavaScript fuzzing, but also in the future, mutational fuzzing of other targets whose samples can be described by a context-free grammar.</p>
+
+<p></p>
+
+<p>Jackalope uses a grammar syntax similar to that of <a href="https://github.com/googleprojectzero/domato">Domato</a>, but somewhat simplified (with some features not supported at this time). This grammar format is easy to write and easy to modify (but also easy to parse). The grammar syntax, as well as the list of builtin symbols, can be found on <a href="https://github.com/googleprojectzero/Jackalope/tree/main/mutators/grammar">this page</a> and the JavaScript grammar used in this project can be found <a href="https://github.com/googleprojectzero/Jackalope/tree/main/examples/grammar">here</a>.</p>
+
+<p></p>
+
+<p>One addition to the Domato grammar syntax that allows for more natural mutations, but also sample minimization, are the &lt;repeat_*&gt; grammar nodes. A &lt;repeat_x&gt; symbol tells the grammar engine that it can be represented as zero or more &lt;x&gt; nodes. For example, in our JavaScript grammar, we have</p>
+
+<p></p>
+
+<p>&lt;statementlist&gt; = &lt;repeat_statement&gt;</p>
+
+<p></p>
+
+<p>telling the grammar engine that &lt;statementlist&gt; can be constructed by concatenating zero or more &lt;statement&gt;s. In our JavaScript grammar, a &lt;statement&gt; expands to an actual JavaScript statement. This helps the mutation engine in the following way: it now knows it can mutate a sample by inserting another &lt;statement&gt; node anywhere in the &lt;statementlist&gt; node. It can also remove &lt;statement&gt; nodes from the &lt;statementlist&gt; node. Both of these operations will keep the sample valid (in the grammar sense).</p>
+
+<p></p>
+
+<p>It's not mandatory to have &lt;repeat_*&gt; nodes in the grammar, as the mutation engine knows how to mutate other nodes as well (see the list of mutations below). However, including them where it makes sense might help make mutations in a more natural way, as is the case of the JavaScript grammar.</p>
+
+<p></p>
+
+<p>Internally, grammar-based mutation works by keeping a tree representation of the sample instead of representing the sample just as an array of bytes (Jackalope must in fact represent a grammar sample as a sequence of bytes at some points in time, e.g when storing it to disk, but does so by serializing the tree and deserializing when needed). Mutations work by modifying a part of the tree in a manner that ensures the resulting tree is still valid within the context of the input grammar. Minimization works by removing those nodes that are determined to be unnecessary.</p>
+
+<p></p>
+
+<p>Jackalope's mutation engine can currently perform the following operations on the tree:</p>
+
+<p></p>
+<ul><li>Generate a new tree from scratch. This is not really a mutation and is mainly used to bootstrap the fuzzers when no input samples are provided. In fact, grammar fuzzing mode in Jackalope must either start with an empty corpus or a corpus generated by a previous session. This is because there is currently no way to parse a text file (e.g. a JavaScript source file) into its grammar tree representation (in general, there is no guaranteed unique way to parse a sample with a context-free grammar).</li>
+<li>Select a random node in the sample's tree representation. Generate just this node anew while keeping the rest of the tree unchanged.</li>
+<li>Splice: Select a random node from the current sample and a node with the same symbol from another sample. Replace the node in the current sample with a node from the other sample.</li>
+<li>Repeat node mutation: One or more new children get added to a &lt;repeat_*&gt; node, or some of the existing children get replaced.</li>
+<li>Repeat splice: Selects a &lt;repeat_*&gt; node from the current sample and a similar &lt;repeat_*&gt; node from another sample. Mixes children from the other node into the current node.</li>
+</ul>
+<p></p>
+
+<p>JavaScript grammar was initially constructed by following  the <a href="https://tc39.es/ecma262/#sec-grammar-summary">ECMAScript 2022 specification</a>. However, as always when constructing fuzzing grammars from specifications or in a (semi)automated way, this grammar was only a starting point. More manual work was needed to make the grammar output valid and generate interesting samples more frequently.</p>
+
+<p></p>
+
+<p>Jackalope now supports grammar fuzzing out-of-the box, and, in order to use it, you just need to add -grammar &lt;path_to_grammar_file&gt; to Jackalope's command lines. In addition to running against closed-source targets on Windows and macOS, Jackalope can now run against open-source targets on Linux using <a href="https://clang.llvm.org/docs/SanitizerCoverage.html">Sanitizer Coverage</a> based instrumentation. This is to allow experimentation with grammar-based mutation fuzzing on open-source software.</p>
+
+<p></p>
+
+<p>The following image shows Jackalope running against jscript9.</p>
+
+<p></p>
+
+<p></p>
+
+<p><a href="/images/c2c87c66a2ca/9a8fd9acdda72859.png"><img alt="Jackalope running against jscript9." src="/images/c2c87c66a2ca/9a8fd9acdda72859.png"/></a></p>
+<h1 id="results">Results</h1>
+
+<p>I ran Fuzzilli for several weeks on 100 cores. This resulted in finding two vulnerabilities, <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2157">CVE-2021-26419</a> and <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2168">CVE-2021-31959</a>. Note that the bugs that were analyzed and determined not to have security impact are not counted here. Both of the vulnerabilities found were in the bytecode generator, a part of the JavaScript engine that is typically not very well tested by generation-based fuzzing approaches. Both of these bugs were found relatively early in the fuzzing process and would be findable even by fuzzing on a single machine.</p>
+
+<p></p>
+
+<p>The second of the two bugs was particularly interesting because it initially manifested only as a NULL pointer dereference that happened occasionally, and it took quite a bit of effort (including tracing JavaScript interpreter execution in cases where it crashed and in cases where it didn't to see where the execution flow diverges) to reach the root cause. <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/time-travel-debugging-overview">Time travel debugging</a> was also useful here - it would be quite difficult if not impossible to analyze the sample without it. The reader is referred to the <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2168">vulnerability report</a> for further details about the issue.</p>
+
+<p></p>
+
+<p>Jackalope was run on a similar setup: for several weeks on 100 cores. Interestingly, at least against jscript9, Jackalope with grammar-based mutations behaved quite similarly to Fuzzilli: it was hitting a similar level of coverage and finding similar bugs. It also found CVE-2021-26419 quickly into the fuzzing process. Of course, it's easy to re-discover bugs once they have already been found with another tool, but neither the grammar engine nor the JavaScript grammar contain anything specifically meant for finding these bugs.</p>
+
+<p></p>
+
+<p>About a week and a half into fuzzing with Jackalope, it triggered a bug I hadn't seen before, <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2188">CVE-2021-34480</a>. This time, the bug was in the JIT compiler, which is another component not exercised very well with generation-based approaches. I was quite happy with this find, because it validated the feasibility of a grammar-based approach for finding JIT bugs.</p>
+<h1 id="limitations-and-improvement-ideas">Limitations and improvement ideas</h1>
+
+<p>While successful coverage-guided fuzzing of closed-source JavaScript engines is certainly possible as demonstrated above, it does have its limitations. The biggest one is inability to compile the target with additional debug checks. Most of the modern open-source JavaScript engines include additional checks that can be compiled in if needed, and enable catching certain types of bugs more easily, without requiring that the bug crashes the target process. If jscript9 source code included such checks, they are lost in the release build we fuzzed.</p>
+
+<p></p>
+
+<p>Related to this, we also can't compile the target with something like <a href="https://clang.llvm.org/docs/AddressSanitizer.html">Address Sanitizer</a>. The usual workaround for this on Windows would be to enable <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/gflags-and-pageheap">Page Heap</a> for the target. However, it does not work well here. The reason is, jscript9 uses a custom allocator for JavaScript objects. As Page Heap works by replacing the default malloc(), it simply does not apply here.</p>
+
+<p></p>
+
+<p>A way to get around this would be to use instrumentation (TinyInst is already a general-purpose instrumentation library so it could be used for this in addition to code coverage) to instrument the allocator and either insert additional checks or replace it completely. However, doing this was out-of-scope for this project.</p>
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Coverage-guided fuzzing of closed-source targets, even complex ones such as JavaScript engines is certainly possible, and there are plenty of tools and approaches available to accomplish this.</p>
+
+<p></p>
+
+<p>In the context of this project, Jackalope fuzzer was extended to allow grammar-based mutation fuzzing. These extensions have potential to be useful beyond just JavaScript fuzzing and can be adapted to other targets by simply using a different input grammar. It would be interesting to see which other targets the broader community could think of that would benefit from a mutation-based approach.</p>
+
+<p></p>
+
+<p>Finally, despite being targeted by security researchers for a long time now, Internet Explorer still has many exploitable bugs that can be found even without large resources. After the development on this project was complete, Microsoft announced that they will be <a href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/">removing Internet Explorer as a separate browser</a>. This is a good first step, but with Internet Explorer (or Internet Explorer engine) integrated into various other products (most notably, Microsoft Office, as also exploited by in-the-wild attackers), I wonder how long it will truly take before attackers stop abusing it. </p>
+
+<p></p>
+
+<p></p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/Make zeroday hard..html" class="tag-link">#Make zeroday hard.</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#introduction-or-when-you-can-t-beat-them-join-them-" class="toc-link">
+              <span class="toc-text">Introduction or "when you can't beat them, join them"</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#approach-1-fuzzilli-tinyinst" class="toc-link">
+              <span class="toc-text">Approach 1: Fuzzilli + TinyInst</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#approach-2-grammar-based-mutation-fuzzing-with-jackalope" class="toc-link">
+              <span class="toc-text">Approach 2: Grammar-based mutation fuzzing with Jackalope</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#results" class="toc-link">
+              <span class="toc-text">Results</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#limitations-and-improvement-ideas" class="toc-link">
+              <span class="toc-text">Limitations and improvement ideas</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#conclusion" class="toc-link">
+              <span class="toc-text">Conclusion</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');if(menuToggle){menuToggle.addEventListener('click',function(){document.querySelector('.site-nav').classList.toggle('active');});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>
