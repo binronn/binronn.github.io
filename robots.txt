@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://basicbit.cn/search.json
+Sitemap: https://basicbit.cn/sitemap.xml
 
 # Disallow admin and private pages
 Disallow: /admin/

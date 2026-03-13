@@ -200,6 +200,15 @@ a {
   height: 28px;
 }
 
+/* Mobile search button (hidden on desktop) */
+.mobile-search-btn {
+  display: none;
+}
+
+.mobile-search-modal {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .mobile-menu-btn {
     display: flex;
@@ -503,6 +512,17 @@ main {
 
 .pagination .page-info {
   color: var(--color-text-secondary);
+}
+
+/* ==================== ADSENSE ==================== */
+.adsense {
+  margin: var(--space-lg) 0;
+  min-height: 0;
+}
+
+.adsense ins {
+  margin: var(--space-lg) 0;
+  display: block;
 }
 
 /* ==================== SIDEBAR & WIDGETS ==================== */
@@ -1125,7 +1145,7 @@ main {
 
 @media (max-width: 768px) {
   .hero-title { font-size: 2.5rem; }
-  :root { --space-lg: 1.25rem; --space-xl: 2rem; }
+  :root { --space-lg: 1.25rem; --space-xl: 2rem; --header-height: 60px; }
   .post-card { padding: var(--space-lg); }
   .post-title { font-size: 1.5rem; }
   .post-content { padding: 0 12px; }
@@ -1133,6 +1153,230 @@ main {
   .about-content { padding: 0 16px; }
   .about-content h1 { font-size: 2rem; }
   .about-content h2 { font-size: 1.5rem; }
+
+  /* Header layout */
+  .header-container { padding: 0 1rem; }
+
+  /* Logo adjustments */
+  .site-logo .logo-icon { width: 30px; height: 30px; }
+  .site-logo .logo-text { font-size: 1.25rem; }
+
+  /* Navigation adjustments */
+  .site-nav {
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border-light);
+    padding: var(--space-md);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+  }
+
+  .site-nav.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .nav-list a {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+  }
+
+  /* Hide header search, show floating search button instead */
+  .search-wrapper {
+    display: none;
+  }
+
+  /* Floating search button */
+  .mobile-search-btn {
+    display: flex !important;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mobile-search-btn:hover {
+    background: var(--color-primary-hover);
+    transform: scale(1.05);
+  }
+
+  .mobile-search-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Mobile search modal */
+  .mobile-search-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1002;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .mobile-search-modal.active {
+    display: flex;
+  }
+
+  .mobile-search-modal .search-wrapper {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    position: static;
+  }
+
+  .mobile-search-modal .search-form {
+    background: var(--color-bg);
+    box-shadow: var(--shadow-xl);
+    border-radius: var(--radius-lg);
+    padding: 0.75rem;
+  }
+
+  .mobile-search-modal .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--color-bg-secondary);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Main container adjustments */
+  .main-container {
+    padding: 0 1rem;
+    gap: var(--space-lg);
+  }
+
+  /* Post list */
+  .post-list { gap: var(--space-lg); }
+
+  /* Post card */
+  .post-card {
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+  }
+
+  .post-card > div:first-child {
+    height: 150px !important;
+  }
+
+  .post-meta {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    font-size: 0.8125rem;
+  }
+
+  .post-excerpt {
+    font-size: 1rem;
+    margin-bottom: var(--space-md);
+  }
+
+  /* Article page */
+  .post-header { padding-top: var(--space-md); }
+
+  .post-header .post-title {
+    font-size: 1.75rem;
+  }
+
+  .article-meta {
+    gap: var(--space-sm);
+    font-size: 0.875rem;
+  }
+
+  .article-actions {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .post-body {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .post-body h1 { font-size: 1.5rem; }
+  .post-body h2 { font-size: 1.375rem; }
+  .post-body h3 { font-size: 1.25rem; }
+
+  /* Pagination */
+  .pagination {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .pagination a, .pagination span {
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.875rem;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    display: none;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: var(--space-lg) 0;
+  }
+
+  .footer-content p {
+    font-size: 0.8125rem;
+  }
+
+  /* Category/tag pages */
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .page-header p {
+    font-size: 1rem;
+  }
+
+  /* Category grid */
+  .category-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
 }
 
 @media (max-width: 480px) {
@@ -1141,6 +1385,45 @@ main {
   .post-body { font-size: 1rem; }
   .post-content { padding: 0 16px; }
   main { padding-top: var(--space-sm); }
+
+  /* Header */
+  .header-container { padding: 0 0.75rem; }
+  .site-logo .logo-icon { width: 28px; height: 28px; }
+  .site-logo .logo-text { font-size: 1.125rem; }
+
+  /* Mobile search */
+  .search-wrapper {
+    bottom: 0.75rem;
+    right: 0.75rem;
+    width: calc(100% - 1.5rem);
+  }
+
+  /* Post */
+  .post-card { padding: var(--space-sm) var(--space-md); }
+  .post-card > div:first-child { height: 120px !important; }
+
+  /* Article */
+  .post-header .post-title { font-size: 1.5rem; }
+
+  /* Action buttons */
+  .article-actions { gap: var(--space-sm); }
+  .action-btn { padding: 8px 14px; font-size: 0.875rem; }
+
+  /* Read more */
+  .read-more { font-size: 0.9375rem; }
+
+  /* Home hero */
+  .home-hero { padding: var(--space-xl) 0 var(--space-lg); }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .hero-title { font-size: 1.75rem; }
+  .hero-subtitle { font-size: 0.9375rem; }
+  .post-title { font-size: 1.25rem; }
+  .post-header .post-title { font-size: 1.375rem; }
+  .post-meta { font-size: 0.75rem; }
+  .post-body { font-size: 0.9375rem; }
 }
 </style>
 </head>
@@ -1193,6 +1476,33 @@ main {
         </div>
       </div>
     </div>
+    <!-- Mobile Search Button -->
+    <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+    </button>
+    <!-- Mobile Search Modal -->
+    <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+      <button class="close-btn" onclick="document.querySelector('.mobile-search-modal').classList.remove('active')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="search-wrapper">
+        <form action="/search" method="get" class="search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+          <input type="text" name="q" placeholder="搜索文章..." class="search-input" autofocus>
+          <button type="submit" class="search-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
   </header>
   <main>
     <div class="main-container post-page-with-toc">
@@ -1221,9 +1531,6 @@ main {
          data-ad-slot="4232191576"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
   
         
@@ -1426,9 +1733,6 @@ while True:
          data-ad-slot="4232191576"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
   
       </article>
