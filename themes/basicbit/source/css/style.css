@@ -212,6 +212,7 @@ a {
   .site-header {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    position: relative;
   }
 }
 
