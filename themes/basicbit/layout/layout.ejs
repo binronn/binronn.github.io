@@ -15,10 +15,23 @@
 
   <meta name="description" content="<%= page.description || config.description %>">
 
-  <!-- Google Fonts -->
+  <!-- Preload critical resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts with font-display: swap for performance -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Font display swap - prevent FOIT */
+    @font-face {
+      font-family: 'Roboto';
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Noto Sans SC';
+      font-display: swap;
+    }
+  </style>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="<%- theme.root %>/images/favicon.png">
@@ -26,8 +39,8 @@
   <!-- CSS -->
   <link rel="stylesheet" href="<%- theme.root %>/css/style.css">
 
-  <!-- Lunr.js for search -->
-  <script src="https://unpkg.com/lunr/lunr.js"></script>
+  <!-- Lunr.js for search - deferred for performance -->
+  <script defer src="https://unpkg.com/lunr/lunr.js"></script>
 
   <!-- AdSense -->
   <% if (theme.adsense.enabled) { %>

@@ -3,9 +3,53 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Mobile menu toggle
   const menuToggle = document.querySelector('.mobile-menu-btn');
-  if (menuToggle) {
+  const siteNav = document.querySelector('.site-nav');
+  if (menuToggle && siteNav) {
     menuToggle.addEventListener('click', function() {
-      document.querySelector('.site-nav').classList.toggle('active');
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !isExpanded);
+      siteNav.classList.toggle('active');
+    });
+  }
+
+  // Mobile search modal
+  const mobileSearchBtn = document.querySelector('.mobile-search-btn');
+  const mobileSearchModal = document.querySelector('.mobile-search-modal');
+  const mobileSearchClose = document.querySelector('.mobile-search-close');
+  const mobileSearchInput = document.querySelector('.mobile-search-input');
+
+  if (mobileSearchBtn && mobileSearchModal) {
+    // Open modal
+    mobileSearchBtn.addEventListener('click', function() {
+      mobileSearchModal.classList.add('active');
+      mobileSearchBtn.setAttribute('aria-expanded', 'true');
+      if (mobileSearchInput) {
+        setTimeout(() => mobileSearchInput.focus(), 100);
+      }
+    });
+
+    // Close modal
+    if (mobileSearchClose) {
+      mobileSearchClose.addEventListener('click', function() {
+        mobileSearchModal.classList.remove('active');
+        mobileSearchBtn.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    // Close on backdrop click
+    mobileSearchModal.addEventListener('click', function(e) {
+      if (e.target === mobileSearchModal) {
+        mobileSearchModal.classList.remove('active');
+        mobileSearchBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && mobileSearchModal.classList.contains('active')) {
+        mobileSearchModal.classList.remove('active');
+        mobileSearchBtn.setAttribute('aria-expanded', 'false');
+      }
     });
   }
 

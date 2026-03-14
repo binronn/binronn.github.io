@@ -60,7 +60,41 @@
   --sidebar-width: 320px;
 }
 
-/* Reset & Base */
+/* ==================== UTILITY CLASSES ==================== */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Font display swap - prevent FOIT (Flash of Invisible Text) */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+}
+
+/* ==================== RESET & BASE ==================== */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -171,6 +205,14 @@ a {
 .nav-list a:hover, .nav-list a.active {
   color: var(--color-primary);
   background: var(--color-primary-light);
+}
+
+/* Mobile performance - reduce backdrop-filter blur */
+@media (max-width: 768px) {
+  .site-header {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }
 
 /* ==================== MOBILE NAV TOGGLE ==================== */
@@ -1342,6 +1384,29 @@ main {
     justify-content: center;
     cursor: pointer;
     transition: background var(--transition-fast);
+  }
+
+  .mobile-search-submit:hover {
+    background: var(--color-primary-hover);
+  }
+
+  .mobile-search-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
+  }
+
+  .mobile-search-close:hover {
+    color: var(--color-text);
   }
 
   .mobile-search-submit:hover {

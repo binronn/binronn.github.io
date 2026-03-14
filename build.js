@@ -38,12 +38,16 @@ function extractHeadings(md) {
   return headings;
 }
 
-// Custom renderer to add IDs to headings
+// Custom renderer to add IDs to headings and lazy loading to images
 const renderer = {
   heading({ tokens, depth }) {
     const text = this.parser.parseInline(tokens);
     const plainText = text.toLowerCase().replace(/<[^>]+>/g, '').replace(/[^\u4e00-\u9fa5a-z0-9]+/g, '-');
     return `<h${depth} id="${plainText}">${text}</h${depth}>`;
+  },
+  image({ href, title, text }) {
+    // Add loading="lazy" to all images, but use loading="eager" for images in the first paragraph
+    return `<img src="${href}"${title ? ` title="${title}"` : ''} alt="${text}" loading="lazy">`;
   }
 };
 

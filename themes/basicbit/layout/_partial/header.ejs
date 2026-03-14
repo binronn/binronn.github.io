@@ -4,7 +4,15 @@
       <a href="<%- url_for('/') %>"><%= config.title %></a>
     </div>
 
-    <nav class="site-nav">
+    <button class="mobile-menu-btn" aria-label="打开菜单" aria-expanded="false" aria-controls="site-nav">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <nav class="site-nav" id="site-nav">
       <ul class="nav-list">
         <li><a href="<%- url_for('/') %>">首页</a></li>
         <li class="dropdown">
@@ -20,16 +28,46 @@
       </ul>
     </nav>
 
-    <div class="search-box">
+    <div class="search-wrapper">
       <form action="<%- url_for('/search') %>" method="get" class="search-form">
         <input type="text" name="q" placeholder="搜索文章..." class="search-input">
-        <button type="submit" class="search-btn">
+        <button type="submit" class="search-btn" aria-label="搜索">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
           </svg>
         </button>
       </form>
+    </div>
+
+    <!-- Mobile Search Button -->
+    <button class="mobile-search-btn" aria-label="搜索" aria-expanded="false" aria-controls="mobile-search-modal">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+    </button>
+
+    <!-- Mobile Search Modal -->
+    <div class="mobile-search-modal" id="mobile-search-modal" role="dialog" aria-modal="true" aria-labelledby="mobile-search-title">
+      <div class="mobile-search-content">
+        <h2 id="mobile-search-title" class="visually-hidden">搜索文章</h2>
+        <form action="<%- url_for('/search') %>" method="get" class="mobile-search-form">
+          <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" aria-label="搜索关键词">
+          <button type="submit" class="mobile-search-submit" aria-label="提交搜索">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
+        </form>
+        <button class="mobile-search-close" aria-label="关闭搜索">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </header>
