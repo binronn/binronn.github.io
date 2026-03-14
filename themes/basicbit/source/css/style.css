@@ -1219,7 +1219,23 @@ main {
   :root { --space-lg: 1.25rem; --space-xl: 2rem; --header-height: 60px; }
   .post-card { padding: var(--space-lg); }
   .post-title { font-size: 1.5rem; }
-  .post-content { padding: 0 12px; }
+  .post-content {
+    padding: 0 12px;
+    max-width: 100%;
+    width: 100%;
+  }
+  /* Ensure pre/code blocks wrap properly on mobile */
+  .post-body pre {
+    overflow-x: scroll;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    font-size: 0.8125rem;
+  }
+  .post-body code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
   main { padding-top: var(--space-md); }
   .about-content { padding: 0 16px; }
   .about-content h1 { font-size: 2rem; }
@@ -1518,8 +1534,13 @@ main {
 @media (max-width: 480px) {
   .hero-title { font-size: 2rem; }
   .hero-subtitle { font-size: 1rem; }
-  .post-body { font-size: 1rem; }
-  .post-content { padding: 0 16px; }
+  .post-body { font-size: 0.9375rem; }
+  .post-content { padding: 0 12px; max-width: 100%; width: 100%; }
+  /* Ensure pre/code blocks wrap properly on small screens */
+  .post-body pre {
+    font-size: 0.75rem;
+    padding: var(--space-md);
+  }
   main { padding-top: var(--space-sm); }
 
   /* Header */
