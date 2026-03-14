@@ -1208,9 +1208,15 @@ main {
 
 @media (max-width: 1024px) {
   .hero-title { font-size: 3rem; }
-  .main-container { grid-template-columns: 1fr; align-items: start; }
+  .main-container {
+    grid-template-columns: 1fr;
+    align-items: start;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+  }
   .sidebar { display: none; }
-  .post-content { padding: 0 16px; }
+  .post-content { padding: 0 16px; max-width: 100%; width: 100%; }
   main { padding-top: var(--space-lg); }
 }
 
@@ -1433,6 +1439,15 @@ main {
   .main-container {
     padding: 0 1rem;
     gap: var(--space-lg);
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Also reset post-page-with-toc grid for mobile */
+  .main-container.post-page-with-toc {
+    display: block;
+    max-width: 100%;
   }
 
   /* Post list */
