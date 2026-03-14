@@ -101,6 +101,7 @@ const config = {
   pagesDir: 'source',
   themeDir: 'themes/basicbit',
   adsense: siteConfig.adsense || { enabled: false },
+  bing_verification: siteConfig.bing_verification || { enabled: false },
   url: siteConfig.url || 'https://basicbit.cn',
   postsPerPage: 10
 };
@@ -1130,6 +1131,18 @@ function build() {
     const adsenseId = adsense.client.replace('ca-pub-', '');
     fs.writeFileSync(path.join(config.public, 'ads.txt'), `google.com, pub-${adsenseId}, DIRECT, f08c47fec0942fa0\n`);
     console.log('Generated ads.txt');
+  }
+
+  // Generate Bing site verification XML
+  const bing = config.bing_verification;
+  if (bing && bing.enabled && bing.user_id) {
+    const bingXml = `<?xml version="1.0"?>
+<users>
+    <user>${bing.user_id}</user>
+</users>
+`;
+    fs.writeFileSync(path.join(config.public, 'BingSiteAuth.xml'), bingXml);
+    console.log('Generated BingSiteAuth.xml');
   }
 
   // Copy images directory

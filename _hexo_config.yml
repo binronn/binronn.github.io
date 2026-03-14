@@ -94,3 +94,8 @@ adsense:
   slot_top: "4232191576"
   slot_bottom: "4232191576"
   slot_sidebar: "4232191576"
+
+# Bing site verification
+bing_verification:
+  enabled: true
+  user_id: "E3BC2F380FBF81401E14080F58A51869"
