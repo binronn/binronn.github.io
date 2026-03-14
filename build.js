@@ -13,17 +13,20 @@ const { marked } = require('marked');
 function extractHeadings(md) {
   const headings = [];
 
+  // Remove code blocks to avoid extracting headings from code comments
+  const mdWithoutCodeBlocks = md.replace(/```[\s\S]*?```/g, '');
+
   // Match markdown headers (##, ###, or ####)
   const mdHeadingRegex = /^(#{1,4})\s+(.+)$/gm;
   let match;
-  while ((match = mdHeadingRegex.exec(md)) !== null) {
+  while ((match = mdHeadingRegex.exec(mdWithoutCodeBlocks)) !== null) {
     const level = match[1].length; // 1 = h1, 2 = h2, 3 = h3, 4 = h4
     const text = match[2].trim();
     const slug = text.toLowerCase().replace(/[^\u4e00-\u9fa5a-z0-9]+/g, '-');
     headings.push({ level, text, slug });
   }
 
-  // Match HTML headers (<h1> to <h4>)
+  // Match HTML headers (<h1> to <h4>) - already in HTML after processing, use original md
   const htmlHeadingRegex = /<(h[1-4])[^>]*>([^<]+)<\/\1>/gi;
   while ((match = htmlHeadingRegex.exec(md)) !== null) {
     const level = parseInt(match[1].charAt(1)); // 1-4
@@ -95,7 +98,7 @@ const config = {
   themeDir: 'themes/basicbit',
   adsense: siteConfig.adsense || { enabled: false },
   url: siteConfig.url || 'https://basicbit.cn',
-  postsPerPage: 20
+  postsPerPage: 10
 };
 
 // Categories and tags data
@@ -141,9 +144,16 @@ function getPosts() {
 
   const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
 
-  return files.map(file => {
+  const posts = files.map(file => {
     const content = fs.readFileSync(path.join(postsDir, file), 'utf8');
     const { meta, content: body } = parseFrontmatter(content);
+
+    // Skip empty posts (no body content)
+    const trimmedBody = body ? body.trim() : '';
+    if (!trimmedBody) {
+      console.log(`Skipping empty post: ${file}`);
+      return null;
+    }
 
     return {
       slug: file.replace('.md', ''),
@@ -153,11 +163,13 @@ function getPosts() {
       tags: meta.tags || [],
       author: meta.author || '',
       description: meta.description || '',
-      original_url: meta.original_url || '',
+      original_url: meta.original_url || meta.url || '',
       rawContent: body,
       content: addHeadingIds(parseMarkdown(body))
     };
-  }).sort((a, b) => new Date(b.date) - new Date(a.date));
+  }).filter(post => post !== null);
+
+  return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 // Get all pages
@@ -204,14 +216,46 @@ function getPages() {
   return pages;
 }
 
+// Minify CSS - remove comments and whitespace
+function minifyCSS(css) {
+  return css
+    // Remove comments
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    // Remove unnecessary whitespace
+    .replace(/\s+/g, ' ')
+    // Remove whitespace around punctuation
+    .replace(/\s*([{}:;,>+~])\s*/g, '$1')
+    // Remove trailing semicolons before closing braces
+    .replace(/;}/g, '}')
+    // Remove leading/trailing whitespace
+    .trim();
+}
+
+// Minify JS - remove comments and whitespace
+function minifyJS(js) {
+  return js
+    // Remove single-line comments
+    .replace(/\/\/[^\n]*/g, '')
+    // Remove multi-line comments
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    // Remove unnecessary whitespace
+    .replace(/\s+/g, ' ')
+    // Remove whitespace around punctuation
+    .replace(/\s*([{}()\[\]=<>+*/&-,:;])\s*/g, '$1')
+    // Remove leading/trailing whitespace
+    .trim();
+}
+
 // Generate main CSS
 function generateCSS() {
-  return fs.readFileSync(path.join(__dirname, config.themeDir, 'source/css/style.css'), 'utf8');
+  const css = fs.readFileSync(path.join(__dirname, config.themeDir, 'source/css/style.css'), 'utf8');
+  return minifyCSS(css);
 }
 
 // Generate main JS
 function generateJS() {
-  return fs.readFileSync(path.join(__dirname, config.themeDir, 'source/js/main.js'), 'utf8');
+  const js = fs.readFileSync(path.join(__dirname, config.themeDir, 'source/js/main.js'), 'utf8');
+  return minifyJS(js);
 }
 
 // Generate AdSense code
@@ -291,7 +335,7 @@ function generateRobotsTxt() {
   return `User-agent: *
 Allow: /
 
-Sitemap: ${siteUrl}/search.json
+Sitemap: ${siteUrl}/sitemap.xml
 
 # Disallow admin and private pages
 Disallow: /admin/
@@ -349,7 +393,28 @@ function generateHeader(activePage = '') {
         </div>
       </div>
     </div>
-  </header>`;
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>`;
 }
 
 // Generate footer HTML
@@ -466,7 +531,8 @@ function generateIndex(posts, pageNum = 1) {
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
   <style>${css}</style>
 </head>
 <body>
@@ -480,10 +546,10 @@ function generateIndex(posts, pageNum = 1) {
     </section>
     <div class="main-container">
       <div class="post-list">
-        ${postsHTML || '<div class="no-results"><p>暂无文章，敬请期待...</p></div>'}
-        ${pagination}
+${postsHTML || '<div class="no-results"><p>暂无文章，敬请期待...</p></div>'}
+${pagination}
       </div>
-      ${generateSidebar(posts)}
+${generateSidebar(posts)}
     </div>
   </main>
   ${generateFooter()}
@@ -613,7 +679,8 @@ function generatePost(post, allPosts) {
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
   ${adsense.head}
   <style>${css}</style>
 </head>
@@ -669,7 +736,8 @@ function generatePage(page, posts) {
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
   <style>${css}</style>
 </head>
 <body>
@@ -724,7 +792,8 @@ function generateCategory(categoryId, posts, pageNum = 1) {
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
   <style>${css}</style>
 </head>
 <body>
@@ -736,10 +805,10 @@ function generateCategory(categoryId, posts, pageNum = 1) {
           <h1>${category.name}</h1>
           <p>${category.description} (${categoryPosts.length} 篇文章)</p>
         </div>
-        ${postsHTML || '<div class="no-results"><p>该分类下暂无文章</p></div>'}
-        ${pagination}
+${postsHTML || '<div class="no-results"><p>该分类下暂无文章</p></div>'}
+${pagination}
       </div>
-      ${generateSidebar(posts)}
+${generateSidebar(posts)}
     </div>
   </main>
   ${generateFooter()}
@@ -786,7 +855,8 @@ function generateTag(tagName, posts, pageNum = 1) {
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
   <style>${css}</style>
 </head>
 <body>
@@ -798,10 +868,10 @@ function generateTag(tagName, posts, pageNum = 1) {
           <h1>#${tagName}</h1>
           <p>${tagPosts.length} 篇文章</p>
         </div>
-        ${postsHTML || '<div class="no-results"><p>该标签下暂无文章</p></div>'}
-        ${pagination}
+${postsHTML || '<div class="no-results"><p>该标签下暂无文章</p></div>'}
+${pagination}
       </div>
-      ${generateSidebar(posts)}
+${generateSidebar(posts)}
     </div>
   </main>
   ${generateFooter()}
@@ -847,7 +917,8 @@ function generateCategoryIndex(posts) {
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
   <style>${css}</style>
 </head>
 <body>
@@ -908,7 +979,8 @@ function generateTagsIndex(posts) {
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
   <style>${css}</style>
 </head>
 <body>
@@ -976,7 +1048,8 @@ function generateSearchPage(query, posts) {
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
   <style>${css}</style>
 </head>
 <body>
@@ -1120,10 +1193,18 @@ function build() {
   fs.writeFileSync(path.join(config.public, 'category.html'), generateCategoryIndex(posts));
   console.log('Generated category.html');
 
-  // Generate categories with pagination
+  // Generate categories with pagination - dynamic from posts
   let totalCategoryPages = 0;
-  categoriesData.forEach(cat => {
-    const categoryPosts = posts.filter(p => p.categories.includes(cat.id));
+
+  // Get unique categories from all posts
+  const postCategories = new Set();
+  posts.forEach(post => {
+    post.categories.forEach(cat => postCategories.add(cat));
+  });
+
+  // Generate pages for each category found in posts
+  postCategories.forEach(catId => {
+    const categoryPosts = posts.filter(p => p.categories.includes(catId));
     const totalPages = Math.ceil(categoryPosts.length / config.postsPerPage);
     totalCategoryPages += totalPages;
 
@@ -1134,18 +1215,18 @@ function build() {
 
     for (let page = 1; page <= totalPages; page++) {
       const pagePath = page === 1
-        ? path.join(catDir, `${cat.id}.html`)
-        : path.join(catDir, `${cat.id}`, `${page}.html`);
+        ? path.join(catDir, `${catId}.html`)
+        : path.join(catDir, `${catId}`, `${page}.html`);
 
       // Ensure directory exists for pages > 1
       if (page > 1) {
-        const pageDir = path.join(catDir, `${cat.id}`);
+        const pageDir = path.join(catDir, `${catId}`);
         if (!fs.existsSync(pageDir)) {
           fs.mkdirSync(pageDir, { recursive: true });
         }
       }
 
-      fs.writeFileSync(pagePath, generateCategory(cat.id, posts, page));
+      fs.writeFileSync(pagePath, generateCategory(catId, posts, page));
     }
   });
   console.log(`Generated ${totalCategoryPages} category pages`);
@@ -1194,6 +1275,9 @@ function build() {
   // Generate search index JSON
   generateSearchIndex(posts);
 
+  // Generate sitemap.xml
+  generateSitemapXml(posts, pages);
+
   console.log('Build complete!');
 }
 
@@ -1213,6 +1297,104 @@ function generateSearchIndex(posts) {
     JSON.stringify(searchData, null, 2)
   );
   console.log('Generated search.json');
+}
+
+// Generate sitemap.xml
+function generateSitemapXml(posts, pages) {
+  const siteUrl = config.url.replace(/\/$/, '');
+  const today = new Date().toISOString().split('T')[0];
+
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+`;
+
+  // Helper function to add URL entry
+  function addUrl(loc, priority, changefreq = 'monthly') {
+    sitemap += `  <url>
+    <loc>${loc}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>
+`;
+  }
+
+  // Home page (index)
+  const totalIndexPages = Math.ceil(posts.length / config.postsPerPage);
+  addUrl(`${siteUrl}/`, '1.0', 'daily');
+
+  // Home pagination pages
+  for (let page = 2; page <= totalIndexPages; page++) {
+    addUrl(`${siteUrl}/page/${page}/`, '0.8', 'weekly');
+  }
+
+  // Category index
+  addUrl(`${siteUrl}/category.html`, '0.8', 'weekly');
+
+  // Categories with pagination - dynamic from posts
+  const allCategories = new Set();
+  posts.forEach(post => post.categories.forEach(cat => allCategories.add(cat)));
+
+  allCategories.forEach(catId => {
+    const categoryPosts = posts.filter(p => p.categories.includes(catId));
+    const totalCategoryPages = Math.ceil(categoryPosts.length / config.postsPerPage);
+
+    // Category pagination pages
+    for (let page = 2; page <= totalCategoryPages; page++) {
+      addUrl(`${siteUrl}/category/${catId}/${page}.html`, '0.7', 'weekly');
+    }
+  });
+
+  // Tags index
+  addUrl(`${siteUrl}/tags.html`, '0.8', 'weekly');
+
+  // Tags with pagination
+  const allTags = new Set();
+  posts.forEach(post => post.tags.forEach(tag => allTags.add(tag)));
+
+  allTags.forEach(tag => {
+    const tagPosts = posts.filter(p => p.tags.includes(tag));
+    const totalTagPages = Math.ceil(tagPosts.length / config.postsPerPage);
+
+    // Tag pagination pages
+    for (let page = 2; page <= totalTagPages; page++) {
+      addUrl(`${siteUrl}/tag/${tag}/${page}.html`, '0.7', 'weekly');
+    }
+  });
+
+  // About page
+  addUrl(`${siteUrl}/about.html`, '0.6', 'monthly');
+
+  // Add posts
+  posts.forEach(post => {
+    const postDate = new Date(post.date).toISOString().split('T')[0];
+    sitemap += `  <url>
+    <loc>${siteUrl}/posts/${post.slug}.html</loc>
+    <lastmod>${postDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+`;
+  });
+
+  // Add custom pages
+  pages.forEach(page => {
+    if (page.slug && page.slug !== '' && page.slug !== 'about') {
+      const pageUrl = page.slug.endsWith('/') ? page.slug : page.slug + '/';
+      sitemap += `  <url>
+    <loc>${siteUrl}/${pageUrl}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+`;
+    }
+  });
+
+  sitemap += '</urlset>';
+
+  fs.writeFileSync(path.join(config.public, 'sitemap.xml'), sitemap);
+  console.log('Generated sitemap.xml with pagination support');
 }
 
 build();
