@@ -279,7 +279,7 @@ function generateAdSense() {
          style="display:block"
          data-ad-client="${adsense.client}"
          data-ad-slot="${adsense.slot_top}"
-         data-ad-format="fluid"
+         data-ad-format="auto"
          data-full-width-responsive="true"></ins>
     <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
@@ -293,7 +293,7 @@ function generateAdSense() {
          style="display:block"
          data-ad-client="${adsense.client}"
          data-ad-slot="${adsense.slot_bottom}"
-         data-ad-format="fluid"
+         data-ad-format="auto"
          data-full-width-responsive="true"></ins>
     <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
@@ -308,7 +308,7 @@ function generateAdSense() {
          style="display:block; width: 100%; height: 250px;"
          data-ad-client="${adsense.client}"
          data-ad-slot="${adsense.slot_sidebar}"
-         data-ad-format="fluid"
+         data-ad-format="auto"
          data-full-width-responsive="true"></ins>
     <script>
 (adsbygoogle = window.adsbygoogle || []).push({});

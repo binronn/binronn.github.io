@@ -561,24 +561,20 @@ main {
 .adsense {
   margin: var(--space-lg) 0;
   min-height: 0;
-  overflow: hidden;
+  height: auto;
 }
 
 .adsense ins {
   margin: 0;
   display: block;
-}
-
-/* Collapse adsense container when no ad is loaded */
-.adsense ins:empty,
-.adsense ins[data-ad-status="unfilled"] {
-  display: none;
-}
-
-.adsense:has(ins:empty),
-.adsense:has(ins[data-ad-status="unfilled"]) {
-  margin: 0;
   min-height: 0;
+  height: auto;
+}
+
+/* Hide ad when Google reports unfilled status */
+.adsense:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
+  display: none;
+  margin: 0;
 }
 
 /* ==================== SIDEBAR & WIDGETS ==================== */
