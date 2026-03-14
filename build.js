@@ -267,27 +267,18 @@ function generateJS() {
 function generateAdSense() {
   const adsense = config.adsense;
   if (!adsense || !adsense.enabled) {
-    return { head: '', top: '', bottom: '', sidebar: '' };
+    return { head: '', top: '', bottom: '', sidebar: '', left: '', right: '' };
   }
 
   // Google official async loading
   const head = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsense.client}" crossorigin="anonymous"></script>`;
 
-  const top = adsense.slot_top ? `
-  <div class="adsense adsense-top">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="${adsense.client}"
-         data-ad-slot="${adsense.slot_top}"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-  </div>
-  ` : '';
+  // Remove top ad - using side floating ads instead
+  const top = '';
 
-  const bottom = adsense.slot_bottom ? `
+  // Bottom ad - controlled by show_bottom flag
+  const showBottom = adsense.show_bottom !== false;
+  const bottom = (adsense.slot_bottom && showBottom) ? `
   <div class="adsense adsense-bottom">
     <ins class="adsbygoogle"
          style="display:block"
@@ -316,7 +307,39 @@ function generateAdSense() {
   </div>
   ` : '';
 
-  return { head, top, bottom, sidebar };
+  // Floating side ads - controlled by show_left and show_right flags
+  const sideAdStyle = 'display:block; width:160px; height:600px';
+  const showLeft = adsense.show_left === true;
+  const left = (adsense.slot_sidebar && showLeft) ? `
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="${sideAdStyle}"
+         data-ad-client="${adsense.client}"
+         data-ad-slot="${adsense.slot_sidebar}"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  ` : '';
+
+  const showRight = adsense.show_right === true;
+  const right = (adsense.slot_sidebar && showRight) ? `
+  <div class="adsense adsense-floating adsense-floating-right">
+    <ins class="adsbygoogle"
+         style="${sideAdStyle}"
+         data-ad-client="${adsense.client}"
+         data-ad-slot="${adsense.slot_sidebar}"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  ` : '';
+
+  return { head, top, bottom, sidebar, left, right };
 }
 
 // Generate pagination HTML
@@ -733,6 +756,8 @@ function generatePost(post, allPosts) {
       ${tocHtml}
     </div>
   </main>
+  ${adsense.left}
+  ${adsense.right}
   ${generateFooter()}
   <script>${js}</script>
   ${tocScript || ''}

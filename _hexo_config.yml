@@ -94,6 +94,10 @@ adsense:
   slot_top: "4232191576"
   slot_bottom: "4232191576"
   slot_sidebar: "4232191576"
+  # Ad position switches
+  show_bottom: true
+  show_left: true
+  show_right: false
 
 # Bing site verification
 bing_verification:

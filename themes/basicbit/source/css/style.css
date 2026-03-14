@@ -560,21 +560,42 @@ main {
 /* ==================== ADSENSE ==================== */
 .adsense {
   margin: var(--space-lg) 0;
-  min-height: 0;
-  height: auto;
+  width: 100%;
+  display: block;
+  min-height: 1px;
 }
 
 .adsense ins {
   margin: 0;
   display: block;
-  min-height: 0;
-  height: auto;
+  width: 100%;
+  min-height: 1px;
 }
 
-/* Hide ad when Google reports unfilled status */
-.adsense:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
-  display: none;
+/* Floating side ads */
+.adsense-floating {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
   margin: 0;
+  width: 160px;
+  height: 600px;
+}
+
+.adsense-floating-left {
+  left: 20px;
+}
+
+.adsense-floating-right {
+  right: 20px;
+}
+
+/* Hide floating ads on smaller screens */
+@media (max-width: 1400px) {
+  .adsense-floating {
+    display: none;
+  }
 }
 
 /* ==================== SIDEBAR & WIDGETS ==================== */
