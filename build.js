@@ -270,7 +270,7 @@ function generateAdSense() {
     return { head: '', top: '', bottom: '', sidebar: '' };
   }
 
-  // Google official async loading - no custom detection
+  // Google official async loading
   const head = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsense.client}" crossorigin="anonymous"></script>`;
 
   const top = adsense.slot_top ? `
@@ -279,8 +279,11 @@ function generateAdSense() {
          style="display:block"
          data-ad-client="${adsense.client}"
          data-ad-slot="${adsense.slot_top}"
-         data-ad-format="auto"
+         data-ad-format="fluid"
          data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
   </div>
   ` : '';
 
@@ -290,8 +293,11 @@ function generateAdSense() {
          style="display:block"
          data-ad-client="${adsense.client}"
          data-ad-slot="${adsense.slot_bottom}"
-         data-ad-format="auto"
+         data-ad-format="fluid"
          data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
   </div>
   ` : '';
 
@@ -304,6 +310,9 @@ function generateAdSense() {
          data-ad-slot="${adsense.slot_sidebar}"
          data-ad-format="fluid"
          data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
   </div>
   ` : '';
 
