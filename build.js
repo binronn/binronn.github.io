@@ -314,6 +314,9 @@ function generateAdSense() {
 function generatePagination(baseUrl, currentPage, totalPages) {
   if (totalPages <= 1) return '';
 
+  // Normalize baseUrl - remove trailing slash
+  const normalizedBaseUrl = baseUrl.replace(/\/$/, '');
+
   // Handle index page (baseUrl = '/') differently
   let prevUrl, nextUrl;
   if (baseUrl === '/') {
@@ -322,7 +325,7 @@ function generatePagination(baseUrl, currentPage, totalPages) {
     nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : '';
   } else {
     // Category/tag pagination
-    prevUrl = currentPage > 1 ? (currentPage === 2 ? baseUrl : `${baseUrl}${currentPage - 1}.html`) : '';
+    prevUrl = currentPage > 1 ? (currentPage === 2 ? normalizedBaseUrl : `${baseUrl}${currentPage - 1}.html`) : '';
     nextUrl = currentPage < totalPages ? `${baseUrl}${currentPage + 1}.html` : '';
   }
 
