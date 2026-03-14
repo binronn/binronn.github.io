@@ -1003,6 +1003,9 @@ main {
 
 .search-results {
   margin-top: var(--space-lg);
+  display: grid;
+  gap: var(--space-xl);
+  align-items: start;
 }
 
 .no-results {
