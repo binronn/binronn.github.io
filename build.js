@@ -752,6 +752,7 @@ function generatePage(page, posts) {
     </div>
   </main>
   ${generateFooter()}
+  <script src="/js/main.js"></script>
 </body>
 </html>`;
 }
@@ -816,6 +817,7 @@ ${generateSidebar(posts)}
     </div>
   </main>
   ${generateFooter()}
+  <script src="/js/main.js"></script>
 </body>
 </html>`;
 }
@@ -950,6 +952,7 @@ function generateCategoryIndex(posts) {
     </div>
   </main>
   ${generateFooter()}
+  <script src="/js/main.js"></script>
 </body>
 </html>`;
 }
@@ -1012,6 +1015,7 @@ function generateTagsIndex(posts) {
     </div>
   </main>
   ${generateFooter()}
+  <script src="/js/main.js"></script>
 </body>
 </html>`;
 }
@@ -1131,6 +1135,13 @@ function build() {
   // Copy images directory
   copyDir(path.join(config.source, 'images'), path.join(config.public, 'images'));
   console.log('Copied images directory');
+
+  // Copy js directory
+  const jsSrcDir = path.join(config.themeDir, 'source/js');
+  if (fs.existsSync(jsSrcDir)) {
+    copyDir(jsSrcDir, path.join(config.public, 'js'));
+    console.log('Copied js directory');
+  }
 
   // Get content
   const posts = getPosts();
