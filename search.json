@@ -3,7 +3,7 @@
     "title": "Pwn2Own Automotive 2026 - 第二天赛果",
     "url": "/posts/fe247b85fee8.html",
     "excerpt": "Pwn2Own Automotive 2026 的第二天充满了激烈的行动，比赛持续升温。随着竞争加剧，安全研究人员重返 Pwn2Own 舞台，探测并挑战最新的汽车系统。全天涌现出新的漏洞利用、意想不到的转折和出色的表现——随着“破解大师”之争愈演愈烈，请在此处关注每日更新。\n继第一天颁发了 516,500 美元奖金用于奖励 37 个独特的 0day 漏洞之后，第二天又增加了 439,250 美元奖",
-    "date": "2026-03-14T13:00:11.692Z",
+    "date": "2026-03-14T13:03:43.210Z",
     "categories": [
       "浏览器安全",
       "漏洞分析",
@@ -24,7 +24,7 @@
     "title": "Pwn2Own Automotive 2026 - 第一天比赛结果",
     "url": "/posts/c4cc1c4f8e57.html",
     "excerpt": "欢迎来到 Pwn2Own Automotive 2026 的第一天！今天，30 个参赛项目登上了 Pwn2Own 的舞台，目标是攻击最新的汽车系统，世界顶级安全研究人员正在将技术推向极限。漏洞利用、惊喜和突破性发现正在上演。\n第一天结束后，我们为 37 个独特的 0-day 漏洞颁发了 516,500 美元奖金！Fuzzware.io 目前在&quot;破解大师&quot;积分榜上领先，但 Tea",
-    "date": "2026-03-14T13:00:11.560Z",
+    "date": "2026-03-14T13:03:43.084Z",
     "categories": [
       "网络安全"
     ],
@@ -40,7 +40,7 @@
     "title": "2026年2月安全更新回顾",
     "url": "/posts/979bf4ae98b0.html",
     "excerpt": "我刚刚经历了有史以来规模最大的Pwn2Own，但此刻已回到东京，迎接2026年的第二个补丁星期二。无论身处何地，补丁星期二总会如期而至，让我们来看看Adobe和微软发布的最新安全补丁。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：\nAdobe 2026年2月补丁\n2月份，Adobe发布了九份安全公告，修复了Adobe Audition、After Effects、InDesign、",
-    "date": "2026-03-14T13:00:11.555Z",
+    "date": "2026-03-14T13:03:43.080Z",
     "categories": [
       "网络安全",
       "云安全",
@@ -61,7 +61,7 @@
     "title": "Pwn2Own Automotive 2026 - 完整赛程表",
     "url": "/posts/752e9d2bd505.html",
     "excerpt": "欢迎回来！第三届年度 Pwn2Own Automotive 竞赛已重返东京的 Automotive World，现场气氛热烈。今年是 Pwn2Own 的一个重要里程碑，参赛项目数量创下历史新高，达到 73 项。我们汇集了全球一些最具才华的安全研究人员，挑战最新的汽车组件，在真实世界的测试环境中将它们推向极限。\n今天早些时候，我们举行了随机抽签，确定了尝试顺序，为一系列激动人心的演示和发现拉开了序幕",
-    "date": "2026-03-14T13:00:11.539Z",
+    "date": "2026-03-14T13:03:43.064Z",
     "categories": [
       "浏览器安全",
       "网络安全",
@@ -81,7 +81,7 @@
     "title": "2026年1月安全更新回顾",
     "url": "/posts/6fda848b4571.html",
     "excerpt": "我可能正在东京为Pwn2Own Automotive做准备，但这并不能阻止补丁星期二的到来。请暂时放下你那些未能实现的新年决心，让我们来回顾一下Adobe和微软发布的最新安全补丁。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：\nAdobe 2026年1月补丁\n1月份，Adobe发布了11份安全公告，修复了Adobe Dreamweaver、InDesign、Illustrator、",
-    "date": "2026-03-14T13:00:11.533Z",
+    "date": "2026-03-14T13:03:43.058Z",
     "categories": [
       "浏览器安全",
       "漏洞分析",
@@ -102,7 +102,7 @@
     "title": "Pwn2Own Automotive 2026 - 第三天结果与 Pwn 大师",
     "url": "/posts/53c6a7e65bec.html",
     "excerpt": "Pwn2Own Automotive 2026 的最后一天，世界顶级安全研究人员对最新的汽车系统发起了最后的攻击。在为期三天的激烈角逐中，针对 76 个独特的 0day 漏洞，共颁发了 1,047,000 美元 的奖金。大胆的漏洞利用、巧妙的技术以及碰撞事件，使得整个比赛过程充满惊险与刺激。\n最终，来自 Fuzzware.io 的 Tobias Scharnowski (@ScepticCtf)、",
-    "date": "2026-03-14T13:00:11.532Z",
+    "date": "2026-03-14T13:03:43.057Z",
     "categories": [
       "网络安全",
       "漏洞分析"
@@ -120,7 +120,7 @@
     "title": "2026年3月安全更新回顾",
     "url": "/posts/421c4dad6a30.html",
     "excerpt": "我回到了TrendAI ZDI（也就是我的家庭办公室）的中南部总部舒适环境，已经为2026年的第三个补丁星期二做好了准备。暂时放下你日常安排的活动，让我们来看看Adobe和微软发布的最新安全补丁。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：\nAdobe 2026年3月补丁\n3月份，Adobe发布了八份公告，修复了Adobe Acrobat Reader、Commerce、Illu",
-    "date": "2026-03-14T13:00:11.518Z",
+    "date": "2026-03-14T13:03:43.042Z",
     "categories": [
       "网络安全",
       "漏洞分析",
@@ -141,7 +141,7 @@
     "title": "CVE-2025-6978：Arista NG Firewall 中的任意代码执行漏洞",
     "url": "/posts/0c4cbf0dbf58.html",
     "excerpt": "在这份TrendAI研究服务漏洞报告的节选中，TrendAI研究团队的Jonathan Lein和Simon Humbert详细介绍了Arista下一代防火墙中一个近期修复的命令注入漏洞。该漏洞最初由Gereon Huppertz发现，并通过TrendAI零日计划（ZDI）报告。成功利用此漏洞可能导致在root用户的安全上下文中执行任意命令。以下是他们关于CVE-2025-6798报告的部分内容，",
-    "date": "2026-03-14T13:00:11.328Z",
+    "date": "2026-03-14T13:03:42.863Z",
     "categories": [
       "网络安全",
       "漏洞分析",
@@ -162,7 +162,7 @@
     "title": "CVE-2026-20841：Windows记事本中的任意代码执行漏洞",
     "url": "/posts/035d421ce986.html",
     "excerpt": "在这份TrendAI研究服务漏洞报告的节选中，TrendAI研究团队的Nikolai Skliarenko和Yazhi Wang详细介绍了Windows记事本应用程序中一个近期已修复的命令注入漏洞。该漏洞最初由Delta Obscura的Cristian Papa和Alasdair Gorniak发现。成功利用此漏洞可能导致在受害者账户的安全上下文中执行任意命令。以下是他们关于CVE-2026-2",
-    "date": "2026-03-14T13:00:11.313Z",
+    "date": "2026-03-14T13:03:42.850Z",
     "categories": [
       "网络安全",
       "漏洞利用",
