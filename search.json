@@ -3,7 +3,7 @@
     "title": "Pwn2Own Automotive 2026 - 第二天赛果",
     "url": "/posts/fe247b85fee8.html",
     "excerpt": "Pwn2Own Automotive 2026 的第二天充满了激烈的行动，比赛持续升温。随着竞争加剧，安全研究人员重返 Pwn2Own 舞台，探测并挑战最新的汽车系统。全天涌现出新的漏洞利用、意想不到的转折和出色的表现——随着“破解大师”之争愈演愈烈，请在此处关注每日更新。\n继第一天颁发了 516,500 美元奖金用于奖励 37 个独特的 0day 漏洞之后，第二天又增加了 439,250 美元奖",
-    "date": "2026-03-15T06:04:15.189Z",
+    "date": "2026-03-15T06:08:50.892Z",
     "categories": [
       "浏览器安全",
       "漏洞分析",
@@ -24,7 +24,7 @@
     "title": "2025年11月安全更新回顾",
     "url": "/posts/e38365c2f0ac.html",
     "excerpt": "我刚刚参加完Pwn2Own爱尔兰大会，虽然许多人都在纪念那些在武装部队中为国家服务的人们，但补丁星期二（Patch Tuesday）不会为任何人停下脚步。所以请佩戴好你的虞美人花，让我们来看看Adobe和微软最新的安全更新。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：\nAdobe 2025年11月补丁\n11月份，Adobe发布了八份公告，修复了Adobe InDesign、InC",
-    "date": "2026-03-15T06:04:15.178Z",
+    "date": "2026-03-15T06:08:50.883Z",
     "categories": [
       "云安全",
       "网络安全",
@@ -45,7 +45,7 @@
     "title": "Pwn2Own Automotive 2026 - 第一天比赛结果",
     "url": "/posts/c4cc1c4f8e57.html",
     "excerpt": "欢迎来到 Pwn2Own Automotive 2026 的第一天！今天，30 个参赛项目登上了 Pwn2Own 的舞台，目标是攻击最新的汽车系统，世界顶级安全研究人员正在将技术推向极限。漏洞利用、惊喜和突破性发现正在上演。\n第一天结束后，我们为 37 个独特的 0-day 漏洞颁发了 516,500 美元奖金！Fuzzware.io 目前在&quot;破解大师&quot;积分榜上领先，但 Tea",
-    "date": "2026-03-15T06:04:15.061Z",
+    "date": "2026-03-15T06:08:50.766Z",
     "categories": [
       "网络安全"
     ],
@@ -61,7 +61,7 @@
     "title": "剖析 Kenwood DNR1007XR 的攻击面 – 第二部分",
     "url": "/posts/c118ed5ee921.html",
     "excerpt": "在我们之前关于Kenwood DNR1007XR的博客中，我们详细介绍了这款车载信息娱乐（IVI）主机的内部结构，并提供了主PCB的标注图片。在这篇文章中，我们旨在概述DNR1007XR的攻击面，希望能为漏洞研究提供启发。\n我们将涵盖主要支持的技术及其带来的潜在攻击面，例如USB、蓝牙、Android Auto、Apple CarPlay、Kenwood应用等。\n所有信息均通过逆向工程、实验以及梳",
-    "date": "2026-03-15T06:04:15.060Z",
+    "date": "2026-03-15T06:08:50.765Z",
     "categories": [
       "逆向工程",
       "移动安全",
@@ -81,7 +81,7 @@
     "title": "2025年12月安全更新回顾",
     "url": "/posts/bdeb762de5b1.html",
     "excerpt": "这是2025年最后一个补丁星期二，但这丝毫不减其精彩程度。请暂时放下你的假期计划，让我们一同回顾Adobe和微软提供的最新安全更新。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：\nAdobe 2025年12月补丁\n12月份，Adobe发布了五份安全公告，修复了Adobe Reader、ColdFusion、Experience Manager、Creative Cloud Desk",
-    "date": "2026-03-15T06:04:15.059Z",
+    "date": "2026-03-15T06:08:50.764Z",
     "categories": [
       "云安全",
       "网络安全",
@@ -102,7 +102,7 @@
     "title": "2026年2月安全更新回顾",
     "url": "/posts/979bf4ae98b0.html",
     "excerpt": "我刚刚经历了有史以来规模最大的Pwn2Own，但此刻已回到东京，迎接2026年的第二个补丁星期二。无论身处何地，补丁星期二总会如期而至，让我们来看看Adobe和微软发布的最新安全补丁。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：\nAdobe 2026年2月补丁\n2月份，Adobe发布了九份安全公告，修复了Adobe Audition、After Effects、InDesign、",
-    "date": "2026-03-15T06:04:15.049Z",
+    "date": "2026-03-15T06:08:50.756Z",
     "categories": [
       "网络安全",
       "云安全",
@@ -120,28 +120,10 @@
     ]
   },
   {
-    "title": "Pwn2Own Automotive重返东京，扩展充电器类别及更多内容！",
-    "url": "/posts/8377e9f2acdd.html",
-    "excerpt": "如果您只想阅读规则，请点击此处。截至11月21日更新，扩大了Alpitronic的目标范围，并明确了ChargePointHome Flex型号的型号。\nPwn2Own Automotive现已进入第三个年头，将于2026年1月21日至23日重返东京的Automotive World。在过去两年中，我们为最新的汽车安全漏洞利用颁发了超过2,000,000美元的奖金，而今年预计会更加精彩。\n一如既往",
-    "date": "2026-03-15T06:04:15.028Z",
-    "categories": [
-      "漏洞利用",
-      "漏洞分析",
-      "网络安全"
-    ],
-    "tags": [
-      "Web安全",
-      "漏洞利用",
-      "USB安全",
-      "Linux安全",
-      "NFC安全"
-    ]
-  },
-  {
     "title": "2025年10月安全更新回顾",
     "url": "/posts/88830b8f7aa7.html",
     "excerpt": "我目前正在爱尔兰科克为Pwn2Own爱尔兰赛做准备，但这并不能阻止补丁星期二的到来。暂时放下你手头安排好的活动，让我们来看看Adobe和微软最新的安全更新。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：\nAdobe 2025年10月补丁\n10月份，Adobe发布了12份安全公告，修复了Adobe Connect、Commerce、Creative Cloud Desktop、Bri",
-    "date": "2026-03-15T06:04:15.028Z",
+    "date": "2026-03-15T06:08:50.737Z",
     "categories": [
       "云安全",
       "浏览器安全",
@@ -159,10 +141,28 @@
     ]
   },
   {
+    "title": "Pwn2Own Automotive重返东京，扩展充电器类别及更多内容！",
+    "url": "/posts/8377e9f2acdd.html",
+    "excerpt": "如果您只想阅读规则，请点击此处。截至11月21日更新，扩大了Alpitronic的目标范围，并明确了ChargePointHome Flex型号的型号。\nPwn2Own Automotive现已进入第三个年头，将于2026年1月21日至23日重返东京的Automotive World。在过去两年中，我们为最新的汽车安全漏洞利用颁发了超过2,000,000美元的奖金，而今年预计会更加精彩。\n一如既往",
+    "date": "2026-03-15T06:08:50.735Z",
+    "categories": [
+      "漏洞利用",
+      "漏洞分析",
+      "网络安全"
+    ],
+    "tags": [
+      "Web安全",
+      "漏洞利用",
+      "USB安全",
+      "Linux安全",
+      "NFC安全"
+    ]
+  },
+  {
     "title": "Pwn2Own Automotive 2026 - 完整赛程表",
     "url": "/posts/752e9d2bd505.html",
     "excerpt": "欢迎回来！第三届年度 Pwn2Own Automotive 竞赛已重返东京的 Automotive World，现场气氛热烈。今年是 Pwn2Own 的一个重要里程碑，参赛项目数量创下历史新高，达到 73 项。我们汇集了全球一些最具才华的安全研究人员，挑战最新的汽车组件，在真实世界的测试环境中将它们推向极限。\n今天早些时候，我们举行了随机抽签，确定了尝试顺序，为一系列激动人心的演示和发现拉开了序幕",
-    "date": "2026-03-15T06:04:15.017Z",
+    "date": "2026-03-15T06:08:50.724Z",
     "categories": [
       "浏览器安全",
       "网络安全",
@@ -182,7 +182,7 @@
     "title": "2026年1月安全更新回顾",
     "url": "/posts/6fda848b4571.html",
     "excerpt": "我可能正在东京为Pwn2Own Automotive做准备，但这并不能阻止补丁星期二的到来。请暂时放下你那些未能实现的新年决心，让我们来回顾一下Adobe和微软发布的最新安全补丁。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：\nAdobe 2026年1月补丁\n1月份，Adobe发布了11份安全公告，修复了Adobe Dreamweaver、InDesign、Illustrator、",
-    "date": "2026-03-15T06:04:15.010Z",
+    "date": "2026-03-15T06:08:50.719Z",
     "categories": [
       "浏览器安全",
       "漏洞分析",
@@ -203,7 +203,7 @@
     "title": "Pwn2Own Automotive 2026 - 第三天结果与 Pwn 大师",
     "url": "/posts/53c6a7e65bec.html",
     "excerpt": "Pwn2Own Automotive 2026 的最后一天，世界顶级安全研究人员对最新的汽车系统发起了最后的攻击。在为期三天的激烈角逐中，针对 76 个独特的 0day 漏洞，共颁发了 1,047,000 美元 的奖金。大胆的漏洞利用、巧妙的技术以及碰撞事件，使得整个比赛过程充满惊险与刺激。\n最终，来自 Fuzzware.io 的 Tobias Scharnowski (@ScepticCtf)、",
-    "date": "2026-03-15T06:04:14.999Z",
+    "date": "2026-03-15T06:08:50.709Z",
     "categories": [
       "网络安全",
       "漏洞分析"
@@ -221,7 +221,7 @@
     "title": "Pwn2Own Ireland 2025：第三天与 Pwn 大师",
     "url": "/posts/4be7c2f465fa.html",
     "excerpt": "欢迎来到 Pwn2Own 爱尔兰 2025 的第三天，也是最后一天。截至目前，我们已为 56 个独特的 0day 漏洞颁发了 792,750 美元奖金，并且我们还有 17 次尝试机会！我们将在此博客中实时更新结果，请经常刷新。\n\n到此为止了，朋友们！Pwn2Own 爱尔兰站已圆满落幕。我们总共为 73 个独特的 0day 漏洞颁发了 1,024,750 美元奖金。在过去几天里，我们见证了一些令人惊",
-    "date": "2026-03-15T06:04:14.998Z",
+    "date": "2026-03-15T06:08:50.708Z",
     "categories": [
       "漏洞分析",
       "网络安全",
@@ -239,7 +239,7 @@
     "title": "423de2950022.md",
     "url": "/posts/423de2950022.html",
     "excerpt": "本文仅供教育目的，切勿用于非法活动。&quot;date: 2025-05-28author: &quot;Mateusz Jurczyk&quot;tags: [&quot;安全漏洞&quot;, &quot;权限提升&quot;, &quot;Windows安全&quot;, &quot;攻击研究&quot;, &quot;UAF&quot;, &quot;CVE&quot;, &quot;硬",
-    "date": "2026-03-15T06:04:14.981Z",
+    "date": "2026-03-15T06:08:50.691Z",
     "categories": [],
     "tags": []
   },
@@ -247,7 +247,7 @@
     "title": "2026年3月安全更新回顾",
     "url": "/posts/421c4dad6a30.html",
     "excerpt": "我回到了TrendAI ZDI（也就是我的家庭办公室）的中南部总部舒适环境，已经为2026年的第三个补丁星期二做好了准备。暂时放下你日常安排的活动，让我们来看看Adobe和微软发布的最新安全补丁。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：\nAdobe 2026年3月补丁\n3月份，Adobe发布了八份公告，修复了Adobe Acrobat Reader、Commerce、Illu",
-    "date": "2026-03-15T06:04:14.979Z",
+    "date": "2026-03-15T06:08:50.689Z",
     "categories": [
       "网络安全",
       "漏洞分析",
@@ -265,18 +265,25 @@
     ]
   },
   {
-    "title": "27ad6069fb80.md",
+    "title": "Pwn2Own Ireland 2025 - 第二天结果",
     "url": "/posts/27ad6069fb80.html",
     "excerpt": "欢迎来到 Pwn2Own Ireland 2025 的第二天。昨天，我们为 34 个独特的 0-day 漏洞颁发了 522,500 美元奖金。Summoning Team 在&quot;破解大师&quot;积分榜上以微弱优势领先，但今天可能会有重大变化，因为我们今天还有 19 次尝试机会。我们将随着结果的产生更新此博客，请经常刷新！\n\nPwn2Own Ireland 2025 第二天已结束！我们今",
-    "date": "2026-03-15T06:04:14.799Z",
-    "categories": [],
-    "tags": []
+    "date": "2026-03-15T06:08:50.507Z",
+    "categories": [
+      "移动安全",
+      "网络安全"
+    ],
+    "tags": [
+      "iOS安全",
+      "Web安全",
+      "安全研究"
+    ]
   },
   {
     "title": "剖析 Kenwood DNR1007XR 的攻击面 - 第一部分",
     "url": "/posts/2185a8b47ec5.html",
     "excerpt": "在即将到来的Pwn2Own Automotive竞赛中，总共选定了3款车载主机。其中一款是双DIN规格的Kenwood DNR1007XR，它提供了多种功能，如Android Auto、Apple CarPlay、USB媒体播放、无线镜像等。\n这篇博客文章展示了DNR1007XR的照片，包括其内部有趣组件的特写。文中还详细介绍了一个隐藏的调试接口，该接口可用于获取shell。\n查看大图\n\n图1：K",
-    "date": "2026-03-15T06:04:14.797Z",
+    "date": "2026-03-15T06:08:50.506Z",
     "categories": [
       "逆向工程",
       "移动安全",
@@ -295,7 +302,7 @@
     "title": "CVE-2025-6978：Arista NG Firewall 中的任意代码执行漏洞",
     "url": "/posts/0c4cbf0dbf58.html",
     "excerpt": "在这份TrendAI研究服务漏洞报告的节选中，TrendAI研究团队的Jonathan Lein和Simon Humbert详细介绍了Arista下一代防火墙中一个近期修复的命令注入漏洞。该漏洞最初由Gereon Huppertz发现，并通过TrendAI零日计划（ZDI）报告。成功利用此漏洞可能导致在root用户的安全上下文中执行任意命令。以下是他们关于CVE-2025-6798报告的部分内容，",
-    "date": "2026-03-15T06:04:14.781Z",
+    "date": "2026-03-15T06:08:50.491Z",
     "categories": [
       "网络安全",
       "漏洞分析",
@@ -316,7 +323,7 @@
     "title": "Pwn2Own Ireland 2025：首日战果",
     "url": "/posts/07acff77757d.html",
     "excerpt": "欢迎来到 Pwn2Own Ireland 2025 的第一天！今天我们有 17 次尝试，展示了一些令人兴奋的研究。我们将在此发布结果，请在 Twitter、Mastodon 和 Bluesky 上关注我们。\n\n第一天已经结束，我们一次失败都没有！在比赛的第一天，我们为 34 个独特的漏洞颁发了 522,500 美元奖金。以下是目前&quot;破解大师&quot;排行榜的情况：\n\n当然，还有很多时间",
-    "date": "2026-03-15T06:04:14.776Z",
+    "date": "2026-03-15T06:08:50.486Z",
     "categories": [
       "浏览器安全",
       "网络安全"
@@ -333,7 +340,7 @@
     "title": "CVE-2026-20841：Windows记事本中的任意代码执行漏洞",
     "url": "/posts/035d421ce986.html",
     "excerpt": "在这份TrendAI研究服务漏洞报告的节选中，TrendAI研究团队的Nikolai Skliarenko和Yazhi Wang详细介绍了Windows记事本应用程序中一个近期已修复的命令注入漏洞。该漏洞最初由Delta Obscura的Cristian Papa和Alasdair Gorniak发现。成功利用此漏洞可能导致在受害者账户的安全上下文中执行任意命令。以下是他们关于CVE-2026-2",
-    "date": "2026-03-15T06:04:14.772Z",
+    "date": "2026-03-15T06:08:50.482Z",
     "categories": [
       "网络安全",
       "漏洞利用",

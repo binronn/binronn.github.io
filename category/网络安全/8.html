@@ -87,9 +87,28 @@
       <div class="post-list">
         <div class="page-header">
           <h1>网络安全</h1>
-          <p> (74 篇文章)</p>
+          <p> (75 篇文章)</p>
         </div>
 
+    <article class="post-card fade-in">
+      <h2 class="post-title">
+        <a href="/posts/8ed773255812.html">与时间赛跑——命中微小的内核竞争窗口</a>
+      </h2>
+      <div class="post-meta">
+        <span>2022/3/24</span>
+        <span>Jann Horn</span>
+      </div>
+      <div class="post-excerpt">
+        <p>TL;DR：
+如何在未启用 CONFIG_PREEMPT 的内核上，将一个微小的内核竞争窗口变得非常大：
+
+利用缓存未命中（cache miss）稍微扩大竞争窗口
+在该窗口内让一个 timerfd 到期（这将在中断处理程序中运行——即硬中断上下文）
+确保 timerfd 触发的唤醒必须遍历由 epo...</p>
+      </div>
+      <a href="/posts/8ed773255812.html" class="read-more">阅读全文</a>
+    </article>
+  
     <article class="post-card fade-in">
       <h2 class="post-title">
         <a href="/posts/fd0551a5903b.html">Project Zero指标解析</a>
@@ -168,12 +187,12 @@ Zoom 是一款在疫情期间广受欢迎的视频会议平台。与我调查过
         
         <li>
           <a href="/category/网络安全.html">网络安全</a>
-          <span class="category-count">74</span>
+          <span class="category-count">75</span>
         </li>
         
         <li>
           <a href="/category/移动安全.html">移动安全</a>
-          <span class="category-count">34</span>
+          <span class="category-count">35</span>
         </li>
         
         <li>
@@ -244,9 +263,9 @@ Zoom 是一款在疫情期间广受欢迎的视频会议平台。与我调查过
         
         <a href="/tag/Linux安全.html">Linux安全</a>
         
-        <a href="/tag/PDF安全.html">PDF安全</a>
-        
         <a href="/tag/iOS安全.html">iOS安全</a>
+        
+        <a href="/tag/PDF安全.html">PDF安全</a>
         
         <a href="/tag/API安全.html">API安全</a>
         

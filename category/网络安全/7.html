@@ -87,9 +87,24 @@
       <div class="post-list">
         <div class="page-header">
           <h1>网络安全</h1>
-          <p> (74 篇文章)</p>
+          <p> (75 篇文章)</p>
         </div>
 
+    <article class="post-card fade-in">
+      <h2 class="post-title">
+        <a href="/posts/518a0994c955.html">RC4 仍被认为有害</a>
+      </h2>
+      <div class="post-meta">
+        <span>2022/10/27</span>
+        <span>James Forshaw</span>
+      </div>
+      <div class="post-excerpt">
+        <p>作者：James Forshaw，Project Zero
+我最近花了很多时间研究Windows身份验证实现，特别是Kerberos。2022年6月，我发现了一个关于RC4加密处理的有趣问题2310，如果你能够拦截Kerberos与KDC之间的网络流量，或者当用户配置为禁用典型预认证要求时，该漏洞允...</p>
+      </div>
+      <a href="/posts/518a0994c955.html" class="read-more">阅读全文</a>
+    </article>
+  
     <article class="post-card fade-in">
       <h2 class="post-title">
         <a href="/posts/17d38102606d.html">Linux内核垃圾回收的量子态：CVE-2021-0920（第一部分）</a>
@@ -231,25 +246,6 @@
       <a href="/posts/1599f0e02eb8.html" class="read-more">阅读全文</a>
     </article>
   
-    <article class="post-card fade-in">
-      <h2 class="post-title">
-        <a href="/posts/8ed773255812.html">与时间赛跑——命中微小的内核竞争窗口</a>
-      </h2>
-      <div class="post-meta">
-        <span>2022/3/24</span>
-        <span>Jann Horn</span>
-      </div>
-      <div class="post-excerpt">
-        <p>TL;DR：
-如何在未启用 CONFIG_PREEMPT 的内核上，将一个微小的内核竞争窗口变得非常大：
-
-利用缓存未命中（cache miss）稍微扩大竞争窗口
-在该窗口内让一个 timerfd 到期（这将在中断处理程序中运行——即硬中断上下文）
-确保 timerfd 触发的唤醒必须遍历由 epo...</p>
-      </div>
-      <a href="/posts/8ed773255812.html" class="read-more">阅读全文</a>
-    </article>
-  
 
 <nav class="pagination">
   <a href="/category/网络安全/6.html" class="prev">上一页</a>
@@ -265,12 +261,12 @@
         
         <li>
           <a href="/category/网络安全.html">网络安全</a>
-          <span class="category-count">74</span>
+          <span class="category-count">75</span>
         </li>
         
         <li>
           <a href="/category/移动安全.html">移动安全</a>
-          <span class="category-count">34</span>
+          <span class="category-count">35</span>
         </li>
         
         <li>
@@ -341,9 +337,9 @@
         
         <a href="/tag/Linux安全.html">Linux安全</a>
         
-        <a href="/tag/PDF安全.html">PDF安全</a>
-        
         <a href="/tag/iOS安全.html">iOS安全</a>
+        
+        <a href="/tag/PDF安全.html">PDF安全</a>
         
         <a href="/tag/API安全.html">API安全</a>
         
