@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows注册表探险 #2：功能简史 - BasicBit</title>
+  <meta name="description" content="Windows注册表探险 #2：功能简史">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Windows注册表探险 #2：功能简史</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2024/4/18
+            </span>
+            <span class="meta-item">Mateusz Jurczyk</span>
+            <span class="meta-item">内核安全, 网络安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2024/04/the-windows-registry-adventure-2.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2024%2F04%2Fthe-windows-registry-adventure-2.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Mateusz Jurczyk，Google Project Zero</p>
+<p>在深入探讨注册表的底层安全特性之前，了解它在操作系统中的作用及其背后的历史背景非常重要。本质上，注册表是一个由命名的“键”和“值”组成的层次化数据库，Windows 和应用程序用它来存储各种设置和配置数据。它表现为一种树形结构，其中键可以有一个或多个子键，每个子键都恰好与一个父键相关联。此外，每个键还可以包含一个或多个值，这些值具有类型（整数、字符串、二进制数据块等），用于在注册表中存储实际数据。每个键都可以通过其名称及其所有祖先的名称（用特殊反斜杠字符 &#39;&#39; 分隔）来唯一标识，并以某个顶级键（HKEY_LOCAL_MACHINE、HKEY_USERS 等）的名称开头。例如，一个完整的注册表路径可能看起来像这样：HKEY_CURRENT_USER\Software\Microsoft\Windows。从高层次来看，这非常类似于文件系统的结构，其中顶级键相当于已挂载磁盘分区的根目录（例如 C:\），键相当于目录，值相当于文件。然而，一个重要的区别是，键是注册表中唯一可保护的对象类型，并且值在数据库中的作用远不如文件在文件系统中的作用重要。此外，注册表的特定子树以称为注册表配置单元（registry hive）的二进制文件形式存储在磁盘上，并且配置单元的挂载点不一定与顶级键一一对应（例如，C:\Windows\system32\config\SOFTWARE 配置单元挂载在 HKEY_LOCAL_MACHINE\Software 下，这是一个一级嵌套键）。</p>
+<p>从根本上说，在注册表中只能执行少数几种基本操作。这些操作总结在下表中：</p>
+<table>
+<thead>
+<tr>
+<th align="left">类别</th>
+<th align="left">操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">配置单元</td>
+<td align="left">加载配置单元</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">卸载配置单元</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">将配置单元刷新到磁盘</td>
+</tr>
+<tr>
+<td align="left">键</td>
+<td align="left">打开键</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">创建键</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">删除键</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">重命名键</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">设置/查询键安全属性</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">设置/查询键标志</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">枚举子键</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">键变更通知</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">查询键路径</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">查询打开的子键数量</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">关闭键句柄</td>
+</tr>
+<tr>
+<td align="left">值</td>
+<td align="left">设置值</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">删除值</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">枚举值</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">查询值数据</td>
+</tr>
+</tbody></table>
+<p>在我们深入探讨其中任何一项具体操作之前，让我们先追溯注册表的演变历程以及导致其当前状态的路径。</p>
+<h2 id="windows-3-1">Windows 3.1</h2><p>注册表最早于 1992 年发布的 Windows 3.1 中引入。它被设计为一个集中式配置存储库，旨在解决 MS-DOS 中基本文本配置文件（例如 config.sys）以及早期 Windows 版本中结构稍强的 .INI 文件的诸多缺点。但最初的注册表与我们今天所知的完全不同：只有一个顶级键（相当于 HKEY_CLASSES_ROOT）和一个配置单元（C:\windows\reg.dat），大小限制为 64 KB，采用自定义二进制格式，其魔数（magic bytes）为 &quot;SHCC3.10&quot;。当时没有值（数据直接分配给键），注册表仅用于 OLE/COM 和文件类型注册。这是第一个 Regedit.exe 在高级模式下启动时的样子：</p>
+<p><img src="/images/833d0c3819cf/63313f55281f0fedc937c5efc5686742.png" alt="运行在 Windows 3.1 上的第一个注册表编辑器截图" loading="lazy"></p>
+<p>运行在 Windows 3.1 上的第一个注册表编辑器</p>
+<p>尽管有其局限性，Windows 3.1 的注册表是一个重要的里程碑，因为它确立了其层次结构等持久的概念，并为当今先进的注册表功能铺平了道路。</p>
+<h2 id="windows-nt-3-1-3-5-和-3-51">Windows NT 3.1、3.5 和 3.51</h2><p>一年后的 1993 年，基于全新且更健壮的内核设计的新版本 Windows 发布：Windows NT 3.1。时至今日，最初的 NT 内核仍然是所有现代版本 Windows（包括 Windows 11）的基础——其注册表实现也是如此。与 Windows 3.1 相比，Windows NT 3.x 中最大的功能性注册表变化包括：</p>
+<ul>
+<li>引入了许多新的顶级键（HKLM、HKCU、HKU），从而扩展了注册表预期存储信息的范围。</li>
+<li>将单个 reg.dat 配置单元文件替换为多个独立的配置单元（位于 C:\winnt\system32\config 的 default、sam、security、software、system）。</li>
+<li>引入了具有多种可能数据类型的命名值。</li>
+<li>使注册表键可保护。</li>
+<li>取消了 64 KB 注册表配置单元限制。</li>
+</ul>
+<p>为了适应这些新功能，Windows 采用了一种名为 &quot;regf&quot; 的新型二进制格式，该格式专门设计用于支持扩展的功能。该格式的核心原则在 NT 3.x 版本系列中保持不变，但其内部持续演进，这体现在配置单元文件头中编码的版本号不断增加。具体来说，Windows NT 3.1 的预发布版本使用 regf v1.0，Windows NT 3.1 RTM 使用 regf v1.1，而 Windows NT 3.5 和 3.51 使用 regf v1.2。</p>
+<p>最后，虽然 Regedit.exe 仍然是简单的“注册信息编辑器”，但新增了一个实用程序 RegEdt32.exe，它提供了更多选项，并且可以不受限制地访问系统注册表。尽管其外观过时，但其用户界面的结构开始类似于现代注册表的形态以及当今注册表编辑器背后的核心概念：</p>
+<p><img src="/images/833d0c3819cf/f5c38db4671b441425edb81f29a4b467.png" alt="运行在 Windows NT 3.1 上的 RegEdt32.exe 截图" loading="lazy"></p>
+<p>运行在 Windows NT 3.1 上的 RegEdt32.exe</p>
+<p>值得注意的是，Windows NT 3.1 是第一个其部分代码至今仍在 Windows 11 中使用的系统。基于这一观察，我们现在可以自信地声称注册表代码库已有超过 30 年的历史。</p>
+<h2 id="windows-95">Windows 95</h2><p>不久之后，1995 年夏天，Windows 95 正式向公众发布。它迅速取得了巨大成功，主要归功于用户界面的创新——它是第一个具有任务栏、开始菜单以及我们现在与 Windows 相关联的整体外观和感觉的版本。然而，就注册表内部机制而言，它并不特别有趣。它延续了 Windows NT 3.x 开始的趋势，将注册表扩展为操作系统中更核心的部分，并借鉴了许多相同的高层概念。但是，由于它基于与 NT 完全不同的内核，底层的注册表实现也有所不同。所有的注册表数据通常只存储在两个文件中：C:\WINDOWS\System.dat 和 C:\WINDOWS\User.dat。它们采用另一种由 &quot;CREG&quot; 签名标识的二进制格式编码，该格式比 Win3.1 格式更强大，但不如 WinNT 的 regf（例如，它不支持安全描述符）。相同的格式后来被 9x 系列的后续系统继承，即 Windows 98 和 Me，但其遗产就此终结。据我所知，CREG 格式对 NT 系列中注册表的发展影响甚微，因此无需深入讨论其内部机制。</p>
+<p>可以说，Windows 95 中与注册表相关且影响最持久的一件事是 Regedit.exe 在功能和视觉上的完全重新设计。它获得了浏览整个注册表树、读取现有值并创建新值、重命名键以及在键、值和数据中搜索文本字符串的能力。乍一看，它几乎与现代注册表编辑器完全相同，只是缺少一些选项，例如加载自定义配置单元或管理键安全属性。甚至程序图标也基本保持不变，对于许多高级用户来说，直到今天它仍然是 Windows 注册表的代名词：</p>
+<p><img src="/images/833d0c3819cf/3de64299bbab765840677ced5c06929c.png" alt="运行在 Windows 95 上的重新设计的 Regedit.exe 截图" loading="lazy"></p>
+<p>运行在 Windows 95 上的重新设计的 Regedit.exe</p>
+<h2 id="windows-nt-4-0">Windows NT 4.0</h2><p>1996 年 Windows NT 4.0 的首次亮相标志着注册表的另一个重要里程碑，但这次主要是在技术方面。在视觉方面，NT 4.0 采用了与 Windows 95 相同的图形界面，包括新的改进版 Regedit.exe。由于添加了 Regedit，Windows NT 4.0 现在包含了两个相互竞争的注册表编辑器：来自 Windows 95 的 Regedit 和来自 Windows NT 3.x 的 RegEdt32。它们共享一些重叠的功能（例如，手动遍历注册表和检查单个值的能力），但各自也提供了一些独特的功能：只有 Regedit 能够在值中搜索数据，而只有 RegEdt32 支持管理注册表键的安全属性。我怀疑，对于想要修改系统内部设置的用户来说，存在两个不同的工具一定很令人困惑：他们不仅需要理解注册表的结构以及如何导航它，还需要知道针对特定任务使用哪个工具。这两个实用程序都进入了 Windows 2000，但最终在 Windows XP 中合并为一个单一的 Regedit.exe 程序。RegEdt32.exe 仍然可以在现代 Windows 版本的 C:\Windows\system32 中找到，作为历史遗留物，但它目前所做的只是启动 Regedit.exe 然后终止。</p>
+<p>如前所述，NT 4.0 中真正重要的变化发生在底层。在 NT 3.51 和 NT 4.0 发布之间，内核开发人员更新了 regf 格式的一些内部方面，以简化它并提高其效率。此外，引入了一种称为“快速叶子”（fast leaves）的新优化，它在子键列表中添加了特殊的四字节提示，以加速键查找。这些变化是实质性的且不向后兼容，因此版本必须再次增加，导致了 regf v1.3。这一点值得注意，因为 1.3 是最早被认为是现代版本并且至今仍受 Windows 10 和 11 支持的配置单元类型，尽管现在也存在高达 1.6 的更新格式版本。这意味着，人们可以从 Windows NT 4.0 系统上复制一个配置单元文件，在 Windows 11 的 Regedit 中加载、检查和修改它，然后再复制回去，这些步骤中的每一步都将毫无问题地工作。更重要的是，这种支持不仅仅是为了读取存档配置单元——在诸如 <a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsavekeyexa">RegSaveKeyExA</a> 这样的文档化 API 函数中，版本 1.3 由 REG_STANDARD_FORMAT 枚举表示，表明即使到今天它仍被认为是“标准”格式。事实上，Windows 11 中确实有一些核心系统配置单元，例如挂载在 HKEY_USERS&lt;SID&gt;_Classes 下的 UsrClass.dat，仍然以 regf v1.3 格式编码。因此，从这个意义上说，Windows NT 4.0 和 11，尽管发布相隔数十年，代表着截然不同的技术时代，却展现出一种根本的联系。</p>
+<h2 id="现代时期">现代时期</h2><p>基于 regf 配置单元格式和 Regedit 的图形界面在 1996 年至 2024 年间基本保持不变这一事实，人们可能会认为注册表的内部实现也没有太大变化。我们可以尝试通过一个小实验来证明或反驳这个假设，测量每个连续 Windows 版本中与注册表相关的代码量。为了确保方法一致并使调查与安全相关，我们将重点关注配置管理器（Configuration Manager）的内核模式部分，这部分在很大程度上构成了本地攻击面。这样的分析在技术上是可行的，甚至相对容易实现，因为：</p>
+<ul>
+<li>所有与内核注册表相关的代码都被编译到单个可执行映像中：ntoskrnl.exe。</li>
+<li>所有 NT 家族系统内核的调试符号（PDB/DBG 文件）都已由 Microsoft 公开提供，无论是通过 Microsoft 符号服务器、可从 Microsoft 网站下载的符号包，还是与系统安装介质捆绑的符号文件。</li>
+<li>内核代码遵循一致的命名约定，所有与注册表相关的函数名都以 &quot;Hv&quot;（代表 Hive）、&quot;Cm&quot;（代表 Configuration Manager）或 &quot;Vr&quot;（可能代表 Virtualized Registry）开头，只有少数例外。</li>
+<li>如今有一些非常好的逆向工程工具，可以帮助我们计算汇编指令的数量，甚至计算与注册表引擎对应的反编译类 C 源代码行数。</li>
+</ul>
+<p>就我而言，我使用 IDA Pro 和 Hex-Rays 反编译了每个 NT 系列系统的整个内核，然后运行了一个后处理脚本来提取与注册表相关的函数。在计算行数并将其绘制在图表上之后，我们得到以下结果：</p>
+<p><img src="/images/833d0c3819cf/51c339853799ff586152d78ea69753f3.png" alt="显示每个 Windows 版本中注册表相关函数代码行数的直方图，从 NT 4.0 的大约 10,000 行代码开始，增加到 Windows 11 的大约 100,000 行，增长了十倍" loading="lazy"></p>
+<p>正如我们所见，代码库经历了巨大而稳定的增长，从 NT 4.0 的大约 10,000 行代码开始，增加到 Windows 11 的大约 100,000 行，增长了十倍。需要重申的是，这仅涵盖了注册表的内核部分，忽略了在用户模式库（如 advapi32.dll、KernelBase.dll 或 ntdll.dll）中找到的代码。此外，我预计反编译的代码比原始源代码更密集，因为它不包含任何注释或空白。考虑到所有这些因素，Microsoft 管理的注册表代码的总量可能比上面显示的数字大得多。</p>
+<p>回到内核注册表代码，其随时间的扩展是巨大的，无论是绝对还是相对而言。但如果这些发展对普通用户来说是不可见的，那么所有这些新代码是做什么的呢？这些变化可以分为三大类：</p>
+<ul>
+<li><strong>优化</strong>：使注册表更高效的更改，例如在 regf v1.5 中引入“哈希叶子”（hash leaf）子键索引类型以使键查找更快，或者添加一个原生系统调用来就地重命名键，而无需对整个子树进行昂贵的复制+删除操作。</li>
+<li><strong>向后兼容性</strong>：旨在使遗留应用程序在现代系统上无缝运行的更改，例如<a href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry-virtualization">注册表虚拟化</a>。</li>
+<li><strong>新功能</strong>：为注册表添加新功能或使其适应新用例的更改。这些更改要么通过新的 API 提供（因此主要与软件开发人员相关），要么根本没有文档化，仅由 Windows 内部使用。示例包括支持大于 1 MB 的值、<a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-cmregistercallbackex">注册表回调</a>、<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeytransactedw">支持事务</a>、<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regloadappkeyw">应用程序配置单元</a> 和差异配置单元。</li>
+</ul>
+<p>有趣的是，最大的变化并非定期发生，而是集中在仅四个 Windows 版本中：NT 3.1–4.0、XP、Vista 和 10 周年更新（1607）。这在下面的时间线中有所说明：</p>
+<p><img src="/images/833d0c3819cf/8faf8bc66d56a3ca7bcc4ee85112c3c1.png" alt="显示 Windows 版本及其添加注册表功能的时间线，从 1993 年的 Windows NT 3.1 到 2022 年的 Windows 10/11 22H2" loading="lazy"></p>
+<p>这当然不是一个详尽的列表：它包含了我认为在安全审计期间最有趣的功能，但缺少与增量日志记录、配置单元文件在内存中管理和映射方式的改进，以及 Microsoft 多年来实施的许多其他优化、稳定性改进和重构相关的修改。但这表明注册表是 Windows 内核中一个高度复杂的部分，并且具有大量潜在的有趣深层漏洞等待被发现。</p>
+<p>在下一篇文章中，我将分享在研究注册表过程中发现的一些有用的信息来源。其中一些可能比另一些更明显，但它们都极大地帮助我理解了该技术的某些方面，或者提供了我所缺少的必要背景。下次见！</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/硬件安全.html" class="tag-link">#硬件安全</a> <a href="/tag/API安全.html" class="tag-link">#API安全</a> <a href="/tag/内核漏洞.html" class="tag-link">#内核漏洞</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#windows-3-1" class="toc-link">
+              <span class="toc-text">Windows 3.1</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#windows-nt-3-1-3-5-和-3-51" class="toc-link">
+              <span class="toc-text">Windows NT 3.1、3.5 和 3.51</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#windows-95" class="toc-link">
+              <span class="toc-text">Windows 95</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#windows-nt-4-0" class="toc-link">
+              <span class="toc-text">Windows NT 4.0</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#现代时期" class="toc-link">
+              <span class="toc-text">现代时期</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

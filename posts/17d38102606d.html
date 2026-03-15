@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux内核垃圾回收的量子态：CVE-2021-0920（第一部分） - BasicBit</title>
+  <meta name="description" content="Linux内核垃圾回收的量子态：CVE-2021-0920（第一部分）">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Linux内核垃圾回收的量子态：CVE-2021-0920（第一部分）</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/8/10
+            </span>
+            <span class="meta-item">Xingyu Jin</span>
+            <span class="meta-item">网络安全, 移动安全, 浏览器安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/08/the-quantum-state-of-linux-kernel.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F08%2Fthe-quantum-state-of-linux-kernel.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>深入分析一个野外Android漏洞利用</p>
+<p>作者：Xingyu Jin，Android安全研究<br>这是由两部分组成的客座博客文章的第一部分，我们将首先探讨CVE-2021-0920漏洞的<a href="https://googleprojectzero.github.io/0days-in-the-wild//0day-RCAs/2021/CVE-2021-0920.html">根本原因</a>。在第二篇文章中，我们将深入分析该漏洞的野外0day利用以及入侵后模块。</p>
+<h1 id="野外cve-2021-0920漏洞利用概述">野外CVE-2021-0920漏洞利用概述</h1><p>一家名为Wintego的监控供应商开发了针对Linux socket系统调用0day漏洞CVE-2021-0920的利用程序，并根据最早捕获的样本，至少在2020年11月就开始在野外使用，直到2021年11月该问题被修复。结合Chrome和三星浏览器漏洞利用，该供应商能够远程获取三星设备的root权限。修复程序随<a href="https://source.android.com/security/bulletin/2021-11-01">2021年11月Android安全公告</a>发布，并在三星2021年12月的安全更新中应用于三星设备。</p>
+<p>Google威胁分析小组（TAG）发现了在野外使用的三星浏览器漏洞利用链。TAG随后进行了根本原因分析，发现该漏洞CVE-2021-0920被用于逃逸沙箱并提升权限。CVE-2021-0920被匿名报告给Linux/Android。Google Android安全团队对该漏洞利用进行了全面的深入分析。</p>
+<p>这个问题最初由RedHat内核开发人员在2016年发现，并在公开电子邮件线程中披露，但Linux内核社区<a href="https://patchwork.ozlabs.org/project/netdev/patch/CAOssrKcfncAYsQWkfLGFgoOxAQJVT2hYVWdBA6Cw7hhO8RJ_wQ@mail.gmail.com/">没有修补</a>该问题，直到2021年重新报告。</p>
+<p>各种三星设备成为攻击目标，包括三星S10和S20。通过滥用Linux内核垃圾回收中的一个短暂竞争条件，漏洞利用代码能够在内核sk_buff对象中获得一个释放后使用（UAF）。野外样本能够有效绕过CONFIG_ARM64_UAO，实现任意读/写原语，并绕过三星RKP以提升到root权限。其他Android设备也容易受到攻击，但我们没有发现针对它们的任何漏洞利用样本。</p>
+<p>从捕获的样本中提取的文本将该漏洞称为“量子Linux内核垃圾回收”，这似乎是这篇博客文章的合适标题。</p>
+<h1 id="引言">引言</h1><p>CVE-2021-0920是一个由于SCM_RIGHTS垃圾回收系统中的竞争条件导致的释放后使用（UAF）。SCM_RIGHTS是一种控制消息，允许Unix域套接字将打开的文件描述符从一个进程传输到另一个进程。换句话说，发送方传输一个文件描述符，接收方然后从发送方获取一个文件描述符。这种文件描述符的传递增加了文件结构引用计数的复杂性。为了解决这个问题，Linux内核社区设计了一个特殊的垃圾回收系统。CVE-2021-0920就是这个垃圾回收系统中的一个漏洞。通过在垃圾回收过程中赢得竞争条件，攻击者可以利用套接字缓冲区sk_buff对象上的UAF。在接下来的部分中，我们将解释SCM_RIGHTS垃圾回收系统以及漏洞的细节。分析基于Linux 4.14内核。</p>
+<h2 id="什么是scm-rights-">什么是SCM_RIGHTS？</h2><p>Linux开发人员可以使用<a href="https://man7.org/linux/man-pages/man7/unix.7.html">SCM_RIGHTS数据报和sendmsg系统调用</a>将文件描述符（fd）从一个进程共享到另一个进程。当一个进程将文件描述符传递给另一个进程时，SCM_RIGHTS将增加对底层文件结构的引用。这意味着发送文件描述符的进程可以立即关闭其端的文件描述符，即使接收进程尚未接受并取得文件描述符的所有权。当文件描述符处于“排队”状态时（意味着发送方已传递fd然后关闭它，但接收方尚未接受fd并取得所有权），需要专门的垃圾回收。为了跟踪这种“排队”状态，这篇<a href="https://lwn.net/Articles/779472/">LWN文章</a>很好地解释了SCM_RIGHTS引用计数，建议在继续阅读本博客文章之前先阅读它。</p>
+<h2 id="发送">发送</h2><p>如前所述，Unix域套接字使用系统调用sendmsg将文件描述符发送到另一个套接字。为了解释SCM_RIGHTS期间的引用计数，我们将从发送方的角度开始。我们从内核函数unix_stream_sendmsg开始，它实现了sendmsg系统调用。为了实现SCM_RIGHTS功能，内核使用结构scm_fp_list来管理所有传输的文件结构。scm_fp_list存储要传递的文件指针列表。</p>
+<p>struct scm_fp_list {<br>    short count;<br>    short max;<br>    struct user_struct *user;<br>    struct file *fp[SCM_MAX_FD];<br>};</p>
+<p>unix_stream_sendmsg调用scm_send（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/af_unix.c#L1886">af_unix.c#L1886</a>）来初始化scm_fp_list结构，该结构通过堆栈上的scm_cookie结构链接。</p>
+<p>struct scm_cookie {<br>    struct pid <em>pid; /</em> Skb credentials */<br>    struct scm_fp_list <em>fp; /</em> Passed files <em>/<br>    struct scm_creds creds; /</em> Skb credentials <em>/<br>#ifdef CONFIG_SECURITY_NETWORK<br>    u32 secid; /</em> Passed security ID */<br>#endif<br>};</p>
+<p>更具体地说，scm_send → __scm_send → scm_fp_copy（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/core/scm.c#L68">scm.c#L68</a>）从用户空间读取文件描述符并初始化scm_cookie-&gt;fp，它可以包含SCM_MAX_FD个文件结构。</p>
+<p>由于Linux内核使用sk_buff（也称为套接字缓冲区或skb）对象来管理所有类型的套接字数据报，内核还需要调用unix_scm_to_skb函数将scm_cookie-&gt;fp链接到相应的skb对象。这发生在unix_attach_fds（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/scm.c#L103">scm.c#L103</a>）中：</p>
+<p>…<br>/*</p>
+<ul>
+<li>Need to duplicate file references for the sake of garbage</li>
+<li>collection. Otherwise a socket in the fps might become a</li>
+<li>candidate for GC while the skb is not yet queued.<br> */<br>UNIXCB(skb).fp = scm_fp_dup(scm-&gt;fp);<br>if (!UNIXCB(skb).fp)<br> return -ENOMEM;<br>…</li>
+</ul>
+<p>unix_attach_fds中的scm_fp_dup调用增加正在传递的文件描述符的引用计数，因此即使发送方稍后关闭传输的文件描述符，文件仍然有效：</p>
+<p>struct scm_fp_list *scm_fp_dup(struct scm_fp_list *fpl)<br>{<br>    struct scm_fp_list *new_fpl;<br>    int i;</p>
+<pre><code>if (!fpl)
+    return NULL;
+
+new_fpl = kmemdup(fpl, offsetof(struct scm_fp_list, fp[fpl-&gt;count]),
+                  GFP_KERNEL);
+if (new_fpl) {
+    for (i = 0; i &lt; fpl-&gt;count; i++)
+        get_file(fpl-&gt;fp[i]);
+    new_fpl-&gt;max = new_fpl-&gt;count;
+    new_fpl-&gt;user = get_uid(fpl-&gt;user);
+}
+return new_fpl;
+</code></pre>
+<p>}</p>
+<p>让我们检查一个具体示例。假设我们有套接字A和B。A尝试将自己传递给B。发送SCM_RIGHTS数据报后，来自发送方的新分配skb将被附加到B的sk_receive_queue，该队列存储接收到的数据报：</p>
+<p><img src="/images/17d38102606d/a15d565e980d79f098ea995d5bc5730f.png" alt="unix_stream_sendmsg创建包含结构scm_fp_list的sk_buff。scm_fp_list有一个fp指针指向传输的文件（A）。sk_buff被附加到接收队列，A的引用计数为2。" loading="lazy"></p>
+<p>sk_buff携带scm_fp_list结构</p>
+<p>A的引用计数增加到2，B的引用计数仍为1。</p>
+<h2 id="接收">接收</h2><p>现在，让我们看看接收方unix_stream_read_generic（我们暂时不讨论MSG_PEEK标志，专注于正常<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/af_unix.c#L2445">例程</a>）。首先，内核使用skb_peek从sk_receive_queue获取当前skb。其次，由于scm_fp_list附加到skb，内核将调用unix_detach_fds（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/scm.c#L125">链接</a>）从skb解析传输的文件结构，并从sk_receive_queue清除skb：</p>
+<p>/* Mark read part of skb as used */<br>if (!(flags &amp; MSG_PEEK)) {<br>    UNIXCB(skb).consumed += chunk;<br>    sk_peek_offset_bwd(sk, chunk);<br>    if (UNIXCB(skb).fp)<br>        unix_detach_fds(&amp;scm, skb);<br>    if (unix_skb_len(skb))<br>        break;<br>    skb_unlink(skb, &amp;sk-&gt;sk_receive_queue);<br>    consume_skb(skb);<br>    if (scm.fp)<br>        break;<br>}</p>
+<p>函数scm_detach_fds遍历传递的文件描述符列表（scm-&gt;fp）并为接收方相应地安装新的文件描述符：</p>
+<p>for (i=0, cmfptr=(__force int __user <em>)CMSG_DATA(cm); i&lt;fdmax;<br>     i++, cmfptr++)<br>{<br>    struct socket *sock;<br>    int new_fd;<br>    err = security_file_receive(fp[i]);<br>    if (err)<br>        break;<br>    err = get_unused_fd_flags(MSG_CMSG_CLOEXEC &amp; msg-&gt;msg_flags<br>                              ? O_CLOEXEC : 0);<br>    if (err &lt; 0)<br>        break;<br>    new_fd = err;<br>    err = put_user(new_fd, cmfptr);<br>    if (err) {<br>        put_unused_fd(new_fd);<br>        break;<br>    }<br>    /</em> Bump the usage count and install the file. <em>/<br>    sock = sock_from_file(fp[i], &amp;err);<br>    if (sock) {<br>        sock_update_netprioidx(&amp;sock-&gt;sk-&gt;sk_cgrp_data);<br>        sock_update_classid(&amp;sock-&gt;sk-&gt;sk_cgrp_data);<br>    }<br>    fd_install(new_fd, get_file(fp[i]));<br>}<br>…<br>/</em></p>
+<ul>
+<li>All of the files that fit in the message have had their</li>
+<li>usage counts incremented, so we just free the list.<br> */<br>__scm_destroy(scm);</li>
+</ul>
+<p>一旦文件描述符被安装，__scm_destroy（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/core/scm.c#L119">链接</a>）清理分配的scm-&gt;fp并递减每个传输的文件结构的文件引用计数：</p>
+<p>void __scm_destroy(struct scm_cookie *scm)<br>{<br>    struct scm_fp_list *fpl = scm-&gt;fp;<br>    int i;</p>
+<pre><code>if (fpl) {
+    scm-&gt;fp = NULL;
+    for (i=fpl-&gt;count-1; i&gt;=0; i--)
+        fput(fpl-&gt;fp[i]);
+    free_uid(fpl-&gt;user);
+    kfree(fpl);
+}
+</code></pre>
+<p>}</p>
+<h2 id="引用计数和inflight计数">引用计数和Inflight计数</h2><p>如上所述，当使用SCM_RIGHTS传递文件描述符时，其引用计数立即增加。一旦接收方套接字接受并安装了传递的文件描述符，引用计数就会减少。复杂性来自这个操作的“中间”状态：在文件描述符被发送之后，但在接收方接受并安装文件描述符之前。</p>
+<p>让我们考虑以下场景：</p>
+<ol>
+<li>进程创建套接字A和B。</li>
+<li>A将套接字A发送给套接字B。</li>
+<li>B将套接字B发送给套接字A。</li>
+<li>关闭A。</li>
+<li>关闭B。</li>
+</ol>
+<p><img src="/images/17d38102606d/28c1ccc8d85f06c70d7b8b9c2ac1ddb4.png" alt="套接字A和B形成引用计数循环。" loading="lazy"></p>
+<p>引用计数循环的场景</p>
+<p>两个套接字在接受传递的文件描述符之前都被关闭。A和B的引用计数都是1，并且无法进一步递减，因为它们在各自进程关闭时从内核fd表中移除。因此内核无法释放两个skb和sock结构，形成了一个不可打破的循环。Linux内核垃圾回收系统旨在防止这种特定场景下的内存耗尽。实现了inflight计数来识别潜在的垃圾。每次由于发送SCM_RIGHTS数据报而增加引用计数时，inflight计数也会增加。</p>
+<p>当文件描述符通过SCM_RIGHTS数据报发送时，Linux内核将其unix_sock放入全局列表gc_inflight_list。内核增加unix_tot_inflight，它计算inflight套接字的总数。然后，内核增加u-&gt;inflight，它跟踪每个文件描述符在unix_inflight函数（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/scm.c#L45">scm.c#L45</a>）中的inflight计数，该函数从unix_attach_fds调用：</p>
+<p>void unix_inflight(struct user_struct *user, struct file *fp)<br>{<br>    struct sock *s = unix_get_socket(fp);<br>    spin_lock(&amp;unix_gc_lock);<br>    if (s) {<br>        struct unix_sock *u = unix_sk(s);<br>        if (atomic_long_inc_return(&amp;u-&gt;inflight) == 1) {<br>            BUG_ON(!list_empty(&amp;u-&gt;link));<br>            list_add_tail(&amp;u-&gt;link, &amp;gc_inflight_list);<br>        } else {<br>            BUG_ON(list_empty(&amp;u-&gt;link));<br>        }<br>        unix_tot_inflight++;<br>    }<br>    user-&gt;unix_inflight++;<br>    spin_unlock(&amp;unix_gc_lock);<br>}</p>
+<p>因此，当在套接字A和B之间传输文件描述符时，sk_buff看起来像这样：</p>
+<p><img src="/images/17d38102606d/dfc64d428f5f55d5f25e62995abbaab6.png" alt="当文件描述符A将自己发送给文件描述符B时，文件描述符A的引用计数为2，inflight计数为1。对于接收方文件描述符B，文件引用计数为1，inflight计数为0。" loading="lazy"></p>
+<p>A的inflight计数增加</p>
+<p>当从另一侧接收套接字文件描述符时，unix_sock.inflight计数将减少。</p>
+<p>让我们在close系统调用之前重新审视引用计数循环场景。这个循环是可打破的，因为任何套接字文件都可以接收传输的文件并打破引用循环：</p>
+<p><img src="/images/17d38102606d/8abd3166705a58bea58f0073fb85adcb.png" alt="文件描述符A将自己发送给文件描述符B，反之亦然。文件描述符A和B的inflight计数都是1，文件引用计数都是2。" loading="lazy"></p>
+<p>关闭A和B之前的可打破循环</p>
+<p>关闭两个文件描述符后，每个套接字文件描述符的引用计数等于其inflight计数，这是可能垃圾的标志：</p>
+<p><img src="/images/17d38102606d/17c7df5e5383d160001c7055ed3f48d3.png" alt="关闭A和B后，循环变得不可打破。A和B的引用计数等于inflight计数。" loading="lazy"></p>
+<p>关闭A和B后的不可打破循环</p>
+<p>现在，让我们检查另一个示例。假设我们有套接字A、B和𝛼：</p>
+<ol>
+<li>A将套接字A发送给套接字B。</li>
+<li>B将套接字B发送给套接字A。</li>
+<li>B将套接字B发送给套接字𝛼。</li>
+<li>𝛼将套接字𝛼发送给套接字B。</li>
+<li>关闭A。</li>
+<li>关闭B。</li>
+</ol>
+<p><img src="/images/17d38102606d/aa4921d65ed639cff504d925237c09c1.png" alt="A、B和alpha形成可打破循环。" loading="lazy"></p>
+<p>A、B和𝛼的可打破循环</p>
+<p>这个循环是可打破的，因为我们可以从套接字文件描述符𝛼获取新安装的文件描述符B&#39;，并从B&#39;获取新安装的文件描述符A&#39;。</p>
+<h2 id="垃圾回收">垃圾回收</h2><p><a href="https://lwn.net/Articles/779472/">lwn.net</a>提供了垃圾回收的高级视图：</p>
+<p>“如果两个计数相等，那么该文件结构可能是不可达循环的一部分。为了确定是否是这种情况，内核找到所有引用都包含在SCM_RIGHTS数据报中的飞行中Unix域套接字集合（换句话说，f_count和inflight相等）。然后计算这些套接字中有多少引用来自附加到此集合中套接字的SCM_RIGHTS数据报。任何有来自集合外部引用的套接字都是可达的，可以从集合中移除。如果它是可达的，并且有任何等待被使用的SCM_RIGHTS数据报附加到它，那么该数据报中包含的文件也是可达的，可以从集合中移除。</p>
+<p>在迭代过程结束时，内核可能会发现自己有一个飞行中Unix域套接字集合，这些套接字仅由未使用（且不可使用）的SCM_RIGHTS数据报引用；此时，它有一个文件结构循环，这些结构持有彼此的唯一引用。从队列中移除这些数据报，释放它们持有的引用，并丢弃它们将打破循环。”</p>
+<p>更具体地说，SCM_RIGHTS垃圾回收系统是为了处理不可打破的引用循环而开发的。为了识别哪些文件描述符是不可打破循环的一部分：</p>
+<ol>
+<li>将引用计数等于其inflight计数的任何unix_sock对象添加到gc_candidates列表。</li>
+<li>确定套接字是否被gc_candidates列表之外的任何套接字引用。如果是，那么它是可达的，将其及其引用的任何套接字从gc_candidates列表中移除。重复直到找不到更多可达套接字。</li>
+<li>在此迭代过程之后，仅剩下那些仅被gc_candidates列表中的其他套接字引用的套接字。</li>
+</ol>
+<p>让我们更仔细地看看这个垃圾回收过程是如何工作的。首先，内核找到所有引用计数等于其inflight计数的unix_sock对象，并将它们放入gc_candidates列表（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/garbage.c#L242">garbage.c#L242</a>）：</p>
+<p>list_for_each_entry_safe(u, next, &amp;gc_inflight_list, link) {<br>    long total_refs;<br>    long inflight_refs;<br>    total_refs = file_count(u-&gt;sk.sk_socket-&gt;file);<br>    inflight_refs = atomic_long_read(&amp;u-&gt;inflight);<br>    BUG_ON(inflight_refs &lt; 1);<br>    BUG_ON(total_refs &lt; inflight_refs);<br>    if (total_refs == inflight_refs) {<br>        list_move_tail(&amp;u-&gt;link, &amp;gc_candidates);<br>        __set_bit(UNIX_GC_CANDIDATE, &amp;u-&gt;gc_flags);<br>        __set_bit(UNIX_GC_MAYBE_CYCLE, &amp;u-&gt;gc_flags);<br>    }<br>}</p>
+<p>接下来，内核移除任何被当前gc_candidates列表之外的套接字引用的套接字。为此，内核调用scan_children（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/garbage.c#L138">garbage.c#138</a>）以及函数指针dec_inflight来遍历每个候选的sk-&gt;receive_queue。它减少每个传递的文件描述符的inflight计数，这些文件描述符本身也是垃圾回收的候选（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/garbage.c#L261">garbage.c#L261</a>）：</p>
+<p>/* Now remove all internal in-flight reference to children of</p>
+<ul>
+<li>the candidates.<br> */<br>list_for_each_entry(u, &amp;gc_candidates, link)<br> scan_children(&amp;u-&gt;sk, dec_inflight, NULL);</li>
+</ul>
+<p>遍历所有候选后，如果一个gc候选仍然有正的inflight计数，这意味着它被gc_candidates列表之外的对象引用，因此是可达的。这些候选不应包含在gc_candidates列表中，因此需要恢复相关的inflight计数。</p>
+<p>为此，内核将候选放入not_cycle_list，并遍历gc_candidates列表中每个传输文件的接收队列（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/garbage.c#L281">garbage.c#L281</a>）并将inflight计数递增回来。整个过程递归完成，以便垃圾回收避免清除可达套接字：</p>
+<p>/* Restore the references for children of all candidates,</p>
+<ul>
+<li>which have remaining references. Do this recursively, so</li>
+<li>only those remain, which form cyclic references.</li>
+<li></li>
+<li>Use a &quot;cursor&quot; link, to make the list traversal safe, even</li>
+<li>though elements might be moved about.<br> <em>/<br>list_add(&amp;cursor, &amp;gc_candidates);<br>while (cursor.next != &amp;gc_candidates) {<br> u = list_entry(cursor.next, struct unix_sock, link);<br> /</em> Move cursor to after the current position. */<br> list_move(&amp;cursor, &amp;u-&gt;link);<br> if (atomic_long_read(&amp;u-&gt;inflight) &gt; 0) {<br> list_move_tail(&amp;u-&gt;link, &amp;not_cycle_list);<br> __clear_bit(UNIX_GC_MAYBE_CYCLE, &amp;u-&gt;gc_flags);<br> scan_children(&amp;u-&gt;sk, inc_inflight_move_tail, NULL);<br> }<br>}<br>list_del(&amp;cursor);</li>
+</ul>
+<p>现在gc_candidates仅包含“垃圾”。内核从gc_candidates恢复原始inflight计数，将候选从not_cycle_list移回gc_inflight_list，并调用__skb_queue_purge清理垃圾（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/garbage.c#L306">garbage.c#L306</a>）。</p>
+<p>/* Now gc_candidates contains only garbage. Restore original</p>
+<ul>
+<li>inflight counters for these as well, and remove the skbuffs</li>
+<li>which are creating the cycle(s).<br> <em>/<br>skb_queue_head_init(&amp;hitlist);<br>list_for_each_entry(u, &amp;gc_candidates, link)<br> scan_children(&amp;u-&gt;sk, inc_inflight, &amp;hitlist);<br>/</em> not_cycle_list contains those sockets which do not make up a</li>
+<li>cycle. Restore these to the inflight list.<br> <em>/<br>while (!list_empty(&amp;not_cycle_list)) {<br> u = list_entry(not_cycle_list.next, struct unix_sock, link);<br> __clear_bit(UNIX_GC_CANDIDATE, &amp;u-&gt;gc_flags);<br> list_move_tail(&amp;u-&gt;link, &amp;gc_inflight_list);<br>}<br>spin_unlock(&amp;unix_gc_lock);<br>/</em> Here we are. Hitlist is filled. Die. */<br>__skb_queue_purge(&amp;hitlist);<br>spin_lock(&amp;unix_gc_lock);</li>
+</ul>
+<p>__skb_queue_purge清除接收队列中的每个skb：</p>
+<p>/**</p>
+<ul>
+<li>__skb_queue_purge - empty a list</li>
+<li>@list: list to empty</li>
+<li></li>
+<li>Delete all buffers on an &amp;sk_buff list. Each buffer is removed from</li>
+<li>the list and one reference dropped. This function does not take the</li>
+<li>list lock and the caller must hold the relevant locks to use it.<br> */<br>void skb_queue_purge(struct sk_buff_head *list);<br>static inline void __skb_queue_purge(struct sk_buff_head *list)<br>{<br> struct sk_buff *skb;<br> while ((skb = __skb_dequeue(list)) != NULL)<br> kfree_skb(skb);</li>
+</ul>
+<p>}</p>
+<p>有两种方法可以触发垃圾回收过程：</p>
+<ol>
+<li>如果飞行中套接字超过16，000个，wait_for_unix_gc在sendmsg函数开头被调用</li>
+<li>当套接字文件被内核释放时（即文件描述符关闭），内核将直接调用unix_gc。</li>
+</ol>
+<p>注意unix_gc不是抢占式的。如果垃圾回收已经在进行中，内核不会执行另一个unix_gc调用。</p>
+<p>现在，让我们用一对套接字f00和f01以及单个套接字𝛼检查这个示例（可打破循环）：</p>
+<ol>
+<li>套接字f00将套接字f00发送给套接字f01。</li>
+<li>套接字f01将套接字f01发送给套接字𝛼。</li>
+<li>关闭f00。</li>
+<li>关闭f01。</li>
+</ol>
+<p>在开始垃圾回收过程之前，套接字文件描述符的状态是：</p>
+<ul>
+<li>f00：ref = 1，inflight = 1</li>
+<li>f01：ref = 1，inflight = 1</li>
+<li>𝛼：ref = 1，inflight = 0</li>
+</ul>
+<p><img src="/images/17d38102606d/e1daf4dfb6004ab9a700990e426066dd.png" alt="f00、f01和alpha形成可打破循环。" loading="lazy"></p>
+<p>由f00、f01和𝛼形成的可打破循环</p>
+<p>在垃圾回收过程中，f00和f01被视为垃圾候选。f00的inflight计数降至零，但f01的计数仍为1，因为𝛼不是候选。因此，内核将从f01的接收队列恢复inflight计数。结果，f00和f01不再被视为垃圾。</p>
+<h1 id="cve-2021-0920根本原因分析">CVE-2021-0920根本原因分析</h1><p>当用户从recvmsg接收SCM_RIGHTS消息而没有MSG_PEEK标志时，如果垃圾回收过程正在进行，内核将等待其完成。但是，如果设置了MSG_PEEK标志，内核将增加传输文件结构的引用计数，而不与任何正在进行的垃圾回收过程同步。这可能导致内部垃圾回收状态不一致，使垃圾回收器将非垃圾sock对象标记为垃圾进行清除。</p>
+<h2 id="没有msg-peek标志的recvmsg">没有MSG_PEEK标志的recvmsg</h2><p>内核函数unix_stream_read_generic（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/af_unix.c#L2290">af_unix.c#L2290</a>）解析SCM_RIGHTS消息并在未设置MSG_PEEK标志时管理文件inflight计数。然后，函数unix_stream_read_generic调用unix_detach_fds来减少inflight计数。然后，unix_detach_fds从skb清除传递的文件描述符列表（scm_fp_list）：</p>
+<p>static void unix_detach_fds(struct scm_cookie *scm, struct sk_buff *skb)<br>{<br>    int i;<br>    scm-&gt;fp = UNIXCB(skb).fp;<br>    UNIXCB(skb).fp = NULL;<br>    for (i = scm-&gt;fp-&gt;count-1; i &gt;= 0; i--)<br>        unix_notinflight(scm-&gt;fp-&gt;user, scm-&gt;fp-&gt;fp[i]);<br>}</p>
+<p>unix_detach_fds中的unix_notinflight将通过减少inflight计数来反转unix_inflight的效果：</p>
+<p>void unix_notinflight(struct user_struct *user, struct file *fp)<br>{<br>    struct sock *s = unix_get_socket(fp);<br>    spin_lock(&amp;unix_gc_lock);<br>    if (s) {<br>        struct unix_sock *u = unix_sk(s);<br>        BUG_ON(!atomic_long_read(&amp;u-&gt;inflight));<br>        BUG_ON(list_empty(&amp;u-&gt;link));<br>        if (atomic_long_dec_and_test(&amp;u-&gt;inflight))<br>            list_del_init(&amp;u-&gt;link);<br>        unix_tot_inflight--;<br>    }<br>    user-&gt;unix_inflight--;<br>    spin_unlock(&amp;unix_gc_lock);<br>}</p>
+<p>稍后，skb_unlink和consume_skb从unix_stream_read_generic（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/af_unix.c#L2451">af_unix.c#2451</a>）调用以销毁当前skb。沿着调用链kfree(skb)-&gt;__kfree_skb，内核将调用函数指针skb-&gt;destructor（<a href="https://elixir.bootlin.com/linux/v4.14.277/source/net/unix/af_unix.c#L1605">代码</a>），它重定向到unix_destruct_scm：</p>
+<p>static void unix_destruct_scm(struct sk_buff <em>skb)<br>{<br>    struct scm_cookie scm;<br>    memset(&amp;scm, 0, sizeof(scm));<br>    scm.pid = UNIXCB(skb).pid;<br>    if (UNIXCB(skb).fp)<br>        unix_detach_fds(&amp;scm, skb);<br>    /</em> Alas, it calls VFS <em>/<br>    /</em> So fscking what? fput() had been SMP-safe since the last Summer */<br>    scm_destroy(&amp;scm);<br>    sock_wfree(skb);<br>}</p>
+<p>实际上，unix_detach_fds不会在这里从unix_destruct_scm再次调用，因为UNIXCB(skb).fp已经被unix_detach_fds清除。最后，调用scm_detach_fds中的fd_install(new_fd, get_file(fp[i]))来安装新的文件描述符。</p>
+<h2 id="带有msg-peek标志的recvmsg">带有MSG_PEEK标志的recvmsg</h2><p>如果设置了MSG_PEEK标志，recvmsg过程则不同。MSG_PEEK标志在接收期间用于“窥视”消息，但数据被视为未读。unix_stream_read_generic将调用scm_fp_dup而不是unix_detach_fds。这增加了飞行中文件的引用计数（<a href="https://android.googlesource.com/kernel/goldfish/+/eee65a1282369eedfcbb664d0c865a0ef3eb7017/net/unix/af_unix.c#2149">af_unix.c#2149</a>）：</p>
+<p>/* It is questionable, see note in unix_dgram_recvmsg.<br> */<br>if (UNIXCB(skb).fp)<br>    scm.fp = scm_fp_dup(UNIXCB(skb).fp);<br>sk_peek_offset_fwd(sk, chunk);<br>if (UNIXCB(skb).fp)<br>    break;</p>
+<p>因为数据应被视为未读，所以当设置MSG_PEEK标志时，skb不会被取消链接和消耗。但是，接收方仍然会为飞行中套接字获取一个新的文件描述符。</p>
+<h2 id="recvmsg示例">recvmsg示例</h2><p>让我们看一个具体示例。假设有以下套接字对：</p>
+<ul>
+<li>f00，f01</li>
+<li>f10，f11</li>
+</ul>
+<p>现在，程序执行以下操作：</p>
+<ul>
+<li>f00 → [f00] → f01（意味着f00发送[f00]给f01）</li>
+<li>f10 → [f00] → f11</li>
+<li>关闭(f00)</li>
+</ul>
+<p><img src="/images/17d38102606d/e7579a91ca680f4f424079956d31afcd.png" alt="f00、f01、f10、f11形成可打破循环。" loading="lazy"></p>
+<p>由f00、f01、f10和f11形成的可打破循环</p>
+<p>状态如下：</p>
+<ul>
+<li>inflight(f00) = 2，ref(f00) = 2</li>
+<li>inflight(f01) = 0，ref(f01) = 1</li>
+<li>inflight(f10) = 0，ref(f10) = 1</li>
+<li>inflight(f11) = 0，ref(f11) = 1</li>
+</ul>
+<p>如果现在发生垃圾回收过程，在任何recvmsg调用之前，内核将选择f00作为垃圾候选。但是，f00的inflight计数不会改变，内核不会清除任何垃圾。</p>
+<p>如果f01然后调用带有MSG_PEEK标志的recvmsg，接收队列不会改变，inflight计数不会减少。f01获取一个新的文件描述符f00&#39;，它增加了f00的引用计数：</p>
+<p><img src="/images/17d38102606d/f8e588362b51bb279a312ef7643ba401.png" alt="在f01通过MSG_PEEK接收套接字文件描述符后，f00的引用计数增加，f01的接收队列保持不变。" loading="lazy"></p>
+<p>MSG_PEEK增加f00的引用计数，而接收队列未被清除</p>
+<p>状态：</p>
+<ul>
+<li>inflight(f00) = 2，ref(f00) = 3</li>
+<li>inflight(f01) = 0，ref(f01) = 1</li>
+<li>inflight(f10) = 0，ref(f10) = 1</li>
+<li>inflight(f11) = 0，ref(f11) = 1</li>
+</ul>
+<p>然后，f01调用没有MSG_PEEK标志的recvmsg，f01的接收队列被移除。f01还获取一个新的文件描述符f00&#39;&#39;：</p>
+<p><img src="/images/17d38102606d/2b79468207baa9a34fc1e9d9751409f4.png" alt="在f01没有MSG_PEEK接收套接字文件描述符后，接收队列被清除，文件描述符f00'''被获取。" loading="lazy"></p>
+<p>f01的接收队列被清除，f01&#39;&#39;从f01获取</p>
+<p>状态：</p>
+<ul>
+<li>inflight(f00) = 1，ref(f00) = 3</li>
+<li>inflight(f01) = 0，ref(f01) = 1</li>
+<li>inflight(f10) = 0，ref(f10) = 1</li>
+<li>inflight(f11) = 0，ref(f11) = 1</li>
+</ul>
+<h2 id="uaf场景">UAF场景</h2><p>从非常高的层面来看，Linux垃圾回收的内部状态可能是非确定性的，因为MSG_PEEK不与垃圾回收器同步。存在一个竞争条件，垃圾回收器可以将飞行中套接字视为垃圾候选，同时在MSG_PEEK接收期间文件引用增加。因此，垃圾回收器可能清除候选，释放套接字缓冲区，而接收方可能安装文件描述符，导致skb对象上的UAF。</p>
+<p>让我们看看捕获的0day样本如何逐步触发该漏洞（简化版本，实际上可能需要更多线程协同工作，但它应该展示核心思想）。首先，样本分配以下套接字对和单个套接字𝛼：</p>
+<ul>
+<li>f00，f01</li>
+<li>f10，f11</li>
+<li>f20，f21</li>
+<li>f30，f31</li>
+<li>套接字𝛼（实际上可能有数千个𝛼来延长垃圾回收过程，以避免稍后将介绍的BUG_ON检查）。</li>
+</ul>
+<p>现在，程序执行以下操作：</p>
+<p><img src="/images/17d38102606d/f384f36351b8601bda24abc3b1b220bd.png" alt="" loading="lazy"></p>
+<p>在任何recvmsg调用之前关闭以下文件描述符：</p>
+<ul>
+<li>关闭(f00)</li>
+<li>关闭(f01)</li>
+<li>关闭(f11)</li>
+<li>关闭(f10)</li>
+<li>关闭(f30)</li>
+<li>关闭(f31)</li>
+<li>关闭(𝛼)</li>
+</ul>
+<p>状态如下：</p>
+<ul>
+<li>inflight(f00) = N + 1，ref(f00) = N + 1</li>
+<li>inflight(f01) = 2，ref(f01) = 2</li>
+<li>inflight(f10) = 3，ref(f10) = 3</li>
+<li>inflight(f11) = 1，ref(f11) = 1</li>
+<li>inflight(f20) = 0，ref(f20) = 1</li>
+<li>inflight(f21) = 0，ref(f21) = 1</li>
+<li>inflight(f31) = 1，ref(f31) = 1</li>
+<li>inflight(𝛼) = 1，ref(𝛼) = 1</li>
+</ul>
+<p>如果现在发生垃圾回收过程，内核将执行以下检查：</p>
+<ul>
+<li>将f00、f01、f10、f11、f31、𝛼列为垃圾候选。减少每个接收队列中候选子项的inflight计数。</li>
+<li>由于f21不被视为候选，f11的inflight计数仍高于零。</li>
+<li>递归恢复inflight计数。</li>
+<li>没有被视为垃圾。</li>
+</ul>
+<p>可以通过以下方式触发潜在的skb UAF竞争条件：</p>
+<ol>
+<li><p>从f21调用带有MSG_PEEK标志的recvmsg以获取f11&#39;。</p>
+</li>
+<li><p>从f11调用带有MSG_PEEK标志的recvmsg以获取f10&#39;。</p>
+</li>
+<li><p>并发执行以下操作：</p>
+</li>
+<li><p>从f11调用没有MSG_PEEK标志的recvmsg以获取f10&#39;&#39;。</p>
+</li>
+<li><p>从f10&#39;调用带有MSG_PEEK标志的recvmsg。</p>
+</li>
+</ol>
+<p>这怎么可能？让我们看一个没有触发竞争条件因此没有UAF的情况：</p>
+<p>线程0</p>
+<p>线程1</p>
+<p>线程2</p>
+<p>调用unix_gc</p>
+<p>阶段0：将f00、f01、f10、f11、f31、𝛼列为垃圾候选。</p>
+<p>从f21调用带有MSG_PEEK标志的recvmsg以获取f11&#39;</p>
+<p>增加引用计数：scm.fp = scm_fp_dup(UNIXCB(skb).fp);</p>
+<p>阶段0：减少每个垃圾候选子项的inflight计数</p>
+<p>阶段0后的状态：</p>
+<p>inflight(f00) = 0</p>
+<p>inflight(f01) = 0</p>
+<p>inflight(f10) = 0</p>
+<p>inflight(f11) = 1</p>
+<p>inflight(f31) = 0</p>
+<p>inflight(𝛼) = 0</p>
+<p>阶段1：如果候选仍有inflight计数，则递归恢复inflight计数。</p>
+<p>阶段1：所有inflight计数已恢复。</p>
+<p>阶段2：没有垃圾，返回。</p>
+<p>从f11调用带有MSG_PEEK标志的recvmsg以获取f10&#39;</p>
+<p>从f11调用没有MSG_PEEK标志的recvmsg以获取f10&#39;&#39;</p>
+<p>从f10&#39;调用带有MSG_PEEK标志的recvmsg</p>
+<p>皆大欢喜</p>
+<p>皆大欢喜</p>
+<p>皆大欢喜</p>
+<p>但是，如果第二个recvmsg恰好在垃圾回收过程的阶段1之后发生，则触发UAF：</p>
+<p>线程0</p>
+<p>线程1</p>
+<p>线程2</p>
+<p>调用unix_gc</p>
+<p>阶段0：将f00、f01、f10、f11、f31、𝛼列为垃圾候选。</p>
+<p>从f21调用带有MSG_PEEK标志的recvmsg以获取f11&#39;</p>
+<p>增加引用计数：scm.fp = scm_fp_dup(UNIXCB(skb).fp);</p>
+<p>阶段0：减少每个垃圾候选子项的inflight计数</p>
+<p>阶段0后的状态：</p>
+<p>inflight(f00) = 0</p>
+<p>inflight(f01) = 0</p>
+<p>inflight(f10) = 0</p>
+<p>inflight(f11) = 1</p>
+<p>inflight(f31) = 0</p>
+<p>inflight(𝛼) = 0</p>
+<p>阶段1：开始恢复inflight计数。</p>
+<p>从f11调用带有MSG_PEEK标志的recvmsg以获取f10&#39;</p>
+<p>从f11调用没有MSG_PEEK标志的recvmsg以获取f10&#39;&#39;</p>
+<p>unix_detach_fds：UNIXCB(skb).fp = NULL</p>
+<p>被spin_lock(&amp;unix_gc_lock)阻塞</p>
+<p>阶段1：scan_inflight无法从f11找到候选子项。因此，inflight计数意外保持不变。</p>
+<p>阶段2：f00、f01、f10、f31、𝛼是垃圾。</p>
+<p>阶段2：开始清除垃圾。</p>
+<p>开始从f10&#39;调用带有MSG_PEEK标志的recvmsg，期望接收f00&#39;</p>
+<p>获取skb = skb_peek(&amp;sk-&gt;sk_receive_queue)，skb将被线程0释放。</p>
+<p>阶段2：对于<img src="/images/17d38102606d/8f6edd56c8b5444726fedf63987ab301.png" alt="" loading="lazy">，稍后调用__skb_unlink和kfree_skb。</p>
+<p>state-&gt;recv_actor(skb, skip, chunk, state) UAF</p>
+<p>GC完成。</p>
+<p>开始垃圾回收。</p>
+<p>获取f10&#39;&#39;</p>
+<p>因此，竞争条件导致skb对象的UAF。乍一看，我们应该责怪第二个recvmsg系统调用，因为它清除了skb.fp，即传递的文件列表。但是，如果第一个recvmsg</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/0day.html" class="tag-link">#0day</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/网络安全.html" class="tag-link">#网络安全</a> <a href="/tag/浏览器安全.html" class="tag-link">#浏览器安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/虚拟化安全.html" class="tag-link">#虚拟化安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#野外cve-2021-0920漏洞利用概述" class="toc-link">
+              <span class="toc-text">野外CVE-2021-0920漏洞利用概述</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#引言" class="toc-link">
+              <span class="toc-text">引言</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#什么是scm-rights-" class="toc-link">什么是SCM_RIGHTS？</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#发送" class="toc-link">发送</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#接收" class="toc-link">接收</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#引用计数和inflight计数" class="toc-link">引用计数和Inflight计数</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#垃圾回收" class="toc-link">垃圾回收</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#cve-2021-0920根本原因分析" class="toc-link">
+              <span class="toc-text">CVE-2021-0920根本原因分析</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#没有msg-peek标志的recvmsg" class="toc-link">没有MSG_PEEK标志的recvmsg</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#带有msg-peek标志的recvmsg" class="toc-link">带有MSG_PEEK标志的recvmsg</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#recvmsg示例" class="toc-link">recvmsg示例</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#uaf场景" class="toc-link">UAF场景</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

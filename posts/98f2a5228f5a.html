@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爆破Webp - BasicBit</title>
+  <meta name="description" content="爆破Webp">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">爆破Webp</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2025/3/26
+            </span>
+            <span class="meta-item">Ian Beer</span>
+            <span class="meta-item">移动安全, 网络安全, 攻击研究</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2025/03/blasting-past-webp.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2025%2F03%2Fblasting-past-webp.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>NSO BLASTPASS iMessage exploit 分析</p>
+<p>作者：Ian Beer，Google Project Zero</p>
+<p>2023年9月7日，Apple <a href="https://support.apple.com/en-us/106361">发布</a>了iOS的带外安全更新：</p>
+<p><img src="/images/98f2a5228f5a/48664d913a50c2faad4007cb5938bc5f.png" alt="iOS 16.6.1和iPadOS 16.6.1的发布说明，包括ImageIO的CVE-2023-41064和Wallet的CVE-2023-41061，详细说明了安全更新和潜在的利用情况。" loading="lazy"></p>
+<p>大约在同一时间，2023年9月7日，<a href="https://citizenlab.ca/2023/09/blastpass-nso-group-iphone-zero-click-zero-day-exploit-captured-in-the-wild/">Citizen Lab发布了一篇博客文章</a>，将iOS 16.6.1中修复的两个CVE与&quot;在野外捕获的NSO Group零点击、零日漏洞利用&quot;联系起来：</p>
+<p>&quot;[目标]是受雇于一家总部位于华盛顿特区、设有国际办事处的民间社会组织的人员...</p>
+<p>该漏洞利用链能够在受害者没有任何交互的情况下，入侵运行最新版本iOS（16.6）的iPhone。</p>
+<p>漏洞利用涉及包含恶意图像的PassKit附件，这些附件从攻击者的iMessage账户发送给受害者。&quot;</p>
+<p>前一天，即2023年9月6日，Apple <a href="https://issues.chromium.org/issues/40071416">向WebP项目报告了一个漏洞</a>，并在报告中表示他们计划在第二天为Apple客户发布一个自定义修复。</p>
+<p>第二天，WebP团队在公共git仓库中发布了他们的第一个<a href="https://chromium.googlesource.com/webm/libwebp/%2B/902bc9190331343b2017211debcec8d2ab87e17a">建议修复</a>，五天后，即9月12日，Google发布了<a href="https://chromereleases.googleblog.com/2023/09/stable-channel-update-for-desktop_12.html">新的Chrome稳定版本</a>，其中包含了WebP修复。Apple和Google都将此问题标记为在野外被利用，提醒其他WebP集成商也应快速集成该修复，同时也引起了安全研究社区的密切关注...</p>
+<p>几周后，即2023年9月21日，前Project Zero团队负责人Ben Hawkes（与<a href="https://x.com/mistymntncop">@mistymntncop</a>合作）在Isosceles博客上发布了关于该漏洞根本原因的<a href="https://blog.isosceles.com/the-webp-0day/">第一篇详细分析</a>。几个月后，11月3日，一个名为<a href="https://www.darknavy.org/">Dark Navy</a>的团队发布了他们的第一篇博客文章：对WebP漏洞的两部分分析（<a href="https://www.darknavy.org/blog/exploiting_the_libwebp_vulnerability_part_1/">第一部分</a> - <a href="https://www.darknavy.org/blog/exploiting_the_libwebp_vulnerability_part_2/">第二部分</a>）以及针对Chrome的<a href="https://github.com/DarkNavySecurity/PoC/tree/main/CVE-2023-4863">概念验证漏洞利用</a>（CVE-2023-4863）。</p>
+<p>虽然Isosceles和Dark Navy的帖子非常详细地解释了底层的内存损坏漏洞，但他们未能解决这个谜题的另一个迷人部分：究竟如何在一次性的零点击设置中成功利用这个漏洞？正如我们很快将看到的，损坏原语非常有限。在没有样本访问权限的情况下，几乎不可能知道。</p>
+<p>11月中旬，在与<a href="https://securitylab.amnesty.org/">Amnesty International Security Lab</a>合作下，我能够获得一些BLASTPASS <a href="https://en.wikipedia.org/wiki/PKPASS">PKPass</a>样本文件以及来自失败漏洞利用尝试的崩溃日志。</p>
+<p>这篇博客文章涵盖了我对这些样本的分析，以及弄清楚NSO最近的一个零点击iOS漏洞利用如何真正工作的过程。对我来说，这个过程始于立即休了三个月的陪产假，并于2024年3月恢复，故事从这里开始：</p>
+<h3 id="场景设定">场景设定</h3><p>关于WebP漏洞的根本原因及其产生的原语的详细分析，我建议先阅读我之前提到的三篇博客文章（<a href="https://blog.isosceles.com/the-webp-0day/">Isosceles</a>、<a href="https://www.darknavy.org/blog/exploiting_the_libwebp_vulnerability_part_1/">Dark Navy 1</a>、<a href="https://www.darknavy.org/blog/exploiting_the_libwebp_vulnerability_part_2/">Dark Navy 2</a>）。我不会在这里重述他们的分析（既因为你应该阅读他们的原创作品，也因为分析相当复杂！）相反，我将简要讨论WebP以及该漏洞产生的损坏原语。</p>
+<h3 id="webp">WebP</h3><p><a href="https://developers.google.com/speed/webp">WebP</a>是一种相对现代的图像文件格式，首次发布于2010年。实际上，WebP实际上是两种完全不同的图像格式：<a href="https://developers.google.com/speed/webp/docs/compression%23lossy_webp">基于VP8视频编解码器的有损格式</a>和单独的<a href="https://developers.google.com/speed/webp/docs/compression%23lossless_webp">无损格式</a>。这两种格式除了都使用<a href="https://en.wikipedia.org/wiki/Resource_Interchange_File_Format">RIFF</a>容器并将字符串WEBP作为第一个块名外，没有任何共同点。从那时起（文件第12字节开始），它们就完全不同了。漏洞存在于无损格式中，RIFF块名为VP8L。</p>
+<p>无损WebP广泛使用<a href="https://en.wikipedia.org/wiki/Huffman_coding">霍夫曼编码</a>；BLASTPASS样本中至少存在10个霍夫曼树。在文件中，它们存储为<a href="https://en.wikipedia.org/wiki/Canonical_Huffman_code">规范霍夫曼树</a>，这意味着只保留代码长度。在解压缩时，这些长度直接转换为两级霍夫曼解码表，其中五个最大的表都被压缩到同一个预分配的缓冲区中。这些表的最大大小（事实证明并不完全）是根据它们编码的符号数量预先计算的。如果你看到这部分并且有点困惑，上面引用的其他三篇博客文章详细解释了这一点。</p>
+<p>通过控制符号长度，可以定义各种奇怪的树，其中许多是无效的。根本问题是WebP代码只在构建解码表之后检查树的有效性。但解码表的预计算大小仅对有效树是正确的。</p>
+<p>正如Isosceles博客文章所指出的，这意味着漏洞的一个基本部分是，触发漏洞会被检测到，尽管是在内存损坏之后，并且图像解析在几行代码后就会停止。这带来了另一个利用谜题：在零点击环境中，如何利用一个每次触发问题都会停止解析任何攻击者控制数据的漏洞？</p>
+<p>第二个谜题涉及实际的损坏原语。该漏洞将在霍夫曼表缓冲区末尾的已知偏移处写入一个HuffmanCode结构：</p>
+<p>// 霍夫曼查找表条目<br>typedef struct {<br>    uint8_t bits;<br>    uint16_t value;<br>} HuffmanCode;</p>
+<p><a href="https://www.darknavy.org/blog/exploiting_the_libwebp_vulnerability_part_1/%23how-to-control-the-data-to-write">正如DarkNavy指出的</a>，虽然bits和value字段名义上由攻击者控制，但实际上灵活性并不大。第五个霍夫曼表（位于预分配缓冲区末尾的那个，其中一部分可能被越界写入）只有40个符号，将value限制在最大值39（0x27），bits将在1到7之间（对于第二级表条目）。bits和value之间有一个填充字节，这使得可能被越界写入的最大值是0x00270007。而碰巧这正是漏洞利用实际写入的值——而且他们可能没有太多选择。</p>
+<p>霍夫曼表分配大小的灵活性也不大。漏洞利用中的表分配是12072（0x2F28）字节，将被四舍五入以适应0x3000字节的libmalloc small区域。选择的代码长度使得溢出像这样发生：</p>
+<p><img src="/images/98f2a5228f5a/986e2c32805c88d42c25ff1ee849dc81.png" alt="内存布局图，显示偏移0x3000处的霍夫曼表以及偏移0x3058处的霍夫曼查找表条目结构。" loading="lazy"></p>
+<p>总结：32位值0x270007将被写入0x3000字节霍夫曼表分配末尾0x58字节处。然后WebP解析将失败，解码器将退出。</p>
+<h3 id="似曾相识-">似曾相识？</h3><p>Project Zero博客的长期读者此时可能会感到似曾相识……我不是已经写过一篇关于NSO零点击iPhone零日漏洞利用的博客文章了吗？该漏洞利用了从iMessage附件解析的图像中使用的稍微晦涩的无损压缩格式中的漏洞。</p>
+<p><a href="/2021/12/a-deep-dive-into-nso-zero-click.html">确实如此</a>。</p>
+<p>BLASTPASS与<a href="https://en.wikipedia.org/wiki/FORCEDENTRY">FORCEDENTRY</a>有许多相似之处，我最初的直觉（结果完全错误）是这个漏洞利用可能采用类似的方法，使用一些更高级的WebP功能来构建一个奇怪的机器。为此，我首先编写了一个WebP解析器，看看实际使用了哪些功能。</p>
+<h3 id="变换">变换</h3><p>与<a href="https://en.wikipedia.org/wiki/JBIG2">JBIG2</a>非常相似，WebP也<a href="https://developers.google.com/speed/webp/docs/webp_lossless_bitstream_specification">支持</a>对输入像素数据的可逆变换：</p>
+<p><img src="/images/98f2a5228f5a/6cc6e9c7d2f813da8cd46a33188da58a.png" alt="WebP文档截图，解释'4种变换'及其在图像压缩中的作用。" loading="lazy"></p>
+<p><img src="/images/98f2a5228f5a/7c0921ba0eb1eeb093cf983db5d2cee4.png" alt="像素预测模式表格截图，包含计算预测值的相应公式。" loading="lazy"></p>
+<p>我最初的理论是，漏洞利用可能以类似于FORCEDENTRY的方式运行，并在图像缓冲区边界之外应用这些变换序列来构建一个奇怪的机器。但在用Python实现了足够的WebP格式来解析VP8L块的每一位之后，很明显它只触发了霍夫曼表溢出，没有其他操作。VP8L块只有1052字节，几乎全部都是触发溢出所需的10个霍夫曼表。</p>
+<h3 id="pass中有什么-">Pass中有什么？</h3><p>虽然BLASTPASS通常被称为&quot;WebP漏洞&quot;的漏洞利用，但攻击者实际上并不只是发送一个WebP文件（尽管iMessage支持WebP）。他们发送一个<a href="https://developer.apple.com/documentation/passkit_apple_pay_and_wallet">PassKit</a> PKPass文件，其中包含一个WebP。这一定有原因。所以让我们退一步，实际看看我收到的一个样本文件：</p>
+<p>171K sample.pkpass<br>$ file sample.pkpass<br>sample.pkpass: Zip archive data, at least v2.0 to extract, compression method=deflate</p>
+<p>PKPass zip存档中有五个文件：</p>
+<p>60K  background.png<br>5.5M logo.png<br>175B manifest.json<br>18B  pass.json<br>3.3K signature</p>
+<p>5.5MB的logo.png就是WebP图像，只是扩展名是.png而不是.webp：</p>
+<p>$ file logo.png:<br>logo.png:         RIFF (little-endian) data, Web/P image</p>
+<p>PKPass格式最接近的规范似乎是<a href="https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html">Wallet开发者指南</a>，虽然它没有明确说明.png文件实际上应该是便携式网络图形图像，但这大概是本意。这是与FORCEDENTRY的另一个相似之处，当时使用了类似的技巧在尝试解析GIF时访问PDF解析器。</p>
+<p>PKPass文件需要一个有效的签名，该签名包含在manifest.json和signature中。签名有一个可能是假的名字和更多的时间戳，表明PKPass很可能是在每次漏洞利用尝试时动态生成和签名的。</p>
+<p>pass.json只是这样：</p>
+<p>{&quot;pass&quot;: &quot;PKpass&quot;}</p>
+<p>最后是background.png：</p>
+<p>$ file background.png<br>background.png: TIFF image data, big-endian, direntries=15, height=16, bps=0, compression=deflate, PhotometricIntepretation=RGB, orientation=upper-left, width=48</p>
+<p>有趣。另一个具有误导性扩展名的文件；这次是一个带有.png扩展名的TIFF文件。</p>
+<p>我们将在分析后期回到这个TIFF，因为它在漏洞利用流程中起着关键作用，但现在我们将专注于WebP，并做一个简短的插曲：</p>
+<h3 id="blastdoor">Blastdoor</h3><p>到目前为止，我只提到了WebP漏洞，但我在本文开头链接的Apple公告提到了两个独立的CVE：</p>
+<p>第一个，ImageIO中的CVE-2023-41064，是WebP漏洞（尽管为了保持混淆，与上游WebP修复的CVE-2023-4863不同——但它们是同一个漏洞）。</p>
+<p>第二个，&quot;Wallet&quot;中的CVE-2023-41061，在Apple公告中描述为：&quot;恶意制作的附件可能导致任意代码执行&quot;。</p>
+<p><a href="https://blog.isosceles.com/the-webp-0day/">Isosceles博客文章</a>假设：</p>
+<p>&quot;Citizen Lab称此攻击为&#39;BLASTPASS&#39;，因为攻击者找到了一种巧妙的方法来绕过&#39;BlastDoor&#39; iMessage沙箱。我们没有完整的技术细节，但看起来通过将图像漏洞利用捆绑在PassKit附件中，恶意图像将在不同的、未沙箱化的进程中处理。这对应于Apple发布的第一个CVE，CVE-2023-41061。&quot;</p>
+<p>这个理论有道理——FORCEDENTRY有一个类似的技巧，<a href="/2022/03/forcedentry-sandbox-escape.html">JBIG2漏洞实际上是在IMTranscoderAgent内部被利用的</a>，而不是在限制更严格的BlastDoor沙箱中。但在我所有的实验以及我见过的所有野外崩溃日志中，这个假设似乎并不成立。</p>
+<p>PKPass文件及其包含的图像确实在BlastDoor沙箱内部被解析，崩溃或有效载荷执行就发生在那里——稍后我们还将看到证据，表明最终被评估的NSExpression有效载荷期望在BlastDoor内部运行。</p>
+<p>我猜CVE-2023-41061更可能指的是PKPass的宽松解析，它没有拒绝不是png的图像。</p>
+<p>2024年底，我收到了另一组野外崩溃日志，其中包括两个确实强烈表明也存在一条路径可以在MobileSMS进程中触发WebP漏洞，在BlastDoor沙箱之外！有趣的是，时间戳表明这些设备是在2023年11月被攻击的，即漏洞被修补两个月后。</p>
+<p>在这些情况下，WebP代码是通过由CKAttachmentMessagePartChatItem创建的ChatKit CKPassPreviewMediaObject在MobileSMS进程中访问到的。</p>
+<h3 id="webp中有什么-">WebP中有什么？</h3><p>我提到WebP文件中的VP8L块只有大约1KB。然而在上面的文件列表中，WebP文件是5.5MB！那么其余部分是什么呢？扩展我的WebP解析器，我们看到还有一个RIFF块：</p>
+<p>EXIF : 0x586bb8<br>exif is Intel byte alignment<br>EXIF has n_entries=1<br>  tag=8769 fmt=4 n_components=1 data=1a<br>  subIFD has n_entries=1<br>    tag=927c fmt=7 n_components=586b8c data=2c</p>
+<p>这是一个（非常非常大的）<a href="https://en.wikipedia.org/wiki/Exif">EXIF</a>——相机用于存储图像元数据的标准格式——比如相机型号、曝光时间、光圈等。</p>
+<p>它是一种基于标签的格式，几乎所有的5.5MB都在一个id为0x927c的标签内。那么这是什么？</p>
+<p>浏览一个<a href="https://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif.html">在线EXIF标签列表</a>，在镜头焦距标签下方和用户评论标签上方，我们发现了0x927c：</p>
+<p><img src="/images/98f2a5228f5a/cc837eab2552de0bf29e8aca86f43ef4.png" alt="EXIF标签定义表格截图。表格包括标签号、标签名和描述列。标签号0x927C的行，标签名为'MakerNote'，用红色高亮显示，描述为'制造商特定信息'。" loading="lazy"></p>
+<p>这是听起来非常模糊但迷人的：&quot;MakerNote - 制造商特定信息。&quot;</p>
+<p>查阅<a href="https://en.wikipedia.org/wiki/Exif">维基百科以获取一些澄清</a>，我们了解到：</p>
+<p>&quot;&#39;MakerNote&#39;标签包含通常为专有二进制格式的信息。&quot;</p>
+<p>修改webp解析器以转储MakerNote标签，我们看到：</p>
+<p>$ file sample.makernote<br>sample.makernote: Apple binary property list</p>
+<p>Apple为&quot;专有二进制格式&quot;选择的格式是二进制plist！</p>
+<p>确实：在IDA中查看ImageIO库，在WebP解析器、EXIF解析器、MakerNote解析器和二进制plist解析器之间有一条清晰的路径。</p>
+<h3 id="unbplisting">unbplisting</h3><p>我在<a href="/2023/10/an-analysis-of-an-in-the-wild-ios-safari-sandbox-escape.html">之前的博客文章</a>中介绍了二进制plist格式。那是我第二次不得不分析大型bplist。第一次（对于FORCEDENTRY沙箱逃逸）主要是手工完成的，只使用了plutil的人类可读输出。去年，对于Safari沙箱逃逸分析，bplist是437KB，我不得不编写一个自定义的bplist解析器来弄清楚发生了什么。保持指数曲线增长，今年的bplist又大了10倍。</p>
+<p>在这种情况下，很明显bplist必须是堆布局的一部分——而且大小为5.5MB，可能相当复杂。那么它在做什么呢？</p>
+<h3 id="切换视图">切换视图</h3><p>我直觉认为bplist会使用重复的字典键作为堆布局的基本构建块，但运行我的解析器时没有输出任何重复键……直到我意识到我的工具在转储之前直接将解析后的字典存储为Python字典。修复工具以保留键和值的列表后，很明显存在重复键。很多重复键：</p>
+<p><img src="/images/98f2a5228f5a/2c215fea2c132f3e04bc0d059406d5d0.png" alt="代码截图，显示一系列嵌套字典创建/重复键" loading="lazy"></p>
+<p>在Safari漏洞利用分析中，我描述了我如何使用不同的可视化技术来尝试探索对象的结构，寻找可以用来简化情况的模式。在这种情况下，修改解析器以发出格式良好的花括号和缩进，然后依赖<a href="https://code.visualstudio.com/">VS Code</a>的自动代码折叠功能，足以浏览和了解布局对象的结构。</p>
+<p>有时正确的可视化技术足以弄清楚漏洞利用试图做什么。在这种情况下，原语是基于堆的缓冲区溢出，布局不可避免地会尝试将两个东西放在内存中相邻的位置，我想知道&quot;哪两个东西？&quot;</p>
+<p>但无论我盯着和滚动多久，我都无法弄清楚任何事情。是时候尝试不同的方法了。</p>
+<h3 id="检测">检测</h3><p>我编写了一个小助手，使用与MakerNote解析器相同的API加载bplist，并使用Mac Instruments应用程序运行它：</p>
+<p><img src="/images/98f2a5228f5a/449f72c9544a0180aa154d1c72a82faa.png" alt="Instruments应用程序截图，显示内存分配，顶部三个类别的详细信息：'All Heap & Anonymous...'、'CFString (store)'和'Malloc 16.00 KiB'" loading="lazy"></p>
+<p>解析单个5.5MB的bplist导致近50万次分配，消耗了近1GB的内存。仅查看这个分配摘要，很明显有很多CFString和CFData对象，可能用于堆整形。进一步查看列表，还有其他有趣的数字：</p>
+<p><img src="/images/98f2a5228f5a/ede93f412900e30354d421257652ce7b.png" alt="内存分配表，显示'All Heap & Anonymous...'使用了990.66 MiB的总字节数，其中660.77 MiB是持久性的。" loading="lazy"></p>
+<p>最后一行中的20&#39;000这个数字太整齐了，不可能是巧合。这个数字与分配的__NSDictionaryM对象数量相符：</p>
+<p><img src="/images/98f2a5228f5a/978e1f68886c4b72e60821b6637eb6ca.png" alt="按分配大小细分的内存使用情况表，显示每种大小的分配数量、每个分配的大小以及每种大小使用的总内存。在图像中间，有20000个__NSDictionaryM对象被分配。" loading="lazy"></p>
+<p>最后，在列表的最底部，还有两个突出的分配模式：</p>
+<p><img src="/images/98f2a5228f5a/018a54531c8446cdb71eb3ddcf938253.png" alt="内存分配表截图，列出详细信息如大小、数量和总字节数，突出显示两组非常大的分配：八十个1MB分配和44个4MB分配。" loading="lazy"></p>
+<p>有两组非常大的分配：八十个1MB分配和44个4MB分配。</p>
+<p>我再次修改了我的bplist工具，以转储每个唯一的字符串或数据缓冲区，以及它被看到的次数和其哈希值。查看文件列表，有一个清晰的模式：</p>
+<table>
+<thead>
+<tr>
+<th>对象大小</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x3FFFFF</td>
+<td>44</td>
+</tr>
+<tr>
+<td>0xFFFFF</td>
+<td>80</td>
+</tr>
+<tr>
+<td>0x3FFF</td>
+<td>20</td>
+</tr>
+<tr>
+<td>0x26A9</td>
+<td>24978</td>
+</tr>
+<tr>
+<td>0x2554</td>
+<td>44</td>
+</tr>
+<tr>
+<td>0x23FF</td>
+<td>5822</td>
+</tr>
+<tr>
+<td>0x22A9</td>
+<td>4</td>
+</tr>
+<tr>
+<td>0x1FFF</td>
+<td>2</td>
+</tr>
+<tr>
+<td>0x1EA9</td>
+<td>26</td>
+</tr>
+<tr>
+<td>0x1D54</td>
+<td>40</td>
+</tr>
+<tr>
+<td>0x17FF</td>
+<td>66</td>
+</tr>
+<tr>
+<td>0x13FF</td>
+<td>66</td>
+</tr>
+<tr>
+<td>0x3FF</td>
+<td>322</td>
+</tr>
+<tr>
+<td>0x3D7</td>
+<td>404</td>
+</tr>
+<tr>
+<td>0xF</td>
+<td>112882</td>
+</tr>
+<tr>
+<td>0x8</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p>有大量分配的大小刚好低于十六进制的&quot;整数&quot;：0x3ff、0x13ff、0x17ff、0x1fff、0x23ff、0x3fff……这强烈暗示它们的大小被设计为恰好落在某些分配器大小桶内。</p>
+<p>几乎所有的分配都只填充了零或&#39;A&#39;。但1MB的那个非常不同：</p>
+<p>$ hexdump -C 170ae757_80.bin | head -n 20<br>00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>00000010  00 00 00 00 00 00 00 00  80 26 00 00 01 00 00 00  |.........&amp;......|<br>00000020  1f 00 00 00 00 00 00 00  10 00 8b 56 02 00 00 00  |...........V....|<br>00000030  b0 c3 31 16 02 00 00 00  60 e3 01 00 00 00 00 00  |..1.....`.......|<br>*<br>00000070  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>*<br>000004b0  00 00 00 00 00 00 00 00  10 c4 31 16 02 00 00 00  |..........1.....|<br>000004c0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>*<br>000004e0  02 1c 00 00 01 00 00 00  00 00 00 00 00 00 00 00  |................|<br>000004f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>00000500  00 00 00 00 00 00 00 00  70 80 33 16 02 00 00 00  |........p.3.....|<br>00000510  b8 b5 e5 57 02 00 00 00  ff ff ff ff ff ff ff ff  |...W............|<br>00000520  58 c4 31 16 02 00 00 00  00 00 00 00 00 00 00 00  |X.1.............|<br>00000530  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|<br>*<br>00000550  50 75 2c 18 02 00 00 00  01 00 00 00 00 00 00 00  |Pu,.............|</p>
+<p>在1MB对象的hexdump的后面部分，显然有一个NSExpression有效载荷——这个有效载荷在WebP文件上运行strings命令时也可见。iVerify的Matthias Frielingsdorf在BlackHat Asia上做了一个<a href="https://i.blackhat.com/Asia-24/Asia-24-Frielingsdorf-YouShallNotPassAnalysing.pdf">关于这个NSExpression有效载荷初步分析的演讲</a>，我们将在本文末尾回到这一点。</p>
+<p>同样引人注目（并且在上面的hexdump中可见）：显然有指针在那里。在分析的早期阶段，尚不清楚这是一个以某种方式重新定位的有效载荷，还是存在单独的ASLR泄露步骤。</p>
+<p>在稍高的层次上，这个hexdump看起来有点像Objective-C或C++对象，但有些地方很奇怪。为什么前24字节都是零？为什么没有isa指针或虚函数表？看起来好像有一些整数字段在指针之前，但它们是什么？在分析的这一阶段，我一无所知。</p>
+<h3 id="动态思考">动态思考</h3><p>我做了很多尝试来在真实设备上重现漏洞利用原语；我构建了工具来动态生成和签名合法的PKPass文件，可以通过iMessage发送到测试设备，我可以造成很多崩溃，但我似乎从未深入漏洞利用——堆布局工作的iOS版本范围似乎相当小，而且我没有完全匹配的设备和iOS版本来测试。</p>
+<p>无论我尝试什么：通过iMessage发送原始漏洞利用、发送带有触发器和布局的自定义PKPass、在测试应用程序中直接渲染WebP，或者尝试使用PassKit API来渲染PKPass文件，我动态管理的最好结果是触发堆元数据完整性检查失败，我认为这表明漏洞利用失败了。</p>
+<p>（有趣的是，使用合法API在应用程序内部渲染PKPass失败，错误是PKPass文件格式错误。确实，漏洞利用样本PKPass格式错误：它缺少多个必需文件。但&quot;安全&quot;的PKPass BlastDoor解析器入口点（PKPassSecurePreviewContextCreateMessagesPreview）在这方面至少不那么严格，会尝试渲染不完整和无效的PKPass）。</p>
+<p>尽管让整个PKPass被解析被证明很棘手，但通过一些逆向工程，可以调用正确的底层CoreGraphics API来渲染WebP，并让EXIF/MakerNote被解析。然后通过在霍夫曼表分配时设置断点，我希望能够明显看出溢出目标是什么。但实际上完全不清楚后面的对象是什么：（这里X3指向霍夫曼表的开头，大小为0x3000字节）</p>
+<p>(lldb) x/6xg $x3+0x3000<br>0x112000000: 0x0000000111800000 0x0000000000000000<br>0x112000010: 0x00000000001a1600 0x0000000000000004<br>0x112000020: 0x0000000000000001 0x0000000000000019</p>
+<p>第一个四字（0x111800000）是一个有效的指针，但这显然不是Objective-C对象，也不像任何其他可识别的对象，与bplist或WebP关系不大。但运行几次测试后，有一个奇怪的模式：</p>
+<p>(lldb) x/6xg $x3+0x3000<br>0x148000000: 0x0000000147800000 0x0000000000000000<br>0x148000010: 0x000000000019c800 0x0000000000000004<br>0x148000020: 0x0000000000000001 0x0000000000000019</p>
+<p>霍夫曼表是0x2F28字节，分配器将其四舍五入为0x3000。在这两次测试运行中，将分配大小添加到霍夫曼表指针产生了一个可疑的整数。这不可能是巧合。运行更多测试，table+0x3000指针总是8MB对齐的。我记得从我读过的一些关于iOS用户空间分配器的演示中，8MB是一个有意义的数字。这是<a href="https://www.synacktiv.com/ressources/Sthack_2018_Heapple_Pie.pdf">Synaktiv的一个演示</a>：</p>
+<p><img src="/images/98f2a5228f5a/a7c3d864a99560717552e2808ac8e127.png" alt="SynAckTiv的演示幻灯片，解释使用Tiny、Small和Large机架的可扩展区域内存分配" loading="lazy"></p>
+<p>或者<a href="https://www.slideshare.net/AngelBoy1/macos-memory-allocator-libmalloc-exploitation%2352">Angelboy的这个演示</a>：</p>
+<p><img src="/images/98f2a5228f5a/836f433817534492a4f64ddee551299d.png" alt="Angelboy的幻灯片，解释libmalloc中的'Small'内存区域，注意其大小为0x800000和16319个块，并显示其内存布局和链表结构的图表。" loading="lazy"></p>
+<p>8MB是iOS用户空间默认分配器的小型机架区域的大小。看起来他们可能试图布局分配器，而不是针对应用程序特定的数据，而是针对分配器元数据。是时候深入研究一些libmalloc内部机制了！</p>
+<h3 id="libmalloc">libmalloc</h3><p>我建议阅读上面链接的两个演示，以很好地了解iOS默认用户空间malloc实现。Libmalloc在四个抽象级别上管理内存。从大到小依次是：机架、杂志、区域和块。微小、小型和大型机架之间的尺寸分割取决于平台。这个漏洞利用的几乎所有相关分配都来自小型机架，所以我将专注于它。</p>
+<p>阅读libmalloc源代码时，我注意到区域尾部虽然仍称为尾部，但现在已移动到区域对象的开头。小型区域以8MB的块管理内存。这8MB被分成（对我们来说）三个相关部分：头部、元数据字数组，然后是形成分配的512字节块：</p>
+<p><img src="/images/98f2a5228f5a/dbe37ac5719423cd2adb57272f986706.png" alt="内存布局图，左侧有一个小的粉红色块，标有'空闲标志位'和'15个计数位'，尺寸为'0x28字节'。下方是一个较大的白色块，标有'512字节'。右侧是一个较大的结构，由三个堆叠的块组成，颜色为绿色、红色和蓝色，整个结构标有'0x8200字节'和'8MB'。" loading="lazy"></p>
+<p>前0x28字节是头部，其中前两个字段形成小型区域的双向链表：</p>
+<p>typedef struct region_trailer {<br>    struct region_trailer *prev;<br>    struct region_trailer *next;<br>    unsigned bytes_used;<br>    unsigned objects_in_use;<br>    mag_index_t mag_index;<br>    volatile int32_t pinned_to_depot;<br>    bool recirc_suitable;<br>    rack_dispose_flags_t dispose_flags;<br>} region_trailer_t;</p>
+<p>小型区域以512字节为单位管理内存，称为块。在iOS上，来自小型区域的分配由最多31个块的连续运行组成。每个块都有一个相关的16位元数据字，称为小型元字，它本身被细分为最高有效位的&quot;空闲&quot;标志和15位计数。</p>
+<p>要将连续的块运行标记为正在使用（属于一个分配），第一个元字清除其空闲标志，并将计数设置为运行中的块数。释放时，分配首先被放置在快速重用而不释放的lookaside列表上。但一旦分配真正被释放，分配器将尝试贪婪地合并相邻的块。虽然正在使用的运行不能超过31个块，但空闲运行可以增长到包含整个区域。</p>
+<h3 id="布局">布局</h3><p>下面你可以看到紧跟在包含霍夫曼表作为其最后一个分配的小型区域之后的小型区域的元字数组状态：</p>
+<p>(lldb) x/200wh 0x148000028<br>0x148000028: 0x0019 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000038: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000048: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000058: 0x0000 0x0003 0x0000 0x0000 0x0018 0x0000 0x0000 0x0000<br>0x148000068: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000078: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000088: 0x0000 0x0000 0x0000 0x0000 0x0003 0x0000 0x0000 0x001c<br>0x148000098: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x1480000a8: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x1480000b8: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x1480000c8: 0x0000 0x0000 0x0000 0x001d 0x0000 0x0000 0x0000 0x0000</p>
+<p>通过一些简单的数学计算，我们可以将元字数组中的索引转换为其对应的堆指针。这样做可以转储上面显示的分配相关的内存。较大的0x19、0x18和0x1c分配似乎都是通用的布局分配，但两个0x3块分配看起来更有趣。第一个（第一个元字在0x14800005a，用黄色显示）是code_lengths数组，在霍夫曼表构建失败后直接释放。蓝色的0x3块运行（第一个元字在0x148000090）是来自MakerNote的CFSet对象的后备缓冲区，包含对象指针。</p>
+<p>回想一下，损坏原语将在0x3000分配（该分配恰好位于这个小型区域的正前方）末尾0x58字节处写入双字0x270007。该损坏具有以下效果（以粗体显示）：</p>
+<p>(lldb) x/200wh 0x148000028<br>0x148000028: 0x0019 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000038: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000048: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000058: 0x0007 0x0027 0x0000 0x0000 0x0018 0x0000 0x0000 0x0000<br>0x148000068: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000078: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000088: 0x0000 0x0000 0x0000 0x0000 0x0003 0x0000 0x0000 0x001c<br>0x148000098: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x1480000a8: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x1480000b8: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x1480000c8: 0x0000 0x0000 0x0000 0x001d 0x0000 0x0000 0x0000 0x0000</p>
+<p>它将正在使用的分配的大小从3块更改为39块（或从1536字节更改为19968字节）。我之前提到过，正在使用的分配的最大大小应该是31块，但这似乎不是在每个单独的释放路径中都检查。如果事情不太顺利，你会遇到运行时检查。但如果事情顺利，你会遇到这样的情况：</p>
+<p>(lldb) x/200wh 0x148000028<br>0x148000028: 0x0019 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000038: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000048: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000058: 0x0007 0x8027 0x0000 0x0000 0x0018 0x0000 0x0000 0x0000<br>0x148000068: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000078: 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000 0x0000<br>0x148000088: 0x0000 0x0000 0x0000 0x0000 0x0003 0x</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/0day.html" class="tag-link">#0day</a> <a href="/tag/漏洞分析.html" class="tag-link">#漏洞分析</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/堆漏洞.html" class="tag-link">#堆漏洞</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/内存安全.html" class="tag-link">#内存安全</a> <a href="/tag/macOS安全.html" class="tag-link">#macOS安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#场景设定" class="toc-link">
+              <span class="toc-text">场景设定</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#webp" class="toc-link">
+              <span class="toc-text">WebP</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#似曾相识-" class="toc-link">
+              <span class="toc-text">似曾相识？</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#变换" class="toc-link">
+              <span class="toc-text">变换</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#pass中有什么-" class="toc-link">
+              <span class="toc-text">Pass中有什么？</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#blastdoor" class="toc-link">
+              <span class="toc-text">Blastdoor</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#webp中有什么-" class="toc-link">
+              <span class="toc-text">WebP中有什么？</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#unbplisting" class="toc-link">
+              <span class="toc-text">unbplisting</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#切换视图" class="toc-link">
+              <span class="toc-text">切换视图</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#检测" class="toc-link">
+              <span class="toc-text">检测</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#动态思考" class="toc-link">
+              <span class="toc-text">动态思考</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#libmalloc" class="toc-link">
+              <span class="toc-text">libmalloc</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#布局" class="toc-link">
+              <span class="toc-text">布局</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

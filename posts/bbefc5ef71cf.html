@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用 IDA 和 TinyInst 在用户空间进行简单的 macOS 内核扩展模糊测试 - BasicBit</title>
+  <meta name="description" content="使用 IDA 和 TinyInst 在用户空间进行简单的 macOS 内核扩展模糊测试">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">使用 IDA 和 TinyInst 在用户空间进行简单的 macOS 内核扩展模糊测试</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2024/11/21
+            </span>
+            <span class="meta-item">Ivan Fratric</span>
+            <span class="meta-item">模糊测试, 网络安全, 移动安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2024/11/simple-macos-kernel-extension-fuzzing.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2024%2F11%2Fsimple-macos-kernel-extension-fuzzing.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Ivan Fratric，Google Project Zero</p>
+<p>最近，我参与的一个项目涉及苹果平台上的视频解码，特别是AV1解码。在支持AV1视频格式的苹果设备上（从Apple A17 iOS/M3 macOS开始），解码是在硬件中完成的。然而，尽管如此，在解码过程中，AV1格式解析的很大一部分发生在软件中，在内核内部，更具体地说是在AppleAVD内核扩展中（或者至少在macOS 14/iOS 17中曾经是这样）。由于fuzzing是我们经常使用的技术之一，如何有效地fuzz这段代码的问题不可避免地出现了。</p>
+<p>需要指出的是，我并不是第一个研究苹果内核扩展fuzzing问题的人，因此在详细介绍我的方法之前，应该提一下这个领域的其他项目。</p>
+<p>在<a href="https://www.google.com/url?q=https://github.com/pwn0rz/fairplay_research&sa=D&source=editors&ust=1732109826665586&usg=AOvVaw2FnTI8T0cVTT1L2JVZrloR">Fairplay研究</a>项目中，@pwn0rz使用自定义加载器将内核扩展加载到用户空间。一位同事尝试在当前AppleAVD扩展上运行此代码，但对他们来说并不奏效（至少不能直接使用），所以我们最终没有使用它。这里需要指出的是，我的方法也将内核代码加载到用户空间，尽管方式更轻量。</p>
+<p>在Hexacon 2022的<a href="https://www.google.com/url?q=https://2022.hexacon.fr/slides/hexacon2022_AppleAVD.pdf&sa=D&source=editors&ust=1732109826665829&usg=AOvVaw37MzWB_X_wWGPblQWVVSgA">Cinema time!</a>演讲中，Andrey Labunets和Nikita Tarakanov介绍了他们fuzzing AppleAVD的方法，即首先使用IDA提取反编译代码，然后重建。我过去在一些更受限的场景中使用过这种方法，但IDA反编译的代码并不完美，经常需要手动修复（例如，当IDA错误地获取函数的堆栈布局时）。</p>
+<p>在<a href="https://www.google.com/url?q=https://www.usenix.org/conference/usenixsecurity23/presentation/yin&sa=D&source=editors&ust=1732109826666172&usg=AOvVaw01DJ5e3AtzVICfDMFA--b9">KextFuzz</a>项目中，Tingting Yin及其合著者通过将指针认证指令替换为跳转到收集覆盖率的trampoline来静态检测内核扩展，从而实现了部分覆盖率。</p>
+<p>最近，Meysam Firouzi的<a href="https://www.google.com/url?q=https://r00tkitsmm.github.io/fuzzing/2024/11/08/Pishi.html&sa=D&source=editors&ust=1732109826666444&usg=AOvVaw3AlBWiaSYgHpY_zWen8REB">Pishi</a>项目就在这项研究之前发布。该项目使用Ghidra识别所有基本块，然后静态检测内核扩展代码，将每个基本块中的一条指令替换为跳转到专用trampoline的分支。trampoline记录覆盖率，执行被替换的指令，然后跳回下一条指令的地址。据报道，这可以在真实设备上运行。</p>
+<p>考虑到这些其他项目的存在，值得说明的是，我的目标不一定是创建内核扩展fuzzing的“最佳”方法，而是对我来说最简单的方法（如果我们不计算所使用的现成工具的底层复杂性）。简而言之，我的方法（将在其他部分详细讨论）是：</p>
+<ol>
+<li>将AppleAVD扩展或完整kernelcache加载到IDA中</li>
+<li>将模块重定位到可以在用户空间中可靠分配的地址</li>
+<li>使用IDA Python脚本导出原始内存</li>
+<li>使用自定义加载器加载导出的字节</li>
+<li>使用自定义<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/TinyInst&sa=D&source=editors&ust=1732109826667480&usg=AOvVaw2o31c8GLJoKLv7nsymgTWI">TinyInst</a>模块来hook和检测扩展</li>
+<li>使用<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/Jackalope&sa=D&source=editors&ust=1732109826667687&usg=AOvVaw0RtwSfpDaMMyf56zmPPGGc">Jackalope</a>进行fuzzing</li>
+</ol>
+<p>所有项目代码都可以在<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/p0tools/tree/master/SimpleKextFuzzing&sa=D&source=editors&ust=1732109826667926&usg=AOvVaw0hlvs1WHxSpAssYFPacajC">这里</a>找到。各种组件将在博客文章的其余部分更详细地解释。</p>
+<h1 id="提取内核扩展代码">提取内核扩展代码</h1><p>通常，在macOS上，内核扩展被打包在“内核集合”文件中，这些文件充当多个扩展的容器。在首次操作系统启动时（以及每当内核扩展发生更改时），机器所需的内核扩展会被重新打包成所谓的“内核缓存”（文件系统上的kernelcache文件）。可以从这些缓存和集合中提取内核扩展，但现有的工具无法真正生成可以加载到用户空间并无问题运行的单个.dylib文件。</p>
+<p>然而，逆向工程工具，特别是本研究中使用的IDA Pro，附带了一个令人惊讶的苹果内核缓存加载器。我没有尝试过其他逆向工程工具的比较，但如果它们具有可比性，并且有人愿意为项目做出贡献，我很乐意接受这些其他工具的导出脚本。</p>
+<p>因此，我们可以简单地利用IDA的加载器，而不是编写自己的加载器。想法很简单：</p>
+<ul>
+<li>我们让IDA加载我们想要的内核扩展（甚至整个kernelcache）</li>
+<li>我们使用IDA重定位代码，使其位于用户空间中可映射的内存范围内（见图）</li>
+<li>使用简单的IDA Python脚本，我们为每个内存段导出其起始地址、结束地址、保护标志和原始字节</li>
+<li>可选地，我们还可以使用相同的脚本导出所有符号名称和相应的地址，以便稍后可以通过名称引用符号</li>
+</ul>
+<p>下图显示了内核扩展的重定位。在IDA中，可以通过Edit-&gt;Segments-&gt;Rebase program…菜单访问此功能。选择新的基地址时，仅更改高位很方便，这样在需要时可以轻松地将重定位地址手动转换为原始地址，反之亦然。在下面的示例中，映像基地址从0xFFFFFE000714C470更改为0xAB0714C470。</p>
+<p><img src="/images/bbefc5ef71cf/0eaa1ec8b03875966dea7486ffcf4d67.png" alt="截图显示选中的映像基地址，值设置为0xAB0714C470，同时选中了修复程序和重定位整个映像选项" loading="lazy"></p>
+<p>图1：重定位扩展</p>
+<p>导出数据的IDA脚本可以在<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/p0tools/blob/master/SimpleKextFuzzing/segexport.py&sa=D&source=editors&ust=1732109826669199&usg=AOvVaw0cWfCbkZ7rLjG453N5Q3gz">这里</a>找到。您可以在IDA中使用以下命令运行它：</p>
+<p>sys.path.append(&#39;/directory/containing/export/script&#39;)</p>
+<p>import segexport</p>
+<p>segexport.export(&#39;/path/to/output/file)</p>
+<h1 id="加载和运行">加载和运行</h1><p>现在，加载导出的数据应该只是内存映射正确地址并从导出文件复制相应数据的问题。您可以在<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/p0tools/blob/master/SimpleKextFuzzing/loader.cpp&sa=D&source=editors&ust=1732109826669715&usg=AOvVaw2IxnL8sy18E8TM5QjjM-Jf">这里</a>的load()函数中看到它。</p>
+<p>但是，由于我们现在在用户空间中加载和运行内核代码，因此会有一些函数无法良好运行，或者我们希望更改。其中一个例子是内核分配器函数，我们希望用系统malloc替换它们。</p>
+<p>替换这些函数的一种方法是重写我们想要替换的每个函数的prolog，使其跳转到其替换函数。但是，由于我们稍后将使用<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/TinyInst&sa=D&source=editors&ust=1732109826670108&usg=AOvVaw0mV2gyAw6aW4pwSOPW8YVh">TinyInst</a>来提取代码覆盖率，因此有一种更简单的方法。我们将简单地向每个要替换的函数写入一个断点指令。由于TinyInst（除其他外）是一个调试器，它将捕获每个断点，并且从TinyInst进程中，我们可以用相应替换函数的地址替换指令指针。更多细节可以在下一节中找到。</p>
+<p>除了替换内存分配函数、日志记录函数等之外，我们还需要替换所有与我们无法从用户空间访问（或者在我们的情况下，甚至机器上不存在）的硬件交互的函数。在AppleAVD内核扩展中的AV1解析代码的情况下，会调用一个名为AppleAVD::sendCommandToCommandGate的函数，我假设这是为了与解码硬件通信。因此，作为harness的一部分，此函数被替换为始终返回0（成功）的函数。</p>
+<p>AV1 harness代码的最终代码可以在<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/p0tools/blob/master/SimpleKextFuzzing/avdharness.cpp&sa=D&source=editors&ust=1732109826670612&usg=AOvVaw1k3F3h5n4vGZnj1aaOcSN7">这里</a>找到。它可以编译为：</p>
+<p>clang++ loader.cpp avdharness.cpp -oloader</p>
+<p>并且可能需要一些额外的权限才能运行，可以使用以下命令应用：</p>
+<p>codesign --entitlements entitlements.txt -f -s - ./loader</p>
+<p>请注意，在harness代码中，尽管我尽可能尝试依赖符号名称而不是硬编码的偏移量，但它仍然包含一些结构体偏移量。此版本的harness基于macos 14.5内核，这是编写加载器时最新的操作系统版本。</p>
+<h1 id="编写自定义tinyinst模块">编写自定义TinyInst模块</h1><p>本节解释了伴随加载器的自定义TinyInst模块（并且是加载器正常运行所必需的）。此代码不包含任何特定于特定内核扩展的内容，因此可以按原样重用。如果您对它的工作原理或编写自定义TinyInst模块不感兴趣，那么可以跳过本节。</p>
+<p>首先，由于我们希望提取代码覆盖率以用于fuzzing，我们将基于LiteCov（TinyInst的“默认”代码覆盖率模块）构建我们的自定义模块：</p>
+<p>class AVDInst : public LiteCov {</p>
+<p>…</p>
+<p>};</p>
+<p>其次，我们需要一种方式让我们的自定义加载器与TinyInst模块通信</p>
+<ul>
+<li>它需要告诉TinyInst内核扩展中的哪些函数应该被哪些替换函数替换。</li>
+<li>它需要告诉TinyInst内核扩展加载的位置，以便TinyInst可以检测它。</li>
+</ul>
+<p>虽然TinyInst提供了一个<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/TinyInst/blob/master/hook.md&sa=D&source=editors&ust=1732109826673105&usg=AOvVaw06jbkjNAOsFhc9kx237_vN">用于函数hook的API</a>，我们可以在这里使用，但也有一种更直接（尽管也更底层）的方式。从我们的加载器中，我们将简单地调用某个硬编码的非映射地址处的函数。这将再次导致TinyInst（作为调试器）捕获的异常，从寄存器读取参数，执行所需操作并“返回”（通过用链接寄存器中的值替换指令指针）。加载器使用硬编码地址0x747265706C616365来注册替换，使用0x747265706C616366来告诉TinyInst要检测的地址范围：</p>
+<p>#define TINYINST_REGISTER_REPLACEMENT 0x747265706C616365</p>
+<p>#define TINYINST_CUSTOM_INSTRUMENT 0x747265706C616366</p>
+<p>我们可以在自定义模块的异常处理程序中捕获这些：</p>
+<p>bool AVDInst::OnException(Exception *exception_record) {</p>
+<p>…</p>
+<p>if(exception_address == TINYINST_REGISTER_REPLACEMENT) {</p>
+<p>RegisterReplacementHook();</p>
+<p>return true;</p>
+<p>}</p>
+<p>if(exception_address == TINYINST_CUSTOM_INSTRUMENT) {</p>
+<p>InstrumentCustomRange();</p>
+<p>return true;</p>
+<p>}</p>
+<p>…</p>
+<p>}</p>
+<p>然后读取参数并执行所需操作：</p>
+<p>void AVDInst::RegisterReplacementHook() {</p>
+<p>uint64_t original_address = GetRegister(X0);</p>
+<p>uint64_t replacement_address = GetRegister(X1);</p>
+<p>redirects[original_address] = replacement_address;</p>
+<p>SetRegister(ARCH_PC, GetRegister(LR));</p>
+<p>}</p>
+<p>void AVDInst::InstrumentCustomRange() {</p>
+<p>uint64_t min_address = GetRegister(X0);</p>
+<p>uint64_t max_address = GetRegister(X1);</p>
+<p>InstrumentAddressRange(&quot;<strong>custom_range</strong>&quot;, min_address, max_address);</p>
+<p>SetRegister(ARCH_PC, GetRegister(LR));</p>
+<p>}</p>
+<p>其中InstrumentAddressRange是最近添加的TinyInst函数，它将检测其参数中给出的地址之间的所有代码。“<strong>custom_range</strong>”只是我们给这个内存区域的名称，以便我们可以区分多个检测模块（如果有多个）。</p>
+<p>接下来，TinyInst需要执行实际的函数替换。如上所述，这可以在我们模块的异常处理程序中完成。</p>
+<p>auto iter = redirects.find(exception_address);</p>
+<p>if(iter != redirects.end()) {</p>
+<p>// printf(&quot;Redirecting...\n&quot;);</p>
+<p>SetRegister(ARCH_PC, iter-&gt;second);</p>
+<p>return true;</p>
+<p>}</p>
+<p>这对于在没有检测的情况下运行内核扩展（例如收集覆盖率）来说基本足够了。但是，如果我们还想检测扩展，那么检测过程涉及在另一个位置重写扩展代码，并插入例如记录覆盖率的附加指令。这样做的后果是，我们的断点指令（我们为了重定向而插入的）将在不同的地址被重写。我们需要让TinyInst意识到这一点（顺便说一下，TinyInst Hook API在底层执行此操作，但在此模块中未使用）。我们可以在InstrumentInstruction函数中执行此操作，该函数在检测每条指令时被调用：</p>
+<p>InstructionResult AVDInst::InstrumentInstruction(ModuleInfo *module,</p>
+<p>Instruction&amp; inst,</p>
+<p>size_t bb_address,</p>
+<p>size_t instruction_address)</p>
+<p>{</p>
+<p>auto iter = redirects.find(instruction_address);</p>
+<p>if(iter != redirects.end()) {</p>
+<p>instrumented_redirects[assembler_-&gt;Breakpoint(module)] = iter-&gt;second;</p>
+<p>return INST_STOPBB;</p>
+<p>}</p>
+<p>return LiteCov::InstrumentInstruction(module, inst, bb_address, instruction_address);</p>
+<p>}</p>
+<p>INST_STOPBB返回值告诉TinyInst停止处理当前基本块。由于在断点/重定向时，我们将执行重定向到另一个函数，因此同一基本块中的其他指令永远不会被执行，因此不需要。</p>
+<p>在此之后，我们现在知道了检测代码和非检测代码中断点（以及相应的替换）的地址。我们自定义模块的最终异常处理程序如下所示：</p>
+<p>bool AVDInst::OnException(Exception *exception_record) {</p>
+<p>size_t exception_address;</p>
+<p>if(exception_record-&gt;type == BREAKPOINT)</p>
+<p>{</p>
+<p>exception_address = (size_t)exception_record-&gt;ip;</p>
+<p>} else if(exception_record-&gt;type == ACCESS_VIOLATION) {</p>
+<p>exception_address = (size_t)exception_record-&gt;access_address;</p>
+<p>} else {</p>
+<p>return LiteCov::OnException(exception_record);</p>
+<p>}</p>
+<p>if(exception_address == TINYINST_REGISTER_REPLACEMENT) {</p>
+<p>RegisterReplacementHook();</p>
+<p>return true;</p>
+<p>}</p>
+<p>if(exception_address == TINYINST_CUSTOM_INSTRUMENT) {</p>
+<p>InstrumentCustomRange();</p>
+<p>return true;</p>
+<p>}</p>
+<p>auto iter = redirects.find(exception_address);</p>
+<p>if(iter != redirects.end()) {</p>
+<p>// printf(&quot;Redirecting...\n&quot;);</p>
+<p>SetRegister(ARCH_PC, iter-&gt;second);</p>
+<p>return true;</p>
+<p>}</p>
+<p>iter = instrumented_redirects.find(exception_address);</p>
+<p>if(iter != instrumented_redirects.end()) {</p>
+<p>// printf(&quot;Redirecting...\n&quot;);</p>
+<p>SetRegister(ARCH_PC, iter-&gt;second);</p>
+<p>return true;</p>
+<p>}</p>
+<p>return LiteCov::OnException(exception_record);</p>
+<p>}</p>
+<p>包含所有管理函数的完整代码可以在<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/p0tools/blob/master/SimpleKextFuzzing/avdinst.cpp&sa=D&source=editors&ust=1732109826694386&usg=AOvVaw3nQkwr4RgPNyoXfRsmw4SP">这里</a>找到。</p>
+<h1 id="fuzzing和发现">Fuzzing和发现</h1><p>一旦我们的自定义模块准备就绪，我们仍然需要确保TinyInst和Jackalope将使用此模块而不是默认的LiteCov模块。请参阅<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/p0tools/blob/master/SimpleKextFuzzing/tinyinst.patch&sa=D&source=editors&ust=1732109826694818&usg=AOvVaw1vnL-WM-dDQ2vTfsTJAyyH">TinyInst</a>和<a href="https://www.google.com/url?q=https://github.com/googleprojectzero/p0tools/blob/master/SimpleKextFuzzing/jackalope.patch&sa=D&source=editors&ust=1732109826695133&usg=AOvVaw3xehwqsGUse3-9ZGnakcqt">Jackalope</a>的相应补丁。</p>
+<p>现在，我们的harness应该在TinyInst下正确运行，无论是否启用覆盖率检测：</p>
+<p>./Jackalope/build/TinyInst/Release/litecov -- ./loader avd_rebased.dat -f <sample></p>
+<p>其中avd_rebased.dat包含从IDA导出的内核扩展代码。我们还可以添加-trace_basic_blocks标志来跟踪正在执行的基本块（主要用于调试）。我们还可以像这样运行Jackalope的fuzzing会话：</p>
+<p>./Jackalope/build/Release/fuzzer -in in -out out -t 1000 -delivery shmem -target_module loader -target_method __Z4fuzzPc -nargs 1 -iterations 5000 -persist -loop -cmp_coverage -mute_child -nthreads 6 -- ./loader avd_rebased.dat -m @@</p>
+<p>这告诉jackalope以持久模式运行（循环执行“fuzz”函数），通过共享内存传递样本（-delivery shmem fuzzer标志和-m在harness代码中实现）。</p>
+<p>Fuzzing不仅有助于发现目标中的bug，在我们的案例中，还有助于发现harness中的bug，例如发现我们需要替换的其他内核函数，以便目标正常工作。</p>
+<p>经过几次修复迭代后，harness似乎工作正常。然而，fuzzer也捕获了一些崩溃，这些崩溃似乎是由AV1解析代码中的真正问题引起的。我进行了根本原因分析，并将问题报告给了苹果。报告可以在Project Zero问题跟踪器的以下条目中看到：</p>
+<ul>
+<li><a href="https://project-zero.issues.chromium.org/issues/42451721">AppleAVD：AV1_Syntax::Parse_Header中的大型OBU大小导致越界读取</a></li>
+<li><a href="https://project-zero.issues.chromium.org/issues/42451722">AppleAVD：AV1_Syntax::f的问题导致越界读取</a></li>
+<li><a href="https://project-zero.issues.chromium.org/issues/42451723">AppleAVD：AV1_Syntax::Parse_Header中的整数下溢导致越界读取</a></li>
+</ul>
+<p>不幸的是，在报告这些问题时，我仍然无法访问具有AV1解码功能的机器。因此，问题以完整根本原因分析和二进制流的形式报告，该流在用作特定解码函数的参数时会导致崩溃。最终，我们确实获得了一台支持AV1硬件解码的M3芯片Macbook，并尝试复现报告的问题。不出所料，所有三个问题在真实硬件上的复现与在用户空间harness中完全相同。</p>
+<h1 id="结论">结论</h1><p>该项目的目标是创建尽可能简单的用户空间内核扩展fuzzing工具，而简单性的原因之一至少是它可以轻松适应其他内核代码片段。这个过程足够通用，使我们能够fuzz通常需要硬件的AV1解析代码，而我们当时甚至没有该硬件。虽然在这项研究中发现的三个问题并不严重，但它们证明了该方法的正确性以及发现其他问题的潜力。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/macOS安全.html" class="tag-link">#macOS安全</a> <a href="/tag/Python安全.html" class="tag-link">#Python安全</a> <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a> <a href="/tag/编译器安全.html" class="tag-link">#编译器安全</a> <a href="/tag/API安全.html" class="tag-link">#API安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#提取内核扩展代码" class="toc-link">
+              <span class="toc-text">提取内核扩展代码</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#加载和运行" class="toc-link">
+              <span class="toc-text">加载和运行</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#编写自定义tinyinst模块" class="toc-link">
+              <span class="toc-text">编写自定义TinyInst模块</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#fuzzing和发现" class="toc-link">
+              <span class="toc-text">Fuzzing和发现</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

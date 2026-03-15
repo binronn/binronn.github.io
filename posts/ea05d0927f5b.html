@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>从Naptime到Big Sleep：使用大型语言模型捕获现实世界代码中的漏洞 - BasicBit</title>
+  <meta name="description" content="从Naptime到Big Sleep：使用大型语言模型捕获现实世界代码中的漏洞">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">从Naptime到Big Sleep：使用大型语言模型捕获现实世界代码中的漏洞</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2024/11/1
+            </span>
+            <span class="meta-item">the Big Sleep team</span>
+            <span class="meta-item">模糊测试, 网络安全, 浏览器安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2024/10/from-naptime-to-big-sleep.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2024%2F10%2Ffrom-naptime-to-big-sleep.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>由<a href="#bigsleepteam">Big Sleep团队</a>发布</p>
+<h2 id="引言">引言</h2><p>在我们之前的文章<a href="/2024/06/project-naptime.html">《Project Naptime：评估大型语言模型的攻击性安全能力》</a>中，我们介绍了用于大型语言模型辅助漏洞研究的框架，并通过提升在Meta的CyberSecEval2基准测试上的最先进性能，展示了其潜力。自那时起，Naptime已演变为Big Sleep，这是Google Project Zero与Google DeepMind之间的合作项目。</p>
+<p>今天，我们很高兴分享Big Sleep智能体发现的第一个真实世界漏洞：在广泛使用的开源数据库引擎<a href="https://sqlite.org/">SQLite</a>中存在一个可利用的栈缓冲区下溢漏洞。我们在10月初<a href="https://project-zero.issues.chromium.org/issues/372435124">发现该漏洞</a>并报告给开发者，他们<a href="https://sqlite.org/src/info/41d58a014ce89356">在同一天修复了它</a>。幸运的是，我们在该问题出现在官方发布版本之前就发现了它，因此SQLite用户未受影响。</p>
+<p>我们相信这是首个公开的AI智能体在广泛使用的真实世界软件中发现先前未知的可利用内存安全问题的例子。今年早些时候在DARPA AIxCC活动中，亚特兰大队<a href="https://team-atlanta.github.io/blog/post-asc-sqlite/">在SQLite中发现了一个空指针解引用</a>，这启发了我们将其用于测试，看看是否能发现更严重的漏洞。</p>
+<p>我们认为这项工作具有巨大的防御潜力。在软件发布前就发现漏洞，意味着攻击者没有竞争空间：漏洞在攻击者有机会利用之前就被修复了。Fuzzing已经提供了巨大帮助，但我们需要一种方法能帮助防御者发现那些通过fuzzing难以（或不可能）发现的漏洞，我们期望AI能够缩小这一差距。我们认为这是最终扭转局势、为防御者实现不对称优势的一条有希望的道路。</p>
+<p>这个漏洞本身相当有趣，而且SQLite现有的测试基础设施（包括通过OSS-Fuzz和项目自身的设施）都没有发现这个问题，因此我们进行了一些进一步的调查。</p>
+<h2 id="方法论">方法论</h2><p>Naptime以及现在的Big Sleep的一个关键驱动因素是，针对先前发现并已修复漏洞的变体，<a href="https://blog.google/threat-analysis-group/0-days-exploited-wild-2022/%23:~:text%3DOver%252040%2525%2520of%2520the%25200%252Ddays%2520discovered%2520were%2520variants%2520of%2520previously%2520reported%2520vulnerabilities">持续在野外被发现利用</a>。随着这一趋势的持续，很明显fuzzing未能成功捕获此类变体，而对于攻击者来说，手动变体分析是一种经济有效的方法。</p>
+<p>我们还认为，与更通用的开放式漏洞研究问题相比，这种变体分析任务更适合当前的LLM。通过提供一个起点——例如先前已修复漏洞的详细信息——我们消除了漏洞研究中的许多模糊性，并从具体、有充分依据的理论出发：&quot;这是一个先前的漏洞；很可能在某个地方存在另一个类似的漏洞&quot;。</p>
+<p>我们的项目仍处于研究阶段，目前我们使用具有已知漏洞的小型程序来评估进展。最近，我们决定通过在SQLite上进行首次大规模、真实世界的变体分析实验来测试我们的模型和工具。我们收集了SQLite仓库的一些近期提交，手动移除了琐碎的和仅涉及文档的更改。然后，我们调整了提示，为智能体提供提交信息和变更的差异（diff），并要求智能体审查当前仓库（在<a href="https://sqlite.org/src/info/2f7eab381e167609">HEAD</a>处）是否存在可能尚未修复的相关问题。</p>
+<h2 id="发现的漏洞">发现的漏洞</h2><p>这个漏洞很有趣，其中一个特殊的哨兵值-1被用于一个（在其他情况下）是索引类型的字段<code>iColumn</code>：</p>
+<pre><code class="language-c">7476:   struct sqlite3_index_constraint {
+7477:      int iColumn;              /* Column constrained.  -1 for ROWID */
+7478:      unsigned char op;         /* Constraint operator */
+7479:      unsigned char usable;     /* True if this constraint is usable */
+7480:      int iTermOffset;          /* Used internally - xBestIndex should ignore */
+7481:   } *aConstraint;            /* Table of WHERE clause constraints */
+</code></pre>
+<p>这种模式产生了一个潜在的边界情况，需要所有使用该字段的代码来处理，因为预期有效的列索引应该是非负的。</p>
+<p>函数<a href="https://sqlite.org/src/file?ci=2f7eab381e167609&name=ext/misc/series.c&ln=578-778">seriesBestIndex</a>未能正确处理这个边界情况，导致在处理对<code>rowid</code>列有约束的查询时，使用负索引向栈缓冲区写入。在我们提供给智能体的构建版本中，启用了调试断言，这个条件在<a href="https://sqlite.org/src/file?ci=2f7eab381e167609&name=ext/misc/series.c&ln=706">第706行</a>的断言处被检查：</p>
+<pre><code class="language-c">619 static int seriesBestIndex(
+620   sqlite3_vtab *pVTab,
+621   sqlite3_index_info *pIdxInfo
+622 ){
+...
+630   int aIdx[7];           /* Constraints on start, stop, step, LIMIT, OFFSET,
+631                          ** and value.  aIdx[5] covers value=, value&gt;=, and
+632                          ** value&gt;,  aIdx[6] covers value&lt;= and value&lt; */
+633   const struct sqlite3_index_constraint *pConstraint;
+...
+642   for(i=0; i&lt;pIdxInfo-&gt;nConstraint; i++, pConstraint++){
+643     int iCol;    /* 0 for start, 1 for stop, 2 for step */
+644     int iMask;   /* bitmask for those column */
+645     int op = pConstraint-&gt;op;
+...
+705     iCol = pConstraint-&gt;iColumn - SERIES_COLUMN_START;
+706     assert( iCol&gt;=0 &amp;&amp; iCol&lt;=2 );
+707     iMask = 1 &lt;&lt; iCol;
+...
+713     if( pConstraint-&gt;usable==0 ){
+714       unusableMask |=  iMask;
+715       continue;
+716     }else if( op==SQLITE_INDEX_CONSTRAINT_EQ ){
+717       idxNum |= iMask;
+718       aIdx[iCol] = i;
+719     }
+720   }
+</code></pre>
+<p>然而，在发布版本中，这个断言不存在，在我们的测试中（这会因编译器和优化级别而异），<a href="https://sqlite.org/src/file?ci=2f7eab381e167609&name=ext/misc/series.c&ln=718">第718行</a>的后续写入将写入<code>aIdx</code>缓冲区下方，损坏了<code>pConstraint</code>指针的最低有效32位，该指针将在循环的下一次迭代中被解引用，导致很可能可利用的条件。</p>
+<p>然而，根据这个漏洞解释——作为人类研究人员，要精确理解如何触发它并非易事（至少对我们来说）——显然，对<code>ROWID</code>列的约束将是一个很好的起点，但肯定需要更详细地阅读代码。智能体似乎已经比我们更了解SQLite，因此它可以走一些捷径！</p>
+<p>一个常见的情况是，模型在生成测试用例时会立即使用<code>generate_series</code>虚拟表。（我们也看到过模型先研究可用的虚拟表的情况，但它显然能够在这里应用预先存在的知识）。</p>
+<h2 id="轨迹亮点">轨迹亮点</h2><p>在这个基于Gemini 1.5 Pro的成功运行中，种子提交是<a href="https://sqlite.org/src/info/1976c3f7e1fe77cf">[1976c3f7]</a>；这是一个相当大且不明显的变更。我们的智能体发现的漏洞与种子提交中的变更只有松散的联系——这在手动变体分析中并不少见，理解代码库中的一个漏洞通常会引导研究人员发现其他问题。以下是选定的亮点，我们的评论以斜体显示——<code>ASSISTANT</code>块中的所有文本都直接来自智能体。</p>
+<p>智能体对差异中的变更进行了合理的评估，并以此作为研究的起点：</p>
+<p><strong>ASSISTANT</strong></p>
+<p>该CL通过引入<code>termFromWhereClause</code>函数，改进了虚拟表查询中OR分支之间共享WHERE子句的处理。该函数从<code>WhereClause</code>中检索特定项，考虑嵌套子句。在此变更之前，由于项索引映射不正确，公共项可能未被正确处理，可能导致低效的查询计划或错误结果。最可能的漏洞将涉及<code>allocateIndexInfo</code>和<code>whereLoopAddVirtualOne</code>函数中WHERE子句约束的错误处理，CL已修改了如何使用新辅助函数处理约束偏移量。我将首先检查<code>allocateIndexInfo</code>函数...</p>
+<p>在探索相关代码的几个（省略的）步骤之后，智能体形成了一个更具体的假设，并尝试通过运行补丁中测试用例的修改版本来检查它，但这没有成功，因为补丁中包含的测试用例依赖于我们配置中不可用的扩展：</p>
+<p><strong>TOOL(debugger_run)</strong></p>
+<p>程序退出时没有崩溃或命中断点。退出代码为1。</p>
+<p>STDERR上的输出是：</p>
+<pre><code>Runtime error near line 2: no such module: tcl
+Parse error near line 3: no such table: x1
+</code></pre>
+<p><strong>ASSISTANT</strong></p>
+<p>程序终止是因为TCL模块不可用。测试依赖于TCL虚拟表模块，该模块在编译SQLite时需要启用。提供的程序输入基于<code>bestindexC.test</code>文件，该文件使用TCL模块来测试虚拟表最佳索引选择。</p>
+<p>要解决这个问题，需要更改程序输入以使用不需要TCL模块的其他虚拟表。然而，漏洞与虚拟表查询规划相关。因此我们仍然需要一个虚拟表来触发问题。</p>
+<p>我将使用<code>code_browser_source</code>工具搜索SQLite中内置虚拟表的示例。然后我将调整输入以使用其中一个，并再次在<code>whereLoopAddVirtualOne</code>中设置断点...</p>
+<p>智能体优雅地适应了这个挫折，认识到修复测试用例所需的步骤，几步之后，它已经检索到构建一个能到达<code>whereLoopAddVirtualOne</code>的测试用例所需的所有信息：</p>
+<p><strong>ASSISTANT</strong></p>
+<p><code>sqlite3_create_module</code>函数注册虚拟表模块。<code>shell.c</code>文件包含几个这样的实例，包括<code>generate_series</code>、<code>fsdir</code>、<code>completion</code>和<code>expert</code>模块。<code>json</code>表看起来也很有趣。我将暂时专注于<code>generate_series</code>作为起点。我将尝试构建一个使用此模块并可能触发错误约束处理的查询...</p>
+<p>...</p>
+<p>请注意，在上述原始发现和漏洞复现过程中，智能体对于它试图触发的&quot;错误约束处理&quot;相当模糊；在这种情况下，完整的轨迹读起来有点像人类研究员——从一个想法开始，在调查中想到其他几个想法，最终产生一个复现了稍有不同的漏洞的测试用例。在这种情况下，当在<code>generate_series</code>表上调用<code>whereLoopAddVirtualOne</code>时，我们最终进入<code>seriesBestIndex</code>，在那里约束确实被错误处理。</p>
+<p>然而，特别有趣的是，一旦程序崩溃，模型在解释事情方面做得更好——在生成根本原因分析和完整的崩溃报告时，我们可以看到智能体明确地构建了一个测试用例来触发特定的、已识别的边界情况：</p>
+<p><strong>ASSISTANT</strong></p>
+<p>相关字段是<code>sqlite3_index_constraint</code>结构体中的<code>iColumn</code>。该字段表示约束的列号。要导致断言失败，我们需要一个列索引大于3或小于1的约束。</p>
+<p>让我们构建一个涉及这些列约束的SQL查询。<code>generate_series</code>表有名为<code>value</code>、<code>start</code>、<code>step</code>和<code>stop</code>的列。索引是：</p>
+<ul>
+<li>value: 0</li>
+<li>start: 1</li>
+<li>step: 2</li>
+<li>stop: 3</li>
+</ul>
+<p>要触发漏洞，我们可以包含一个对<code>ROWID</code>的约束。对<code>ROWID</code>的约束使用<code>iColumn = -1</code>。</p>
+<p>这是一个示例查询：</p>
+<pre><code>SELECT * FROM generate_series(1,10,1) WHERE ROWID = 1;
+</code></pre>
+<p>这个查询应该会导致<code>seriesBestIndex</code>函数崩溃...</p>
+<p>...</p>
+<p>最后，我们得到了一个清晰准确的漏洞摘要，几乎可以直接报告！</p>
+<p><strong>TOOL(debugger_run)</strong></p>
+<p>程序崩溃：SIGABRT at :0。</p>
+<p>STDERR上的输出是：</p>
+<pre><code>sqlite3: src/shell.c:6816: int seriesBestIndex(sqlite3_vtab *, sqlite3_index_info *): Assertion `iCol&gt;=0 &amp;&amp;  iCol&lt;=2&#39; failed.
+</code></pre>
+<p><strong>ASSISTANT(report_success)</strong></p>
+<p>程序在输入<code>SELECT * FROM generate_series(1,10,1) WHERE ROWID = 1;</code>时崩溃，原因是<code>seriesBestIndex</code>函数中的断言失败。断言<code>assert(iCol&gt;=0 &amp;&amp; iCol&lt;=2)</code>失败，因为<code>sqlite3_index_info</code>结构体中的<code>iColumn</code>字段可能包含超出有效列索引范围的值，例如当约束涉及<code>ROWID</code>时为-1。</p>
+<p>这导致<code>iCol</code>被计算为-2，从而引起断言失败。</p>
+<h2 id="那么fuzzing呢-">那么Fuzzing呢？</h2><p>鉴于复现案例的明显简单性，一个显而易见的问题是：为什么传统的fuzzing没有更早地发现这个漏洞？&quot;简单&quot;的答案在于fuzzing工具的配置。OSS-Fuzz使用的工具没有启用<code>generate_series</code>扩展，而替代的<code>fuzzingshell.c</code>工具包含一个旧版本的<code>seriesBestIndex</code>函数，不受该漏洞影响。虽然<a href="https://www.sqlite.org/afl/dir?ci=tip">SQLite AFL仓库</a>包含一个用于fuzzing我们提供给Big Sleep智能体的相同CLI二进制文件的配置，但它似乎没有被广泛使用。</p>
+<p>为了理解这个漏洞是否真的&quot;浅显&quot;，我们尝试通过fuzzing重新发现它。我们遵循<a href="https://www.sqlite.org/afl/doc/trunk/README.md">SQLite文档</a>中的fuzzing说明，并使用CLI目标。在启动AFL运行之前，我们还验证了fuzzing语料库包含所需的<code>generate_series</code>和<code>rowid</code>关键字。然而，在150个CPU小时的fuzzing之后，该问题仍未发现。</p>
+<p>然后，我们尝试通过例如向AFL的SQL字典添加必要的关键字来简化fuzzer的任务。然而，似乎只有当语料库包含非常接近崩溃输入的示例时，才能快速找到这个漏洞，因为代码覆盖率似乎不是这个特定问题的可靠指南。</p>
+<p>诚然，AFL并不是最适合像SQL这样的基于文本格式的工具，因为大多数输入在语法上是无效的，会被解析器拒绝。尽管如此，将这个结果与<a href="https://lcamtuf.blogspot.com/2015/04/finding-bugs-in-sqlite-easy-way.html">Michal Zalewski 2015年关于fuzzing SQLite的博客文章</a>进行比较是很有趣的。当时，AFL在发现SQLite中的漏洞方面相当有效；经过多年的fuzzing，该工具似乎已经达到了自然的饱和点。虽然到目前为止，与AFL发布时带来的有效性戏剧性飞跃相比，我们的结果似乎微不足道，但有趣的是，它有自己的优势，并且可能能够有效地发现一组不同的漏洞。</p>
+<h2 id="结论">结论</h2><p>对于团队来说，这是一个验证和成功的时刻——在一个广泛使用且经过充分fuzzing的开源项目中找到一个漏洞，这是一个令人兴奋的结果！当提供正确的工具时，当前的LLM可以进行漏洞研究。</p>
+<p>然而，我们想重申，这些都是高度实验性的结果。Big Sleep团队的立场是，目前，针对特定目标的fuzzer很可能至少同样有效（在发现漏洞方面）。</p>
+<p>我们希望未来这项工作能为防御者带来显著优势——不仅有可能发现崩溃的测试用例，还能提供高质量的根本原因分析，未来问题的分类和修复可能会更便宜、更有效。我们旨在继续分享我们在这一领域的研究，尽可能缩小公共最先进技术与私有最先进技术之间的差距。Big Sleep团队将继续在这一领域工作，推进Project Zero让0-day变得困难的使命。</p>
+<h3 id="big-sleep团队">Big Sleep团队</h3><p>这不再仅仅是Project Zero的努力，所有为此做出贡献的人员如下（按字母顺序排列）：</p>
+<p>Miltos Allamanis, Martin Arjovsky, Charles Blundell, Lars Buesing, Mark Brand, Sergei Glazunov, Dominik Maier, Petros Maniatis, Guilherme Marinho, Henryk Michalewski, Koushik Sen, Charles Sutton, Vaibhav Tulsyan, Marco Vanotti, Theophane Weber, Dan Zheng</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Fuzzing.html" class="tag-link">#Fuzzing</a> <a href="/tag/漏洞利用.html" class="tag-link">#漏洞利用</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#引言" class="toc-link">
+              <span class="toc-text">引言</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#方法论" class="toc-link">
+              <span class="toc-text">方法论</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#发现的漏洞" class="toc-link">
+              <span class="toc-text">发现的漏洞</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#轨迹亮点" class="toc-link">
+              <span class="toc-text">轨迹亮点</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#那么fuzzing呢-" class="toc-link">
+              <span class="toc-text">那么Fuzzing呢？</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#big-sleep团队" class="toc-link">Big Sleep团队</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

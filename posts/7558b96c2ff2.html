@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows注册表探险 #4：Hive与注册表布局 - BasicBit</title>
+  <meta name="description" content="Windows注册表探险 #4：Hive与注册表布局">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Windows注册表探险 #4：Hive与注册表布局</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2024/10/25
+            </span>
+            <span class="meta-item">Mateusz Jurczyk</span>
+            <span class="meta-item">移动安全, 网络安全, 攻击研究</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2024/10/the-windows-registry-adventure-4-hives.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2024%2F10%2Fthe-windows-registry-adventure-4-hives.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Mateusz Jurczyk，Google Project Zero</p>
+<p>对于普通用户甚至Win32应用程序开发者来说，注册表布局可能看起来很简单：我们从Regedit中知道有五个根键（缩写为HKCR、HKLM、HKCU、HKU和HKCC），每个根键都包含一个嵌套的树结构，在系统中扮演特定角色。但当人们试图深入挖掘并理解注册表在内部的实际工作原理时，事情可能很快就会变得令人困惑。什么是hive？它们如何映射或关联到顶级键？为什么有些HKEY根键指向其他根键内部（例如HKCU位于HKU之下）？这些都是合理的问题，但如果不完全理解用户模式注册表API和内核模式注册表接口之间的交互，就很难回答这些问题，所以让我们从这里开始。</p>
+<h2 id="高层视角">高层视角</h2><p>应用程序创建注册表键时执行流程的简化示意图如下所示：</p>
+<p><img src="/images/7558b96c2ff2/58cacbf446c50b7bb444927665dd16cb.png" alt="一张说明Windows中RegCreateKeyEx函数调用栈的示意图。它显示了通过各种API调用从用户模式到内核模式的转换：* **用户模式：** * Application.exe调用KernelBase.dll中的RegCreateKeyEx * KernelBase.dll调用ntdll.dll中的NtCreateKey * ntdll.dll对NtCreateKey进行系统调用 * **内核模式：** * ntoskrnl.exe执行NtCreateKey系统调用" loading="lazy"></p>
+<p>在这个例子中，Application.exe是一个调用文档化的<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeyexw">RegCreateKeyEx</a>函数的桌面程序，该函数由KernelBase.dll导出。KernelBase.dll库通过将调用者传递的高级API参数（路径、标志等）转换为内核理解的内部参数来实现RegCreateKeyEx。然后它通过ntdll.dll提供的薄包装调用<a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-zwcreatekey">NtCreateKey</a>系统调用，执行最终到达Windows内核，在那里对内部注册表表示执行所有实际工作。</p>
+<p>RegCreateKeyEx函数的声明如下：</p>
+<p>LSTATUS RegCreateKeyExW(</p>
+<p>  [in]            HKEY                        hKey,<br>  [in]            LPCWSTR                     lpSubKey,<br>                  DWORD                       Reserved,<br>  [in, optional]  LPWSTR                      lpClass,<br>  [in]            DWORD                       dwOptions,<br>  [in]            REGSAM                      samDesired,<br>  [in, optional]  const LPSECURITY_ATTRIBUTES lpSecurityAttributes,<br>  [out]           PHKEY                       phkResult,<br>  [out, optional] LPDWORD                     lpdwDisposition<br>);</p>
+<p>正如前两个参数所暗示的，许多注册表操作（尤其是键的打开/创建）都是在一对基础键句柄和相对键路径上执行的。HKEY是注册表键句柄的专用类型，但在功能上等同于标准的HANDLE类型。它可以包含键对象的常规句柄（由NT对象管理器管理），也可以是<a href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/predefined-keys">预定义键</a>列表中描述的几种可能的伪句柄之一。它们在winreg.h中定义，具有以下数值：</p>
+<p>#define HKEY_CLASSES_ROOT                   (( HKEY )(ULONG_PTR)((LONG)0x80000000) )<br>#define HKEY_CURRENT_USER                   (( HKEY )(ULONG_PTR)((LONG)0x80000001) )<br>#define HKEY_LOCAL_MACHINE                  (( HKEY )(ULONG_PTR)((LONG)0x80000002) )<br>#define HKEY_USERS                          (( HKEY )(ULONG_PTR)((LONG)0x80000003) )<br>#define HKEY_PERFORMANCE_DATA               (( HKEY )(ULONG_PTR)((LONG)0x80000004) )<br>#define HKEY_PERFORMANCE_TEXT               (( HKEY )(ULONG_PTR)((LONG)0x80000050) )<br>#define HKEY_PERFORMANCE_NLSTEXT            (( HKEY )(ULONG_PTR)((LONG)0x80000060) )<br>#define HKEY_CURRENT_CONFIG                 (( HKEY )(ULONG_PTR)((LONG)0x80000005) )<br>#define HKEY_DYN_DATA                       (( HKEY )(ULONG_PTR)((LONG)0x80000006) )<br>#define HKEY_CURRENT_USER_LOCAL_SETTINGS    (( HKEY )(ULONG_PTR)((LONG)0x80000007) )</p>
+<p>正如我们所看到的，它们都设置了最高位，这通常是为内核模式句柄保留的。因此，这些值永远不会与合法的用户模式句柄冲突，并且可以自由地用作特殊的伪句柄。注册表API的责任是在调用内核之前将这些值转换为相应的低级注册表路径。换句话说，预定义键是严格意义上的用户模式概念，内核本身并不知道它们。如果有人决定通过系统调用而不是API直接编写与注册表交互的程序，他们将完全无法使用HKEY_*常量。</p>
+<p>这解释了为什么顶级键不一定代表互斥的子树——它们本身都不代表注册表的任何特定部分，它们的意义纯粹是约定俗成的。由KernelBase.dll决定如何处理这些键中的每一个，<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regoverridepredefkey">RegOverridePredefKey</a>函数的存在进一步强调了这一点，该函数允许应用程序在本地进程的上下文中重新映射它们。在文献中，根键有时被描述为特定注册表路径的“链接”，虽然这在概念上是正确的，但可能会让知道符号链接存在的读者感到困惑，符号链接是一种独立的、无关的机制。事实上，如果我们计算访问注册表键可以透明地重定向到另一个路径的所有不同方式（无论是在接口的用户部分还是内核部分），我们最终会得到至少四种：</p>
+<ol>
+<li>用户模式注册表API解释顶级键并将其转换为特定的内部路径，如上所述。</li>
+<li>内核模式配置管理器遵循注册表中的符号链接，即使用<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeyexw#REG_OPTION_CREATE_LINK">REG_OPTION_CREATE_LINK</a>标志创建并具有名为&quot;SymbolicLinkValue&quot;、类型为REG_LINK的值的键。</li>
+<li>内核模式配置管理器对特定的旧版应用程序应用<a href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry-virtualization">注册表虚拟化</a>，从而将HKEY_LOCAL_MACHINE\Software的子键的读/写重定向到HKEY_USERS&lt;SID&gt;_Classes\VirtualStore\Machine\Software。</li>
+<li>用户模式注册表API和内核模式配置管理器共同处理所谓的“预定义句柄键”（由CM_KEY_NODE.Flags中的标志0x40标记）。这是一种特殊的、未文档化的键类型，其工作方式类似于符号链接，但它们不是重定向到任意注册表路径，而是重定向到特定的32位预定义句柄（即HKEY_*键之一）。历史上，它们是许多安全漏洞的来源，最终在2023年7月/12月被弃用，以解决Project Zero问题<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2445">#2445</a> + <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2452">#2452</a>（CVE-2023-35356）和<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2492">#2492</a>（CVE-2023-35633）。</li>
+</ol>
+<p>这表明了Windows中维护的遗留/兼容性机制的程度，以及注册表代码的用户模式和内核部分之间的协作程度。但回到顶级键的主题，值得对它们在系统中的角色有一个大致的了解。许多现有资源很好地解释了这一点（请参阅我的<a href="/2024/06/the-windows-registry-adventure-3.html">上一篇文章</a>以获取参考资料），因此我将在下面只提供一个非常简要的概述。总的来说，最重要的收获是HKEY_LOCAL_MACHINE和HKEY_USERS是两个完整的键，可用于访问全局可见注册表视图中的几乎所有数据。其他HKEY_*键是这两个键的派生（HKEY_PERFORMANCE_*除外，它们甚至不是真正的键），并且主要是为了方便而存在。</p>
+<table>
+<thead>
+<tr>
+<th>顶级键</th>
+<th>内部注册表路径</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HKEY_CLASSES_ROOT</td>
+<td>合并视图：<br>- \Registry\Machine\Software\Classes<br>- \Registry\User&lt;SID&gt;_Classes</td>
+<td>该键包含文件名扩展关联和COM类注册信息。两个键的合并是在KernelBase.dll中执行的，请参阅OpenClassesRootInternal、BaseRegQueryAndMergeValues及其他相邻函数，以及<a href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/hkey-classes-root-key">HKEY_CLASSES_ROOT键</a>和<a href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/merged-view-of-hkey-classes-root">HKEY_CLASSES_ROOT的合并视图</a>官方文章。</td>
+</tr>
+<tr>
+<td>HKEY_CURRENT_USER</td>
+<td>\Registry\User&lt;SID&gt;</td>
+<td>存储与当前用户关联的配置。</td>
+</tr>
+<tr>
+<td>HKEY_LOCAL_MACHINE</td>
+<td>\Registry\Machine</td>
+<td>存储全局的、系统范围的配置。</td>
+</tr>
+<tr>
+<td>HKEY_USERS</td>
+<td>\Registry\User</td>
+<td>存储系统中当前登录的所有用户的信息。</td>
+</tr>
+<tr>
+<td>HKEY_PERFORMANCE_DATA</td>
+<td>-</td>
+<td>不是真正的键：一个允许应用程序通过注册表API查询性能信息的伪键。</td>
+</tr>
+<tr>
+<td>HKEY_PERFORMANCE_TEXT</td>
+<td>-</td>
+<td>不是真正的键：可用于通过注册表API查询性能信息，描述为美式英语。</td>
+</tr>
+<tr>
+<td>HKEY_PERFORMANCE_NLSTEXT</td>
+<td>-</td>
+<td>不是真正的键：可用于通过注册表API查询性能信息，描述为本地系统语言。</td>
+</tr>
+<tr>
+<td>HKEY_CURRENT_CONFIG</td>
+<td>\Registry\Machine\System\CurrentControlSet\Hardware Profiles\Current</td>
+<td>存储有关当前硬件配置文件的信息。</td>
+</tr>
+<tr>
+<td>HKEY_DYN_DATA</td>
+<td>-</td>
+<td>HKEY_PERFORMANCE_DATA的已弃用等效项，仅存在于Windows 9x中。它被设计为动态生成信息（如性能计数器或硬件配置）的通用存储。</td>
+</tr>
+<tr>
+<td>HKEY_CURRENT_USER_LOCAL_SETTINGS</td>
+<td>\Registry\User&lt;SID&gt;_Classes\Local Settings</td>
+<td>存储与当前用户关联的配置，这些配置是本地于机器的，不受漫游配置文件的影响。</td>
+</tr>
+</tbody></table>
+<p>在安全性方面，顶级键及其子树通常按照常识进行保护。HKEY_LOCAL_MACHINE的几乎所有子键（即全局系统设置）只能由管理员和系统本身写入。一些子树对普通用户可读（例如HKLM\Software或HKLM\System），而其他子树则不允许受限帐户进行任何访问（例如存储用户凭据的HKLM\SAM）。此外，普通用户对其自己的用户hive（HKU&lt;SID&gt;和HKU&lt;SID&gt;_Classes）具有完全访问权限，而对其他用户的hive没有访问权限，而管理员对HKU下的所有用户hive具有不受限制的访问权限。</p>
+<p>总而言之，这是为了确保每个用户都有自己的本地hive来存储数据，并且可以读取非敏感的系统配置，而管理员对注册表中的所有内容拥有完全控制权，以便他们能够有效地管理系统。在对注册表的高级结构有了基本了解之后，让我们进一步了解其底层工作原理。</p>
+<h2 id="底层视角">底层视角</h2><p>如果Windows内核不以与用户模式API相同的方式使用预定义键，那么问题就变成了——注册表树从哪里开始？你可能已经根据本文和之前的博客文章猜到了答案：它是全局NT对象命名空间中的\Registry对象。在内部，它是一个虚拟“主”hive中的易失性键（由nt!CmpMasterHive指向），该键和hive仅存在于内存中，用于组织目的。它们的设置在启动过程的早期在内部CmInitSystem1函数中进行，并且\Registry对象可以在探索对象管理器命名空间的工具中看到，例如<a href="https://learn.microsoft.com/en-us/sysinternals/downloads/winobj">WinObj</a>：</p>
+<p><img src="/images/7558b96c2ff2/02a09d778c7d9d84db5fb81a0ce40b56.png" alt="Sysinternals的WinObj实用程序的屏幕截图，显示Windows中的系统对象列表。'REGISTRY'对象被突出显示。" loading="lazy"></p>
+<p>这本质上是访问系统中任何注册表键的入口点。每当对象管理器处理以\Registry开头的路径上的操作时，它知道将执行传递给CmpParseKey函数，该函数接管操作，解析路径的其余部分，尝试打开或创建给定的键，并将对象返回给调用者。由于\Registry在大多数情况下是一个普通键，我们可以在WinDbg中查询它：</p>
+<p>kd&gt; !reg querykey \Registry</p>
+<p>Found KCB = ffff8f818bad92f0 :: \REGISTRY</p>
+<p>Hive         ffff8f818ba88000<br>KeyNode      ffff8f818bada024</p>
+<p>[SubKeyAddr]         [SubKeyName]<br>ffff8f818bada244     A<br>ffff8f818bada16c     MACHINE<br>ffff8f818bada1d4     USER<br>ffff8f818bada2c4     WC</p>
+<p> Use &#39;!reg keyinfo ffff8f818ba88000 <SubKeyAddr>&#39; to dump the subkey details</p>
+<p>[ValueType]         [ValueName]                   [ValueData]<br> Key has no Values</p>
+<p>如输出所示，根键有四个子键：A、MACHINE、USER和WC。其中两个我们已经知道：“Machine”对应HKEY_LOCAL_MACHINE，“User”对应HKEY_USERS。此外，“A”作为所有作为应用程序hive加载的私有hive的根（使用<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regloadappkeyw">RegLoadAppKey</a> API）。无论其安全描述符或调用者的权限如何，都无法通过其完全限定路径（\Registry\A...）打开该键及其任何子键，因为CmpParseKey检测并拒绝此类请求，并返回STATUS_ACCESS_DENIED错误代码。这是为了保证所有应用程序hive保持私有，并且只能通过RegLoadAppKey返回的句柄访问。最后，“WC”可能代表“Windows Containers”，并且是作为Windows容器化支持（在Windows 10 1607中引入）一部分加载的差异hive的挂载点。该键是全球可读的，不受任何特殊保护，但它也没有映射到任何预定义键，因此只能通过系统调用访问，而不能通过官方API访问（符号链接除外）。</p>
+<p>注册表的底层视图以及高级预定义键如何映射到它的示意图如下所示：</p>
+<p><img src="/images/7558b96c2ff2/6d9da0b3b6e742c53a19b1697a516d5c.png" alt="说明Windows注册表层次结构的流程图。图表从根节点'REGISTRY'开始，向下分支为五个主要键：MACHINE、HKEY_LOCAL_MACHINE、USER、HKEY_USERS和HKEY_CLASSES_ROOT。每个键进一步展开以显示子键，突出显示了注册表中系统和用户特定设置的组织。" loading="lazy"></p>
+<p>显然，内部注册表布局比其高级对应物更加结构化，并遵循一些基本规则：</p>
+<ul>
+<li>树的第一级和第二级是预定的，并且始终相同。</li>
+<li>第三级仅由系统中加载的活动hive的根键组成。</li>
+<li>第四级及更高级别是hive的嵌套子键。</li>
+</ul>
+<p>在典型的Windows安装中，系统中通常在任何给定时间加载数十个hive，存储各种配置数据。在本文和之前的博客文章中已经广泛使用了“hive”这个术语，让我们更详细地讨论它们是什么以及它们如何工作。</p>
+<h2 id="hive文件">Hive文件</h2><p>描述注册表hive的最佳方式莫过于引用Microsoft文章（<a href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry-hives">注册表Hive</a>）中的官方定义：</p>
+<blockquote>
+<p>hive是注册表中键、子键和值的逻辑组，当操作系统启动或用户登录时，其支持文件集被加载到内存中。</p>
+</blockquote>
+<p>换句话说，hive是以regf格式编码的独立数据库，在操作系统中服务于特定目的（如果你对名称的起源感到好奇，请查看<a href="https://devblogs.microsoft.com/oldnewthing/20030808-00/?p=42943">为什么注册表文件被称为“hive”？</a>）。hive可以根据其所在位置（磁盘上、内存中或两者）进行分类：</p>
+<ul>
+<li>文件支持的<ul>
+<li>未加载的：持久存储在磁盘上但未在系统中主动加载的hive。</li>
+<li>已加载的：既存储在磁盘上又被Windows当前使用的hive。数据库的内存中和磁盘上表示由内核持续同步，以确保在突然断电或其他系统故障时的一致性。</li>
+</ul>
+</li>
+<li>易失性的：不存储在磁盘上且仅存在于内存中直到下次系统重启的临时hive。示例包括主hive（对应\Registry全局根）和挂载在\Registry\Machine\HARDWARE的硬件hive。从安全角度来看，它们并不特别重要，但为了完整性，值得注意它们的存在。</li>
+</ul>
+<p>大多数hive是文件支持的，因为它们的目的正是为了在长时间和多次重启中存储数据。有趣的是，当我们在磁盘上观察hive时（这可能需要检查“显示隐藏的文件、文件夹和驱动器”选项，并在资源管理器中取消选中“隐藏受保护的操作系统文件”），它通常不是单个文件，而是具有公共名称前缀的文件集合。例如，让我们看看Windows 11中用户主目录中的NTUSER hive：</p>
+<p><img src="/images/7558b96c2ff2/bff3b9b7faddb952daed227d296d3842.png" alt="Windows文件资源管理器窗口的屏幕截图，显示'user'文件夹的内容。该文件夹包含与用户设置和数据相关的各种文件，包括NTUSER.DAT、事务日志和临时文件" loading="lazy"></p>
+<p>所有这些文件都与单个hive相关。让我们简要浏览一下屏幕截图中可见的每种文件类型：</p>
+<ul>
+<li>.DAT——这是核心hive文件，也是唯一严格必需的文件。.dat扩展名在hive文件上下文中经常出现（其他不太常见的变体：.hiv和.hve），但这只是习惯性的，内核将乐意从任何文件加载hive，无论其名称如何（例如，C:\Windows\system32\config中的系统hive文件都没有任何扩展名）。当hive处于活动状态时，内核会锁定该文件，防止任何其他程序同时对其进行操作。</li>
+<li>.LOG1和.LOG2——由配置管理器维护的日志文件，用于保障hive的低级可恢复性。当它们被使用时，对hive的每个写操作首先写入日志文件，然后刷新到hive文件本身。有关日志记录机制的更深入分析，请参阅<a href="https://www.microsoftpressstore.com/store/windows-internals-part-2-9780135462331">Windows Internals</a>书中的注册表章节（特别是“稳定存储”和“增量日志记录”部分）。尽管在大多数实际场景中，hive文件通常伴随有.LOG1/.LOG2文件，但也可以有单个.LOG文件（通过使用REG_HIVE_SINGLE_LOG标志加载hive），或者通过使用REG_OPEN_READ_ONLY或REG_IMMUTABLE标志完全阻止内核创建它们。</li>
+<li>.regtrans-ms和.blf——与<a href="https://learn.microsoft.com/en-us/windows/win32/ktm/kernel-transaction-manager-portal">内核事务管理器</a>和事务注册表相关的附加日志文件。它们存储有关使用<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeytransactedw">RegCreateKeyTransacted</a>或<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenkeytransactedw">RegOpenKeyTransacted</a> API函数打开的事务键上执行的待处理操作的信息，并用于在突然系统重启时向前滚动这些操作。它们应配置管理器的请求创建，但由<a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/introduction-to-the-common-log-file-system">通用日志文件系统</a>驱动程序内部管理。它们为系统hive启用（HKLM下的所有hive将其事务日志共同保存在C:\Windows\system32\config\TxR中），并为用户特定的hive（NTUSER.DAT和UsrClasses.dat）启用，但对于应用程序hive（\Registry\A...）和差异hive（\Registry\WC...）始终禁用。也可以通过使用REG_HIVE_NO_RM标志强制加载禁用事务的hive。</li>
+</ul>
+<p>总之，单个hive可能与磁盘上的最多10个文件相关联。我不会深入讨论它们的二进制格式细节，因为这将在未来的文章中讨论，但有趣的是，每种文件类型在过去都受到过一些安全问题的影响（请参阅[.DAT](<a href="https://project-zero.issues.chromium.org/issues?q=id:(42450251%20%7C%2042452400%20%7C%2042451423%20%7C%2042451425%20%7C%2042451427%20%7C%2042451449%20%7C%2042451463%20%7C%2042451465%20%7C%2042451478%20%7C%2042451494%20%7C%2042451502%20%7C%2042451588%20%7C%2042451596%20%7C%2042451601%20%7C%2042451640)%E3%80%81%5B.LOG1/.LOG2%5D(https://project-zero.issues.chromium.org/issues?q=id:(42452405%20%7C%2042450541%20%7C%2042450609%20%7C%2042451598%20%7C%2042451600)%E5%92%8C%5B.regtrans-ms/.blf%5D(https://project-zero.issues.chromium.org/issues?q=id:(42450872%20%7C%2042451149%20%7C%2042451150%20%7C%2042451559%20%7C%2042451560)%E7%9A%84%E7%A4%BA%E4%BE%8B%EF%BC%89%E3%80%82%E7%8E%B0%E5%9C%A8%E8%AE%A9%E6%88%91%E4%BB%AC%E5%9B%9E%E9%A1%BE%E4%B8%80%E4%B8%8BWindows%E4%B8%AD%E9%80%9A%E5%B8%B8%E5%8A%A0%E8%BD%BD%E7%9A%84%E4%B8%80%E4%BA%9B%E9%BB%98%E8%AE%A4hive%EF%BC%8C%E4%BB%A5%E5%8F%8A%E6%88%91%E4%BB%AC%E5%A6%82%E4%BD%95%E6%9E%9A%E4%B8%BE%E5%92%8C%E6%A3%80%E6%9F%A5%E5%AE%83%E4%BB%AC%E3%80%82">https://project-zero.issues.chromium.org/issues?q=id:(42450251%20%7C%2042452400%20%7C%2042451423%20%7C%2042451425%20%7C%2042451427%20%7C%2042451449%20%7C%2042451463%20%7C%2042451465%20%7C%2042451478%20%7C%2042451494%20%7C%2042451502%20%7C%2042451588%20%7C%2042451596%20%7C%2042451601%20%7C%2042451640)、[.LOG1/.LOG2](https://project-zero.issues.chromium.org/issues?q=id:(42452405%20%7C%2042450541%20%7C%2042450609%20%7C%2042451598%20%7C%2042451600)和[.regtrans-ms/.blf](https://project-zero.issues.chromium.org/issues?q=id:(42450872%20%7C%2042451149%20%7C%2042451150%20%7C%2042451559%20%7C%2042451560)的示例）。现在让我们回顾一下Windows中通常加载的一些默认hive，以及我们如何枚举和检查它们。</a></p>
+<h2 id="hive列表和内存映射">Hive列表和内存映射</h2><p>在内部，Windows内核维护系统中活动hive的链表，从全局nt!CmpHiveListHead对象开始。但有趣的是，该信息也通过注册表本身全局可见：在\Registry\Machine\System\CurrentControlSet\Control\hivelist处有一个特殊键，内核在其中为每个加载的hive维护一个字符串值，其名称指示注册表挂载点，其数据指定磁盘上的低级路径。系统中除应用程序hive外的所有活动文件支持hive都列在那里，检查该列表就像在Regedit中找到“hivelist”键一样简单：</p>
+<p><img src="/images/7558b96c2ff2/ca10665468d785c7eba45b5fc7111179.png" alt="Windows注册表编辑器的图像，显示'hivelist'键，其中列出了注册表hive及其文件路径" loading="lazy"></p>
+<p>在这里，我们可以看到挂载在\Registry\Machine下的标准系统hive、\Registry\User下的几个用户hive（其中一些用于系统帐户，一些用于当前用户），以及\Registry\WC处的许多差异hive。可以使用WinDbg中的!reg hivelist命令获得类似但更详细的hive列表：</p>
+<p>kd&gt; !reg hivelist</p>
+<hr>
+<h2 id="-hiveaddr-stable-length-stable-map-volatile-length-volatile-map-mappedviews-filename">|     HiveAddr     |Stable Length|    Stable Map    |Volatile Length|    Volatile Map    |MappedViews        | FileName</h2><p>| ffff8f818ba88000 |       2000  | ffff8f818ba88128 |       1000    |  ffff8f818ba883a0  | ffff8f818bad5000  | <NONAME><br>| ffff8f818ba62000 |     d8c000  | ffff8f818badc000 |      41000    |  ffff8f818ba623a0  | ffff8f818badb000  | SYSTEM<br>| ffff8f818bb87000 |      24000  | ffff8f818bb87128 |      10000    |  ffff8f818bb873a0  | ffff8f818bb5a000  | <NONAME><br>| ffff8f818c813000 |    4c4b000  | ffff8f818e482000 |     330000    |  ffff8f8190b98000  | ffff8f818e470000  | emRoot\System32\Config\SOFTWARE<br>| ffff8f818e578000 |       8000  | ffff8f818e578128 |          0    |  0000000000000000  | ffff8f818e4f9000  | kVolume1\EFI\Microsoft\Boot\BCD<br>| ffff8f818c75b000 |      74000  | ffff8f818c75b128 |       1000    |  ffff8f818c75b3a0  | ffff8f818e5d4000  | temRoot\System32\Config\DEFAULT<br>| ffff8f818e773000 |       9000  | ffff8f818e773128 |       1000    |  ffff8f818e7733a0  | ffff8f818e9be000  | emRoot\System32\Config\SECURITY<br>| ffff8f818e9a8000 |       d000  | ffff8f818e9a8128 |          0    |  0000000000000000  | ffff8f818ea2c000  | \SystemRoot\System32\Config\SAM<br>| ffff8f818ec68000 |      2f000  | ffff8f818ec68128 |       1000    |  ffff8f818ec683a0  | ffff8f818ea54000  | files\NetworkService\NTUSER.DAT<br>| ffff8f818ee2e000 |      30000  | ffff8f818ee2e128 |          0    |  0000000000000000  | ffff8f818edf9000  | rofiles\LocalService\NTUSER.DAT<br>| ffff8f818ee63000 |      72000  | ffff8f818ee63128 |          0    |  0000000000000000  | ffff8f818ee48000  | \SystemRoot\System32\Config\BBI<br>| ffff8f8190370000 |     19b000  | ffff8f8190370128 |       4000    |  ffff8f81903703a0  | ffff8f81903e7000  | ??\C:\Users\user\ntuser.dat<br>| ffff8f8190373000 |     2cf000  | ffff8f81903fb000 |          0    |  0000000000000000  | ffff8f81903eb000  | \Microsoft\Windows\UsrClass.dat<br>| ffff8f8191a2e000 |       7000  | ffff8f8191a2e128 |          0    |  0000000000000000  | ffff8f8191a8c000  | 5n1h2txyewy\ActivationStore.dat<br>| ffff8f8191a30000 |      1c000  | ffff8f8191a30128 |          0    |  0000000000000000  | ffff8f8191a93000  | 5n1h2txyewy\ActivationStore.dat<br>| ffff8f8191a32000 |      78000  | ffff8f8191a32128 |          0    |  0000000000000000  | ffff8f8191a9a000  | 5n1h2txyewy\ActivationStore.dat<br>| ffff8f8191bf7000 |     1f3000  | ffff8f8191bf7128 |          0    |  0000000000000000  | ffff8f8191bfb000  | \AppCompat\Programs\Amcache.hve[...]</p>
+<p>此输出缺少注册表路径，但为我们提供了文件名，并且还包含相应HHIVE/CMHIVE结构的地址以及每个hive的稳定/易失性空间信息。它还显示系统中的所有活动hive，包括应用程序hive和易失性hive。例如，列表中的第一项和第三项分别是\Registry和\Registry\Machine\HARDWARE hive——由于它们都不是文件支持的，它们的FileName列显示“<NONAME>”。</p>
+<p>枚举系统中hive的最终方法是列出节对象。在现代版本的Windows中，大多数注册表hive使用<a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/section-objects-and-views">节</a>映射到一个名为Registry的特殊、轻量级进程的用户地址空间（你可以在任务管理器中找到它）。两个显著的例外是SYSTEM hive和任何在加载时不存在于磁盘上的hive（即使用NtLoadKey*调用从头创建的hive）。但对于所有其他hive，我们可以通过在WinDbg中找到Registry进程，切换到其上下文，并发出!vad命令来显示其关联的虚拟地址描述符（VAD）来打印它们：</p>
+<p>kd&gt; !process 0 0<br>**** NT ACTIVE PROCESS DUMP ****<br>PROCESS ffffb3047dcf4040<br>    SessionId: none  Cid: 0004    Peb: 00000000  ParentCid: 0000<br>    DirBase: 001ae002  ObjectTable: ffff8f818ba85f00  HandleCount: 3193.<br>    Image: System</p>
+<p>PROCESS ffffb3047ddc0080<br>    SessionId: none  Cid: 0040    Peb: 00000000  ParentCid: 0004<br>    DirBase: 02db7002  ObjectTable: ffff8f818ba02c00  HandleCount:   0.<br>    Image: Registry[...]</p>
+<p>kd&gt; .process ffffb3047ddc0080<br>Implicit process is now ffffb3047ddc0080<br>警告：.cache forcedecodeuser未启用</p>
+<p>kd&gt; !vad<br>VAD              Level         Start             End              Commit<br>ffffb3047e3653e0  6        28700000        287001ff               0 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e364a80  5        28700200        287003ff               0 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e365020  6        28700400        287005ff               0 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e364760  4        28700600        287007ff               0 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e364e40  6        28700800        287009ff               0 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e364d00  5        28700a00        28700bff               0 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e3646c0  6        28700c00        28700dff               2 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e364800  3        28700e00        28700fff               2 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e3648a0  6        28701000        287011ff               0 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e365160  5        28701200        287013ff               0 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3048058e450  6        28701400        2870147f             114 Mapped       READONLY           \Windows\System32\config\BBI<br>ffffb30480f68890  4        28701480        2870167f              19 Mapped       READONLY           \Users\user\NTUSER.DAT<br>ffffb30480f690b0  5        28701680        2870187f               5 Mapped       READONLY           \Users\user\AppData\Local\Microsoft\Windows\UsrClass.dat<br>ffffb30480f69e70  2        28701880        2870197f               2 Mapped       READONLY           \Users\user\AppData\Local\Microsoft\Windows\UsrClass.dat<br>[...]<br>ffffb3047e364580  6        2877fca0        2877fe9f               0 Mapped       READONLY           \Windows\System32\config\SOFTWARE<br>ffffb3047e364c60  5        2877fea0        2877feaf               8 Mapped       READONLY           \EFI\Microsoft\Boot\BCD<br>ffffb3047e366b00  6        2877feb0        2877ff2f              19 Mapped       READONLY           \Windows\System32\config\DEFAULT<br>ffffb3047e372ae0  3        2877ff30        2877ff3f               0 Mapped       READONLY           \Windows\System32\config\SECURITY<br>ffffb3047e3745c0  5        2877ff40        2877ff4f               0 Mapped       READONLY           \Windows\System32\config\SAM<br>[...]</p>
+<p>There may be multiple VADs associated with a single hive, because hives are mapped in a fragmented manner and may dynamically grow over time. The address ranges specified by the &quot;Start&quot; and &quot;End&quot; columns correspond to the &quot;pcell&quot; addresses returned by the !reg cellindex WinDbg command when multiplied by 0x1000 (the page size). For example, the BCD hive is mapped between 0x2877fea0000 and 0x2877feaffff. The first page (the 4 KiB hive header) is typically not mapped, but we can see the raw data of the first bin residing at address 0x2877fea1000:</p>
+<p>kd&gt; db 0x2877fea1000<br>000002877fea1000  68 62 69 6e 00 00 00 00-00 10 00 00 00 00 00 00  hbin............<br>000002877fea1010  00 00 00 00 a5 7a 66 c9-8b 03 da 01 00 00 00 00  .....zf.........<br>000002877fea1020  a0 ff ff ff 6e 6b 2c 00-c1 e4 70 f6 e3 8b da 01  ....nk,...p.....<br>000002877fea1030  03 00 00 00 48 04 00 00-02 00 00 00 00 00 00 00  ....H...........<br>000002877fea1040  48 02 00 00 ff ff ff ff-00 00 00 00 ff ff ff ff  H...............<br>000002877fea1050  68 01 00 00 ff ff ff ff-16 00 00 00 00 00 00 00  h...............<br>000002877fea1060  00 00 00 00 00 00 00 00-00 00 00 00 0c 00 00 00  ................<br>000002877fea1070  4e 65 77 53 74 6f 72 65-52 6f 6f 74 00 00 00 00  NewStoreRoot....</p>
+<h2 id="default-system-hives">Default system hives</h2><p>Knowing the basic structure of the registry tree and how we can enumerate hives, let&#39;s now briefly discuss the role and properties of the default hives that we&#39;ll find in a clean installation of Windows:</p>
+<p>Registry path</p>
+<p>Description</p>
+<p>\Registry\A{RANDOM GUID}</p>
+<p>Application hives may contain any information the client program decides to save, but two of its primary uses are by Universal Windows Platform (UWP) applications to store information about their WinRT classes (in a file called ActivationStore.dat) and their private settings (backed by settings.dat). The lifespan of app hives is tied to their active references, so whenever all handles to the hive are closed (or the process terminates), the hive is automatically unloaded. The security rights set on the keys in app hives are generally irrelevant, because they cannot be opened by any process that doesn&#39;t have a valid handle to the hive to start with, thanks to the extra checks hardcoded in CmpParseKey.</p>
+<p>\Registry\Machine\BCD00000000</p>
+<p>The hive contains the Boot Configuration Database (BCD) that replaced the boot.ini file in Windows Vista. It is backed by a hidden \EFI\Microsoft\Boot\BCD file, and can be modified indirectly with the <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/bcdedit">bcdedit</a> command line utility. Full access is granted to administrators, and no access is granted to normal users.</p>
+<p>\Registry\Machine\HARDWARE</p>
+<p>The hive contains a specification of the system&#39;s legacy hardware (such as a keyboard or mouse). As previously mentioned, it is a volatile hive without a backing file, which is dynamically generated during boot in the internal CmpInitializeHardwareConfiguration function. It grants full access to administrators and read access to normal users.</p>
+<p>\Registry\Machine\SAM</p>
+<p>The hive contains information managed by the Security Account Manager (SAM), such as user passwords and group definitions. It is backed by the C:\Windows\system32\config\SAM file, and it is the only hive with lazy flushing disabled, meaning that it must be manually synchronized with the backing file by the SAM Server using syscalls like NtFlushKey and NtRestoreKey. It grants full access to the LocalSystem account and no access to any of the users, so even administrators cannot modify or browse it by default.</p>
+<p>\Registry\Machine\SECURITY</p>
+<p>The hive contains security-critical information such as security policies and user right assignments. It is backed by C:\Windows\system32\config\SECURITY, and similarly to SAM, it only grants access to the LocalSystem account.</p>
+<p>\Registry\Machine\SOFTWARE</p>
+<p>The hive is a general-purpose store for system-wide configuration of both Windows built-in components and third-party software. It is generally the only hive in HKLM where legitimate programs ever need to write to, and for this reason it is the only one subject to registry virtualization. It is backed by the C:\Windows\system32\config\SOFTWARE file, and a majority of its keys are user-readable and admin-writable. However, there are some exceptions to this rule: firstly, there are several default keys with more permissive rights (e.g. user-writable) and some default keys with more restrictive rights (e.g. only readable by specific users and not broadly accessible). Secondly, the responsibility to set adequate security of the keys is shared by all applications using the hive, but in practice, their behavior isn&#39;t always consistent with Windows (i.e. they may set more or less permissive rights than we would normally expect).</p>
+<p>\Registry\Machine\SYSTEM</p>
+<p>The hive is a store for system-wide configuration that is required to boot the system, such as information about device drivers and system services. It is backed by the C:\Windows\system32\config\SYSTEM file and it is first loaded in memory before the Windows kernel itself, by a copy of the Configuration Manager found in the winload.exe/winload.efi executables. It is also the only system hive mapped in kernel paged pool and not in the user-space of the special Registry process. Similarly to SOFTWARE, most of its keys are user-readable and admin-writable, but there are some notable exceptions to this rule.</p>
+<p>\Registry\User&lt;SID&gt;</p>
+<p>The user hives are meant to store user-specific configuration; when a new user is created, the user hive starts off with a basic structure and grows larger as applications save their settings over time. They are typically backed by the NTUSER.DAT file in the user directory, but can also be overridden by NTUSER.MAN by taking advantage of the <a href="https://learn.microsoft.com/en-us/windows/win32/shell/mandatory-user-profiles">Mandatory User Profiles</a>. Their security is arranged such that they are accessible by the associated user and administrators, but not other users in the system.</p>
+<p>A special case of user hives are the hives corresponding to system-specific accounts which are mounted and globally visible under \Registry\User:</p>
+<ul>
+<li>\Registry\User.DEFAULT – the user hive of the LocalSystem account, backed by C:\Windows\system32\config\DEFAULT. If you think this is a confusing name, I agree, and so does Raymond Chen in his <a href="https://devblogs.microsoft.com/oldnewthing/20070302-00/?p=27783">The .Default user is not the default user</a> blog post.</li>
+<li>\Registry\User\S-1-5-18 – this is the SID of the LocalSystem account, so the key is simply a symbolic link to \Registry\User.DEFAULT.</li>
+<li>\Registry\User\S-1-5-19 – the user hive of the LocalService account, backed by C:\Windows\ServiceProfiles\LocalService\NTUSER.DAT.</li>
+<li>\Registry\User\S-1-5-20 – the user hive of the NetworkService account, backed by C:\Windows\ServiceProfiles\NetworkService\NTUSER.DAT.</li>
+</ul>
+<p>\Registry\User&lt;SID&gt;_Classes</p>
+<p>The &quot;classes&quot; hive is the second one that gets automatically loaded once a user logs into the system. It is responsible for storing the user-specific file extension associations and COM class registrations, which are then merged with \Registry\Machine\Software\Classes by the Registry API and exposed as the HKEY_CLASSES_ROOT top-level key. It is additionally used by the registry virtualization mechanism, and is pointed to by the \Registry\User&lt;SID&gt;\Software\Classes symbolic link. The hive is backed by C:\Users&lt;USER&gt;\AppData\Local\Microsoft\Windows\UsrClass.dat, and has the same security properties as the regular user hive: it is only accessible by the owner user and administrators.</p>
+<p>\Registry\WC\Silo{...}</p>
+<p>Differencing hives are a new technology introduced in Windows 10 Anniversary Update to support registry containerization in various Windows technologies such as Helium containers (application silos, used e.g. by MSIX packaged apps) or Argon containers (server silos, used e.g. by Docker). They are managed by the AppInfo service through VRegDriver – a special module built into ntoskrnl.exe that is tightly integrated with the Configuration Manager and exposes an IOCTL interface to operate on delta hives. Many default Windows components and programs (e.g. the Widgets app, Paint, Notepad) run in the context of app silos, so there are typically a number of hives mounted under \Registry\WC at any given time. Other than that, there isn&#39;t much that can be said about them as a whole, as their backing files and security settings can vary greatly depending on multiple factors. These special hives will be discussed in more detail in future blog posts.</p>
+<p>There are a few other system hives that can be found in C:\Windows\system32\config\ on modern versions of Windows that aren&#39;t discussed above:</p>
+<ul>
+<li>BBI – likely Background Broker Infrastructure, loaded during boot as an app hive by the Background Tasks Infrastructure Service (bisrv.dll).</li>
+<li>COMPONENTS – contains information associated with Windows Update and the Component Based Servicing (CBS) stack. It isn&#39;t always active, but instead, it is loaded and unloaded on demand whenever a component installation or update takes place.</li>
+<li>DRIVERS – driver information store, loaded by the kernel on demand at \Registry\Machine\DRIVERS.</li>
+<li>ELAM – Early Launch Anti-Malware, briefly loaded during boot at \Registry\Machine\ELAM.</li>
+</ul>
+<p>Note that these hives exist, but they aren&#39;t particularly interesting in the context of this research. Now, equipped with the knowledge of how the default Windows hives function, let&#39;s see what operations can be performed on them as whole objects.</p>
+<h2 id="hive-operations">Hive operations</h2><p>The Windows kernel provides several system calls for operating on registry hives, which are summarized in the following table:</p>
+<p>Syscall name(s)</p>
+<p>Description</p>
+<p>NtCompressKey</p>
+<p>Compresses the specific hive in-place by defragmenting allocated cells.</p>
+<p>NtLoadKey*</p>
+<p>Loads an existing hive or creates a new one, and mounts it in the global tree view. Documented counterparts: <a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regloadkeyw">RegLoadKey</a> and <a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regloadappkeyw">RegLoadAppKey</a>. The interface is internally used by the &#39;File &gt; Load Hive...&#39; option in Regedit.</p>
+<p>NtReplaceKey</p>
+<p>Replaces the backing file of a specific active hive with another file on the next system boot. Documented counterpart: <a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regreplacekeyw">RegReplaceKey</a>.</p>
+<p>NtRestoreKey</p>
+<p>Copies data from a hive file to the global registry tree. This operation is similar to loading, but doesn&#39;t maintain any synchronization between the in-memory and on-disk representations after the hive is loaded (restored). Documented counterpart: <a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regrestorekeyw">RegRestoreKey</a>. This interface is internally used by the &#39;File &gt; Import...&#39; option in Regedit.</p>
+<p>NtSaveKey*, NtSaveMergedKeys</p>
+<p>Saves the specific subtree to a file on disk in the regf format. Documented counterparts: <a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsavekeyw">RegSaveKey</a> and <a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsavekeyexw">RegSaveKeyEx</a>. This interface is internally used by the &#39;File &gt; Export...&#39; option in Regedit. Interestingly, the sole purpose of NtSaveMergedKeys seems to be to provide a NtSaveKey-like functionality for HKEY_CLASSES_ROOT, which, as mentioned earlier, is a special merged view of \Registry\Machine\Software\Classes and \Registry\User&lt;SID&gt;_Classes implemented in user-mode.</p>
+<p>NtUnloadKey*</p>
+<p>Unloads a registry hive and unmounts it from the global view. Documented counterpart: <a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regunloadkeyw">RegUnLoadKey</a>. This interface is internally used by the &#39;File &gt; Unload Hive...&#39; option in Regedit.</p>
+<p>The above services provide some valuable insight into what actions can be performed on hives. A careful reader will notice that this list is longer than the table of basic hive operations shown in <a href="/2024/04/the-windows-registry-adventure-2.html">blog post #2</a>, which is because all of these syscalls (other than NtLoadKey* with the REG_APP_HIVE flag) require administrative privileges (SeBackupPrivilege or SeRestorePrivilege) and are not a widely accessible attack surface. Furthermore, most of them see little to no use in a typical system run time. The only notable exception is NtRestoreKey, which is part of the &quot;RXact&quot; user-mode transaction mechanism used for operating on the SAM hive by the SAM Service, as mentioned in the <a href="https://github.com/googleprojectzero/p0tools/tree/master/WinRegLowSeverityBugs/Reports/15_Registry_quota_exhausted_SAM_corruption">Windows Kernel registry quota exhaustion may lead to permanent corruption of the SAM database</a> report (CVE-2024-26181).</p>
+<p>From a strictly security perspective, the most critical hive-related operation is their loading. Let&#39;s dive deeper into how it works.</p>
+<h2 id="loading-hives">Loading hives</h2><p>There are currently three distinct ways in which registry hives are loaded in Windows:</p>
+<ol>
+<li>Internally by the kernel at boot time. This applies to most of the hives under \Registry\Machine, as well as \Registry\User.DEFAULT. There is also an optional hive named &quot;OSDATA&quot; that gets loaded under \Registry\Machine\OSDATA if it exists at C:\Windows\system32\config\OSDATA. It is unclear what its role is, and I was unable to find much information during a quick web search. It seems to be used by user-mode libraries whenever <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntddk/nf-ntddk-rtlisstateseparationenabled">RtlIsStateSeparationEnabled</a> returns TRUE, which implies it may be somehow related to <a href="https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/factoryos/state-separation?view=windows-11">State Separation</a>.</li>
+<li>Using one of the NtLoadKey-family system calls, which may be invoked from the kernel, a privileged user-mode service, or a normal user application. In the latter two cases, the request usually comes through a corresponding Registry API function such as RegLoadKey or (more likely) RegLoadAppKey.</li>
+<li>Through the IOCTL interface of the VRegDriver, in order to load a differencing hive under \Registry\WC. This path is taken exclusively by system services responsible for the initialization of application and server silos, such as the AppInfo service.</li>
+</ol>
+<p>The first option isn&#39;t particularly important because it happens seamlessly before we can influence the system in any way, and we are simply left with the outcome (but if you&#39;re curious to learn more, here are some good starting points: CmInitSystem1, CmpInitializeSystemHive, NtInitializeRegistry, CmpInitializeSystemHivesLoad, CmpFinishSystemHivesLoad). Furthermore, option #3 is related to container support and thus mostly outside of the scope of this post, but we will briefly cover it later. Right now, let&#39;s focus on the standard interfaces that Windows exposes for loading hives (option #2), as this is where the magic happens.</p>
+<p>The primary Registry API function for loading hives is RegLoadKey, whose Unicode version has the following declaration:</p>
+<p>LSTATUS RegLoadKeyW(<br>  [in]           HKEY    hKey,<br>  [in, optional] LPCWSTR lpSubKey,<br>  [in]           LPCWSTR lpFile<br>);</p>
+<p>It&#39;s quite clear that the function offers limited customization options, as it only takes a handle to the root key, the name of the subkey that will become the mount point, and the path of the hive file to load. In Windows Vista, a second API function called RegLoadAppKey was introduced, designed specifically to allow the caller to load application hives:</p>
+<p>LSTATUS RegLoadAppKeyW(<br>  [in]  LPCWSTR lpFile,<br>  [out] PHKEY   phkResult,<br>  [in]  REGSAM  samDesired,<br>  [in]  DWORD   dwOptions,<br>        DWORD   Reserved<br>);</p>
+<p>In this case, we lose the ability to specify the path of the hive mount point, which is irrelevant because app hives cannot be accessed through fully-qualified paths anyway. On the other hand, we gain some customizability as we can pass the REG_PROCESS_APPKEY flag via dwOptions, and there is also a Reserved parameter that may be used to further extend the functionality in the future.</p>
+<p>Both of these documented functions internally rely on NtLoadKey-family system calls, such as NtLoadKey, NtLoadKey2, NtLoadKeyEx or NtLoadKey3 (admittedly quite an unconventional progression). New iterations have been historically added in subsequent versions of Windows to extend the functionality of the previous syscalls. In the case of NtLoadKeyEx, the definition of this singular system call even changed between Windows Server 2003 and Windows Vista to accommodate new options, which is unusual, as syscall definitions tend to be stable. These developments are illustrated in the image below:</p>
+<p><img src="/images/7558b96c2ff2/aa52317d835060b48709dc61750d0610.png" alt="A chart depicting the evolution of the NtLoadKey function and its usage in loading registry hives in different versions of Microsoft Windows. The stages are as follows: * **Windows NT 3.1:** NtLoadKey * **Windows NT 4.0:** NtLoadKey2 * **Windows Server 2003:** NtLoadKeyEx (4 arguments) * **Windows Vista:** NtLoadKeyEx (8 arguments) * **Windows 10 20H1:** NtLoadKey3" loading="lazy"></p>
+<p>Let&#39;s have a closer look at the prototype of NtLoadKeyEx, whose arguments most clearly reflect the evolution of the interface. While the latest NtLoadKey3 function introduced further advancements by making it possible to specify additional impersonation tokens, its definition references an undocumented structure and is thus less suitable as an example. If you&#39;re curious to learn more about this newest syscall, see James&#39;s <a href="https://www.tiraniddo.dev/2020/05/silent-exploit-mitigations-for-1.html">Silent Exploit Mitigations for the 1%</a> blog post. Meanwhile, NtLoadKeyEx is defined as follows:</p>
+<p>NTSTATUS NtLoadKeyEx(<br>    POBJECT_ATTRIBUTES TargetKey,  // 自NtLoadKey起（Windows NT 3.1）<br>    POBJECT_ATTRIBUTES SourceFile, // 自NtLoadKey起（Windows NT 3.1）<br>    ULONG Flags,                   // 自NtLoadKey2起（Windows NT 4.0）<br>    HANDLE TrustClassKey,          // 自NtLoadKeyEx起（Windows Server 2003）<br>    HANDLE Event,                  // 自NtLoadKeyEx起（Windows Vista）<br>    DWORD DesiredAccess,           // 自NtLoadKeyEx起（Windows Vista）<br>    PHANDLE RootHandle,            // 自NtLoadKeyEx起（Windows Vista）<br>    PIO_STATUS_BLOCK IoStatus      // 自NtLoadKeyEx起（Windows Vista）<br>);</p>
+<p>Here&#39;s an overview of the semantics of the parameters:</p>
+<ul>
+<li>TargetKey – specifies the new mount point of the hive, e.g. \Registry\User&lt;SID&gt;. Corresponds to the combination of hKey/lpSubKey arguments in RegLoadKey.</li>
+<li>SourceFile – specifies the path of the hive on a file system in the internal NT format, e.g. ??\C:\Users&lt;USER&gt;\NTUSER.DAT. Directly corresponds to the lpFile argument in RegLoadKey.</li>
+<li>Flags – specifies a set of options for loading the hive.</li>
+<li>TrustClassKey – specifies an existing hive within the same &quot;trust class&quot; as the loading hive. Trust classes, introduced in Windows Server 2003, define strict rules for which hives can link to each other, preventing symbolic link attacks (for example, disallowing links from HKCU to HKLM).</li>
+</ul>
+<p>The last four arguments are only used for app hives or hives for which the caller explicitly requests an open handle (REG_APP_HIVE or REG_LOAD_HIVE_OPEN_HANDLE flags set):</p>
+<ul>
+<li>Event – specifies an event object that gets signaled when the hive is unloaded. Internally, it gets added to a dynamically allocated array pointed to by CMHIVE.UnloadEventArray. It is most meaningful for application hives, which get automatically unloaded when all references are closed, so the event makes it possible for applications to get notified about this fact and perform any follow up actions.</li>
+<li>DesiredAccess – specifies the access rights requested for the returned root key. It directly corresponds to the samDesired argument in RegLoadAppKey.</li>
+<li>RootHandle – a pointer to a variable that receives the handle to the root key of the hive. This is the same handle that gets returned by RegLoadAppKey.</li>
+<li>IoStatus – an I/O status block that used to be passed to NtCreateFile when opening the hive file. It is currently unused.</li>
+</ul>
+<p>The most interesting parameter is probably Flags, which takes a combination of options for loading the hive, and is very illustrative of what is actually possible with the interface. The supported flags are defined in the Windows SDK, both in the user-mode (winnt.h) and kernel-mode headers (wdm.h). The flag namespace is actually shared between the NtLoadKey* syscalls and NtRestoreKey, so I crossed out the flags that are not relevant to loading (mask 0xB):</p>
+<p>//<br>// 键恢复和hive加载标志<br>//</p>
+<p>#define REG_WHOLE_HIVE_VOLATILE         (0x00000001L) // 恢复整个hive为易失性<br>#define REG_REFRESH_HIVE                (0x00000002L) // 回滚到最后刷新的更改<br>#define REG_NO_LAZY_FLUSH               (0x00000004L) // 从不对此hive进行延迟刷新<br>#define REG_FORCE_RESTORE               (0x00000008L) // 即使我们在子键上有打开的句柄，也强制恢复过程<br>#define REG_APP_HIVE                    (0x00000010L) // 加载对调用进程可见的hive<br>#define REG_PROCESS_PRIVATE             (0x00000020L) // 在使用时，hive不能被任何其他进程挂载<br>#define REG_START_JOURNAL               (0x00000040L) // 启动Hive Journal<br>#define REG_HIVE_EXACT_FILE_GROWTH      (0x00000080L) // 以精确的4k增量增长hive文件<br>#define REG_HIVE_NO_RM                  (0x00000100L) // 此hive不启动RM（无事务）<br>#define REG_HIVE_SINGLE_LOG             (0x00000200L) // 对此hive使用旧版单一日志记录<br>#define REG_BOOT_HIVE                   (0x00000400L) // 此hive可能被OS加载程序使用<br>#define REG_LOAD_HIVE_OPEN_HANDLE       (0x00000800L) // 加载hive并返回其根kcb的句柄<br>#define REG_FLUSH_HIVE_FILE_GROWTH      (0x00001000L) // 作为所有刷新的一部分，将更改刷新到主hive文件大小<br>#define REG_OPEN_READ_ONLY              (0x00002000L) // 以只读模式打开hive的文件<br>#define REG_IMMUTABLE                   (0x00004000L) // 加载hive，但不允许对其进行任何修改<br>#define REG_NO_IMPERSONATION_FALLBACK   (0x00008000L) // 如果hive文件访问失败，不要回退到模拟调用者</p>
+<p>As shown, there are a total of 13 available flags with clear names and comments explaining their purpose. However, not all 8192 combinations of them are valid. Rules and dependencies exist – for example, application hives (REG_APP_HIVE) cannot be loaded with lazy flushing disabled (REG_NO_LAZY_FLUSH). In the next sections, we will explore these limitations, covering the required client privileges, supported flags and allowed mount points.</p>
+<h3 id="standard-hive-loading">Standard hive loading</h3><p>The most important distinction for the NtLoadKey* system calls is whether the hive is being loaded as an app hive (REG_APP_HIVE flag set) or not. If it&#39;s not, then it&#39;s considered as &quot;standard&quot; hive loading, the only type that existed prior to Windows Vista.</p>
+<h4 id="privileges">Privileges</h4><p>The official documentation for RegLoadKey states that both SeRestorePrivilege and SeBackupPrivilege privileges are required to use the function. In practice, however, only SeRestorePrivilege is checked. This is still a privilege that is granted to administrators only, so loading any globally visible hives is not possible for a normal user. As evidence, attempting to use the &#39;File &gt; Load Hive...&#39; option in Regedit without administrative privileges results in an &#39;Insufficient privileges&#39; error. This might also explain, at least in part, why the Configuration Manager may not be entirely robust against malformed hives. The original developers likely assumed the code would need to gracefully handle random data corruption, but not necessarily malicious files from untrusted sources.</p>
+<p>It is also worth keeping in mind that while a local attacker cannot directly load a normal hive, they may be able to entice the Profile Service to load it on their behalf thanks to <a href="https://learn.microsoft.com/en-us/windows/win32/shell/mandatory-user-profiles">Mandatory User Profiles</a>. This mechanism causes the system to prioritize the NTUSER.MAN hive file (if it exists in the user directory) over NTUSER.DAT, and loads it as the user hive when the user signs in. It is thus possible to plant a specially crafted hive under NTUSER.MAN, log out, and log back in to have it loaded by Windows. This comes with some limitations, as the hive needs to have a valid, basic structure expected of the HKCU, and the attacker must be able to create files in %USERPROFILE% and to log in and out (so it precludes certain sandbox escapes etc.). Nevertheless, it may be a valid attack vector, and it was in fact used to demonstrate the practical exploitability of issues <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2047">#2047</a>, <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2048">#2048</a>, <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2297">#2297</a>, <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2366">#2366</a>, <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2419">#2419</a>, <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2445">#2445</a> and <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2492">#2492</a>. An even more extreme idea of this kind could involve two local, cooperating users who grant each other access to their respective NTUSER.DAT files and modify them while the other user is signed out (when the hive is not locked). However this is even less practical so we won&#39;t spend more time on this scenario.</p>
+<h4 id="mount-points">Mount Points</h4><p>One of the core invariants of the Windows registry is that hives may only be mounted within the master hive (CmpMasterHive). This is enforced by CmpDoParseKey when trying to link the new hive into the global tree, and it means that hives cannot be loaded relative to other hives. If we look at the list of the top-level HKEY keys, the only two that represent the master hive are HKEY_LOCAL_MACHINE and HKEY_USERS. And indeed, the &#39;File &gt; Load Hive...&#39; option in Regedit is only enabled when the focus is on one of the two keys, otherwise it is grayed out:</p>
+<p><img src="/images/7558b96c2ff2/ff7ad81d1892bb1a564aed570fc2832b.png" alt="Image of Registry Editor menu in Windows with "Load Hive..." option highlighted" loading="lazy"></p>
+<p>As mentioned earlier, the current convention is that all hives in the system are typically mounted on the third level of the global registry tree, i.e. below one of \Registry{A,MACHINE,USER,WC}. However, there is nothing preventing a privileged program from loading a hive directly under the \Registry root, too.</p>
+<h4 id="flags">Flags</h4><p>In standard hive loading, there are almost no restrictions on the flags that can be used. The only requirement is that if the REG_FLUSH_HIVE_FILE_GROWTH flag is set, then both REG_HIVE_SINGLE_LOG and REG_BOOT_HIVE must be set, too.</p>
+<h4 id="unloading">Unloading</h4><p>Normal hives stay loaded until they are manually unloaded or the system is shut down. The former can be achieved with the RegUnLoadKey API, or one of the underlying system calls: NtUnloadKey (since Windows NT 3.1), NtUnloadKeyEx (since Windows XP), or NtUnloadKey2 (since Windows Server 2003). Their prototypes are shown below:</p>
+<p>NTSTATUS NtUnloadKey(<br>    POBJECT_ATTRIBUTES TargetKey<br>);</p>
+<p>NTSTATUS NtUnloadKeyEx(<br>    POBJECT_ATTRIBUTES TargetKey,<br>    HANDLE Event<br>);</p>
+<p>NTSTATUS NtUnloadKey2(<br>    POBJECT_ATTRIBUTES TargetKey,<br>    ULONG Flags<br>);</p>
+<p>The first syscall simply takes the path of the target key, the second adds an event that will be signaled when the hive is actually unloaded (in case any references to it are still open and the system call returns STATUS_PENDING), and the third one makes it possible to pass a REG_FORCE_UNLOAD (0x1) flag to force the unload even if any handles are open. All of them require SeRestorePrivilege to call successfully, so a local attacker has no way of using them directly.</p>
+<h3 id="application-hive-loading">Application hive loading</h3><p>Application hives are undoubtedly one of the most security-relevant aspects of the registry, as they allow normal users to load fully controlled binary hives in the system. They played a crucial role in my research, having been useful in demonstrating the practical exploitability of 15 vulnerabilities reported to Microsoft.</p>
+<p>In technical terms, every hive that is loaded with the REG_APP_HIVE flag is an app hive, and they get special treatment from the kernel in several respects. Let&#39;s examine some of the apphive-specific behaviors in the sections below.</p>
+<h4 id="privileges">Privileges</h4><p>Contrary to normal hives, loading application hives requires no specific privileges from the caller. The only precondition is that the client has access to at least one file that is encoded as a regf, and the kernel can also open the file with the security token of the process for reading, and potentially writing. This is a trivial prerequisite if the attacker starts with full control over a local user account in the system, but may be potentially more difficult in more constrained environments such as security sandboxes.</p>
+<p>Another consideration specific to application hives are their security descriptors. The documentation of the RegLoadAppKey function states:</p>
+<p>All keys inside the hive must have the same security descriptor, otherwise the function will fail. This security descriptor must grant the caller the access specified by the samDesired parameter or the function will fail. You cannot use the RegSetKeySecurity function on any key inside the hive.</p>
+<p>This doesn&#39;t matter much from a security perspective, because if the caller is attempting to load the hive, they most likely already have write access to that file. So regardless of its contents, if the caller is determined to load the hive, they can just modify it accordingly (e.g. change the security descriptors). But it is interesting to note that the above statement is only partially correct: indeed, no new security descriptors can be added to an active app hive, either through a RegSetKeySecurity call or by creating a new key with a custom descriptor (e.g. with a RegCreateKeyEx call with a non-NULL lpSecurityAttributes parameter). However, it is not quite right that RegLoadAppKey will fail if there is more than one security descriptor: currently, there are no such restrictions enforced and app hives can be successfully loaded with any number of descriptors. Furthermore, only KEY_READ access is checked rather than the samDesired mask specified by the caller, and only against the root key instead of all keys in the hive (this ties to there potentially being more than one descriptor). This has been reported to Microsoft in <a href="https://github.com/googleprojectzero/p0tools/tree/master/WinRegLowSeverityBugs/Reports/20_App_hive_security_inconsistencies">Windows Kernel enforcement of registry app hive security is inconsistent with documentation</a>, and has been acknowledged as a discrepancy between documentation and implementation, but it is unclear if/when any steps will be taken to address it.</p>
+<h4 id="mount-points">Mount Points</h4><p>Application hives are subject to even stricter requirements with regards to mount points than normal hives: not only do they have to be mounted in the master hive, but it has to be specifically under \Registry\A. This &quot;A&quot; key is unique in that it and its subkeys are explicitly protected from opening by name. The check takes place in CmpParseKey, and the specific routine responsible for verifying the path is CmpDoesParseEnterRegistryA. Some of these rigorous checks were added and/or refined in response to James&#39;s issues <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=865">#865</a> and <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=870">#870</a> discovered in 2016. This means that the only way to obtain a handle to a key within \Registry\A is through the RootHandle argument to NtLoadKeyEx / NtLoadKey3, which ensures maximum privacy for the application hives. Since the names of the mount points are not used for anything, the only important property is that they don&#39;t collide with each other. This is guaranteed by KernelBase.dll in the internal BuildRootKeyName function, which picks the mount point name by generating a random 128-bit number and formatting it as a GUID string.</p>
+<p>Another interesting feature of app hives is their ability to be shared between processes. If multiple processes load the same hive without the REG_PROCESS_APPKEY flag, they&#39;ll all access the same underlying data. In practice, if an app hive is first loaded at \Registry\A\Test1, and another program tries to load the same hive at \Registry\A\Test2, the kernel will effectively reuse the existing &quot;Test1&quot; hive, providing the caller with a handle to it. Because the mount point is irrelevant to the client after loading, this approach is both safe and efficient.</p>
+<h4 id="flags">Flags</h4><p>In addition to the flag restrictions imposed on normal hives, application hives disallow REG_NO_LAZY_FLUSH (0x4), REG_START_JOURNAL (0x40) and REG_BOOT_HIVE (0x400), which means that REG_FLUSH_HIVE_FILE_GROWTH (0x1000) is also prohibited. This leaves 0xEBB0 as the supported set of flags.</p>
+<p>It&#39;s also worth noting that even though it is allowed, REG_HIVE_NO_RM (0x100) doesn&#39;t do anything for app hives because KTM transactions are disabled for them anyway. Furthermore, there seems to be a minor bug where specifying both the REG_APP_HIVE (0x10) and REG_LOAD_HIVE_OPEN_HANDLE (0x800) flags will cause the hive to stay loaded indefinitely. This proved useful as an exploitation primitive in issue <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2378">#2378</a>, but in general it simply leads to a memory leak and locking the hive file until the next reboot.</p>
+<h4 id="unloading">Unloading</h4><p>Application hives don&#39;t need to be manually unloaded with any of the NtUnloadKey* system calls, but instead they are automatically unloaded when all handles to the hive&#39;s keys are closed. Internally, this is achieved by checking if the reference count of the root key&#39;s KCB has dropped to a near-zero value, and scheduling the CmpLateUnloadHiveWorker function to perform the actual cleanup.</p>
+<h3 id="differencing-hive-loading">Differencing hive loading</h3><p>Differencing hives are the third major category of hives and the most recent one, introduced in Windows 10 1607. They are similar to application hives in that they are invisible to the naked eye (you won&#39;t typically see them in Regedit), but they are also much more complex, both for loading and operating on. Let&#39;s see how they compare to the other types of hives we have discussed so far.</p>
+<h4 id="privileges">Privileges</h4><p>I have to start by saying that it is impossible to load a differencing hive with any of the standard NtLoadKey-family syscalls. These special hives need to be overlaid on top of other hives, and must also be configured as either writethrough or not. Instead of adding yet another system call or extending an existing one to accommodate these settings, Microsoft decided to take a different approach. This explains why none of the REG_* flags listed above reference differencing hives in any way.</p>
+<p>In order to support registry containerization, the vendor added a driver called &quot;VRegDriver&quot; that is built into the ntoskrnl.exe executable image. It consists of two main parts: an IOCTL interface accessible at \Device\VRegDriver allowing communication with other system components, and a <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/filtering-registry-calls">registry callback</a> (VrpRegistryCallback) that implements the namespace redirection functionality. The generic IOCTL handler is VrpIoctlDeviceDispatch, and it supports nine different operations. One of them is 0x220008, handled by VrpHandleIoctlLoadDifferencingHive. This is the IOCTL used by the AppInfo service to load differencing hives on behalf of a starting Centennial application, and it does so by taking an undocumented structure on input, extracting the necessary information from it and calling directly into the internal CmLoadDifferencingKey routine to load the hive – the same one that NtLoadKey* use, too. (On a side note, there is a similar IOCTL 0x220020 handled by VrpHandleIoctlLoadDifferencingHiveForHost, but it&#39;s currently unclear how it&#39;s used or how it differs from 0x220008.)</p>
+<p>Given all this, directly loading a differencing hive requires the ability to open the \Device\VRegDriver object (only accessible to administrators), as well as having the SeBackupPrivilege and SeRestorePrivilege rights (enforced by the IOCTL handler). Thus, it&#39;s clear that the option is not available to normal users. Alternatively, one can take advantage of the legitimate uses of the mechanism –  bundle a malicious hive with a MSIX-packaged app or a Docker container that gets installed on the victim machine, and have it loaded as part of normal system operation. Naturally, this significantly limits the attack&#39;s practicality and also imposes further constraints on how the hive is loaded.</p>
+<p>That said, loading custom differencing hives may not be necessarily required to exploit vulnerabilities related to layered keys. The \Registry\WC key is not locked down the same way as \Registry\A is, so it can be freely enumerated, and its subkeys can be opened and accessed according to their security descriptors. Furthermore, there are a number of default programs in Windows that make use of differencing hives, and in many cases an attacker can simply reuse one of them for their own purposes. For example, out of the <a href="https://project-zero.issues.chromium.org/issues?q=id:(42451588%20%7C%2042451589%20%7C%2042451590%20%7C%2042451592%20%7C%2042451596%20%7C%2042451607%20%7C%2042451608%20%7C%2042451609%20%7C%2042451611%20%7C%2042451625)">10 bugs</a> I found that involved layered keys, only <a href="https://project-zero.issues.chromium.org/issues?q=id:(42451596%20%7C%2042451625)">2</a> of them required the ability to load custom differencing hives.</p>
+<h4 id="mount-points">Mount Points</h4><p>None of the kernel-mode components enforce any specific requirements with regards to the differencing hive mount points, other than them being located in the master hive (as for every other hive). This means that in theory, they could be loaded anywhere within \Registry or one of its four subkeys. In practice, all services using these hives for their intended purpose always load them under \Registry\WC.</p>
+<h4 id="flags">Flags</h4><p>Let&#39;s take a look at my reverse-engineered definition of the input structure expected by VrpHandleIoctlLoadDifferencingHive on Windows 11, which can be found in the <a href="https://bugs.chromium.org/p/project-zero/issues/attachmentText?aid=608460">CreateAndLoadDifferencingHive.cpp</a> proof-of-concept exploit for issue <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2479">#2479</a>:</p>
+<p>struct VRP_LOAD_DIFFERENCING_HIVE_INPUT {<br>  /* +0x00 <em>/HANDLE hJob;<br>  /</em> +0x08 <em>/DWORD Unused1;<br>  /</em> +0x0c <em>/DWORD DiffHiveFlags;<br>  /</em> +0x10 <em>/DWORD LoadFlags;<br>  /</em> +0x14 <em>/WORD  MountPointLength;<br>  /</em> +0x16 <em>/WORD  HivePathLength;<br>  /</em> +0x18 <em>/WORD  BaseLayerPathLength;<br>  /</em> +0x1a <em>/WORD  Unused2;<br>  /</em> +0x1c <em>/DWORD Unused3;<br>  /</em> +0x20 <em>/HANDLE hToken;<br>  /</em> +0x28 */WCHAR Buffer[1];<br>};</p>
+<p>Here at offset 0x10, LoadFlags represents the same information that is normally passed via the Flags argument to NtLoadKey* system calls. The set of legal flags for differencing hives is very narrow and consists of only three of them: REG_HIVE_NO_RM (0x100), REG_OPEN_READ_ONLY (0x2000) and REG_IMMUTABLE (0x4000).</p>
+<p>Moreover, there is also an extra DiffHiveFlags member at offset 0xc that specifies the flags specific to differencing hives. So far, I have observed three supported flags and deduced their meaning to be as follows:</p>
+<p>#define DIFF_HIVE_ADD_TO_TRUST_CLASS 1<br>#define DIFF_HIVE_WRITETHROUGH       2<br>#define DIFF_HIVE_TRUSTED            4`</p>
+<p>第一个和第三个标志与信任类和符号链接的遵循有关，而第二个标志定义hive是否为writethrough，这是一种特殊类型的差异hive，将其键上的所有写操作重定向到较低层。如果DIFF_HIVE_WRITETHROUGH在DiffHiveFlags中设置，则REG_IMMUTABLE必须在LoadFlags中设置。</p>
+<h4 id="卸载">卸载</h4><p>根据我的实验，差异hive通常在相应的silo被销毁时卸载：要么由系统服务调用0x220018 IOCTL（VrpHandleIoctlUnloadDynamicallyLoadedHives）拆除容器，要么在清理相应的作业对象时自动卸载，最终进入内部VrpUnloadDifferencingHive例程。最终，两个函数都调用ZwUnloadKey*（NtUnloadKey*的内核模式包装器），遵循标准的hive卸载过程。</p>
+<h2 id="结论">结论</h2><p>在这篇文章中，我试图阐明注册表树的结构，包括高级（WinAPI）和低级（内部系统库和内核）层面。如所示，这两个视图之间的关系是复杂的，并包含许多意想不到的怪癖。同时，熟悉这种设计对于理解一些更高级的注册表功能及其安全影响是非常宝贵的。我未能找到系统性地涵盖此主题的资源，因此希望这篇博客文章有所帮助。在本系列的下一部分中，我将解释hive的内部结构以及其中可能让你惊讶的许多事情。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/权限提升.html" class="tag-link">#权限提升</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/攻击研究.html" class="tag-link">#攻击研究</a> <a href="/tag/Docker.html" class="tag-link">#Docker</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/硬件安全.html" class="tag-link">#硬件安全</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#高层视角" class="toc-link">
+              <span class="toc-text">高层视角</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#底层视角" class="toc-link">
+              <span class="toc-text">底层视角</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#hive文件" class="toc-link">
+              <span class="toc-text">Hive文件</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#hive列表和内存映射" class="toc-link">
+              <span class="toc-text">Hive列表和内存映射</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#default-system-hives" class="toc-link">
+              <span class="toc-text">Default system hives</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#hive-operations" class="toc-link">
+              <span class="toc-text">Hive operations</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#loading-hives" class="toc-link">
+              <span class="toc-text">Loading hives</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#standard-hive-loading" class="toc-link">Standard hive loading</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#privileges" class="toc-link">Privileges</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#mount-points" class="toc-link">Mount Points</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#flags" class="toc-link">Flags</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#unloading" class="toc-link">Unloading</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#application-hive-loading" class="toc-link">Application hive loading</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#privileges" class="toc-link">Privileges</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#mount-points" class="toc-link">Mount Points</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#flags" class="toc-link">Flags</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#unloading" class="toc-link">Unloading</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#differencing-hive-loading" class="toc-link">Differencing hive loading</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#privileges" class="toc-link">Privileges</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#mount-points" class="toc-link">Mount Points</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#flags" class="toc-link">Flags</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#卸载" class="toc-link">卸载</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

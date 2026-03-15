@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>本不该发生：一次漏洞事件复盘 - BasicBit</title>
+  <meta name="description" content="本不该发生：一次漏洞事件复盘">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">本不该发生：一次漏洞事件复盘</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2021/12/1
+            </span>
+            <span class="meta-item">Tavis Ormandy</span>
+            <span class="meta-item">漏洞分析, 模糊测试, 网络安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2021/12/this-shouldnt-have-happened.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2021%2F12%2Fthis-shouldnt-have-happened.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Tavis Ormandy，Project Zero</p>
+<h1 id="引言">引言</h1><p>这是一篇不同寻常的博客文章。我通常写文章是为了强调一些隐藏的攻击面或有趣而复杂的漏洞类别。但这次，我想讨论一个两者都不是的漏洞。这个漏洞最引人注目的地方在于它的简单性。它本应更早被发现，我想探讨一下为什么没有。</p>
+<p>在2021年，所有好的漏洞都需要一个吸引人的名字，所以我称这个为“BigSig”。</p>
+<p>首先，让我们看看这个漏洞，我会解释我是如何发现它的，然后试着理解为什么我们这么长时间都没有发现它。</p>
+<h1 id="分析">分析</h1><p><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Overview">Network Security Services</a>（NSS）是 Mozilla 广泛使用的跨平台密码学库。当你验证一个 ASN.1 编码的数字签名时，NSS 会创建一个 <a href="https://searchfox.org/mozilla-central/rev/f8576fec48d866c5f988baaf1fa8d2f8cce2a82f/security/nss/lib/cryptohi/secvfy.c#120">VFYContext</a> 结构来存储必要的数据。这包括公钥、哈希算法和签名本身等。</p>
+<p>struct VFYContextStr {<br>    SECOidTag hashAlg; /* 哈希算法 */<br>    SECKEYPublicKey *key;<br>    union {<br>        unsigned char buffer[1];<br>        unsigned char dsasig[DSA_MAX_SIGNATURE_LEN];<br>        unsigned char ecdsasig[2 * MAX_ECKEY_LEN];<br>        unsigned char rsasig[(RSA_MAX_MODULUS_BITS + 7) / 8];<br>    } u;<br>    unsigned int pkcs1RSADigestInfoLen;<br>    unsigned char *pkcs1RSADigestInfo;<br>    void *wincx;<br>    void *hashcx;<br>    const SECHashObject <em>hashobj;<br>    SECOidTag encAlg;    /</em> 加密算法 */<br>    PRBool hasSignature;<br>    SECItem *params;<br>};</p>
+<p>图 1. 来自 NSS 的 VFYContext 结构。</p>
+<p>这个结构能处理的最大签名大小取决于联合体中最大的成员，在这个例子中是 RSA，大小为 <a href="https://searchfox.org/mozilla-central/rev/f8576fec48d866c5f988baaf1fa8d2f8cce2a82f/security/nss/lib/freebl/blapit.h#139">2048 字节</a>。也就是 16384 位，大到足以容纳即使是最大得离谱的密钥生成的签名。</p>
+<p>好吧，但是如果你只是……创建一个比这更大的签名会发生什么？</p>
+<p>嗯，事实证明答案是内存损坏。是的，真的。</p>
+<p>不受信任的签名被简单地复制到这个固定大小的缓冲区中，用攻击者控制的任意数据覆盖了相邻的成员。</p>
+<p>这个漏洞很容易复现，并且影响多种算法。最容易演示的是 RSA-PSS。实际上，只需要这三条命令：</p>
+<h1 id="我们需要-16384-位来填满缓冲区-然后-32-64-64-64-位来溢出到-hashobj-">我们需要 16384 位来填满缓冲区，然后 32 + 64 + 64 + 64 位来溢出到 hashobj，</h1><h1 id="它包含函数指针-更大的也可以-但生成时间更长-">它包含函数指针（更大的也可以，但生成时间更长）。</h1><p>$ openssl genpkey -algorithm rsa-pss -pkeyopt rsa_keygen_bits:$((16384 + 32 + 64 + 64 + 64)) -pkeyopt rsa_keygen_primes:5 -out bigsig.key</p>
+<h1 id="用该密钥生成一个自签名证书">用该密钥生成一个自签名证书</h1><p>$ openssl req -x509 -new -key bigsig.key -subj &quot;/CN=BigSig&quot; -sha256 -out bigsig.cer</p>
+<h1 id="用-nss-验证它-">用 NSS 验证它...</h1><p>$ vfychain -a bigsig.cer<br>Segmentation fault</p>
+<p>图 2. 用三个简单的命令复现 BigSig 漏洞。</p>
+<p>导致损坏的实际代码因算法而异；<a href="https://searchfox.org/mozilla-central/rev/f8576fec48d866c5f988baaf1fa8d2f8cce2a82f/security/nss/lib/cryptohi/secvfy.c#477">这里是 RSA-PSS 的代码</a>。漏洞在于根本没有边界检查；<code>sig</code> 和 <code>key</code> 是任意长度、由攻击者控制的二进制数据块，而 <code>cx-&gt;u</code> 是一个固定大小的缓冲区。</p>
+<p>case rsaPssKey:<br>    sigLen = SECKEY_SignatureLen(key);<br>    if (sigLen == 0) {<br>        /* error set by SECKEY_SignatureLen */<br>        rv = SECFailure;<br>        break;<br>    }<br>    if (sig-&gt;len != sigLen) {<br>        PORT_SetError(SEC_ERROR_BAD_SIGNATURE);<br>        rv = SECFailure;<br>        break;<br>    }<br>    PORT_Memcpy(cx-&gt;u.buffer, sig-&gt;data, sigLen);<br>    break;</p>
+<p>图 3. 签名大小必须与密钥大小匹配，但没有其他限制。<code>cx-&gt;u</code> 是一个固定大小的缓冲区，而 <code>sig</code> 是一个任意长度、由攻击者控制的二进制数据块。</p>
+<p>我认为这个漏洞立即引发了几个问题：</p>
+<ul>
+<li>这是一个最近才出现的代码变更或回归问题，存在时间不够长所以没被发现吗？不是，原始代码是在 2003 年 10 月 17 日<a href="https://hg.mozilla.org/projects/nss/annotate/41f5eb9e5df23951883ba3243f3ae51550663d77/security/nss/lib/cryptohi/secvfy.c#l158">提交</a>的，支持 ECC，但直到 2012 年 6 月的某些<a href="https://hg.mozilla.org/projects/nss/diff/10393/security/nss/lib/cryptohi/seckey.c#l1.63">重构</a>后才变得可利用。2017 年，添加了 RSA-PSS 支持并<a href="https://hg.mozilla.org/projects/nss/rev/84e886ea090e36c69df58a71665a97bd25c62d02">犯了同样的错误</a>。</li>
+<li>这个漏洞是否需要很长时间来生成一个能触发漏洞的密钥？不需要，上面的例子生成了一个真实的密钥和签名，但它也可以是垃圾数据，因为溢出发生在签名检查之前。几千字节的 &#39;A&#39; 就可以正常工作。</li>
+<li>到达易受攻击的代码是否需要一些模糊测试器和静态分析器难以合成的复杂状态，比如哈希值或校验和？不需要，它只需要是格式良好的 DER，仅此而已。</li>
+<li>这是一个不常见的代码路径吗？不是，Firefox 不使用这个代码路径来处理 RSA-PSS 签名，但 NSS 中证书验证的默认入口点 <code>CERT_VerifyCertificate()</code> 是易受攻击的。</li>
+<li>它特定于 RSA-PSS 算法吗？不是，它也影响 DSA 签名。</li>
+<li>它是不可利用的，或者影响有限吗？不是，<code>hashobj</code> 成员可以被破坏。该对象包含<a href="https://searchfox.org/mozilla-central/rev/41a8c58186206985c0d70d3d460c04ac844d11d0/security/nss/lib/util/hasht.h#45">函数指针</a>，并且会立即被使用。</li>
+</ul>
+<p>这不是流程上的失败，供应商做的一切都是正确的。Mozilla 拥有一个成熟的世界级安全团队。他们开创了<a href="https://www.mozilla.org/en-US/security/bug-bounty/">漏洞赏金计划</a>，投资于<a href="https://research.mozilla.org/rust/">内存安全</a>、模糊测试和<a href="https://coverage.moz.tools/">测试覆盖率</a>。</p>
+<p>NSS 是最早被纳入 <a href="https://google.github.io/oss-fuzz/">oss-fuzz</a> 的项目之一，至少从 <a href="https://github.com/google/oss-fuzz/commit/3d325bf20f0b09961b6c7de34aa4da0d16cfa67d">2014 年 10 月</a>起就得到了官方支持。Mozilla 自己也用 <a href="https://llvm.org/docs/LibFuzzer.html">libFuzzer</a> 对 NSS 进行模糊测试，并贡献了他们自己的<a href="https://searchfox.org/mozilla-central/source/security/nss/fuzz/asn1_mutators.cc">变异器</a>集合和精炼的<a href="https://github.com/mozilla/nss-fuzzing-corpus">覆盖率语料库</a>。NSS 有广泛的测试套件和每日的 <a href="https://firefox-source-docs.mozilla.org/tools/sanitizer/asan.html">ASAN</a> 构建。</p>
+<p>我通常对静态分析持怀疑态度，但这似乎是一个简单的缺失边界检查，应该很容易被发现。Coverity 至少从 <a href="https://scan.coverity.com/projects/nss">2008 年 12 月</a>起就开始监控 NSS，但似乎也未能发现这个问题。</p>
+<p>直到 2015 年，Google Chrome <a href="https://chromium.googlesource.com/chromium/third_party/nss/+/refs/heads/master/README.chromium">使用</a> NSS，并维护着自己独立于 Mozilla 的测试套件和模糊测试基础设施。如今，Chrome 平台使用 <a href="https://boringssl.googlesource.com/boringssl/">BoringSSL</a>，但 NSS 端口仍在维护。</p>
+<ul>
+<li>Mozilla 对易受攻击的区域有良好的测试覆盖率吗？<a href="https://coverage.moz.tools/#revision=latest&path=security%2Fnss%2Flib%2Fcryptohi%2Fsecvfy.c&suite=gtest&view=file&line=201">有</a>。</li>
+<li>Mozilla/Chrome/oss-fuzz 在他们的模糊测试语料库中有相关的输入吗？<a href="https://storage.googleapis.com/oss-fuzz-coverage/nss/reports/20211027/linux/src/nss/lib/cryptohi/secvfy.c.html#L201">有</a>。</li>
+<li>有能够扩展 ASN1_ITEM 的变异器吗？<a href="https://codereview.chromium.org/1677803002/patch/180001/190008">有</a>。</li>
+<li>这是一个<a href="https://github.com/google/sanitizers/wiki/AddressSanitizerIntraObjectOverflow">对象内溢出</a>，还是 ASAN 难以检测的其他形式的损坏？不是，这是一个教科书式的缓冲区溢出，ASAN 可以轻松检测。</li>
+</ul>
+<h1 id="我是如何发现这个漏洞的-">我是如何发现这个漏洞的？</h1><p>我一直在尝试用替代方法来测量代码覆盖率，看看是否有任何方法在模糊测试中有实际用途。发现这个漏洞的模糊测试器结合使用了两种方法：栈覆盖率和对象隔离。</p>
+<h2 id="栈覆盖率">栈覆盖率</h2><p>测量代码覆盖率最常用的方法是块覆盖率，或者在有源代码时使用<a href="https://clang.llvm.org/docs/SanitizerCoverage.html#edge-coverage">边覆盖率</a>。我一直好奇这是否总是足够的。例如，考虑一个简单的分发表，其中包含受信任和不受信任参数的组合，如图 4 所示。</p>
+<p>#include &lt;stdio.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;limits.h&gt;</p>
+<p>static char buf[128];</p>
+<p>void cmd_handler_foo(int a, size_t b) { memset(buf, a, b); }<br>void cmd_handler_bar(int a, size_t b) { cmd_handler_foo(&#39;A&#39;, sizeof buf); }<br>void cmd_handler_baz(int a, size_t b) { cmd_handler_bar(a, sizeof buf); }</p>
+<p>typedef void (* dispatch_t)(int, size_t);<br>dispatch_t handlers[UCHAR_MAX] = {<br>    cmd_handler_foo,<br>    cmd_handler_bar,<br>    cmd_handler_baz,<br>};</p>
+<p>int main(int argc, char **argv)<br>{<br>    int cmd;<br>    while ((cmd = getchar()) != EOF) {<br>        if (handlers[cmd]) {<br>            handlers<a href="getchar(">cmd</a>, getchar());<br>        }<br>    }<br>}</p>
+<p>图 4. 命令 <code>bar</code> 的覆盖率是命令 <code>foo</code> 的超集，因此在语料库最小化过程中，包含后者的输入会被丢弃。存在一个通过命令 <code>bar</code> 无法到达的漏洞，可能永远不会被发现。栈覆盖率可以正确地保留两个输入。<a href="#ftnt1">[1]</a></p>
+<p>为了解决这个问题，我一直在尝试在执行过程中监控调用栈。</p>
+<p>简单的实现太慢而不实用，但经过大量优化后，我提出了一个库，它足够快，可以集成到覆盖率引导的模糊测试中，并且正在测试它在 NSS 和其他库中的表现。</p>
+<h2 id="对象隔离">对象隔离</h2><p>许多数据类型是由较小的记录构成的。PNG 文件由块组成，PDF 文件由流组成，ELF 文件由节组成，X.509 证书由 ASN.1 TLV 项组成。如果模糊测试器对底层格式有一定的了解，它可以隔离这些记录，并提取导致发现新栈跟踪的那个（或那些）记录。</p>
+<p>我正在使用的模糊测试器能够隔离和提取有趣的新 ASN.1 OID、SEQUENCE、INTEGER 等。一旦提取出来，它就可以随机组合或插入到模板数据中。这并不是一个新想法，但这是一个新的实现。我计划将来开源这段代码。</p>
+<h2 id="这些方法有效吗-">这些方法有效吗？</h2><p>我希望我能说发现这个漏洞验证了我的想法，但我不确定是否如此。我做了一些相对新颖的模糊测试，但我认为没有理由这个漏洞不能用更基本的模糊测试技术更早发现。</p>
+<h2 id="经验教训">经验教训</h2><p>广泛的、定制的、拥有令人印象深刻的覆盖率指标的模糊测试，怎么会没能发现这个漏洞？</p>
+<h3 id="出了什么问题">出了什么问题</h3><h4 id="问题-1-缺少端到端测试-">问题 #1 缺少端到端测试。</h4><p>NSS 是一个<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_API_Guidelines">模块化</a>的库。这种分层设计反映在<a href="https://searchfox.org/nss/source/fuzz/">模糊测试</a>方法中，因为每个组件都是独立进行模糊测试的。例如，<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Tech_Notes/nss_tech_note1#how_to_use_the_nss_asn.1_and_quickder_decoders">QuickDER</a> 解码器经过了<a href="https://searchfox.org/nss/source/fuzz/quickder_target.cc">广泛的</a>测试，但模糊测试器只是<a href="https://searchfox.org/nss/rev/5f2fa238b58c9158a52c0681ca2a67958a353082/fuzz/quickder_target.cc#72">创建并丢弃</a>对象，从不使用它们。</p>
+<p>extern &quot;C&quot; int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {<br>    char *dest[2048];<br>    for (auto tpl : templates) {<br>        PORTCheapArenaPool pool;<br>        SECItem buf = {siBuffer, const_cast&lt;unsigned char *&gt;(Data),<br>                       static_cast<unsigned int>(Size)};<br>        PORT_InitCheapArena(&amp;pool, DER_DEFAULT_CHUNKSIZE);<br>        (void)SEC_QuickDERDecodeItem(&amp;pool.arena, dest, tpl, &amp;buf);<br>        PORT_DestroyCheapArena(&amp;pool);<br>    }</p>
+<p>图 5. QuickDER 模糊测试器只是创建并丢弃对象。这验证了 ASN.1 解析，但没有验证其他组件是否正确处理了生成的对象。</p>
+<p>这个模糊测试器可能生成了一个可以到达易受攻击代码的 <code>SECKEYPublicKey</code>，但由于结果从未被用于验证签名，因此永远无法发现这个漏洞。</p>
+<h4 id="问题-2-任意的大小限制-">问题 #2 任意的大小限制。</h4><p>模糊测试的输入有一个任意的 <a href="https://searchfox.org/nss/source/fuzz/options/quickder.options">10000 字节</a>限制。NSS 内部没有这样的限制；许多结构可以超过这个大小。这个漏洞表明错误发生在极端情况下，因此应该慎重选择这个限制。</p>
+<p>一个合理的选择可能是 2^24-1 字节，这是在 TLS 握手协商期间服务器可以呈现的<a href="https://datatracker.ietf.org/doc/html/rfc8446#section-4.4.2">最大可能</a>证书大小。</p>
+<p>虽然 NSS 可能处理比这更大的对象，但 TLS 不可能涉及其中，从而降低了任何被遗漏漏洞的整体严重性。</p>
+<h4 id="问题-3-误导性的指标-">问题 #3 误导性的指标。</h4><p>oss-fuzz 将所有 NSS 模糊测试器的覆盖率指标合并表示，而不是单独表示每个模糊测试器的覆盖率。事实证明这些数据具有误导性，因为易受攻击的代码被广泛地进行了模糊测试，但使用的模糊测试器不可能生成相关的输入。</p>
+<p>这是因为像 <a href="https://searchfox.org/nss/source/fuzz/tls_server_target.cc">tls_server_target</a> 这样的模糊测试器使用固定的、<a href="https://searchfox.org/nss/source/fuzz/tls_server_certs.cc">硬编码的</a>证书。这练习了与证书验证相关的代码，但只模糊测试了 TLS 消息和协议状态变化。</p>
+<h3 id="哪些方面做得好">哪些方面做得好</h3><ul>
+<li><code>mozilla::pkix</code> 验证库的设计防止了这个漏洞变得更糟。不幸的是，除了 Firefox 和 Thunderbird 之外，它没有被使用。</li>
+</ul>
+<p>这究竟是运气好还是不好，尚有争议。尽管目前没有，但似乎 <code>mozilla::pkix</code> 最终可能会允许 RSA-PSS。</p>
+<h2 id="建议">建议</h2><p>这个问题表明，即使是维护得非常好的 C/C++ 代码也可能存在致命的、微不足道的错误。</p>
+<h3 id="短期">短期</h3><ul>
+<li>将 libFuzzer 生成的 ASN.1 对象的最大大小从 10,000 提高到 2^24-1 = 16,777,215 字节。</li>
+<li>QuickDER 模糊测试器在销毁任何成功创建的对象之前，应该调用一些相关的 API。</li>
+<li>oss-fuzz 的代码覆盖率指标应该按模糊测试器划分，而不是按项目划分。</li>
+</ul>
+<h1 id="解决方案">解决方案</h1><p>此漏洞编号为 CVE-2021-43527，已在 <a href="https://www.mozilla.org/en-US/security/advisories/">NSS 3.73.0</a> 中修复。如果您是在产品中分发 NSS 的供应商，很可能需要更新或向后移植该补丁。</p>
+<h1 id="致谢">致谢</h1><p>如果没有我的 Chrome 同事 Ryan Sleevi 和 David Benjamin 的帮助，我不可能发现这个漏洞，他们帮助回答了我的 ASN.1 编码问题，并就这个话题进行了深思熟虑的讨论。</p>
+<p>感谢 NSS 团队，他们帮助分类和分析了这个漏洞。</p>
+<hr>
+<p><a href="#ftnt_ref1">[1]</a> 在这个最小示例中，如果源代码可用，一个变通方法是结合使用 sancov 的数据流插桩选项，但在更复杂的变体上也会失败。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/堆漏洞.html" class="tag-link">#堆漏洞</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/编译器安全.html" class="tag-link">#编译器安全</a> <a href="/tag/网络安全.html" class="tag-link">#网络安全</a> <a href="/tag/Firefox.html" class="tag-link">#Firefox</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#引言" class="toc-link">
+              <span class="toc-text">引言</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#分析" class="toc-link">
+              <span class="toc-text">分析</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#我们需要-16384-位来填满缓冲区-然后-32-64-64-64-位来溢出到-hashobj-" class="toc-link">
+              <span class="toc-text">我们需要 16384 位来填满缓冲区，然后 32 + 64 + 64 + 64 位来溢出到 hashobj，</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#它包含函数指针-更大的也可以-但生成时间更长-" class="toc-link">
+              <span class="toc-text">它包含函数指针（更大的也可以，但生成时间更长）。</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#用该密钥生成一个自签名证书" class="toc-link">
+              <span class="toc-text">用该密钥生成一个自签名证书</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#用-nss-验证它-" class="toc-link">
+              <span class="toc-text">用 NSS 验证它...</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#我是如何发现这个漏洞的-" class="toc-link">
+              <span class="toc-text">我是如何发现这个漏洞的？</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#栈覆盖率" class="toc-link">栈覆盖率</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#对象隔离" class="toc-link">对象隔离</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#这些方法有效吗-" class="toc-link">这些方法有效吗？</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#经验教训" class="toc-link">经验教训</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#出了什么问题" class="toc-link">出了什么问题</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-3">
+                    <a href="#问题-1-缺少端到端测试-" class="toc-link">问题 #1 缺少端到端测试。</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-3">
+                    <a href="#问题-2-任意的大小限制-" class="toc-link">问题 #2 任意的大小限制。</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-3">
+                    <a href="#问题-3-误导性的指标-" class="toc-link">问题 #3 误导性的指标。</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#哪些方面做得好" class="toc-link">哪些方面做得好</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#建议" class="toc-link">建议</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#短期" class="toc-link">短期</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#解决方案" class="toc-link">
+              <span class="toc-text">解决方案</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#致谢" class="toc-link">
+              <span class="toc-text">致谢</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

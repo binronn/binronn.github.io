@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一个伪造Carrier.app的离奇故事 - BasicBit</title>
+  <meta name="description" content="一个伪造Carrier.app的离奇故事">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">一个伪造Carrier.app的离奇故事</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/6/23
+            </span>
+            <span class="meta-item">Ian Beer</span>
+            <span class="meta-item">移动安全, 网络安全, 攻击研究</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/06/curious-case-carrier-app.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F06%2Fcurious-case-carrier-app.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Ian Beer，Google Project Zero</p>
+<p><strong>注意</strong>：此问题 CVE-2021-30983 已于 2021 年 12 月在 iOS 15.2 中修复。</p>
+<p>2021 年底，Google 的威胁分析小组（TAG）与我分享了一个 iPhone 应用：</p>
+<p><img src="/images/e58ba2075d23/64fa19da1d54630cb7f2d438da5b074b.png" alt="应用启动画面显示沃达丰运营商徽标和文字“My Vodafone”。" loading="lazy"></p>
+<p>应用启动画面显示沃达丰运营商徽标和文字“My Vodafone”（非官方沃达丰应用）</p>
+<p>虽然这看起来像是 App Store 中真正的 <a href="https://apps.apple.com/gb/app/my-vodafone/id370901726">My Vodafone 运营商应用</a>，但它并非来自 App Store，也不是沃达福的官方应用。TAG 怀疑攻击者会先要求运营商禁用目标的移动数据连接，然后目标会收到一条包含此应用链接的短信。短信声称，为了恢复移动数据连接，目标必须安装该运营商应用，并包含一个下载和安装此假冒应用的链接。</p>
+<p>这种旁加载之所以可行，是因为该应用使用了企业证书签名。该证书可以通过苹果的 <a href="https://developer.apple.com/programs/enterprise/">企业开发者计划</a> 以 299 美元购买。该计划允许符合条件的企业获取一个 Apple 签名的 embedded.mobileprovision 文件，其中设置了 ProvisionsAllDevices 键。使用该 mobileprovision 文件中嵌入的开发者证书签名的应用，可以旁加载到任何 iPhone 上，从而绕过苹果的 App Store 审核流程。虽然我们理解企业开发者计划旨在让公司向其员工的 iOS 设备推送“可信应用”，但在此案例中，它似乎被用于旁加载这个假冒的运营商应用。</p>
+<p>Project Zero 与 <a href="https://blog.google/threat-analysis-group/italian-spyware-vendor-targets-users-in-italy-and-kazakhstan/">TAG 合作发布了另一篇文章，提供了关于攻击目标和攻击者的更多细节</a>。本文的其余部分将致力于对该应用及其包含的漏洞利用进行技术分析。</p>
+<h2 id="应用结构">应用结构</h2><p>该应用被拆分为多个框架。InjectionKit.framework 是一个通用的权限提升漏洞利用包装器，暴露了预期的原语（内核内存访问、权限注入、amfid 绕过）以及更高级的操作，如应用安装、文件创建等。</p>
+<p>Agent.framework 部分经过混淆，但顾名思义，似乎是一个基本的代理程序，能够从设备上查找并外泄感兴趣的文件，如 WhatsApp 消息数据库。</p>
+<p>该应用捆绑了六个权限提升漏洞利用。其中五个是针对旧版 iOS 的知名公开 N-day 漏洞利用。第六个则完全不同。</p>
+<p>这篇博文讲述的是最后一个漏洞利用的故事，以及为理解它而进行的长达一个月的探索。</p>
+<h2 id="少了点什么-还是我漏掉了什么-">少了点什么？还是我漏掉了什么？</h2><p>尽管所有漏洞利用都不同，但其中五个共享一个共同的高级结构。首先是操纵内核堆以控制对象布局的初始阶段。然后是触发内核漏洞，接着是通过众所周知的步骤将其转化为有用的东西，可能是通过泄露内核内存，然后构建任意内核内存写入原语。</p>
+<p>第六个漏洞利用则完全没有这些内容。</p>
+<p>也许它可能触发的是像 Linuz Henze 的 <a href="https://github.com/LinusHenze/Fugu14">Fugu14</a> 漏洞利用那样的内核逻辑漏洞，或者是一个非常严重的内存安全问题，能提供相当直接的内核内存访问。但这两者似乎都不太可能。简单来说，它看起来像是十年前的 iOS 内核漏洞利用，只不过它首先非常仔细地检查自己是否仅在 iPhone 12 或 13 上运行。</p>
+<p>它包含如下日志消息：</p>
+<pre><code>printf(&quot;Failed to prepare fake vtable: 0x%08x&quot;, ret);
+</code></pre>
+<p>这似乎发生在漏洞利用可能已经绕过 KASLR 和 PAC 等缓解措施之前很久。</p>
+<p>紧接着是这条日志消息：</p>
+<pre><code>printf(&quot;Waiting for R/W primitives...&quot;);
+</code></pre>
+<p>为什么需要等待？</p>
+<p>然后不久之后：</p>
+<pre><code>printf(&quot;Memory read/write and callfunc primitives ready!&quot;);
+</code></pre>
+<p>到那时为止，漏洞利用只进行了四次 IOConnectCallMethod 调用，并且没有其他明显的堆操纵尝试。但还有另一条日志消息开始揭示一些线索：</p>
+<pre><code>printf(&quot;Unexpected data read from DCP: 0x%08x&quot;, v49);
+</code></pre>
+<h2 id="dcp-">DCP？</h2><p>2021 年 10 月，Adam Donenfeld 发了这样一条推文：</p>
+<p><img src="/images/e58ba2075d23/12c13c87386514c87df3ef5eef8545e6.png" alt="2021年10月11日 @doadam 的推文截图，该推文转发了 @AmarSaar 于2021年10月11日的推文。@AmarSaar 的推文写道：“所以，另一个 IOMFB 漏洞在野外被利用了（15.0.2）。我进行了二进制差异比较并构建了 POC。而且，因为它是一个很棒的漏洞，我刚刚写完了一篇简短的技术细节博文来分享这些知识 :) 看看吧！ https://saaramar.github.io/IOMFB_integer_overflow_poc/'”，而 @doadam 的转发写道：“从 15 开始，至少在 iPhone 12 上（很可能其他机型也是），这已经移到了显示协处理器（DCP）上”。" loading="lazy"></p>
+<p>DCP 是“显示协处理器”，随 iPhone 12 及更高版本以及所有 M1 Mac 提供。</p>
+<p>关于 DCP 的公开信息很少；最全面的信息来自 <a href="https://asahilinux.org/">Asahi linux 项目</a>，该项目正在将 linux 移植到 M1 Mac 上。在他们 <a href="https://asahilinux.org/2021/08/progress-report-august-2021/">2021年8月</a> 和 <a href="https://asahilinux.org/2021/10/progress-report-september-2021/">2021年9月</a> 的更新中，他们讨论了他们的 DCP 逆向工程工作以及由 <a href="https://twitter.com/alyssarzg">@alyssarzg</a> 编写的开源 DCP 客户端。Asahi 这样描述 DCP：</p>
+<blockquote>
+<p>在大多数移动 SoC 上，显示控制器只是一个具有简单寄存器的硬件部件。虽然 M1 上也是如此，但苹果决定给它一个转折。他们给显示引擎添加了一个协处理器（称为 DCP），它运行自己的固件（由系统引导加载程序初始化），并将大部分显示驱动程序移到了协处理器中。但他们没有在自然的驱动程序边界上这样做……而是将 macOS C++ 驱动程序的一半移到了 DCP 中，并创建了一个远程过程调用接口，以便每一半都可以调用另一个 CPU 上 C++ 对象的方法！</p>
+</blockquote>
+<p><a href="https://asahilinux.org/2021/08/progress-report-august-2021/">https://asahilinux.org/2021/08/progress-report-august-2021/</a></p>
+<p>Asahi linux 项目逆向工程了与 DCP 通信的 API，但他们仅限于使用苹果的 DCP 固件（由 iBoot 加载）——他们不能使用自定义的 DCP 固件。因此，他们的文档仅限于 DCP RPC API，几乎没有 DCP 内部细节。</p>
+<h2 id="背景铺垫">背景铺垫</h2><p>在深入探讨 DCP 内部之前，值得退一步思考。在现代高度集成的 SoC（片上系统）中，协处理器到底是什么？以及攻破它可能带来什么后果？</p>
+<p>多年前，协处理器可能是一个物理上独立的芯片。如今，大量此类协处理器及其互连直接集成到单个芯片上，即使它们仍然是相当独立的系统。我们可以从 <a href="https://www.techinsights.com/blog/two-new-apple-socs-two-market-events-apple-a14-and-m1">Tech Insights</a> 的这张 M1 芯片照片中看到，中间和右侧的 CPU 核心仅占芯片面积的约 10%：</p>
+<p><img src="/images/e58ba2075d23/24c8a210efda0b8b6a6599ce96713669.png" alt="来自 techinsights.com 的 M1 芯片照片，标出了 DCP 的可能位置。" loading="lazy"></p>
+<p>来自 techinsights.com 的 M1 芯片照片，添加了 DCP 的可能位置</p>
+<p><a href="https://www.techinsights.com/blog/two-new-apple-socs-two-market-events-apple-a14-and-m1">https://www.techinsights.com/blog/two-new-apple-socs-two-market-events-apple-a14-and-m1</a></p>
+<p>像 <a href="https://www.systemplus.fr/">SystemPlus</a> 这样的公司会对这些芯片进行 <a href="https://www.systemplus.fr/wp-content/uploads/2020/12/SP20608-Apple-M1-System-on-Chip-Sample.pdf">非常彻底的分析</a>。根据他们的分析，DCP 很可能是这张 M1 芯片照片上指示的矩形区域。它占用的空间与中间看到的四个高效能核心大致相同，尽管它似乎主要是 SRAM。</p>
+<p>仅凭这张低分辨率图像，我们无法对 DCP 的功能或能力以及它拥有何种级别的系统访问权限说更多。要回答这些问题，我们需要查看固件。</p>
+<h2 id="给我一个-dsym-文件-我可以给你一个王国-">给我一个 .dSYM 文件，我可以给你一个王国！</h2><p>第一步是获取 DCP 固件映像。iPhone（以及现在的 M1 Mac）使用 .ipsw 文件作为系统映像。.ipsw 实际上只是一个 .zip 压缩包，解压后的 .zip 中的 Firmware/ 文件夹包含所有协处理器、调制解调器等的固件。DCP 固件是这个文件：</p>
+<hr>
+<p>Firmware/dcp/iphone13dcp.im4p</p>
+<p>这里的 im4p 只是一个 25 字节的头部，我们可以丢弃它：</p>
+<pre><code>$ dd if=iphone13dcp.im4p of=iphone13dcp bs=25 skip=1
+$ file iphone13dcp
+iphone13dcp: Mach-O 64-bit preload executable arm64
+</code></pre>
+<p>它是一个 Mach-O 文件！运行 <code>nm -a</code> 列出所有符号，显示二进制文件已被完全剥离：</p>
+<pre><code>$ nm -a iphone13dcp
+iphone13dcp: no symbols
+</code></pre>
+<p>函数名使理解代码变得容易得多。从查看漏洞利用中的少量字符串来看，其中一些似乎可能引用了 DCP 固件映像中的符号（例如“M3_CA_ResponseLUT read: 0x%08x”），所以我以为可能有一个 DCP 固件映像的符号没有被剥离。</p>
+<p>由于固件映像以 .zip 文件形式分发，并且苹果的服务器支持范围请求，借助一点 Python 和 <a href="https://github.com/marcograss/partialzip">partialzip</a> 工具，我们可以相对轻松快速地获取每个测试版和发布版的 DCP 固件。我检查了超过 300 个不同的映像；每一个都被剥离了。</p>
+<p>看来我们得用困难的方式了！</p>
+<h2 id="第一天-第一条指令">第一天；第一条指令</h2><pre><code>$ otool -h raw_fw/iphone13dcp
+raw_fw/iphone13dcp:
+Mach header
+      magic      cputype   cpusubtype caps filetype ncmds sizeofcmds flags
+0xfeedfacf 0x100000C 0          0x00 5        5     2240       0x00000001
+</code></pre>
+<p>那个 cputype 是普通的 arm64（ArmV8），不支持指针身份验证。二进制文件相当大（3.7MB），IDA 的自动分析检测到超过 7000 个函数。</p>
+<p>对于任何全新的二进制文件，我通常从简要浏览函数名和字符串开始。二进制文件被剥离，所以没有函数名符号，但有很多 C++ 函数名作为字符串：</p>
+<p><img src="/images/e58ba2075d23/dc41f8553aaf31e43b8e0a40d08b27bf.png" alt="一个简短的 C++ 原型列表，如 IOMFB::UPBlock_ALSS::init(IOMFB::UPPipe *)。" loading="lazy"></p>
+<p>这些字符串的交叉引用看起来像这样：</p>
+<pre><code>log(0x40000001LL,
+    &quot;UPBlock_ALSS.cpp&quot;,
+    341,
+    &quot;%s: capture buffer exhausted, aborting capture\n&quot;,
+    &quot;void IOMFB::UPBlock_ALSS::send_data(uint64_t, uint32_t)&quot;);
+</code></pre>
+<p>这几乎肯定是一个日志宏，它展开了 <code>__FILE__</code>、<code>__LINE__</code> 和 <code>__PRETTY_FUNCTION__</code>。这使我们能够开始重命名函数并查找虚函数表指针。</p>
+<h2 id="对象结构">对象结构</h2><p>从 Asahi linux 的博文中我们知道，DCP 使用了一个名为 RTKit 的苹果专有 RTOS，关于它的公开信息非常少。二进制文件中有一些字符串包含确切的版本：</p>
+<pre><code>ADD  X8, X8, #aLocalIphone13d@PAGEOFF ; &quot;local-iphone13dcp.release&quot;
+ADD  X9, X9, #aRtkitIos182640@PAGEOFF ; &quot;RTKit_iOS-1826.40.9.debug&quot;
+</code></pre>
+<p>代码似乎主要是 C++。似乎有多个 C++ 对象层次结构；与此漏洞相关的那些看起来有点像 IOKit C++ 对象。它们的公共基类看起来像这样：</p>
+<pre><code>struct __cppobj RTKIT_RC_RTTI_BASE
+{
+  RTKIT_RC_RTTI_BASE_vtbl *__vftable /*VFT*/;
+  uint32_t refcnt;
+  uint32_t typeid;
+};
+</code></pre>
+<p>（这些结构定义采用 IDA 用于类 C++ 对象的格式）</p>
+<p>RTKit 基类有一个虚函数表指针、一个引用计数和一个四字节的运行时类型信息（RTTI）字段——一个 4 字节的 ASCII 标识符，如 BLHA、WOLO、MMAP、UNPI、OSST、OSBO 等。这些标识符看起来有点神秘，但一旦你弄明白它们就很有描述性（我们会在遇到时描述相关的标识符。）</p>
+<p>基类型有以下关联的虚函数表：</p>
+<pre><code>struct /*VFT*/ RTKIT_RC_RTTI_BASE_vtbl
+{
+  void (__cdecl *take_ref)(RTKIT_RC_RTTI_BASE *this);
+  void (__cdecl *drop_ref)(RTKIT_RC_RTTI_BASE *this);
+  void (__cdecl *take_global_type_ref)(RTKIT_RC_RTTI_BASE *this);
+  void (__cdecl *drop_global_type_ref)(RTKIT_RC_RTTI_BASE *this);
+  void (__cdecl *getClassName)(RTKIT_RC_RTTI_BASE *this);
+  void (__cdecl *dtor_a)(RTKIT_RC_RTTI_BASE *this);
+  void (__cdecl *unk)(RTKIT_RC_RTTI_BASE *this);
+};
+</code></pre>
+<h2 id="漏洞利用流程">漏洞利用流程</h2><p>应用中运行的漏洞利用首先打开 AppleCLCD2 服务的 IOKit 用户客户端。AppleCLCD 似乎是 IOMobileFrameBuffer 的应用处理器版本，而 AppleCLCD2 是 DCP 版本。</p>
+<p>漏洞利用只调用了 AppleCLCD2 用户客户端上的 3 个不同的外部方法选择器：68、78 和 79。</p>
+<p>输入最大且看起来最有趣的是 78，它对应于内核驱动程序中的这个用户客户端方法：</p>
+<pre><code>IOReturn
+IOMobileFramebufferUserClient::s_set_block(
+        IOMobileFramebufferUserClient *this,
+        void *reference,
+        IOExternalMethodArguments *args)
+{
+  const unsigned __int64 *extra_args;
+  u8 *structureInput;
+
+  structureInput = args-&gt;structureInput;
+  if ( structureInput &amp;&amp; args-&gt;scalarInputCount &gt;= 2 )
+  {
+    if ( args-&gt;scalarInputCount == 2 )
+      extra_args = 0LL;
+    else
+      extra_args = args-&gt;scalarInput + 2;
+    return this-&gt;framebuffer_ap-&gt;set_block_dcp(
+             this-&gt;task,
+             args-&gt;scalarInput[0],
+             args-&gt;scalarInput[1],
+             extra_args,
+             args-&gt;scalarInputCount - 2,
+             structureInput,
+             args-&gt;structureInputSize);
+  } else {
+    return 0xE00002C2;
+  }
+}
+</code></pre>
+<p>这个方法解包 IOConnectCallMethod 参数并将它们传递给：</p>
+<pre><code>IOMobileFramebufferAP::set_block_dcp(
+        IOMobileFramebufferAP *this,
+        task *task,
+        int first_scalar_input,
+        int second_scalar_input,
+        const unsigned __int64 *pointer_to_remaining_scalar_inputs,
+        unsigned int scalar_input_count_minus_2,
+        const unsigned __int8 *struct_input,
+        unsigned __int64 struct_input_size)
+</code></pre>
+<p>这个方法使用一些自动生成的代码将外部方法参数序列化到如下缓冲区中：</p>
+<pre><code>arg_struct:
+{
+  struct task* task
+  u64 scalar_input_0
+  u64 scalar_input_1
+  u64[] remaining_scalar_inputs
+  u64 cntExtraScalars
+  u8[] structInput
+  u64 CntStructInput
+}
+</code></pre>
+<p>然后将其传递给 UnifiedPipeline2::rpc，同时传递一个 4 字节的 ASCII 方法标识符（这里是 &#39;A435&#39;）：</p>
+<pre><code>UnifiedPipeline2::rpc(
+        &#39;A435&#39;,
+        arg_struct,
+        0x105Cu,
+        &amp;retval_buf,
+        4u);
+</code></pre>
+<p>UnifiedPipeline2::rpc 调用 DCPLink::rpc，后者调用 AppleDCPLinkService::rpc 进行另一级序列化，将方法标识符和“流标识符”与上面显示的 arg_struct 打包在一起。</p>
+<p>然后 AppleDCPLinkService::rpc 调用 rpc_caller_gated 在共享内存缓冲区中分配空间，将缓冲区复制到那里，然后向 DCP 发出信号，表明有消息可用。</p>
+<p>实际上，IOMobileFramebuffer 用户客户端的实现已经移到了 DCP 上，外部方法接口现在是通过共享内存到 DCP 上运行的外部方法实际实现的代理垫片。</p>
+<h2 id="漏洞利用流程-另一端">漏洞利用流程：另一端</h2><p>下一个挑战是找到消息在 DCP 上开始处理的位置。查看日志字符串，有一个函数显然名为 rpc_callee_gated——很可能这是我们之前看到的函数 rpc_caller_gated 的接收端。</p>
+<p>rpc_callee_gated 解包线路格式，然后有一个巨大的 switch 语句，将所有 4 字母 RPC 代码映射到函数指针：</p>
+<pre><code>switch ( rpc_id )
+{
+  case &#39;A000&#39;:
+    goto LABEL_146;
+  case &#39;A001&#39;:
+    handler_fptr = callback_handler_A001;
+    break;
+  case &#39;A002&#39;:
+    handler_fptr = callback_handler_A002;
+    break;
+  case &#39;A003&#39;:
+    handler_fptr = callback_handler_A003;
+    break;
+  case &#39;A004&#39;:
+    handler_fptr = callback_handler_A004;
+    break;
+  case &#39;A005&#39;:
+    handler_fptr = callback_handler_A005;
+    break;
+</code></pre>
+<p>在这个 switch 语句的底部是回调处理程序的调用：</p>
+<pre><code>ret = handler_fptr(
+        meta,
+        in_struct_ptr,
+        in_struct_size,
+        out_struct_ptr,
+        out_struct_size);
+</code></pre>
+<p>in_struct_ptr 指向我们之前在应用处理器上看到的序列化的 IOConnectCallMethod 参数的副本：</p>
+<pre><code>arg_struct:
+{
+  struct task* task
+  u64 scalar_input_0
+  u64 scalar_input_1
+  u64[] remaining_scalar_inputs
+  u32 cntExtraScalars
+  u8[] structInput
+  u64 cntStructInput
+}
+</code></pre>
+<p>回调解包该缓冲区并调用一个 C++ 虚函数：</p>
+<pre><code>unsigned int
+callback_handler_A435(
+        u8* meta,
+        void *args,
+        uint32_t args_size,
+        void *out_struct_ptr,
+        uint32_t out_struct_size
+{
+  int64 instance_id;
+  uint64_t instance;
+  int err;
+  int retval;
+  unsigned int result;
+
+  instance_id = meta-&gt;instance_id;
+  instance =
+    global_instance_table[instance_id].IOMobileFramebufferType;
+  if ( !instance ) {
+    log_fatal(
+      &quot;IOMFB: %s: no instance for instance ID: %u\n&quot;,
+      &quot;static T *IOMFB::InstanceTracker::instance&quot;
+      &quot;(IOMFB::InstanceTracker::tracked_entity_t, uint32_t)&quot;
+      &quot; [T = IOMobileFramebuffer]&quot;,
+      instance_id);
+  }
+
+  err = (instance-16)-&gt;vtable_0x378(  // virtual call
+          (instance-16),
+          args-&gt;task,
+          args-&gt;scalar_input_0,
+          args-&gt;scalar_input_1,
+          args-&gt;remaining_scalar_inputs,
+          args-&gt;cntExtraScalars,
+          args-&gt;structInput,
+          args-&gt;cntStructInput);
+  retval = convert_error(err);
+  result = 0;
+  *(_DWORD *)out_struct_ptr = retval;
+  return result;
+}
+</code></pre>
+<p>这里的挑战是弄清楚那个虚调用指向哪里。对象基于实例 ID 在全局表中查找。我们不能只是设置断点，虽然模拟固件可能可行，但这本身可能是一个漫长的项目。我采用了一种更取巧的方法：我们知道虚函数表至少需要 0x380 字节大，所以只需遍历所有这些虚函数表，反编译它们，看看原型是否看起来合理！</p>
+<p>在 UNPI 类型的虚函数表中有一个明显的匹配：</p>
+<pre><code>UNPI::set_block(
+        UNPI* this,
+        struct task* caller_task_ptr,
+        unsigned int first_scalar_input,
+        int second_scalar_input,
+        int *remaining_scalar_inputs,
+        uint32_t cnt_remaining_scalar_inputs,
+        uint8_t *structure_input_buffer,
+        uint64_t structure_input_size)
+</code></pre>
+<p>以下是我逆向的 UNPI::set_block 实现：</p>
+<pre><code>UNPI::set_block(
+        UNPI* this,
+        struct task* caller_task_ptr,
+        unsigned int first_scalar_input,
+        int second_scalar_input,
+        int *remaining_scalar_inputs,
+        uint32_t cnt_remaining_scalar_inputs,
+        uint8_t *structure_input_buffer,
+        uint64_t structure_input_size)
+{
+  struct block_handler_holder *holder;
+  struct metadispatcher metadisp;
+
+  if ( second_scalar_input )
+    return 0x80000001LL;
+
+  holder = this-&gt;UPPipeDCP_H13P-&gt;block_handler_holders;
+  if ( !holder )
+    return 0x8000000BLL;
+
+  metadisp.address_of_some_zerofill_static_buffer = &amp;unk_3B8D18;
+  metadisp.handlers_holder = holder;
+  metadisp.structure_input_buffer = structure_input_buffer;
+  metadisp.structure_input_size = structure_input_size;
+  metadisp.remaining_scalar_inputs = remaining_scalar_inputs;
+  metadisp.cnt_remaining_sclar_input = cnt_remaining_scalar_inputs;
+  metadisp.some_flags = 0x40000000LL;
+  metadisp.dispatcher_fptr = a_dispatcher;
+  metadisp.offset_of_something_which_looks_serialization_related = &amp;off_1C1308;
+  return metadispatch(holder, first_scalar_input, 1, caller_task_ptr, structure_input_buffer, &amp;metadisp, 0);
+}
+</code></pre>
+<p>这个方法将参数包装到另一个我称之为 metadispatcher 的结构中：</p>
+<pre><code>struct __attribute__((aligned(8))) metadispatcher
+{
+  uint64_t address_of_some_zerofill_static_buffer;
+  uint64_t some_flags;
+  __int64 (__fastcall *dispatcher_fptr)(struct metadispatcher *, struct BlockHandler *, __int64, _QWORD);
+  uint64_t offset_of_something_which_looks_serialization_related;
+  struct block_handler_holder *handlers_holder;
+  uint64_t structure_input_buffer;
+  uint64_t structure_input_size;
+  uint64_t remaining_scalar_inputs;
+  uint32_t cnt_remaining_sclar_input;
+};
+</code></pre>
+<p>然后该 metadispatcher 对象被传递给这个方法：</p>
+<pre><code>return metadispatch(holder, first_scalar_input, 1, caller_task_ptr, structure_input_buffer, &amp;metadisp, 0);
+</code></pre>
+<p>在那里我们到达这段代码：</p>
+<pre><code>block_type_handler = lookup_a_handler_for_block_type_and_subtype(
+        a1,
+        first_scalar_input, // block_type
+        a3);                // subtype
+</code></pre>
+<p>漏洞利用两次调用这个 set_block 外部方法，为 first_scalar_input 传递两个不同的值：7 和 19。在这里我们可以看到，它们对应于在此处查找两个不同的块处理程序对象。</p>
+<p>查找函数搜索块处理程序结构的链表；链表的头部存储在 UPPipeDCP_H13P 对象的偏移 0x1448 处，并由我命名为 add_handler_for_block_type 的方法动态注册：</p>
+<pre><code>add_handler_for_block_type(struct block_handler_holder *handler_list,
+                           struct BlockHandler *handler)
+</code></pre>
+<p>日志代码告诉我们，这在一个名为 IOMFBBlockManager.cpp 的文件中。IDA 找到了此方法的 44 个交叉引用，表明可能有很多不同的块处理程序。每个注册的块处理程序的结构大致如下：</p>
+<pre><code>struct __cppobj BlockHandler : RTKIT_RC_RTTI_BASE
+{
+  uint64_t field_16;
+  struct handler_inner_types_entry *inner_types_array;
+  uint32_t n_inner_types_array_entries;
+  uint32_t field_36;
+  uint8_t can_run_without_commandgate;
+  uint32_t block_type;
+  uint64_t list_link;
+  uint64_t list_other_link;
+  uint32_t some_other_type_field;
+  uint32_t some_other_type_field2;
+  uint32_t expected_structure_io_size;
+  uint32_t field_76;
+  uint64_t getBlock_Impl;
+  uint64_t setBlock_Impl;
+  uint64_t field_96;
+  uint64_t back_ptr_to_UPPipeDCP_H13P;
+};
+</code></pre>
+<p>RTTI 类型是 BLHA（块处理程序）。</p>
+<p>例如，以下是构建和注册块处理程序类型 24 的代码路径：</p>
+<pre><code>BLHA_24 = (struct BlockHandler *)CXXnew(112LL);
+BLHA_24-&gt;__vftable = (BlockHandler_vtbl *)BLHA_super_vtable;
+BLHA_24-&gt;block_type = 24;
+BLHA_24-&gt;refcnt = 1;
+BLHA_24-&gt;can_run_without_commandgate = 0;
+BLHA_24-&gt;some_other_type_field = 0LL;
+BLHA_24-&gt;expected_structure_io_size = 0xD20;
+typeid = typeid_BLHA();
+BLHA_24-&gt;typeid = typeid;
+modify_typeid_ref(typeid, 1);
+BLHA_24-&gt;__vftable = vtable_BLHA_subclass_type_24;
+BLHA_24-&gt;inner_types_array = 0LL;
+BLHA_24-&gt;n_inner_types_array_entries = 0;
+BLHA_24-&gt;getBlock_Impl = BLHA_24_getBlock_Impl;
+BLHA_24-&gt;setBlock_Impl = BLHA_24_setBlock_Impl;
+BLHA_24-&gt;field_96 = 0LL;
+BLHA_24-&gt;back_ptr_to_UPPipeDCP_H13P = a1;
+add_handler_for_block_type(list_holder, BLHA_24);
+</code></pre>
+<p>每个块处理程序可选地具有 getBlock_Impl 和 setBlock_Impl 函数指针，它们似乎实现了实际的设置和获取操作。</p>
+<p>我们可以遍历所有添加块处理程序的调用点；告诉 IDA 参数的类型，并命名所有的 getBlock 和 setBlock 实现：</p>
+<p><img src="/images/e58ba2075d23/56665d12f8f1bceaaa1b40703d89b43e.png" alt="IDA Pro 名称窗口显示符号列表，如 BLHA_15_getBlock_Impl。" loading="lazy"></p>
+<p>你或许能看出这走向何方：这看起来像是非常多的可攻击面！每个 setBlock_Impl 函数都可以通过向 IOConnectCallMethod 78 传递不同的第一个标量参数值来访问。</p>
+<p>不过，还需要进行一点逆向工程来弄清楚如何精确地将受控字节传递到那些 setBlock_Impl 函数：</p>
+<h2 id="内存映射">内存映射</h2><p>每个 setBlock_Impl 方法的原始“块”输入并不是以内联方式在 IOConnectCallMethod 的结构输入中传递的。还有另一层间接性：每个单独的块处理程序结构都有一个支持的“子类型”数组，其中包含元数据，详细说明从 IOConnectCallMethod 结构输入的哪个偏移量查找该子类型输入数据的（用户空间）指针。结构输入中的第一个双字是此子类型的 ID——在这种情况下，对于块处理程序类型 19，元数据数组有一个条目：</p>
+<pre><code>&lt;2, 0, 0x5F8, 0x600&gt;
+</code></pre>
+<p>第一个值（2）是子类型 ID，0x5f8 和 0x600 告诉 DCP 从结构输入数据的哪个偏移量读取指针和大小。然后 DCP 从调用任务向 AP 请求该内存的映射：</p>
+<pre><code>return wrap_MemoryDescriptor::withAddressRange(
+         *(void*)(structure_input_buffer + addr_offset),
+         *(unsigned int *)(structure_input_buffer + size_offset),
+         caller_task_ptr);
+</code></pre>
+<p>我们之前看到 AP 向 DCP 发送了调用任务的 struct task 指针；当 DCP 从用户任务请求内存映射时，它会将这些原始任务结构指针发送回 AP，以便内核可以从正确的任务执行映射。内存映射在 DCP 端被抽象为 MDES 对象；映射的实现涉及 DCP 向 AP 发起 RPC：</p>
+<pre><code>make_link_call(&#39;D453&#39;, &amp;req, 0x20, &amp;resp, 0x14);
+</code></pre>
+<p>这对应于 AP 端对此方法的调用：</p>
+<pre><code>IOMFB::MemDescRelay::withAddressRange(unsigned long long, unsigned long long, unsigned int, task*, unsigned long*, unsigned long long*)
+</code></pre>
+<p>DCP 在返回的 MDES 对象上调用 ::prepare 和 ::map（就像 IOKit 中的 IOMemoryDescriptor 对象一样），获取映射的指针和大小，通过最后几层间接性传递给块处理程序：</p>
+<pre><code>a_descriptor_with_controlled_stuff-&gt;dispatcher_fptr(
+  a_descriptor_with_controlled_stuff,
+  block_type_handler,
+  important_ptr,
+  important_size);
+</code></pre>
+<p>其中 dispatcher_fptr 看起来像这样：</p>
+<pre><code>a_dispatcher(
+        struct metadispatcher *disp,
+        struct BlockHandler *block_handler,
+        __int64 controlled_ptr,
+        unsigned int controlled_size)
+{
+  return block_handler-&gt;BlockHandler_setBlock(
+           block_handler,
+           disp-&gt;structure_input_buffer,
+           disp-&gt;structure_input_size,
+           disp-&gt;remaining_scalar_inputs,
+           disp-&gt;cnt_remaining_sclar_input,
+           disp-&gt;handlers_holder-&gt;gate,
+           controlled_ptr,
+           controlled_size);
+}
+</code></pre>
+<p>你可以看到，在逆向过程中不断创建结构定义是多么有用；有如此多的间接层，几乎不可能把所有东西都记在脑子里。</p>
+<p>BlockHandler_setBlock 是 BLHA 上的一个虚方法。这是 BLHA 19 的实现：</p>
+<pre><code>BlockHandler19::setBlock(
+        struct BlockHandler *this,
+        void *structure_input_buffer,
+        int64 structure_input_size,
+        int64 *remaining_scalar_inputs,
+        unsigned int cnt_remaining_scalar_inputs,
+        struct CommandGate *gate,
+        void* mapped_mdesc_ptr,
+        unsigned int mapped_mdesc_length)
+</code></pre>
+<p>这使用了一个命令门（GATI）对象（类似于 IOKit 中的调用门来序列化调用）来最终接近实际调用 setBlock_Impl 函数。</p>
+<p>我们需要逆向 gate_context 结构来跟踪受控数据通过门的过程：</p>
+<pre><code>struct __attribute__((aligned(8))) gate_context
+{
+  struct BlockHandler *the_target_this;
+  uint64_t structure_input_buffer;
+  void *remaining_scalar_inputs;
+  uint32_t cnt_remaining_scalar_inputs;
+  uint32_t field_28;
+  uint64_t controlled_ptr;
+  uint32_t controlled_length;
+};
+</code></pre>
+<p>调用门对象使用该上下文对象最终调用 BLHA setBlock 处理程序：</p>
+<pre><code>callback_used_by_callgate_in_block_19_setBlock(
+        struct UnifiedPipeline *parent_pipeline,
+        struct gate_context *context,
+        int64 a3,
+        int64 a4,
+        int64 a5)
+{
+  return context-&gt;the_target_this-&gt;setBlock_Impl)(
+           context-&gt;the_target_this-&gt;back_ptr_to_UPPipeDCP_H13P,
+           context-&gt;structure_input_buffer,
+           context-&gt;remaining_scalar_inputs,
+           context-&gt;cnt_remaining_scalar_inputs,
+           context-&gt;controlled_ptr,
+           context-&gt;controlled_length);
+}
+</code></pre>
+<h2 id="setblock-impl">SetBlock_Impl</h2><p>最终，我们完成了整个调用栈的跟踪，从 AP 上用户空间的 IOConnectCallMethod 中的受控数据，一直到 DCP 上的 setBlock_Impl 方法！</p>
+<p>setBlock_Impl 方法的原型如下所示：</p>
+<pre><code>setBlock_Impl(struct UPPipeDCP_H13P *pipe_parent,
+              void *structure_input_buffer,
+              int *remaining_scalar_inputs,
+              int cnt_remaining_scalar_inputs,
+              void* ptr_via_memdesc,
+              unsigned int len_of_memdesc_mapped_buf)
+</code></pre>
+<p>漏洞利用调用了两个 setBlock_Impl 方法：7 和 19。7 相当简单，似乎仅用于将受控数据放在已知位置。19 是有漏洞的那个。从日志字符串中我们可以看出，块类型 19 处理程序在一个名为 UniformityCompensator.cpp 的文件中实现。</p>
+<p><a href="https://www.benq.com/en-us/knowledge-center/knowledge/screen-uniformity.html">均匀性补偿</a> 是一种校正显示面板上亮度和色彩再现不一致性的方法。块类型 19 设置和获取包含此校正信息的数据结构。setBlock_Impl 方法调用 UniformityCompensator::set 并到达以下代码片段，其中 controlled_size 是从结构输入中读取的完全受控的 u32 值，而 indirect_buffer_ptr 指向映射的缓冲区，其内容也受控：</p>
+<pre><code>uint8_t* pages = compensator-&gt;inline_buffer; // +0x24
+for (int pg_cnt = 0; pg_cnt &lt; 3; pg_cnt++) {
+  uint8_t* this_page = pages;
+  for (int i = 0; i &lt; controlled_size; i++) {
+    memcpy(this_page, indirect_buffer_ptr, 4 * controlled_size);
+    indirect_buffer_ptr += 4 * controlled_size;
+    this_page += 0x100;
+  }
+  pages += 0x4000;
+}
+</code></pre>
+<p>这里明显缺乏对 controlled_size 的边界检查。根据代码结构，它应该被限制为小于或等于 64（因为这将导致输入被完全复制到输出缓冲区。）compensator-&gt;inline_buffer 缓冲区内联在补偿器对象中。代码结构表明该缓冲区可能为 0xc000（三个 16k 页）大小。为了验证这一点，我们需要找到这个补偿器对象的分配位置。</p>
+<p>它是从 pipe_parent 对象中读取的，并且我们知道此时 pipe_parent 是一个 UPPipeDCP_H13P 对象。</p>
+<p>对该字段只有一次写入，在 UPPipeDCP_H13P::setup_tunables_base_target 中：</p>
+<pre><code>compensator = CXXnew(0xC608LL);
+...
+this-&gt;compensator = compensator;
+</code></pre>
+<p>补偿器对象是一个 0xc608 字节的分配；0xc000 大小的缓冲区从偏移 0x24 开始，因此分配有足够的空间，在损坏相邻对象之前有 0xc608-0x24=0xC5E4 字节。</p>
+<p>漏洞利用为块处理程序 19 setBlock 调用提供的结构输入如下所示：</p>
+<pre><code>struct_input_for_block_handler_19[0x5F4] = 70; // controlled_size
+struct_input_for_block_handler_19[0x5F8] = address;
+struct_input_for_block_handler_19[0x600] = a_size;
+</code></pre>
+<p>这导致在前面显示的 UniformityCompensator::set 片段中 controlled_size 的值为 70（0x46）。（0x5f8 和 0x600 对应于我们之前在子类型表中看到的偏移量：&lt;2, 0, 0x5F8, 0x600&gt;）</p>
+<p>内层循环每次迭代将目标指针增加 0x100，因此 0x46 次循环迭代将写入 0x4618 字节。</p>
+<p>外层循环写入三个连续的 0x4000 字节块，因此第三次（最后一次）迭代从 0x24 + 0x8000 开始写入，总共写入 0x4618 字节，这意味着对象需要是 0xC63C 字节；但我们可以看到它只有 0xc608，这意味着它将溢出分配大小 0x34 字节。RTKit 的 malloc 实现看起来为每个分配添加了 8 字节的元数据，因此下一个对象从 0xc610 开始。</p>
+<p>消耗了多少输入？输入被完全消耗，没有“回退”，所以是 3<em>0x46</em>0x46*4 = 0xe5b0 字节。从该缓冲区的末尾倒推，我们知道其最后 0x34 字节超出了 0xc608 分配的范围，这意味着输入缓冲区中的 +0xe57c 将是损坏 8 字节元数据的第一个字节，而 +0x8584 将是损坏下一个对象的第一个字节：</p>
+<p><img src="/images/e58ba2075d23/1ba3b0a3290bd365e675254bfb4c967a.png" alt="一张图表显示溢出对象的末尾与元数据和目标对象的开头重叠。" loading="lazy"></p>
+<p>这与漏洞利用构建的溢出对象完全吻合：</p>
+<pre><code>v24 = address + 0xE584;
+v25 = *(_DWORD *)&amp;v54[48];
+v26 = *(_OWORD *)&amp;v54[32];
+v27 = *(_OWORD *)&amp;v54[16];
+*(_OWORD *)(address + 0xE584) = *(_OWORD *)v54;
+*(_OWORD *)(v24 + 16) = v27;
+*(_OWORD *)(v24 + 32) = v26;
+*(_DWORD *)(v24 + 48) = v25;
+</code></pre>
+<p>目标对象似乎分配得非常早，并且 DCP RTKit 环境似乎非常确定，没有 ASLR。几乎可以肯定，他们试图用一个假的虚函数表指针来损坏相邻的 C++ 对象。</p>
+<p>不幸的是，对于我们的分析，线索在这里中断了，我们无法完全重现漏洞利用的其余部分。假 DCP C++ 对象的字节是从应用临时目录中的一个文件中读取的（base64 编码在 JSON 文件中，位于</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/内存安全.html" class="tag-link">#内存安全</a> <a href="/tag/macOS安全.html" class="tag-link">#macOS安全</a> <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a> <a href="/tag/Python安全.html" class="tag-link">#Python安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#应用结构" class="toc-link">
+              <span class="toc-text">应用结构</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#少了点什么-还是我漏掉了什么-" class="toc-link">
+              <span class="toc-text">少了点什么？还是我漏掉了什么？</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#dcp-" class="toc-link">
+              <span class="toc-text">DCP？</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#背景铺垫" class="toc-link">
+              <span class="toc-text">背景铺垫</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#给我一个-dsym-文件-我可以给你一个王国-" class="toc-link">
+              <span class="toc-text">给我一个 .dSYM 文件，我可以给你一个王国！</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#第一天-第一条指令" class="toc-link">
+              <span class="toc-text">第一天；第一条指令</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#对象结构" class="toc-link">
+              <span class="toc-text">对象结构</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#漏洞利用流程" class="toc-link">
+              <span class="toc-text">漏洞利用流程</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#漏洞利用流程-另一端" class="toc-link">
+              <span class="toc-text">漏洞利用流程：另一端</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#内存映射" class="toc-link">
+              <span class="toc-text">内存映射</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#setblock-impl" class="toc-link">
+              <span class="toc-text">SetBlock_Impl</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在Android驱动中前进 - BasicBit</title>
+  <meta name="description" content="在Android驱动中前进">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">在Android驱动中前进</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2024/6/13
+            </span>
+            <span class="meta-item">Seth Jenkins</span>
+            <span class="meta-item">移动安全, 网络安全, 浏览器安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2024/06/driving-forward-in-android-drivers.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2024%2F06%2Fdriving-forward-in-android-drivers.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Seth Jenkins，Google Project Zero</p>
+<h2 id="引言">引言</h2><p>Android的开源生态系统导致了制造商和供应商的惊人多样性，他们开发的软件运行在各种不同的硬件上。这些硬件需要支持驱动程序，这意味着许多不同的代码库都有可能危及大量Android手机的安全。<a href="/2023/09/analyzing-modern-in-wild-android-exploit.html">最近有公开案例</a>表明，第三方驱动程序包含严重漏洞并在Android上被利用。虽然关于Android GPU驱动程序已有大量公开（<a href="https://storage.googleapis.com/gweb-uniblog-publish-prod/documents/Year_in_Review_of_ZeroDays.pdf">以及野外</a>）安全研究，但其他芯片组组件可能没有被如此频繁地审计，因此本研究试图更详细地探索这些驱动程序。</p>
+<h2 id="驱动程序枚举-没有看起来那么简单">驱动程序枚举：没有看起来那么简单</h2><p>本研究重点关注三款Android设备（括号内为芯片组制造商）：</p>
+<ul>
+<li>Google Pixel 7（Tensor）</li>
+<li>小米11T（联发科）</li>
+<li>华硕ROG 6D（联发科）</li>
+</ul>
+<p>为了对这些设备进行驱动程序研究，我首先必须找到每台设备上可从无特权上下文访问的所有内核驱动程序；这项任务因不同设备（即使是同一芯片组制造商内部）内核驱动程序（及其权限结构）的不统一而变得复杂。有几种不同的方法来发现这些驱动程序。最直接的技术是搜索相关的文件系统，寻找暴露的驱动程序设备文件。这些文件是用户态与驱动程序交互的主要方式。通常，用户态进程会<code>open</code>这个“文件”，然后使用<code>read</code>、<code>write</code>、<code>ioctl</code>甚至<code>mmap</code>的组合与驱动程序交互。然后，驱动程序将这些交互“翻译”成对底层硬件设备的操作，并根据需要将该设备的输出发送回用户态。实际上，所有驱动程序都通过ProcFS或DevFS文件系统暴露其接口，因此我在搜索可行的攻击面时重点关注<code>/proc</code>和<code>/dev</code>目录。理论上，评估所有用户态可访问的驱动程序应该像调用<code>find /dev</code>或<code>find /proc</code>，尝试打开发现的每个文件，并记录哪些打开尝试成功一样简单。</p>
+<p>然而，有一个主要障碍阻止了这种方法的全面性——权限！SELinux和传统的Linux自主访问控制策略可以阻止简单的文件系统枚举发现文件系统上所有可访问的设备驱动程序。例如，<code>untrusted_app</code> SELinux上下文对目录的<code>device</code> SELinux上下文具有<code>search</code>权限，但不允许直接打开目录本身：</p>
+<p><img src="/images/5b6a5672fd10/862f2c388e6d868c4e054839ba5037ed.png" alt="sepolicy显示对"device" SELinux上下文的search权限" loading="lazy"></p>
+<p>这个<code>search</code>权限（相当反直觉地）<strong>不</strong>允许源上下文列出具有此SELinux目标上下文的目录内容。相反，它只允许这样的目录位于源上下文尝试打开的文件路径的祖先目录中。实际上，这意味着<code>untrusted_app</code>被允许打开例如<code>/dev/mali0</code>，但通常不允许打开<code>/dev</code>本身：</p>
+<p><img src="/images/5b6a5672fd10/11ac0e7aff16e616f36f07791e80b851.png" alt="untrusted_app无法列出/dev，但可以打开其中的文件，如/dev/mali0" loading="lazy"></p>
+<p>对于<code>/dev</code>，<code>shell</code>上下文被允许打开并列出<code>/dev</code>的内容。这意味着，首先从<code>shell</code>上下文枚举<code>/dev</code>目录，然后尝试从<code>untrusted_app</code>上下文打开所有发现的文件，安全研究人员可以了解<code>/dev</code>目录中哪些驱动程序可以从应用上下文访问，哪些不能。然而，在某些情况下，某些目录根本无法从可调试的非root上下文列出，特别是在<code>/proc</code>中。枚举所有这些目录的一个选择是root手机，但这并不总是容易实现的。</p>
+<p>在这方面，我发现一个有用的策略是检查公开发布的手机型号或类似手机型号的内核源代码。此源代码的位置因制造商而异，但源代码通常托管在Github上或通过制造商网站。设备驱动程序主要通过<code>proc_create()</code>和<code>proc_mkdir()</code>函数调用在<code>/proc</code>中创建文件。一个现实世界的例子是：</p>
+<pre><code>parent = proc_mkdir(&quot;perfmgr&quot;, NULL);
+perfmgr_root = parent;
+pe = proc_create(&quot;perf_ioctl&quot;, 0664, parent, &amp;Fops);
+...
+pe = proc_create(&quot;eara_ioctl&quot;, 0664, parent, &amp;eara_Fops);
+...
+pe = proc_create(&quot;eas_ioctl&quot;, 0664, parent, &amp;eas_Fops);
+...
+pe = proc_create(&quot;xgff_ioctl&quot;, 0664, parent, &amp;xgff_Fops);
+...
+</code></pre>
+<p>尽管这些文件无法直接枚举，但它们确实存在并且可以从不受信任的上下文访问。</p>
+<p><img src="/images/5b6a5672fd10/c4cfe6a72ef2b751d07b299f9199ecfb.png" alt="/proc/perfmgr目录内容无法用ls列出，但可以open" loading="lazy"></p>
+<p>如果不分析内核源代码，就需要root手机才能发现这个驱动程序。</p>
+<p>另一个有用的资源是SELinux策略本身。用户态通过一组相当典型的VFS操作与驱动程序交互。这意味着SELinux策略必须封装执行这些操作所需的权限。这意味着SELinux策略通常反映了开发人员打算从不受信任上下文访问的内容。对策略的分析可以发现某些驱动程序可访问性中的一些异常和特性。例如，有时文件可能无法通过文件系统直接打开，但可能存在一些替代方法，应用程序可以要求另一个更高特权的进程代表其打开文件并交回相关的<code>fd</code>，之后应用程序被允许对<code>fd</code>本身进行<code>read</code>/<code>write</code>/<code>ioctl</code>。这种行为的一个例子是Pixel 7上的EdgeTPU设备：</p>
+<p><img src="/images/5b6a5672fd10/ee64f162dc9aae8e2b16996e8a9b9117.png" alt="" loading="lazy"></p>
+<p>进一步研究表明，如果<code>untrusted_app</code>落在某些应用程序的允许列表中，它可以向特权进程请求访问EdgeTPU驱动程序<code>fd</code>本身。</p>
+<p>进行的调查强烈表明，GPU驱动程序是从不受信任应用程序最一致可访问的驱动程序，这是预期的。在Google Pixel 7上，我没有找到太多其他可以从完全无特权上下文访问的内容。尽管如此，受到<a href="https://googleprojectzero.github.io/0days-in-the-wild//0day-RCAs/2022/CVE-2022-22265.html">之前对三星NPU等硬件的类似努力</a>的启发，我对EdgeTPU驱动程序进行了研究——Google的Tensor处理单元，用于在Pixel系列设备上执行ML相关任务。这导致发现了一个重要的<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2455">问题</a>——在向EdgeTPU内存注册内存时，当<code>vma</code>同时被修改时，存在一个竞态条件。</p>
+<p>与Pixel 7不同，联发科芯片组手机（华硕ROG 6D和小米11T）包含几个可以从无特权用户态访问的不同驱动程序：</p>
+<ul>
+<li><code>/proc/ged</code></li>
+<li><code>/proc/mtk_jpeg</code></li>
+<li><code>/proc/perfmgr/[eara_ioctl,eas_ioctl,perf_ioctl,xgff_ioctl]</code></li>
+</ul>
+<p>这些驱动程序代表了比Pixel 7设备上可用的更有趣和复杂的攻击面。<code>ged</code>驱动程序包含许多有趣且有价值的利用原语，我们稍后将详细讨论。虽然<code>perfmgr</code>驱动程序呈现了几个攻击面，但我未能找到任何与安全相关的漏洞。然而，<code>mtk_jpeg</code>驱动程序产生了显著的成果，值得仔细研究。</p>
+<h2 id="联发科jpeg解码加速器">联发科JPEG解码加速器</h2><p><code>mtk_jpeg</code>驱动程序管理联发科设备上的专用硬件，以执行JPEG解码加速。<a href="https://github.com/torvalds/linux/blob/8f2c057754b25075aa3da132cd4fd4478cdab854/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml#L12">Linux内核文档</a>指出：“Mediatek JPEG Decoder是Mediatek SoC中存在的JPEG解码硬件”。更相关的是，从攻击者的角度来看，这个驱动程序可以从<code>untrusted_app</code>上下文访问（至少在评估的手机上）（尽管奇怪的是，它无法从无特权的adb调试上下文访问）。这个JPEG解码加速器及其相关驱动程序同时存在于小米11T和华硕ROG 6D上。然而，基于这些不同设备内核的开源代码库，联发科似乎正在积极维护该驱动程序的几个不同分支，可能基于相关的内核版本，并且这两款设备使用不同的分支。</p>
+<p>我在此驱动程序中发现了两个漏洞。<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2471">CVE-2023-32837</a>是一个结构体数组中的典型OOB读/写。结构体的各种不同成员被访问和修改，为利用创造了多种可能性，但也使它们更具挑战性。有趣的是，联发科在2021年7月<a href="https://github.com/OnePlusOSS/android_kernel_5.10_oneplus_mt6983/commit/725e99c941caf985b25ef5595b2b4f632320d235">部分修复</a>了这个漏洞，尽管此补丁何时发布给OEM尚不清楚。从提交信息来看，很明显联发科使用Coverity静态分析工具检测到了这个问题，但似乎没有识别出安全影响。无论如何，虽然该问题在联发科内核的某些分支中得到了修复，但在同一驱动程序的其他版本中仍未修补。这意味着虽然华硕ROG 6D（运行内核5.10）已收到此漏洞的补丁，但（其他方面完全修补且安全支持）的小米11T（运行4.14）却没有。</p>
+<p>了解JPEG驱动程序如何工作的一些背景知识有助于讨论另一个问题<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2470">CVE-2023-32832</a>。加速器硬件有两个独立的“核心”可以执行JPEG解码。当进程请求执行JPEG解码工作时，它调用<code>ioctl JPEG_DEC_IOCTL_HYBRID_START</code>，内核在<code>jpeg_drv_hybrid_dec_lock()</code>中决定哪个解码核心将执行该工作（输出已着色以便于跟踪）：</p>
+<pre><code>static int jpeg_drv_hybrid_dec_lock(int *hwid)
+{
+    int retValue = 0;
+    int id = 0;
+    ...
+    mutex_lock(&amp;jpeg_hybrid_dec_lock);
+    for (id = 0; id &lt; HW_CORE_NUMBER; id++) {
+        if (dec_hwlocked[id]) {
+            JPEG_LOG(1, &quot;jpeg dec HW core %d is busy&quot;, id);
+            continue;
+        } else {
+            *hwid = id;
+            dec_hwlocked[id] = true;
+            JPEG_LOG(1, &quot;jpeg dec get %d HW core&quot;, id);
+            _jpeg_hybrid_dec_int_status[id] = 0;
+            jpeg_drv_hybrid_dec_power_on(id);
+            enable_irq(gJpegqDev.hybriddecIrqId[id]);
+            break;
+        }
+    }
+    mutex_unlock(&amp;jpeg_hybrid_dec_lock);
+    if (id == HW_CORE_NUMBER) {
+        JPEG_LOG(1, &quot;jpeg dec HW core all busy&quot;);
+        *hwid = -1;
+        retValue = -EBUSY;
+    }
+    return retValue;
+}
+</code></pre>
+<p>数组<code>dec_hwlocked</code>包含每个核心的布尔元素，对于锁定的核心，该元素设置为<code>true</code>，对于解锁的核心设置为<code>false</code>。此数组还受互斥锁保护，以防止对<code>jpeg_drv_hybrid_dec_lock</code>或<code>jpeg_drv_hybrid_dec_unlock</code>的并发调用相互竞争。锁定核心后，<code>jpeg_drv_hybrid_dec_start</code>设置用于解码操作的数据结构：</p>
+<pre><code>switch (cmd) {
+    case JPEG_DEC_IOCTL_HYBRID_START:
+        if (copy_from_user(
+                &amp;taskParams, (void *)arg,
+                sizeof(struct JPEG_DEC_DRV_HYBRID_TASK))) {
+            return -EFAULT;
+        }
+        ...
+        if (jpeg_drv_hybrid_dec_lock(&amp;hwid) == 0) {
+            *pStatus = JPEG_DEC_PROCESS;
+        } else {
+            JPEG_LOG(1, &quot;jpeg_drv_hybrid_dec_lock failed (hw busy)&quot;);
+            return -EBUSY;
+        }
+        if (jpeg_drv_hybrid_dec_start(taskParams.data, hwid, &amp;index_buf_fd) == 0) {
+            ...
+        } else {
+            JPEG_LOG(0, &quot;jpeg_drv_dec_hybrid_start failed&quot;);
+            jpeg_drv_hybrid_dec_unlock(hwid);
+            return -EFAULT;
+        }
+        break;
+    ...
+}
+</code></pre>
+<pre><code>static int jpeg_drv_hybrid_dec_start(unsigned int data[],unsigned int id,int *index_buf_fd)
+{
+    u64 ibuf_iova, obuf_iova;
+    int ret;
+    void *ptr;
+    unsigned int node_id;
+    JPEG_LOG(1, &quot;+ id:%d&quot;, id);
+    ret = 0;
+    ibuf_iova = 0;
+    obuf_iova = 0;
+    node_id = id / 2;
+    bufInfo[id].o_dbuf = jpg_dmabuf_alloc(data[20], 128, 0);
+    bufInfo[id].o_attach = NULL;
+    bufInfo[id].o_sgt = NULL;
+    bufInfo[id].i_dbuf = jpg_dmabuf_get(data[7]);
+    bufInfo[id].i_attach = NULL;
+    bufInfo[id].i_sgt = NULL;
+    if (!bufInfo[id].o_dbuf) {
+        JPEG_LOG(0, &quot;o_dbuf alloc failed&quot;);
+        return -1;
+    }
+    if (!bufInfo[id].i_dbuf) {
+        JPEG_LOG(0, &quot;i_dbuf null error&quot;);
+        return -1;
+    }
+    ret = jpg_dmabuf_get_iova(bufInfo[id].o_dbuf, &amp;obuf_iova, gJpegqDev.pDev[node_id], &amp;bufInfo[id].o_attach, &amp;bufInfo[id].o_sgt);
+    JPEG_LOG(1, &quot;obuf_iova:0x%llx lsb:0x%lx msb:0x%lx&quot;, obuf_iova,
+            (unsigned long)(unsigned char*)obuf_iova,
+            (unsigned long)(unsigned char*)(obuf_iova&gt;&gt;32));
+    ptr = jpg_dmabuf_vmap(bufInfo[id].o_dbuf);
+    if (ptr != NULL &amp;&amp; data[20] &gt; 0)
+        memset(ptr, 0, data[20]);
+    jpg_dmabuf_vunmap(bufInfo[id].o_dbuf, ptr);
+    jpg_get_dmabuf(bufInfo[id].o_dbuf);
+    // get obuf for adding reference count, avoid early release in userspace.
+    *index_buf_fd = jpg_dmabuf_fd(bufInfo[id].o_dbuf);
+    ret = jpg_dmabuf_get_iova(bufInfo[id].i_dbuf, &amp;ibuf_iova, gJpegqDev.pDev[node_id], &amp;bufInfo[id].i_attach, &amp;bufInfo[id].i_sgt);
+    JPEG_LOG(1, &quot;ibuf_iova 0x%llx lsb:0x%lx msb:0x%lx&quot;, ibuf_iova,
+            (unsigned long)(unsigned char*)ibuf_iova,
+            (unsigned long)(unsigned char*)(ibuf_iova&gt;&gt;32));
+    if (ret != 0) {
+        JPEG_LOG(0, &quot;get iova fail i:0x%llx o:0x%llx&quot;, ibuf_iova, obuf_iova);
+        return ret;
+    }
+    ...
+    return ret;
+}
+</code></pre>
+<p>最后，利用对<code>JPEG_DEC_IOCTL_HYBRID_WAIT</code>的<code>ioctl</code>调用（该调用调用<code>jpeg_drv_hybrid_dec_unlock</code>），释放与核心相关的资源，并将核心释放回以供未来操作使用。</p>
+<pre><code>case JPEG_DEC_IOCTL_HYBRID_WAIT:
+    ...
+    if (copy_from_user(
+            &amp;pnsParmas, (void *)arg,
+            sizeof(struct JPEG_DEC_DRV_HYBRID_P_N_S))) {
+        JPEG_LOG(0, &quot;Copy from user error&quot;);
+        return -EFAULT;
+    }
+    /* set timeout */
+    timeout_jiff = msecs_to_jiffies(3000);
+    JPEG_LOG(1, &quot;JPEG Hybrid Decoder Wait Resume Time: %ld&quot;,
+            timeout_jiff);
+    hwid = pnsParmas.hwid;
+    if (hwid &lt; 0 || hwid &gt;= HW_CORE_NUMBER) { //在驱动程序的其他版本中，省略了这个&gt;=检查，这导致了后来几个不同的OOB访问，即CVE-2023-32837
+        JPEG_LOG(0, &quot;get hybrid dec id failed&quot;);
+        return -EFAULT;
+    }
+    if (!dec_hwlocked[hwid]) {
+        JPEG_LOG(0, &quot;wait on unlock core %d\n&quot;, hwid);
+        return -EFAULT;
+    }
+    if (jpeg_isr_hybrid_dec_lisr(hwid) &lt; 0) {
+        long ret = 0;
+        int waitfailcnt = 0;
+        do {
+            ret = wait_event_interruptible_timeout(
+                    hybrid_dec_wait_queue[hwid],
+                    _jpeg_hybrid_dec_int_status[hwid],
+                    timeout_jiff);
+            ...
+            if (ret &lt; 0) {
+                waitfailcnt++;
+                usleep_range(10000, 20000);
+            }
+        } while (ret &lt; 0 &amp;&amp; waitfailcnt &lt; 500);
+    }
+    ...
+    if (copy_to_user(pnsParmas.progress_n_status, &amp;progress_n_status,
+                                        sizeof(int))) {
+        return -EFAULT;
+    }
+    ...
+    jpeg_drv_hybrid_dec_unlock(hwid);
+    break;
+    ...
+}
+</code></pre>
+<pre><code>...
+static void jpeg_drv_hybrid_dec_unlock(unsigned int hwid)
+{
+    mutex_lock(&amp;jpeg_hybrid_dec_lock);
+    if (!dec_hwlocked[hwid]) {
+        JPEG_LOG(0, &quot;try to unlock a free core %d&quot;, hwid);
+    } else {
+        dec_hwlocked[hwid] = false;
+        JPEG_LOG(1, &quot;jpeg dec HW core %d is unlocked&quot;, hwid);
+        jpeg_drv_hybrid_dec_power_off(hwid);
+        disable_irq(gJpegqDev.hybriddecIrqId[hwid]);
+        jpg_dmabuf_free_iova(bufInfo[hwid].i_dbuf,
+                bufInfo[hwid].i_attach,
+                bufInfo[hwid].i_sgt);
+        jpg_dmabuf_free_iova(bufInfo[hwid].o_dbuf,
+                bufInfo[hwid].o_attach,
+                bufInfo[hwid].o_sgt);
+        jpg_dmabuf_put(bufInfo[hwid].i_dbuf);
+        jpg_dmabuf_put(bufInfo[hwid].o_dbuf);
+        // we manually add 1 ref count, need to put it.
+    }
+    mutex_unlock(&amp;jpeg_hybrid_dec_lock);
+}
+</code></pre>
+<p>如果<code>jpeg_drv_hybrid_dec_start</code>失败，也会调用<code>jpeg_drv_hybrid_dec_unlock</code>。</p>
+<p>虽然<code>jpeg_hybrid_dec_lock</code>互斥锁保护直接的核心锁定和解锁，但它不保护<code>jpeg_drv_hybrid_dec_start</code>函数体。这意味着虽然不能同时调用<code>jpeg_drv_hybrid_dec_lock</code>和<code>jpeg_drv_hybrid_dec_unlock</code>，但可以同时调用<code>jpeg_drv_hybrid_dec_start</code>和<code>jpeg_drv_hybrid_dec_unlock</code>，这在实践中同样糟糕，因为这两个函数竞态访问相同的全局数据结构<code>bufInfo</code>。</p>
+<p>这个漏洞的一个小复杂之处在于，为了在<code>JPEG_DEC_IOCTL_HYBRID_WAIT</code>调用中到达<code>jpeg_drv_hybrid_dec_unlock</code>，核心必须在超时前被锁定，因为有一个检查确保在尝试等待核心之前核心已被锁定。</p>
+<p>两个进程A和B在实践中发生竞态的例子如下（根据上述代码着色）：</p>
+<p><strong>进程A：</strong><br>调用<code>ioctl JPEG_DEC_IOCTL_HYBRID_START</code>，用<code>jpeg_drv_hybrid_dec_lock</code>锁定核心0并进入<code>jpeg_drv_hybrid_dec_start</code></p>
+<p><strong>进程B：</strong><br>调用<code>ioctl JPEG_DEC_IOCTL_HYBRID_WAIT</code>，确认核心0已锁定，然后开始3秒等待，等待核心发送表示解码请求完成的中断。</p>
+<p><strong>进程A：</strong><br><code>jpeg_drv_hybrid_dec_start</code>失败（在初始化一些数据结构之后），在核心0上调用<code>jpeg_drv_hybrid_dec_unlock</code>释放任何已分配的资源，并返回到用户态。</p>
+<p><strong>[等待约3秒]</strong></p>
+<p><strong>进程A：</strong><br>调用<code>ioctl JPEG_DEC_IOCTL_HYBRID_START</code>，用<code>jpeg_drv_hybrid_dec_lock</code>锁定核心0并进入<code>jpeg_drv_hybrid_dec_start</code></p>
+<p><strong>进程B：</strong><br>3秒等待超时，<code>JPEG_DEC_IOCTL_HYBRID_WAIT</code> <code>ioctl</code>调用用<code>jpeg_drv_hybrid_dec_unlock</code>解锁核心0。</p>
+<p><strong>[进程A和B现在同时初始化和释放相同的数据结构]</strong></p>
+<p>这可能导致各种释放后使用或双重释放条件，具体取决于进程A和B的竞态情况。</p>
+<h2 id="获取root之路">获取root之路</h2><p>下一步是尝试利用这些问题。我的第一次尝试针对OOB写问题CVE-2023-32837。我能够将内核<code>.data</code>区域中不受控制的OOB读/写原语发展为在攻击者控制进程使用的内核任务栈中预定偏移处的竞态空字节写入。此时，在任何系统调用期间用空值覆盖内核栈条目对我来说似乎有足够的灵活性来创建完整的利用。然而，尽管我尽了最大努力（包括创建一个工具来查找任意回溯中写入发生的位置），我未能找到一种技术来从这个写入创建更好的原语。</p>
+<p>那次努力失败后，我决定看看同一驱动程序中的另一个问题CVE-2023-32832。在与<code>jpeg_drv_hybrid_dec_start</code>竞争的释放步骤中，<code>jpeg_drv_hybrid_dec_unlock</code>释放了对四个独立资源的访问：</p>
+<pre><code>jpg_dmabuf_free_iova(bufInfo[hwid].i_dbuf, bufInfo[hwid].i_attach, bufInfo[hwid].i_sgt); //核心中输入缓冲区的虚拟地址映射
+jpg_dmabuf_free_iova(bufInfo[hwid].o_dbuf, bufInfo[hwid].o_attach, bufInfo[hwid].o_sgt); //核心中输出缓冲区的虚拟地址映射
+jpg_dmabuf_put(bufInfo[hwid].i_dbuf); //输入缓冲区文件的引用计数递减。此缓冲区先前由攻击者分配并与文件描述符关联。
+jpg_dmabuf_put(bufInfo[hwid].o_dbuf); //输出缓冲区文件的引用计数递减。此缓冲区先前在jpeg_drv_hybrid_dec_start期间分配。
+</code></pre>
+<p>驱动程序的一个关键行为增强了可利用性：尽管<code>jpeg_drv_hybrid_dec_unlock</code>正确减少了<code>i_dbuf</code>和<code>o_dbuf</code>的引用计数，但它没有将<code>bufInfo</code>全局数组中的这些条目重新初始化为<code>NULL</code>。就竞态而言，这意味着如果进程B的竞态<code>jpeg_drv_hybrid_dec_unlock</code>发生在进程A的第二次<code>jpeg_drv_hybrid_dec_start</code>重新初始化<code>i_dbuf</code>和<code>o_dbuf</code>之前，将释放<code>i_dbuf</code>和<code>o_dbuf</code>的额外引用计数。由于<code>i_dbuf</code>和<code>o_dbuf</code>是<code>struct file*</code>，这可以直接导致<code>struct file</code> UAF。由于<code>i_dbuf</code> <code>struct file</code>直接来自传递给<code>jpeg_drv_hybrid_dec_start</code>的<code>dmabuf</code>文件描述符，这导致了一个悬空的文件描述符，其底层的<code>struct file</code>被释放。这无疑是一个可利用的漏洞。</p>
+<p>有几种不同的技术可以利用悬空文件描述符。一种广泛使用的策略是导致<code>struct file</code>的后备slab页面被释放并返回到页面分配器，然后用管道缓冲区数据页面重新分配该页面，以获得对用于<code>struct file</code>的内存的控制。另一种众所周知的策略是利用跨缓存技术将内存重新分配为不同类型的<code>kmalloc</code> slab/对象。然而，未来如果<a href="https://www.google.com/url?q=https://lore.kernel.org/all/20230915105933.495735-15-matteorizzo@google.com/&sa=D&source=docs&ust=1712947244908914&usg=AOvVaw0WRxCpYz3NaM3wsC8DKyOp">SLAB_VIRTUAL缓解措施</a>在主线的Linux内核中生效，这两种技术都可能得到补救。为了探索Android内核黑客攻击的未来，我寻求一种不涉及跨缓存或slab缓存-&gt;页面分配器堆塑形技术的新颖利用技术。</p>
+<h3 id="一些其他新颖的利用技术">一些其他新颖的利用技术</h3><p>最常见的UAF利用技术之一是用不同类型的新对象重新分配一级释放的对象，创建类型混淆条件，从而改进内存破坏原语。然而，在指定用于<code>struct file</code>缓存的页面中唯一可以分配的对象类型是<code>struct file</code>类型，因此使用一级对象回收创建类型混淆内存破坏条件的选项有限。然而，仅仅因为一个对象被释放，并不意味着它在有限情况下不能使用。当内核将对象插入空闲列表时，这会破坏对象的<a href="https://lore.kernel.org/linux-mm/202003051624.AAAC9AECC@keescook/t/">中间部分</a>。然而，对象的其余部分保持在释放时的任何状态，包括指针和任何其他成员变量。这些陈旧的指针可以（并且在实践中经常）指向其他已释放的对象，这些对象可能完全从不同的slab缓存分配，可能包括通用的<code>kmalloc</code> slab缓存。请注意，在<a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152148">C语言惯例</a><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152148">中，指针在释放后被设置为</a><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152148">NULL</a><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152148">，这些陈旧的指针就不会存在</a>。然而，由于包含指针的内存无论如何都会被释放，将这些指针设置为<code>NULL</code>通常被视为不必要的保守（事实上，<a href="https://www.cryptologie.net/article/419/zeroing-memory-compiler-optimizations-and-memset_s/">C编译器通常会丢弃对即将释放的对象的写入</a>）。</p>
+<p>通过继续使用这个已释放的一级对象，我们可以隐式访问已释放的二级子对象。通过回收这些对象，我们可以重新创建类型混淆内存破坏原语，利用一级释放对象上调用的方法如何隐式访问二级子对象。让我们看看如何将其应用于我们的特定场景。</p>
+<p>Linux内核的<code>struct file</code>可能代表许多不同类型的文件，具体取决于打开文件的类型，例如ext4文件、procfs文件，甚至是联发科JPEG解码驱动程序文件。为了表示所有这些不同类型，同时为打开文件的普遍需要的成员保持一些结构共性，<code>struct file</code>包含一个<code>private_data</code>成员，该成员引用所需的任何类型特定数据。</p>
+<p>如前所述，在这种情况下UAF的<code>struct file</code>是一个<code>dmabuf</code>文件。这意味着<code>private_data</code>指针指向一个<code>struct dma_buf</code>对象。<code>dma_buf</code>对象的生命周期隐式地与其关联的<code>dmabuf</code>文件结构体的生命周期绑定。当<code>dmabuf struct file</code>被释放时，<code>dma_buf</code>对象也被释放。然而，与<code>struct file</code>不同，<code>dma_buf</code>对象是从通用的<code>kmalloc</code> slab缓存分配的。这意味着<code>dma_buf</code>可以用来自相同通用<code>kmalloc</code> slab缓存的不同类型对象回收。</p>
+<p>在假设被新对象回收后，这个新对象仍然可以作为<code>dma_buf</code>通过已释放但仍然非常可用的<code>dmabuf struct file</code>进行UAF引用，而该文件本身通过悬空文件描述符引用！因此我们得出以下策略：</p>
+<ol>
+<li>使用我们的竞态条件漏洞删除<code>i_dbuf</code>上的额外引用（同时释放<code>dma_buf</code>）来释放文件，留下一个指向已释放<code>struct file</code>的悬空<code>fd</code>，该文件仍然有一个指向已释放<code>dma_buf</code>的陈旧指针</li>
+<li>回收<code>dma_buf</code>，但<strong>不</strong>回收<code>struct file</code></li>
+<li>在悬空<code>fd</code>上调用<code>dma_buf</code>操作</li>
+</ol>
+<p>此时你可能敏锐地注意到，这个策略依赖于一个已释放的对象（即<code>struct file</code>）没有被堆分配器回收为另一个对象。这绝对正确，并且人们会期望，在优先考虑极高可靠性的利用中，可能需要进行一些堆塑形以将这个已释放的<code>struct file</code>深埋在分配器空闲列表中。在实践中（以及在我的利用中），已释放的<code>struct file</code>很少会在per-CPU活动slab上，因此不太可能立即被回收，而且我的利用通常运行得足够快，这并不重要。</p>
+<p>此时，我们现在需要确定使用什么对象来回收已释放的<code>dma_buf</code>，以及在已释放的<code>dma_buf</code>文件/对象上调用什么操作来开发更强的原语。我最终在GED驱动程序中找到了这两个问题的解决方案。</p>
+<h3 id="ged驱动程序">GED驱动程序</h3><p>GED（GPU扩展设备）驱动程序是联发科特定的接口，为用户态提供几个补充的GPU功能，主要用于调优目的。它的两个“功能”显得特别有价值。第一个功能，GED GE缓冲区，提供了一个真正卓越的堆喷射和回收原语。此功能提供了合适堆喷射原语的几个必要特征：</p>
+<ul>
+<li>分配受控大小的缓冲区，不会对堆的其余部分造成过度干扰。</li>
+<li>缓冲区数据完全由攻击者控制，开头没有不受控制的头部</li>
+<li>缓冲区可以随时释放。</li>
+</ul>
+<p>然而，一个突出的特征将这个堆喷射原语提升到许多同类之上，那就是即使分配后，攻击者也可以随意读写这些缓冲区，同时保持缓冲区分配状态。这是一个可以想象到的最强大的堆喷射原语。通过用GED GE缓冲区回收UAF的<code>dma_buf</code>结构体，我们获得了对<code>dma_buf</code>结构体的完全确定性读/写，包括其中包含的任何指针。</p>
+<p><img src="/images/5b6a5672fd10/3575f887d844dc6b2108f722771edf26.png" alt="显示UAF的dma缓冲区结构体文件与GE文件重叠对象层次结构的图表" loading="lazy"></p>
+<p>第二个功能是通往与<code>DMA_BUF_SET_NAME</code> <code>ioctl</code>相同功能的替代代码路径，该路径（非常合理地）用于设置<code>dma_buf</code>的名称。这些路径之间最大的区别是GED代码路径缺乏对底层<code>dma_buf</code> <code>fd</code>的SELinux inode检查。这些inode检查通常会在已释放的<code>struct file</code>上运行时导致内核崩溃——然而，由于GED代码路径，我们可以跳过此inode检查，并更改<code>dma_buf</code>的名称，尽管在已释放的<code>dma_buf</code>文件上运行！通常，此代码会释放<code>dma_buf</code>结构体内指向先前名称的指针，并为名称字符串分配新缓冲区。然而，由于GED GE缓冲区，我们能够控制整个<code>dma_buf</code>结构体。通过结合这些原语，我们可以在设置新名称字符串之前<code>kfree</code>一个任意指针。</p>
+<pre><code>long mtk_dma_buf_set_name(struct dma_buf *dmabuf, const char *buf)
+{
+    char *name = kstrndup(buf, DMA_BUF_NAME_LEN, GFP_KERNEL);
+    ...
+    kfree(dmabuf-&gt;name); //dmabuf由攻击者控制
+    dmabuf-&gt;name = name; //名称指针写入攻击者控制的内存
+    ...
+}
+</code></pre>
+<h3 id="实现任意读">实现任意读</h3><p>无害的<code>dmabuf</code>文件操作现在变成了强大的原语，因为我们可以精确控制<code>dma_buf</code>结构体。例如，这是<code>/proc/pid/fdinfo/n</code>对于<code>dmabuf</code>文件的代码：</p>
+<pre><code>static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+{
+    struct dma_buf *dmabuf = file-&gt;private_data;
+    seq_printf(m, &quot;size:\t%zu\n&quot;, dmabuf-&gt;size);
+    /* Don&#39;t count the temporary reference taken inside procfs seq_show */
+    seq_printf(m, &quot;count:\t%ld\n&quot;, file_count(dmabuf-&gt;file) - 1);
+    seq_printf(m, &quot;exp_name:\t%s\n&quot;, dmabuf-&gt;exp_name);
+    spin_lock(&amp;dmabuf-&gt;name_lock);
+    if (dmabuf-&gt;name)
+        seq_printf(m, &quot;name:\t%s\n&quot;, dmabuf-&gt;name);
+    spin_unlock(&amp;dmabuf-&gt;name_lock);
+}
+</code></pre>
+<p>此函数中有几个机会可以实现任意读，但最简洁的一个是<code>file_count()</code>调用，它将解引用传递的指针+硬编码偏移量，并将读取的8字节值打印为有符号长整型。通常在此C函数的上下文中，<code>file == ((struct dma_buf*) file-&gt;private_data)-&gt;file</code>，但由于我们控制<code>dma_buf</code>结构体，情况不一定如此。</p>
+<h3 id="实现任意写">实现任意写</h3><p>此时我们拥有三个强大的原语：</p>
+<ul>
+<li>读/写UAF的<code>dma_buf</code>结构体内存（通过GED GE缓冲区）</li>
+<li>任意读（通过<code>dma_buf_show_fdinfo</code>）</li>
+<li>任意释放（通过<code>ged_dmabuf_set_name</code>）</li>
+</ul>
+<p><img src="/images/5b6a5672fd10/7935e02c1fe2c034cddd3160121b3a85.png" alt="显示我们通过UAF的dma缓冲区实现的任意读和任意释放原语的图表" loading="lazy"></p>
+<p>有许多潜在的策略可以使用这些原语来实现任意写原语。我选择的技术是将GE缓冲区与GE缓冲区数组类型混淆。GED GE缓冲区通过结构体和数组的层次结构进行跟踪。GE文件的<code>private_data</code>成员指向一个GE缓冲区指针数组，如下所示：</p>
+<p><img src="/images/5b6a5672fd10/e868186baa298dfa89734eed86182031.png" alt="显示fdtable内GE文件到GE缓冲区的对象层次结构的图表" loading="lazy"></p>
+<p>我通过使用先前开发的任意释放原语释放一个GE缓冲区数组，然后用来自第二个GE文件的GE缓冲区回收该数组来实现这种类型混淆。由于GE缓冲区数组（以及GE缓冲区）来自通用的<code>kmalloc</code>缓存，此回收的唯一要求是分配与GE缓冲区数组大小相同的GE缓冲区。如果两个GE文件引用相同的内存，一个（GE文件A）作为GE缓冲区，另一个（GE文件B）作为GE缓冲区数组，我可以随意修改GE缓冲区数组的内容。</p>
+<p><img src="/images/5b6a5672fd10/80193620709a1105430f22651e258e58.png" alt="显示两个GE文件重叠对象层次结构的图表，其中一个文件的GE缓冲区是另一个文件的GE缓冲区数组" loading="lazy"></p>
+<p>然后，对虚拟地址X执行任意写将变得简单：使用GE文件A的GE缓冲区将数组内容更改为指向虚拟地址X，然后使用GE文件B写入该地址，该文件现在认为虚拟地址X是一个GE缓冲区！</p>
+<p>这种技术依赖于能够使用任意释放原语释放GE缓冲区数组。为此，首先需要找到GE缓冲区数组的虚拟地址。由于我们已经拥有任意读原语，GE缓冲区数组的任何父结构体/对象/数组都足以找到GE缓冲区数组本身的虚拟地址。层次结构如下：</p>
+<ol>
+<li>GE数组由GE文件引用</li>
+<li>GE文件由<code>fdtable</code>作为文件描述符引用</li>
+<li><code>fdtable</code>由任务结构体引用</li>
+<li>任务结构体作为任务列表的一部分被引用，根节点是内核镜像中的<code>init</code>任务</li>
+</ol>
+<p><code>fdtable</code>代表一个有吸引力的对象，因为它来自与<code>dma_buf</code>名称字符串相同的通用<code>kmalloc</code>缓存。我们可以通过使用<code>dma_buf_set_name</code>（我们也将其用作任意释放原语）将指向<code>dma_buf</code>名称字符串的指针插入到已回收的UAF的<code>dma_buf</code>对象（现在是一个GE缓冲区）中来找到<code>dma_buf</code>名称字符串的虚拟地址。然后我们只需从GE缓冲区中读取它，释放该<code>dma_buf</code>名称字符串（再次使用<code>dma_buf_set_name</code>），并用<code>fdtable</code>回收它。创建<code>fdtables</code>相当容易——我们只需提前<code>fork</code>许多共享<code>fdtable</code>的进程，然后在适当的时间<code>unshare(2)</code> <code>fdtable</code>以分配新的<code>fdtables</code>。完整的利用策略如下：</p>
+<ol>
+<li>使用我们的mtk-jpeg竞态条件漏洞触发<code>dmabuf</code>文件的悬空<code>fd</code></li>
+<li>回收底层的<code>dma_buf</code>，使父<code>dmabuf</code>文件保持释放状态（但仍由悬空文件描述符引用）</li>
+<li>在我们的悬空文件上使用<code>ged_dmabuf_set_name</code>，在假的<code>dma_buf</code>结构体中放置一个新的名称指针</li>
+<li>读取假的<code>dma_buf</code>结构体（实际上是GE缓冲区）以获取名称指针</li>
+<li>通过再次调用<code>ged_dmabuf_set_name</code>释放名称指针</li>
+<li>用引用具有GE缓冲区数组的GE fd的<code>fdtable</code>回收名称指针</li>
+<li>使用任意读找到GE缓冲区数组</li>
+<li>使用任意释放释放GE缓冲区数组</li>
+<li>用另一个GE缓冲区回收GE缓冲区数组</li>
+</ol>
+<p>在此过程结束时，我们将拥有可靠的任意读/写！</p>
+<h3 id="获取root-shell">获取root shell</h3><p>作为一个有趣的练习，我决定看看在实现任意读/写后，禁用SELinux并获取root有多容易。不同的制造商可能会实施某些绊网以减缓利用开发工作，但在我的情况下（华硕ROG 6D），我根本不需要跳过任何障碍。只需将我的进程<code>cred</code>结构体的<code>uid</code>/<code>gid</code>写入0即可获得root，并将<code>selinux_enforcing</code>位写入0即可关闭SELinux。之后，我只需<code>execlp(&quot;/system/bin/sh&quot;,...)</code>，就会弹出一个root shell！</p>
+<p><img src="/images/oldblog/blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgAy_j_s1200_image3.gif" alt="在Android设备上使用漏洞获取root" loading="lazy"></p>
+<h2 id="结论">结论</h2><p>我在所有3台评估的设备中发现了重大的安全漏洞。很可能，审查更多包含更广泛芯片组制造商的设备会发现额外的漏洞。Android通常使用更高特权的进程在应用程序和内核驱动程序之间进行联络，这意味着大多数内核驱动程序无法从无特权的应用上下文看到（GPU是此规则最明显的例外）。然而</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/Rust安全.html" class="tag-link">#Rust安全</a> <a href="/tag/0day.html" class="tag-link">#0day</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/内存安全.html" class="tag-link">#内存安全</a> <a href="/tag/GPU安全.html" class="tag-link">#GPU安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#引言" class="toc-link">
+              <span class="toc-text">引言</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#驱动程序枚举-没有看起来那么简单" class="toc-link">
+              <span class="toc-text">驱动程序枚举：没有看起来那么简单</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#联发科jpeg解码加速器" class="toc-link">
+              <span class="toc-text">联发科JPEG解码加速器</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#获取root之路" class="toc-link">
+              <span class="toc-text">获取root之路</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#一些其他新颖的利用技术" class="toc-link">一些其他新颖的利用技术</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#ged驱动程序" class="toc-link">GED驱动程序</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#实现任意读" class="toc-link">实现任意读</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#实现任意写" class="toc-link">实现任意写</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#获取root-shell" class="toc-link">获取root shell</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

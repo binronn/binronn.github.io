@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows注册表探险 #7：攻击面分析 - BasicBit</title>
+  <meta name="description" content="Windows注册表探险 #7：攻击面分析">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Windows注册表探险 #7：攻击面分析</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2025/5/23
+            </span>
+            <span class="meta-item">Mateusz Jurczyk</span>
+            <span class="meta-item">网络安全, 漏洞分析</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2025/05/the-windows-registry-adventure-7-attack-surface.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2025%2F05%2Fthe-windows-registry-adventure-7-attack-surface.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Mateusz Jurczyk，Google Project Zero</p>
+<p>在本系列的前三篇博客文章中，我试图概述Windows注册表究竟是什么、它的作用、历史以及在哪里可以找到更多相关信息。在随后的三篇文章中，我的目标是详细描述这个机制在内部是如何工作的——从其客户端（例如，在Windows上运行的用户模式应用程序）的角度、用于编码配置单元的regf格式，最后是包含其规范实现的内核本身。我相信所有这些要素对于描绘这个子系统的完整图景至关重要，并且在某种程度上，它展示了我自己进行安全研究的方法。有人可能会说，经历这个了解目标的繁琐过程不必要地延长了总的研究时间，在某种程度上，他们是对的。另一方面，我相信，为了进行完整的研究，回答某些东西是如何实现的以及为什么它们以那种方式实现同样重要——而后者通常需要更深入地研究这个主题。既然我已经花了时间进行逆向工程并理解注册表的各个内部方面，那么与更广泛的社区分享这些信息就有充分的理由。关于注册表中各种机制如何工作的公开资料很缺乏，尤其是最新和最复杂的机制，所以我希望我在这里记录的知识将来对其他人有用。</p>
+<p>在这篇博客文章中，我们触及了问题的核心，即Windows注册表的实际安全性。我想谈谈是什么让一个最初只是作为我模糊测试基础设施快速测试的功能，吸引我进行了接下来1.5到2年的手动研究，并导致微软修复了（到目前为止）53个CVE。我将描述在低层安全研究背景下重要的各个领域，从非常一般的领域（例如，允许安全漏洞首先存在的代码库特征）到更具体的领域，例如攻击注册表的所有可能入口点、漏洞的影响及其生成的原始操作，以及关于有效模糊测试和一些可能仍潜伏着更多漏洞的地方的考虑。</p>
+<p>让我们快速回顾一下注册表作为攻击面的最基本特性：</p>
+<ul>
+<li><strong>本地权限提升攻击面</strong>：正如我们已经知道的，Windows注册表是一个严格的本地攻击面，可能被较低权限的进程利用来获得较高权限进程或内核的权限。除了远程注册表服务外，它没有任何远程组件，而该服务相对较小，并且在大多数Windows安装中无法从互联网访问。</li>
+<li><strong>使用内存不安全语言的复杂、老旧代码库</strong>：Windows注册表是一个庞大而复杂的机制，完全用C语言编写，其中大部分是多年前编写的。这意味着逻辑和内存安全漏洞都可能发生，并且许多此类问题一旦被发现，可能会多年甚至数十年得不到修复。</li>
+<li><strong>存在于核心NT内核中</strong>：注册表实现驻留在核心Windows内核可执行文件（ntoskrnl.exe）中，这意味着它不受win32k锁定等缓解措施的影响。当然，每个注册表漏洞的可达性需要在特定限制（例如，沙箱）的背景下单独考虑，因为其中一些需要文件系统访问或能够打开特定键的句柄。尽管如此，作为内核的一个组成部分，显著增加了给定漏洞被利用的机会。</li>
+<li><strong>大多数代码可由非特权用户访问</strong>：注册表是为普通用户模式应用程序使用而创建的功能。因此，绝大多数与注册表相关的代码无需任何特殊权限即可访问，只有一小部分接口需要管理员权限，这并不奇怪。从中等完整性级别（Integrity Level）到内核的权限提升可能是注册表漏洞被利用的最可能场景。</li>
+<li><strong>管理敏感信息</strong>：除了注册表实现本身复杂且可能容易出错之外，重要的是要记住注册表本质上存储了安全关键的系统信息，包括各种全局配置、密码、用户权限和其他敏感数据。这意味着不仅直接允许代码执行的低层漏洞值得关注，而且仅涉及数据的攻击和逻辑漏洞，允许未经授权修改甚至在没有适当权限的情况下泄露注册表键，也是问题。</li>
+<li><strong>模糊测试不简单，且文档不完善</strong>：总的来说，在没有任何内部知识的情况下，注册表似乎不是一个非常友好的漏洞搜寻目标。同时，获取信息也不容易，尤其是对于最新的注册表机制，它们没有公开文档，了解它们基本上归结为逆向工程。换句话说，进入这个领域的门槛相当高，这可能是优势也可能是劣势，取决于潜在研究者的时间和投入。</li>
+</ul>
+<h2 id="安全特性">安全特性</h2><p>上述粗略分析似乎表明，注册表可能是对Windows上EoP（权限提升）漏洞感兴趣的人的一个良好审计目标。现在让我们更仔细地看看一些具体的低层原因，为什么注册表被证明是一个富有成果的研究目标。</p>
+<h3 id="广泛的漏洞类别">广泛的漏洞类别</h3><p>由于注册表既复杂又是系统中以内核模式权限运行的核心机制，其中可能发生许多类别的漏洞。下面展示了一个漏洞分类示例：</p>
+<ul>
+<li><strong>配置单元内存损坏</strong>：对注册表执行的每个侵入性操作（即“写”操作）都会反映在配置单元结构的内存映射视图中所做的更改上。考虑到配置单元内的对象包括可变长度数组、具有引用计数的结构以及通过单元索引（配置单元中相当于内存指针）引用其他单元，很自然地会预期到缓冲区溢出或释放后使用等常见问题。</li>
+<li><strong>池内存损坏</strong>：除了配置单元内存映射之外，配置管理器还在内核池中存储了大量信息。首先，存在某些配置单元数据的缓存副本，如我之前的博客文章所述。其次，存在各种辅助对象，例如在单个系统调用内分配并随后释放的对象。这些对象中的许多可能成为C语言典型的内存管理漏洞的受害者。</li>
+<li><strong>信息泄露</strong>：由于注册表实现是内核的一部分，并且它与非特权用户模式应用程序交换大量信息，因此必须小心不要意外地将堆栈或内核池中的未初始化数据泄露给调用者。这可能通过复制到用户模式内存的输出数据以及其他渠道发生，例如数据泄露到文件（配置单元文件或相关日志文件）。因此，值得关注所有数组和动态分配的缓冲区在传递给较低权限上下文之前是否完全填充或仔细用零填充。</li>
+<li><strong>竞态条件</strong>：作为多线程环境，Windows允许多个线程并发访问注册表。因此，注册表实现必须正确同步对所有共享内核端对象的访问，并注意用户模式客户端交互特有的“双重获取”漏洞。</li>
+<li><strong>逻辑漏洞</strong>：除了内存安全和没有低层漏洞之外，安全的注册表实现还必须强制执行正确的高层安全逻辑。这意味着防止未经授权的用户访问受限键，并确保注册表在所有情况下都与其文档保持一致。这需要深入理解显式文档和内核开发人员支撑注册表安全性的隐式假设。最终，任何偏离预期逻辑的行为，无论是文档化的还是假设的，都可能导致漏洞。</li>
+<li><strong>进程间攻击</strong>：注册表可以作为安全目标，也可以作为利用系统上其他应用程序缺陷的手段。它是一个共享数据库，本地攻击者有许多方式间接与更高权限的程序和服务交互。一个简单的例子是特权代码在其键上设置过于宽松的权限，允许未经授权的读取或修改。更复杂的情况可能发生在键创建和设置其受限安全描述符之间存在竞态条件时，或者当涉及多个属性的键修改不是以事务方式执行时，可能导致不一致的状态。具体情况取决于特权进程如何使用注册表接口。</li>
+</ul>
+<p>如果我要用一张维恩图来描述Windows注册表，突出其各种可能的漏洞类别，它可能看起来像这样：</p>
+<p><img src="/images/18f714e2c693/5dfad366aa1db0e07f97426672096a70.png" alt="一张维恩图说明了Windows注册表内不同漏洞类别的交集。四个重叠的圆圈分别代表内核特定漏洞、文件解析漏洞、对象生命周期漏洞和逻辑漏洞。所有圆圈重叠的中心区域被突出显示，表示结合了所有这些漏洞类型的漏洞。" loading="lazy"></p>
+<h3 id="手动引用计数">手动引用计数</h3><p>正如我多次提到的，注册表配置单元中的安全描述符由多个键共享，因此必须进行引用计数。负责此操作的字段是一个32位无符号整数，任何将其设置为低于实际引用数量的值的情况都可能导致该安全描述符在使用时被释放，从而导致释放后使用条件和基于配置单元的内存损坏。所以，我们看到正确实现这个引用计数绝对至关重要，但不幸的是，有很多原因（或者直到最近）导致这个机制容易出错：</p>
+<ul>
+<li>通常，引用计数是一个严格存在于内存中的构造，它被初始化为值1，然后递增和递减若干次，最后降至零，导致对象被释放。然而，对于注册表配置单元，初始引用计数值是从磁盘加载的，来自我们假设由攻击者控制的文件。因此，这些值不能以任何方式被信任，第一个必要的步骤是根据每个描述符的真实引用数量实际比较并可能调整它们。尽管理论上这样做了，但在实践中，错误可能会潜入这个逻辑中（<a href="https://project-zero.issues.chromium.org/issues/42451423">CVE-2022-34707</a>、<a href="https://project-zero.issues.chromium.org/issues/42451601">CVE-2023-38139</a>）。</li>
+<li>长期以来，所有对引用计数的操作都是通过直接引用_CM_KEY_SECURITY.ReferenceCount字段来执行的，而不是使用安全的包装器。因此，这些递增操作都没有受到整数溢出的保护。这意味着不仅引用计数值太小，而且太大最终也可能溢出并导致释放后使用的情况（<a href="https://project-zero.issues.chromium.org/issues/42451552">CVE-2023-28248</a>、<a href="https://project-zero.issues.chromium.org/issues/42451732">CVE-2024-43641</a>）。这个弱点在2023年4月至2024年11月期间在注册表代码的各个地方逐渐得到解决。目前，所有引用计数递增的实例似乎都是安全的，并且涉及调用特殊的辅助函数CmpKeySecurityIncrementReferenceCount，该函数可以防止整数溢出。其对应的引用计数递减函数是CmpKeySecurityDecrementReferenceCount。</li>
+<li>似乎对于某些特殊类型的键（例如预定义键和墓碑键）在安全描述符方面的行为缺乏清晰度和理解。理论上，唯一没有分配安全描述符的键类型是退出节点（即设置了KEY_HIVE_EXIT标志的键，仅存在于根目录为\Registry\的虚拟配置单元中），而所有其他键确实分配了安全描述符，即使它不用于任何用途。然而，在实践中，Windows中存在几个漏洞，要么是由于特殊类型键在KCB中的安全刷新不正确（<a href="https://project-zero.issues.chromium.org/issues/42451512">CVE-2023-21774</a>），要么是在不考虑其引用计数的情况下释放预定义键的安全描述符（<a href="https://project-zero.issues.chromium.org/issues/42451596">CVE-2023-35356</a>），要么是在“重命名”操作中完全忘记了对墓碑键描述符进行引用计数的需要（<a href="https://project-zero.issues.chromium.org/issues/42451592">CVE-2023-35382</a>）。</li>
+<li>当安全描述符的引用计数达到零并被释放时，此操作是不可逆的。无法保证在重新分配时，描述符将具有相同的单元索引，甚至根本无法重新分配。这对于多步骤操作至关重要，其中单个操作可能失败，需要完全回滚到原始状态。理想情况下，释放安全描述符应始终是最后一步，只有当内核可以确定整个操作将成功时才进行。体现这一点的漏洞是<a href="https://project-zero.issues.chromium.org/issues/42451512">CVE-2023-21772</a>，其中注册表虚拟化代码首先释放了旧的安全描述符，然后尝试分配一个新的。如果分配失败，该键将没有任何安全属性，违反了注册表的基本假设，并可能对系统内存安全造成严重后果。</li>
+</ul>
+<h3 id="积极的自我修复和恢复">积极的自我修复和恢复</h3><p>正如我在<a href="/2024/12/the-windows-registry-adventure-5-regf.html">博客文章#5</a>中描述的，注册表最有趣的功能之一，也是它与许多其他文件格式实现不同的地方，是它具有自我修复能力。整个配置单元加载过程，从内部的CmCheckRegistry函数向下，都专注于不惜一切代价加载数据库，即使遇到一些损坏的片段。只有当文件损坏如此严重以至于无法恢复任何数据时，整个加载过程才会失败。当然，考虑到注册表存储了关键的系统数据，例如其基本配置，并且无法访问这些数据实际上会阻止Windows启动，从系统可靠性的角度来看，这个决定很有意义。可以安全地假设，它防止了许多计算机上需要重新安装系统的情况，仅仅是因为它没有拒绝因随机硬件故障而可能出现的轻微损坏的配置单元。</p>
+<p>然而，从安全角度来看，这种行为不一定有利。首先，很明显，在遇到输入数据错误时，无条件停止处理比尝试修复它更简单。在后一种情况下，程序员可能会忽略一个边缘情况——忘记重置某个结构中的某些字段等——因此，不是修复文件，而是允许其中出现另一个不可预见的不一致状态。换句话说，修复逻辑构成了一个额外的攻击面，并且可能比其他部分的实现更有趣且更容易出错。与此特性相关的经典漏洞示例是<a href="https://project-zero.issues.chromium.org/issues/42451601">CVE-2023-38139</a>。</p>
+<p>其次，在我看来，这种逻辑的存在可能对注册表代码的安全开发产生了负面影响，也许导致了它保证的内容与其他开发人员认为它保证的内容之间的差异。例如，在1991-1993年，当配置管理器子系统的基础以当前形式创建时，可能没有人认为配置单元加载是一个潜在的攻击向量。当时，注册表仅用于存储系统配置，受控的配置单元加载是特权操作，需要管理员权限。因此，我怀疑当时配置单元检查的主要目标是检测由于硬件问题导致的简单数据不一致，例如单比特翻转。没有人期望配置单元包含一个复杂的、专门设计的数千字节数据结构，旨在触发安全缺陷。也许注册表的其余代码是在这样的假设下编写的：既然数据清理和自我修复发生在加载时，那么从那时起它的状态就是安全的，不需要进一步的错误处理（除了内存不足错误）。然后，在Windows Vista中，决定通过应用程序配置单元机制向非特权用户开放对受控配置单元加载的访问，突然发现现有的保障措施并不完全足够。攻击者现在能够设计在低层结构上正确，但完全超出实际实现预期和处理范围的数据结构。</p>
+<p>最后，自我修复可能通过隐藏可能在正常Windows操作期间触发的潜在注册表错误而对系统安全产生不利影响。这些问题可能只在一段时间后，并且在配置单元内“积累”了足够多的问题时才变得明显。由于配置单元被映射到内存中，并且内核直接在文件内的数据上操作，因此存在一类称为“不一致配置单元状态”的错误。这指的是配置单元内不完全符合文件格式规范的数据结构。这种不一致的发生本身就值得注意，对于了解注册表的人来说，它可能是发现漏洞的直接线索。然而，这种情况很少导致立即的系统崩溃或其他可见的副作用。考虑安全描述符及其引用计数：如前所述，活动引用数量超过引用计数的任何情况都表示严重的安全缺陷。然而，即使这种情况在正常系统操作期间发生，也需要释放该描述符的所有其他引用，然后让其他数据覆盖已释放的描述符。然后，需要使用悬空引用来访问描述符。所有这些因素依次发生的可能性相当小，而自我修复的存在进一步降低了这些机会，因为引用计数将在下一次配置单元加载时恢复为其正确值。这个特性可以比作用try/except块包装整个注册表代码，捕获所有异常并对用户隐藏它们。这在系统可靠性的背景下肯定有帮助，但对于安全来说，这意味着潜在的漏洞在系统运行时更难被发现，并且出于同样的原因，很难进行模糊测试。这并不意味着它们不存在；只是它们的检测变得更加具有挑战性。</p>
+<h3 id="硬性格式要求与常规格式要求之间的界限不明确">硬性格式要求与常规格式要求之间的界限不明确</h3><p>这一点与上一节相关。在regf格式中，有一些要求相当明显，并且必须始终满足，文件才能被视为有效。同样，有许多元素允许任意格式化，由格式用户自行决定。然而，还有第三类，一个灰色地带的要求，这些要求似乎是合理的，如果满足可能很好，但尚不完全清楚它们是否是正式要求的。描述这组状态的另一种方式是，它不是由Windows内核本身生成的，但仍然不是明显不正确的。从研究人员的角度来看，了解格式的哪些部分实际上是规范要求的，哪些只是Windows代码采用的约定，将是有价值的。</p>
+<p>我们可能永远无法得知，因为微软没有发布官方的格式规范，而且他们将来似乎也不太可能发布。我们剩下的唯一选择是依赖CmpCheck*函数（CmpCheckKey、CmpCheckValueList等）的实现作为一种“神谕”，并假设那里强制执行的一切都是硬性要求，而所有其他状态都是允许的。如果我们走这条路，我们可能会大吃一惊，因为事实证明，有许多听起来合理的需求在实践中并未强制执行。这可能允许用户控制的配置单元包含一些结构，这些结构没有明显问题，但与注册表的精神及其规则不一致。在许多情况下，它们允许以不太理想的方式编码数据，导致意外的冗余。下面展示了此类结构的一些示例：</p>
+<ul>
+<li><strong>单个键内具有重复名称的值</strong>：在正常情况下，一个键中只能存在一个具有给定名称的值，如果后续写入相同的名称，新数据将分配给现有值。然而，输入配置单元中并不要求值名称的唯一性，并且可以加载具有重复值的配置单元。</li>
+<li><strong>单个配置单元内重复的相同安全描述符</strong>：与上一点类似，假设配置单元内的安全描述符是唯一的，如果现有描述符分配给另一个键，则其引用计数递增，而不是分配新对象。然而，不能保证专门制作的配置单元不会包含同一安全描述符的多个重复项，并且加载器会接受这一点。</li>
+<li><strong>仅由ASCII字符组成的未压缩键名</strong>：在正常情况下，如果给定键的名称仅包含ASCII字符，它将始终以压缩形式存储，即通过在类型为uint16的_CM_KEY_NODE.Name数组的每个元素中写入名称的两个字节，并在_CM_KEY_NODE.Flags中设置KEY_COMP_NAME标志（0x20）。然而，再次强调，加载配置单元时并不要求名称的最佳表示，并且可以忽略此约定而不会出现问题。</li>
+<li><strong>已分配但未使用的单元</strong>：Windows注册表实现在不再需要时释放配置单元内的对象，为新数据腾出空间。然而，加载器并不要求每个标记为“已分配”的单元都被积极使用。类似地，引用计数为零的安全描述符通常会被释放。然而，在2024年11月重构CmpCheckAndFixSecurityCellsRefcount函数之前，可以加载一个配置单元，其中未使用的安全描述符仍然存在于链表中。此行为后来被更改，现在在加载期间遇到的未使用安全描述符会自动释放并从列表中移除。</li>
+</ul>
+<p>这些例子很好地说明了这个问题，但据我所知，它们都没有特别重大的安全影响。然而，也有一些特定的内存损坏漏洞源于注册表代码对配置单元结构做出了理论上合理的假设，但加载器并未强制执行这些假设：</p>
+<ul>
+<li><a href="https://project-zero.issues.chromium.org/issues/42451463">CVE-2022-37988</a>：这个漏洞与Windows中大于16 KiB的单元对齐到最近的2的幂次方这一事实密切相关，但加载期间不需要满足这个条件。这导致缩小单元失败，即使它应该总是就地成功，这“出乎”了分配器客户端的意料，并导致了释放后使用的情况。</li>
+<li><a href="https://project-zero.issues.chromium.org/issues/42451449">CVE-2022-37956</a>：正如我在<a href="/2024/12/the-windows-registry-adventure-5-regf.html">博客文章#5</a>中描述的，Windows有一些逻辑来确保没有叶子类型的子键列表（li、lf或lh）超过511或1012个元素，具体取决于其特定类型。如果列表扩展超过此限制，它会自动拆分为两个列表，每个列表长度为原始长度的一半。另一个合理的假设是，根索引长度在正常情况下永远不会接近_CM_KEY_INDEX.Count（uint16）的最大值。这将需要不切实际的大量子键，或者具有特定名称的数百万次键创建和删除的非常特定的序列。然而，可以加载一个包含四种类型中任意一种子键列表且长度等于0xFFFF的配置单元，并触发长度字段上的16位整数溢出，导致内存损坏。有趣的是，这是少数几个仅通过包含一长串reg.exe命令执行的单个.bat文件即可触发的漏洞之一。</li>
+<li><a href="https://project-zero.issues.chromium.org/issues/42451465">CVE-2022-38037</a>：在这种情况下，内核代码假设头中定义的配置单元版本（_HBASE_BLOCK.Minor）始终对应于给定配置单元中使用的子键列表类型。例如，如果文件版本是regf 1.3，它应该不可能包含在版本1.5中引入的格式的列表。然而，由于某种原因，配置单元加载器并不强制执行格式版本与其中使用的结构之间的正确关系，在这种情况下导致了严重的基于配置单元的内存损坏漏洞。</li>
+</ul>
+<p>正如我们所看到的，区分特定实现采用的格式元素与实际在处理输入文件期间强制执行的格式元素至关重要。如果我们遇到一些代码做出了属于前一组但不属于后一组的假设，这可能表明存在严重的安全问题。</p>
+<h3 id="容易错误处理oom条件">容易错误处理OOM条件</h3><p>一般来说，Windows内核中任何函数的实现大致按照以下方案构建：</p>
+<p>NTSTATUS NtHighLevelOperation(...) {<br>    NTSTATUS Status;<br>    Status = HelperFunction1(...);<br>    if (!NT_SUCCESS(Status)) {<br>        //<br>        // 清理...<br>        //<br>        return Status;<br>    }<br>    Status = HelperFunction2(...);<br>    if (!NT_SUCCESS(Status)) {<br>        //<br>        // 清理...<br>        //<br>        return Status;<br>    }<br>    //<br>    // 更多调用...<br>    //<br>    return STATUS_SUCCESS;<br>}</p>
+<p>当然，这是一个重大的简化，因为现实世界的代码包含诸如if语句、switch语句、各种循环等关键字和结构。关键是，相当一部分高层函数调用专门的内部低层函数来处理特定任务。处理这些函数发出的潜在错误是内核代码（或任何代码）的一个重要方面。在低层Windows代码中，错误传播使用NTSTATUS类型，它本质上是一个有符号的32位整数。值0表示成功（STATUS_SUCCESS），正值表示成功但带有附加信息，负值表示错误。数字的符号由NT_SUCCESS宏检查。在我的研究中，我花了大量时间分析错误处理逻辑。让我们花点时间思考一下在注册表操作期间可能发生的错误类型，以及可能导致这些错误的条件。</p>
+<p>所有修改注册表中数据的操作的一个共同特征是它们分配内存。最简单的例子是从内核池分配辅助缓冲区，通过ExAllocatePool组中的函数请求。如果在给定时间点可用内存非常少，其中一个分配请求可能返回STATUS_INSUFFICIENT_RESOURCES错误代码，该代码将传播回原始调用者。并且由于我们假设我们扮演本地攻击者的角色，能够在机器上执行代码，因此通过多种方式人为占用所有可用内存是可能的。所以这是一种在注册表上执行操作时触发错误的方法，但不可否认这不是理想的方法，因为它很大程度上取决于RAM量和最大页面文件大小。此外，在内核内存如此之少以至于单个分配开始失败的情况下，系统很可能在漏洞被成功利用之前在其他地方崩溃。最后，如果在短时间内附近的代码中请求了几个分配，似乎实际上不可能精确控制哪些会成功，哪些会失败。</p>
+<p>尽管如此，内存不足条件的整体概念是一个非常有利的攻击途径，特别是考虑到注册表除了使用内核池中的对象外，主要使用自己的分配器在内存映射的配置单元上操作。对于攻击者来说，情况更加有利，因为配置单元内两种存储类型（稳定和易失）各自有2 GiB的大小限制。虽然这是一个相对较大的值，但在当今的机器上，在一分钟内占用它是可以实现的。如果需要占用的是易失空间，情况甚至更容易，因为它仅存在于内存中，不会刷新到磁盘——因此填充两GB内存只需几秒钟。例如，可以通过创建许多长的注册表值来完成，这在处理受控配置单元时是一项简单的任务。然而，即使在系统配置单元中，这通常也是可行的。要在给定配置单元上执行数据喷洒，我们只需要一个授予我们写权限的键。例如，HKLM\Software和HKLM\System都包含许多允许系统中任何用户写入访问的键，有效地允许他们将其填满容量。此外，“全局注册表配额”机制（由内部函数CmpClaimGlobalQuota和CmpReleaseGlobalQuota实现）确保系统中注册表数据占用的总内存不超过4 GiB。除了填满特定配置单元的整个空间外，这是另一种在注册表中触发内存不足条件的方法，特别是在针对没有写权限的配置单元时。可以应用此机制来损坏HKLM\SAM系统配置单元的具体示例是<a href="https://github.com/googleprojectzero/p0tools/tree/master/WinRegLowSeverityBugs/Reports/15_Registry_quota_exhausted_SAM_corruption">CVE-2024-26181</a>漏洞。</p>
+<p>考虑到所有这些，一个合理的假设是本地攻击者可以使任何对ExAllocatePool*、HvAllocateCell和HvReallocateCell（长度大于现有单元）的调用失败。这打开了大量潜在的错误路径供分析。HvAllocateCell调用是一个特别有趣的分析起点，因为数量相当多，而且几乎都属于普通用户可访问的攻击面：</p>
+<p><img src="/images/18f714e2c693/893aa9a36bd3d5bcd4d23cb534fb0969.png" alt="一张截图显示了一个标题为“对HvAllocateCell的交叉引用”的调试器窗口。该窗口在“方向”、“类型”、“地址”和“文本”列下列出了许多函数及其内存地址。几乎所有条目都显示不同的系统函数正在调用HvAllocateCell。" loading="lazy"></p>
+<p>专注于分析错误路径可以是发现安全漏洞的好方法，主要有两个原因。首先，可以推断，在用户使用的常规计算机上，给定配置单元增长到2 GiB并耗尽空间，或者所有注册表数据同时占用4 GiB内存的情况极为罕见。这意味着这些代码路径在正常情况下几乎从未执行过，即使其中存在漏洞，它们被任何人注意到的机会也非常小。这种很少执行的代码路径对于安全研究人员来说总是一道真正的佳肴。</p>
+<p>第二个原因是，代码中正确的错误处理本身就很困难。许多操作涉及修改配置单元内部状态的多个步骤。如果这些操作中出现问题，注册表代码必须撤销所有更改并将注册表恢复到其原始状态（至少从宏观架构的角度来看）。这要求开发人员在实现每个错误路径时完全了解到目前为止应用的所有更改。此外，在控制流的初始设计期间也必须考虑适当的错误处理，因为一些注册表操作是不可逆的（例如，释放单元）。因此，代码必须结构化，使得所有此类操作都放在逻辑的最后，在那里错误不可能再发生，并且执行成功得到保证。</p>
+<p>此类漏洞的一个例子是<a href="https://project-zero.issues.chromium.org/issues/42451533">CVE-2023-23421</a>，它归结为以下代码：</p>
+<p>NTSTATUS CmpCommitRenameKeyUoW(_CM_KCB_UOW *uow) {<br>    // ...<br>    if (!CmpAddSubKeyEx(Hive, ParentKey, NewNameKey) ||<br>        !CmpRemoveSubKey(Hive, ParentKey, OldNameKey)) {<br>        CmpFreeKeyByCell(Hive, NewNameKey);<br>        return STATUS_INSUFFICIENT_RESOURCES;<br>    }<br>    // ...<br>}</p>
+<p>这里的问题是，如果CmpRemoveSubKey调用失败，相应的错误路径应该反转上一行中CmpAddSubKeyEx函数的效果，但实际上没有。结果，可能在子键列表中留下对已释放键的悬空引用，这是一个典型的释放后使用情况。</p>
+<p>此类漏洞的第二个有趣例子是<a href="https://project-zero.issues.chromium.org/issues/42451505">CVE-2023-21747</a>，其中在高度敏感的操作——配置单元卸载期间可能发生内存不足错误。由于在OOM时无法回滚状态，微软通过重构CmpRemoveSubKeyFromList函数和其他相关函数来修复该漏洞，使它们不再从内核池分配内存，因此不再存在物理上失败的可能性。</p>
+<p>最后，我将提到<a href="https://project-zero.issues.chromium.org/issues/42451600">CVE-2023-38154</a>，其中问题不是错误的错误处理，而是完全缺乏错误处理——HvpPerformLogFileRecovery函数的返回值被忽略，即使它确实有可能以错误结束。这是一种相当经典的漏洞类型，可能发生在任何编程语言中，但在审计Windows内核时绝对值得牢记。</p>
+<h3 id="容易错误处理部分成功">容易错误处理部分成功</h3><p>上一节讨论了错误处理中的漏洞，其中每个函数负责反转它已修改的状态。然而，有些函数不遵循这种操作模型。它们不是以“全有或全无”的方式操作，而是以尽力而为的方式工作，旨在完成给定任务的尽可能多的部分。如果发生错误，它们会保留所做的任何更改，例如，因为这个结果仍然比不做任何更改更可取。这为这类函数引入了第三种可能的输出状态：完全成功、部分成功和完全失败。</p>
+<p>这可能是有问题的，因为这种方法与NTSTATUS类型的典型用法不兼容，后者最适合传达两种（而不是三种）状态之一。理论上，它是一个32位整数类型，因此可以存储状态是部分成功的附加信息，而不是明确的正或负。然而，在实践中，约定是直接传播内部函数中遇到的最后一个错误，而外部函数很少“深入探究”特定的错误代码，而是假设如果NT_SUCCESS返回FALSE，则整个操作已失败。如果外部函数在内部函数部分成功的情况下应采取一些额外步骤，但由于对返回错误代码的二进制解释，最终没有执行它们，那么跨函数级别的这种混淆可能具有安全影响。</p>
+<p>此类漏洞的经典例子是<a href="https://project-zero.issues.chromium.org/issues/42451661">CVE-2024-26182</a>，它发生在CmpAddSubKeyEx（外部）和CmpAddSubKeyToList（内部）函数的交叉点。这里的问题是CmpAddSubKeyToList实现了复杂的、可能多步骤的逻辑来扩展子键列表，这可能执行单元重新分配，随后遇到OOM错误。另一方面，CmpAddSubKeyEx函数假设子键列表中的单元索引只有在CmpAddSubKeyToList完全成功时才应在配置单元结构中更新。结果，CmpAddSubKeyToList的部分成功可能导致经典的释放后使用情况。细心的读者可能会注意到CmpAddSubKeyToList例程的返回值类型是BOOL而不是NTSTATUS，但漏洞模式是相同的。</p>
+<h3 id="随时间引入的整体复杂性">随时间引入的整体复杂性</h3><p>现代注册表实现的最大问题之一是，在开发此功能的几十年中，引入了许多更改和新功能。这导致其内部状态的复杂性水平增加得如此之多，以至于似乎一个人难以掌握，除非他们是全职的注册表专家，并且已经全职工作了数月或数年。我个人认为注册表在其最优雅的形式下存在于Windows NT 3.1 – 3.51左右（即1993–1996年）。当时，该机制对于开发人员及其用户来说都是直观和合乎逻辑的。每个对象（键、值）要么存在要么不存在，每个操作要么成功要么失败，当在特定键上请求操作时，你可以确定它实际上是在该键上执行的。一切都很简单，非黑即白。然而，随着时间的推移，越来越多的灰色阴影被不断添加，偏离了基本假设：</p>
+<ul>
+<li><strong>预定义键的存在</strong>意味着不再能对每个键执行每个操作，因为这种特殊类型的键由于其改变的语义，对许多内部注册表函数来说使用是不安全的。</li>
+<li><strong>由于符号链接</strong>，打开特定键并不能保证它就是预期的键，因为它可能是原始键指向的不同键。</li>
+<li><strong>注册表虚拟化</strong>给键操作引入了进一步的不确定性。当在键上执行操作时，不清楚该操作是否实际在该特定键上执行，还是重定向到不同的键。类似地，对于读操作，客户端不能完全确定它正在从预期的键读取，因为数据可能来自不同的、虚拟化的位置。</li>
+<li><strong>注册表中的事务</strong>意味着给定状态不再仅仅在注册表的全局视图中考虑。在任何给定时刻，也可能存在仅在某个事务内可见的更改（当它们被启动但尚未提交时），并且内核必须正确处理这种复杂场景。</li>
+<li><strong>分层键</strong>改变了配置单元的性质，使它们相互依赖，而不是自包含的数据库单元。这是由于引入了差异配置单元，它们仅作为“补丁差异”存在，没有基础配置单元就无法独立存在。此外，某些对象及其字段的语义已被改变。以前，键的存在直接与配置单元内相应键节点的存在相关联。分层键破坏了这种依赖关系。现在，具有键节点的键如果标记为墓碑键，则可能不存在；而没有相应键节点的键如果其语义是Merge-Unbacked，引用较低层具有相同名称的键，则可能在逻辑上存在。</li>
+</ul>
+<p>当然，所有这些机制都是为了特定目的而设计和实现的：要么是为了让使用注册表API的开发人员/应用程序更轻松，要么是为了引入今天需要的一些新功能。问题不在于它们被添加，而在于注册表的初始设计似乎根本与它们不兼容，所以它们被强行塞入注册表，在它们不合适的地方，添加了一层额外的胶带以将所有东西粘在一起。这最终导致了需要在注册表内维护的内部状态的大规模扩展。这在旧结构（如KCB）大小的显著增加以及多年来添加的新对象的数量上都很明显。但最不幸的是，这些更高级的机制中的每一个似乎都是为了解决一个特定问题而设计的，假设它们将孤立运行。在典型条件下，它们很可能确实如此，但特别恶意的用户可能会开始组合这些不同的机制并使它们相互作用。鉴于在逻辑上确定其中一些组合的预期行为很困难，怀疑微软是否考虑了、记录了、实现了并测试了每一个这样的案例。</p>
+<p>注册表中各种高级机制之间的关系在下图中幽默地描绘出来：</p>
+<p><img src="/images/18f714e2c693/9127aa4c422f0bf1aa35285ff4ea2847.png" alt="一张来自《加勒比海盗》电影的图像显示了一场对峙，角色们用手枪互相指着。文本标签叠加在场景上，隐喻地将海盗行为与Windows注册表概念联系起来。这些概念包括预定义键、分层键、事务、符号链接和注册表虚拟化。" loading="lazy"></p>
+<p>这些机制之间不正确交互导致漏洞的一些例子包括<a href="https://project-zero.issues.chromium.org/issues/42451502">CVE-2023-21675</a>、<a href="https://project-zero.issues.chromium.org/issues/42451527">CVE-2023-21748</a>、<a href="https://project-zero.issues.chromium.org/issues/42451588">CVE-2023-35356</a>、<a href="https://project-zero.issues.chromium.org/issues/42451589">CVE-2023-35357</a>和<a href="https://project-zero.issues.chromium.org/issues/42451590">CVE-2023-35358</a>。</p>
+<h2 id="入口点">入口点</h2><p>本节描述了本地攻击者可以用来与注册表交互并利用任何潜在漏洞的入口点。</p>
+<h3 id="配置单元加载">配置单元加载</h3><p>让我们从加载用户控制的配置单元的操作开始。由于配置单元加载只能从磁盘进行（而不是例如从内存缓冲区），这意味着要实际触发此攻击面，进程必须能够创建内容受控的文件，或者至少是长度受控的几千字节的前缀。以中等完整性级别运行的常规程序通常具有此能力，但对于严格沙箱化的进程（例如浏览器中的渲染器进程），磁盘写访问可能受到限制。</p>
+<p>当涉及到可以通过这种方式触发的典型漏洞类型时，首先想到的是与二进制数据解析相关的问题，以及内存安全违规，例如越界缓冲区访问。也可能遇到更多逻辑类型的问题，但它们通常依赖于对格式的某些假设没有得到充分验证，导致后续对此类配置单元的操作遇到问题。找到一个仅通过加载配置单元即可触发和利用，而无需对其执行任何后续操作的漏洞是非常罕见的。但正如<a href="https://project-zero.issues.chromium.org/issues/42451731">CVE-2024-43452</a>所示，它有时仍然会发生。</p>
+<h4 id="应用程序配置单元">应用程序配置单元</h4><p>Windows Vista中引入的<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regloadappkeyw">应用程序配置单元</a>导致了注册表攻击面的重大转变。它允许非特权进程直接与以前仅系统服务和管理员可访问的内核代码交互。攻击者获得了对NtLoadKey系统调用逻辑的大部分访问权限，包括配置单元文件操作、二进制级别的配置单元解析、CmCheckRegistry函数及其子函数中的配置单元验证逻辑等。事实上，在我研究期间发现的53个严重漏洞中，有16个（约30%）要么需要将受控配置单元作为应用程序配置单元加载，要么使用此机制更容易触发。</p>
+<p>重要的是要记住，虽然应用程序配置单元确实为攻击者开辟了广泛的新可能性，但由于一些限制和特定行为，它们并不提供与加载普通（非应用程序）配置单元完全相同的功能：</p>
+<ul>
+<li>它们必须加载到特殊路径\Registry\A下，这意味着应用程序配置单元不能加载到注册表层次结构中的任何地方。这个特殊路径还受到完全限定路径引用的保护，这也降低了它们在某些攻击应用中的实用性。</li>
+<li>卸载应用程序配置单元的逻辑与卸载标准配置单元不同，因为当所有对配置单元的句柄都关闭时，该过程会自动发生，而不是通过<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regunloadkeyw">RegUnLoadKeyW</a> API或其相应的NtUnloadKey系列系统调用来手动卸载配置单元。</li>
+<li>对应用程序配置单元安全描述符的操作非常有限：任何对<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsetkeysecurity">RegSetKeySecurity</a>函数或带有非默认安全描述符的<a href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeyexw">RegCreateKeyExW</a>的调用都将失败，这意味着无法向此类配置单元添加新的描述符。</li>
+<li>KTM事务对应用程序配置单元无条件阻止。</li>
+</ul>
+<p>尽管有这些小的限制，加载任意配置单元的能力仍然是利用注册表漏洞时最有用的工具之一。即使严格来说不需要对配置单元的二进制控制，它仍然可能很有价值。这是因为它允许攻击者明确定义攻击发生的配置单元的初始状态。利用单元分配器的确定性，通常可以实现100%的利用成功率。</p>
+<h4 id="用户配置单元和强制用户配置文件">用户配置单元和强制用户配置文件</h4><p>有时，触发特定漏洞既需要对配置单元的二进制控制，又需要应用程序配置单元缺乏的某些功能，例如通过完整路径打开键的能力。在这种情况下，存在应用程序配置单元的替代方案，它可能稍微不太实用，但仍然允许利用这些要求更高的漏洞。它涉及直接修改分配给系统中每个用户的两个配置单元之一：用户配置单元（C:\Users\NTUSER.DAT挂载在\Registry\User&lt;SID&gt;下，换句话说，即HKCU）或用户类配置单元（C:\Users\AppData\Local\Microsoft\Windows\UsrClass.dat挂载在\Registry\User&lt;SID&gt;_Classes下）。自然，当这些配置单元被系统积极使用时，对其支持文件的访问被阻止，防止同时修改，这使事情变得相当复杂。然而，有两种方法可以规避这个问题。</p>
+<p>第一种场景涉及一个假设的攻击者，他在目标系统上有两个本地账户，或者类似地，两个不同的用户合作控制计算机（我们称他们为用户A和B）。用户A可以授予用户B完全修改其配置单元的权利，然后注销。用户B然后对配置单元进行所有必需的二进制更改，最后通知用户A可以重新登录。此时，配置文件服务代表该用户加载修改后的配置单元，实现了初始目标。</p>
+<p>第二种选择更实用，因为它不需要两个不同的用户。它滥用<a href="https://learn.microsoft.com/en-us/windows/win32/shell/mandatory-user-profiles">强制用户配置文件</a>，这是一个系统功能，如果存在，则优先使用用户目录中的NTUSER.MAN文件作为用户配置单元，而不是NTUSER.DAT文件（默认系统安装中不存在）。这意味着单个用户可以在其主目录下以NTUSER.MAN名称放置一个专门准备的配置单元，然后注销并重新登录。之后，NTUSER.MAN将成为用户的活动HKCU键，实现目标。然而，该技术也有一些缺点——它仅适用于用户配置单元（不适用于UsrClass.dat），并且有些嘈杂。一旦NTUSER.MAN文件被创建和加载，同一用户就无法删除它，因为它总是在登录时被系统加载，有效地阻止了对它的访问。</p>
+<p>涉及上述两种技术之一的几个漏洞例子是<a href="https://project-zero.issues.chromium.org/issues/42451502">CVE-2023-21675</a>、<a href="https://project-zero.issues.chromium.org/issues/42451588">CVE-2023-35356</a>和<a href="https://project-zero.issues.chromium.org/issues/42451640">CVE-2023-35633</a>。它们都要求在公开可访问的配置单元（如HKCU）中存在一种称为预定义键的特殊类型键。即使预定义键仍然受支持，也无法使用系统</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/API安全.html" class="tag-link">#API安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#安全特性" class="toc-link">
+              <span class="toc-text">安全特性</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#广泛的漏洞类别" class="toc-link">广泛的漏洞类别</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#手动引用计数" class="toc-link">手动引用计数</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#积极的自我修复和恢复" class="toc-link">积极的自我修复和恢复</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#硬性格式要求与常规格式要求之间的界限不明确" class="toc-link">硬性格式要求与常规格式要求之间的界限不明确</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#容易错误处理oom条件" class="toc-link">容易错误处理OOM条件</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#容易错误处理部分成功" class="toc-link">容易错误处理部分成功</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#随时间引入的整体复杂性" class="toc-link">随时间引入的整体复杂性</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#入口点" class="toc-link">
+              <span class="toc-text">入口点</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#配置单元加载" class="toc-link">配置单元加载</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#应用程序配置单元" class="toc-link">应用程序配置单元</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#用户配置单元和强制用户配置文件" class="toc-link">用户配置单元和强制用户配置文件</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

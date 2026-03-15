@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DER Entitlements：Psychic Paper的（短暂）回归 - BasicBit</title>
+  <meta name="description" content="DER Entitlements：Psychic Paper的（短暂）回归">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">DER Entitlements：Psychic Paper的（短暂）回归</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2023/1/12
+            </span>
+            <span class="meta-item">Ivan Fratric</span>
+            <span class="meta-item">网络安全, 移动安全, 攻击研究</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2023/01/der-entitlements-brief-return-of.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2023%2F01%2Fder-entitlements-brief-return-of.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Ivan Fratric，Project Zero</p>
+<p>注：本文讨论的漏洞 CVE-2022-42855 已在 iOS 15.7.2 和 macOS Monterey 12.6.2 中修复。虽然该漏洞在 iOS 16 和 macOS Ventura 上似乎不可利用，但 iOS 16.2 和 macOS Ventura 13.1 仍然发布了相关的加固更改。</p>
+<p>去年，我花了大量时间研究基于 <a href="https://en.wikipedia.org/wiki/XMPP">XMPP</a>（一种基于 XML 的即时消息协议）构建的应用程序的安全性。更具体地说，我的研究重点是 XML 解析中的细微差异如何被用来破坏此类应用程序的安全性。（如果您想了解更多关于该研究的信息，我在 Black Hat USA 2022 上就此做过演讲。幻灯片和录音可以在<a href="https://www.blackhat.com/us-22/briefings/schedule/index.html#xmpp-stanza-smuggling-or-how-i-hacked-zoom-26618">这里</a>和<a href="https://www.youtube.com/watch?v=ERaRNsvCBrw">这里</a>找到）。</p>
+<p>在某个时候，当我的一部分研究发表后，人们指出了其他（与 XMPP 无关的）例子，其中 XML 解析的差异导致了安全漏洞。其中一个例子是一个名为 <a href="https://blog.siguza.net/psychicpaper/">Psychic Paper</a> 的漏洞，这是 Apple 操作系统检查应用程序拥有哪些权限（entitlements）的方式中一个非常巧妙的漏洞。</p>
+<p>权限（entitlements）是 Apple 操作系统的核心安全概念之一。正如 <a href="https://developer.apple.com/documentation/bundleresources/entitlements?language=objc">Apple 文档</a>所解释的：“权限是一种权利或特权，授予可执行文件特定的能力。”例如，Apple 操作系统上的应用程序如果没有适当的权限，就无法调试另一个应用程序，即使这两个应用程序以同一用户身份运行。即使是作为 root 运行的应用程序，如果没有适当的权限，也无法执行所有操作（例如访问某些内核 API）。</p>
+<p>Psychic Paper 是权限检查方式中的一个漏洞。权限以 XML 格式存储在应用程序签名块（signature blob）中，因此操作系统自然需要在某个时刻使用 XML 解析器来解析它们。问题在于，操作系统并非使用单一的解析器，而是使用了多达四个不同的解析器，它们分别用在操作系统的不同位置。一个解析器用于初始检查，确保应用程序只拥有允许的权限，而另一个解析器则在稍后检查应用程序是否拥有执行特定操作的权限时使用。</p>
+<p>在我关于 XMPP 的演讲中，我给听众提出了一个挑战：找到两个不同的 XML 解析器，它们对于每个输入总是产生相同的输出。这之所以困难，是因为 XML 虽然旨在成为一种简单的格式，但实际上却一点也不简单。因此，当发现一种方法能让 Apple 的一个 XML 解析器返回一组权限，而另一个解析器在解析相同的权限块时看到另一组不同的权限时，这并不令人意外。</p>
+<p>Psychic Paper 漏洞的修复：最初，问题出现是因为 Apple 在操作系统中使用了四个 XML 解析器，所以令人惊讶的是，修复方法是添加第五个解析器。</p>
+<p>因此，在我的 XMPP 研究之后，当我了解到 Psychic Paper 漏洞时，我决定仔细研究这些 XML 解析器，看看我是否能在修复后以某种方式找到另一种触发该漏洞的方法。在尝试了各种 Apple XML 解析器之后，我有了一个想要测试的 XML 片段。然而，当我实际尝试在应用程序中使用它时，我发现检查权限的系统行为与我想象的完全不同。这是因为……</p>
+<h2 id="der-权限">DER 权限</h2><p>根据 <a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format">Apple 开发者文档</a>，“从 iOS 15、iPadOS 15、tvOS 15 和 watchOS 8 开始，系统会检查一种新的、更安全的签名格式，该格式使用可辨别编码规则（Distinguished Encoding Rules，DER）将权限嵌入到应用程序的签名中”。正如 <a href="https://developer.apple.com/documentation/technotes/tn3125-inside-code-signing-provisioning-profiles#The-future-is-DER">另一篇 Apple 文章</a>大胆宣称的那样，“未来属于 DER”。</p>
+<p>那么，什么是 DER？</p>
+<p>与之前基于文本的 XML 格式不同，<a href="https://en.wikipedia.org/wiki/X.690#DER_encoding">DER</a> 是一种二进制格式，也常用于数字证书。该格式在 <a href="https://www.itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf">X.690 标准</a>中规定。</p>
+<p>DER 遵循相对简单的类型-长度-数据编码规则。规范中的一张图说明了这一点：</p>
+<p><img src="/images/5d01d52839b5/2538ee5d32db8876751bbb6359c5907f.png" alt="" loading="lazy"></p>
+<p>标识符（Identifier）字段编码对象类型，可以是基本类型（例如字符串或布尔值），也可以是构造类型（包含其他对象的对象，例如数组/序列）。长度（Length）字段编码内容中的字节数。长度可以根据内容长度以不同方式编码（例如，如果内容小于 128 字节，则长度字段仅占用一个字节）。长度字段之后是内容本身。对于构造类型，内容也使用相同的编码规则进行编码。</p>
+<p><a href="https://developer.apple.com/documentation/technotes/tn3125-inside-code-signing-provisioning-profiles#The-future-is-DER">Apple 开发者文档中的一个示例</a>展示了 DER 编码的权限可能是什么样子：</p>
+<p>appl [ 16 ]</p>
+<p>INTEGER           :01</p>
+<p>cont [ 16 ]</p>
+<p>SEQUENCE</p>
+<p>UTF8STRING        :application-identifier</p>
+<p>UTF8STRING        :SKMME9E2Y8.com.example.apple-samplecode.ProfileExplainer</p>
+<p>SEQUENCE</p>
+<p>UTF8STRING        :com.apple.developer.team-identifier</p>
+<p>UTF8STRING        :SKMME9E2Y8</p>
+<p>SEQUENCE</p>
+<p>UTF8STRING        :get-task-allow</p>
+<p>BOOLEAN           :255</p>
+<p>SEQUENCE</p>
+<p>UTF8STRING        :keychain-access-groups</p>
+<p>SEQUENCE</p>
+<p>UTF8STRING        :SKMME9E2Y8.*</p>
+<p>UTF8STRING        :com.apple.token</p>
+<p>每个单独的权限都是一个包含两个元素的序列：一个键和一个值，例如 “get-task-allow”:boolean(true)。所有权限也是构造类型的一部分（在列表中表示为 “cont [ 16 ]”）。</p>
+<p>DER 旨在具有唯一的二进制表示形式，并且用 DER 替换 XML 很可能至少部分是为了防止诸如 Psychic Paper 之类的问题。但它是否一定能成功实现这一目标呢？</p>
+<h2 id="权限如何被检查">权限如何被检查</h2><p>要理解权限如何被检查，最好也从更宏观的角度来看，了解 Apple 操作系统在运行二进制文件之前（在某些情况下，运行期间）对其执行哪些安全/完整性检查。</p>
+<p>Apple 二进制文件中的完整性信息存储在一个称为 <a href="https://github.com/apple-oss-distributions/Security/blob/e4ea024c9bbd3bfda30ec6df270bfb4c7438d1a9/OSX/libsecurity_codesigning/lib/sigblob.h#L43">嵌入式签名块（Embedded Signature Blob）</a>的结构中。该结构是一个容器，包含在完整性检查中起作用的其它各种结构：数字签名本身，以及权限和一个称为代码目录（Code Directory）的重要结构。代码目录包含二进制文件中每一页（直到签名块）的哈希值，还包含其他信息，包括权限块的哈希值。代码目录的哈希值称为 cdHash，用于唯一标识二进制文件。例如，数字签名实际签名的就是 cdHash。由于代码目录包含权限块的哈希值，请注意对权限的任何更改都会导致 cdHash 不同。</p>
+<p>正如 Psychic Paper 分析文章中也指出的，二进制文件可能有几种签名方式：</p>
+<ul>
+<li>二进制文件的 cdHash 可能位于系统的信任缓存（Trust Cache）中，该缓存存储系统二进制文件的哈希值。</li>
+<li>二进制文件可能由 Apple App Store 签名。</li>
+<li>二进制文件可能由开发者签名，但在这种情况下，它必须引用由 Apple 签名的“供应配置文件（Provisioning Profile）”。</li>
+<li>仅在 macOS 上，二进制文件也可以是自签名的。</li>
+</ul>
+<p>我们主要对最后两种情况感兴趣，因为只有它们允许我们提供自定义权限。然而，在这些情况下，二进制文件拥有的任何权限必须是 Apple 创建的供应配置文件所允许的权限的子集（在“供应配置文件”情况下），或者权限必须仅包含操作系统白名单中的权限（在自签名情况下）。也就是说，除非存在像 Psychic Paper 这样的漏洞。</p>
+<p>文件完整性检查的一个入口点是 AppleMobileFileIntegrity 内核扩展中的 vnode_check_signature 函数。AppleMobileFileIntegrity 是完整性检查的内核组件，但还有一个用户空间守护进程：amfid，AppleMobileFileIntegrity 使用它来执行某些操作，如下文所述。</p>
+<p>我们不会分析 vnode_check_signature 的完整行为。但是，我将重点介绍最重要的操作以及与理解 DER 权限工作流程相关的操作：</p>
+<ul>
+<li><p>首先，vnode_check_signature 检索 DER 格式的权限。如果当前加载的二进制文件不包含 DER 权限，而只包含 XML 格式的权限，AppleMobileFileIntegrity 会调用 transmuteEntitlementsInDaemon，该函数使用 amfid 将权限从 XML 转换为 DER 格式。转换本身通过 CFPropertyListCreateWithData（将 XML 转换为 CFDictionary）和 CESerializeCFDictionary（将 CFDictionary 转换为 DER 表示）完成。</p>
+</li>
+<li><p>使用 CoreTrust 库通过调用 CTEvaluateAMFICodeSignatureCMS 来执行签名检查。这个过程最近在<a href="https://worthdoingbadly.com/coretrust/">另一篇漏洞分析文章</a>中有所记录，由于不直接涉及权限，这里不详细研究。</p>
+</li>
+<li><p>通过 verify_code_directory 函数在 amfid 中对签名和权限进行额外检查。稍后将深入分析此调用。关于此交互的一个有趣细节是，amfid 接收可执行文件的路径作为参数。为了防止在内核加载文件和 amfid 检查文件之间文件被更改的竞争条件，amfid 返回被检查文件的 cdHash。然后验证此 cdHash 是否与内核中文件的 cdHash 匹配。</p>
+</li>
+<li><p>检索供应配置文件信息，并检查二进制文件中的权限是否是供应配置文件中权限的子集。这是通过 CEContextIsSubset 函数完成的。此步骤似乎不存在于运行在 Intel CPU 上的 macOS 中，但即使在这种情况下，权限仍然会在 amfid 中检查，如下所示。</p>
+</li>
+</ul>
+<p>amfid 的 verify_code_directory 函数执行（除其他外）以下操作：</p>
+<ul>
+<li><p>解析二进制文件并提取完整性检查所需的所有相关信息。执行此操作的代码是开源 <a href="https://github.com/apple-oss-distributions/Security">Security</a> 库的一部分，这里两个最相关的类是 <a href="https://github.com/apple-oss-distributions/Security/blob/e4ea024c9bbd3bfda30ec6df270bfb4c7438d1a9/OSX/libsecurity_codesigning/lib/StaticCode.cpp">StaticCode</a> 和 <a href="https://github.com/apple-oss-distributions/Security/blob/e4ea024c9bbd3bfda30ec6df270bfb4c7438d1a9/OSX/libsecurity_codesigning/lib/SecStaticCode.cpp">SecStaticCode</a>。此代码还负责提取 DER 编码的权限。再次强调，如果只存在 XML 编码的权限，它们会被转换为 DER 格式。这再次通过 CFPropertyListCreateWithData 和 CESerializeCFDictionary 这对函数完成。此外，为了后续使用，权限也会被转换为 CFDictionary 表示。这种从 DER 到 CFDictionary 的转换是使用 CEManagedContextFromCFData 和 CEQueryContextToCFDictionary 函数对完成的。</p>
+</li>
+<li><p>检查签名是否签署了正确的 cdHash 并检查签名本身。数字签名证书链的检查实际上不是由 amfid 进程完成的。amfid 为此调用 trustd。</p>
+</li>
+<li><p>在 macOS 上，二进制文件中包含的权限被过滤为受限和非受限权限。在 macOS 上，非受限权限是 com.apple.application-identifier、com.apple.security.application-groups*、com.apple.private.signing-identifier 和 com.apple.security.*。如果二进制文件包含上述未列出的任何权限，则需要根据供应配置文件进行检查。此处的检查依赖于之前在 amfid 中提取的权限 CFDictionary。</p>
+</li>
+</ul>
+<p>之后，当二进制文件运行时，如果操作系统想要检查二进制文件是否包含执行特定操作的权限，它可以通过几种方式实现。执行此操作的“旧方法”是检索权限的字典表示，并查询字典中的特定键。然而，还有一种用于查询权限的新 API，调用者首先创建一个 CEQuery 对象，其中包含他们想要查询的权限键（以及可选的预期值），然后通过调用 CEQuery 对象作为参数的 CEContextQuery 函数来执行查询。例如，IOTaskHasEntitlement 函数（它接受一个权限名称并返回布尔值）就依赖于后一种 API。</p>
+<h2 id="libcoreentitlements">libCoreEntitlements</h2><p>您可能已经注意到，许多与 DER 权限交互的函数都以字母“CE”开头，例如 CEQueryContextToCFDictionary 或 CEContextQuery。在这里，CE 代表 libCoreEntitlements，这是一个专门为 DER 编码的权限创建的新库。libCoreEntitlements 同时存在于用户空间（作为 libCoreEntitlements.dylib）和操作系统内核中（作为 AppleMobileFileIntegrity 内核扩展的一部分）。因此，任何与解析 DER 权限格式相关的漏洞都将位于那里。</p>
+<p>“这里没有漏洞”，我在一次 Project Zero 团队会议上宣称。当时，我基于以下几点做出这一断言：</p>
+<ul>
+<li><p>只有一个用于解析 DER 权限的库，不像用于 XML 权限的四/五个库。虽然该库有两个版本，分别位于用户空间和内核中，但它们似乎是相同的。因此，不存在像 Psychic Paper 那样的解析差异漏洞的可能性。除此之外，二进制格式首先就不太容易受到此类问题的影响。</p>
+</li>
+<li><p>该库非常小。我既审查了该库是否存在内存损坏漏洞，也对其进行了模糊测试，但没有发现任何问题。</p>
+</li>
+</ul>
+<p>事实证明我完全错了（就像有人宣称代码没有错误时经常发生的那样）。但首先……</p>
+<h2 id="插曲-sha1-碰撞">插曲：SHA1 碰撞</h2><p>在我未能找到好的 libCoreEntitlements 漏洞后，我转向了其他想法。在研究 Apple 完整性检查时，我注意到 SHA1 仍然作为代码目录 / cdHash 的有效哈希类型被支持。由于实用的 SHA1 碰撞攻击已经为人所知一段时间了，我想看看是否可以通过某种方式应用它们来破坏权限检查。</p>
+<p>应该注意的是，有两种 SHA1 碰撞攻击：</p>
+<ul>
+<li><p>相同前缀攻击（Identical prefix attacks），攻击者从一个共同的文件前缀开始，然后构造碰撞块，使得 SHA1(前缀 + 碰撞块1) == SHA1(前缀 + 碰撞块2)。</p>
+</li>
+<li><p>选择前缀攻击（Chosen prefix attacks），攻击者从两个由攻击者选择的不同前缀开始，并构造碰撞块，使得 SHA1(前缀1 + 碰撞块1) == SHA1(前缀2 + 碰撞块2)。</p>
+</li>
+</ul>
+<p>虽然这两种攻击目前对 SHA1 都是实用的，但第一种类型的成本明显低于第二种。根据 2020 年的论文 <a href="https://eprint.iacr.org/2020/014.pdf">SHA-1 is a Shambles</a>，作者报告“相同前缀碰撞的成本为 1.1 万美元，选择前缀碰撞的成本为 4.5 万美元”。所以我想看看是否可以对 DER 权限进行相同前缀攻击。特别感谢 Ange Albertini 让我了解了 SHA1 碰撞攻击的最新情况。</p>
+<p>我的总体思路是：</p>
+<ul>
+<li>构造两组具有相同 SHA1 哈希值的权限</li>
+<li>由于权限将具有相同的 SHA1 哈希值，只要相应的代码目录使用 SHA1 作为哈希算法，相应二进制文件的 cdHash 也将相同。</li>
+<li>利用竞争条件，在内核打开文件和 amfid 打开文件之间切换二进制文件</li>
+<li>如果一切顺利，amfid 将看到一组权限，而内核看到另一组权限，同时认为二进制文件没有更改。</li>
+</ul>
+<p>为了构造相同前缀碰撞，我的计划是让一个权限文件包含一个长字符串。该字符串将声明一个 16 位的大小，并且相同前缀将在存储字符串长度的位置结束。这样，当找到碰撞时，两个文件中字符串的长度将不同。长度之后将是更多的碰撞数据（垃圾），但这将被视为字符串内容，并且文件的解析仍将成功。由于两个文件中字符串的长度不同，解析将从两个文件中的不同位置继续。这个想法如下图所示。</p>
+<p><img src="/images/5d01d52839b5/bb17bebb1a2705f13fa76fab8f289101.png" alt="" loading="lazy"></p>
+<p>针对 DER 权限利用相同前缀 SHA1 碰撞的（失败）想法。文件的蓝色部分相同，而绿色和红色部分代表（不同的）碰撞块。</p>
+<p>但它不会起作用。</p>
+<p>它不起作用的原因是 DER 中的每个对象，包括包含其他对象的对象，都有一个大小。再次感谢 Ange Albertini，他立即指出这将是一个问题。</p>
+<p>由于每个单独的权限都存储在一个单独的序列对象中，通过我们的碰撞，我们可以更改序列对象内字符串的长度（例如某个权限的值），但不能更改序列对象本身的长度。根据解析器的实现方式，序列长度与序列内内容长度不匹配可能导致解析失败。或者，如果解析器更宽松，解析会成功，但会在当前序列结束后继续解析，因此碰撞不会导致在两个不同文件中看到不同的权限。</p>
+<p>除非序列长度被完全忽略。</p>
+<p>所以我再次查看了该库，特别是序列长度在库的不同部分是如何处理的，那时我发现了实际的漏洞。</p>
+<h2 id="实际漏洞">实际漏洞</h2><p>libCoreEntitlements 并未在单一位置实现遍历 DER 权限。相反，遍历在（至少）三个不同的地方实现：</p>
+<ul>
+<li><p>在 recursivelyValidateEntitlements 内部，从 CEValidate 调用，用于在加载之前验证权限（例如，CEValidate 从之前提到的 CEManagedContextFromCFData 调用）。除其他外，CEValidate 确保权限按字母顺序排列且没有重复权限。</p>
+</li>
+<li><p>der_vm_iterate，在将权限转换为字典时使用（CEQueryContextToCFDictionary），也在 CEContextIsSubset 中使用。</p>
+</li>
+<li><p>der_vm_execute_nocopy，在使用 CEContextQuery API 查询权限时使用。</p>
+</li>
+</ul>
+<p>实际的漏洞在于这些遍历算法的行为略有不同，特别是在处理权限序列长度方面。der_vm_iterate 行为正确，在处理单个键/值序列后，继续处理序列结束之后的位置（如序列长度所示）。然而，recursivelyValidateEntitlements 和 der_vm_execute_nocopy 完全忽略了序列长度（除了初始检查它是否在权限块的边界内），并且在处理单个权限（键/值序列）后，会在值结束后继续处理。这种遍历权限的差异如下图所示。</p>
+<p><img src="/images/5d01d52839b5/ad4e34ffe841d1f2eb8f8d1fae56303b.png" alt="" loading="lazy"></p>
+<p>说明 libCoreEntitlements 内不同算法如何遍历相同的 DER 结构。der_vm_iterate 显示为左侧的绿色箭头，而 der_vm_execute 显示为右侧的红色箭头。文件的红色部分代表一个“隐藏”权限，仅对第二种算法可见。</p>
+<p>这允许通过将权限嵌入为其他权限的子项来隐藏权限，如下所示。这样的权限将对 CEValidate 和 CEContextQuery 可见，但对 CEQueryContextToCFDictionary 和 CEContextIsSubset 隐藏。</p>
+<p>SEQUENCE</p>
+<p>UTF8STRING        :application-identifier</p>
+<p>UTF8STRING        :testapp</p>
+<p>SEQUENCE</p>
+<p>UTF8STRING        :com.apple.private.foo</p>
+<p>UTF8STRING        :bar</p>
+<p>SEQUENCE</p>
+<p>UTF8STRING        :get-task-allow</p>
+<p>BOOLEAN           :255</p>
+<p>幸运的是（对于攻击者而言），用于检查二进制文件中所有权限是否是供应配置文件中权限子集的函数不会看到这些隐藏的权限，这些权限只会在内核使用 CEContextQuery API 查询特定权限是否存在时出现。</p>
+<p>由于 CEValidate 也会看到“隐藏”权限，这些权限需要与“正常”权限一起按字母顺序排列。然而，因为通常允许的权限（如 iOS 上的 application-identifier 和 macOS 上的 com.apple.application-identifier）在字母顺序中出现得相当早，这一要求并不会对利用构成障碍。</p>
+<h2 id="利用">利用</h2><p>为了尝试利用这些问题，需要一些工具。首先，需要工具来创建精心设计的 DER 权限。为此，我创建了一个名为 <a href="https://bugs.chromium.org/p/project-zero/issues/attachmentText?aid=575126">createder.cpp</a> 的小实用程序，可以这样使用：</p>
+<p>./createder entitlements.der com.apple.application-identifier=testapp -- com.apple.private.security.kext-collection-management</p>
+<p>其中 entitlements.der 是输出的 DER 编码权限文件，“--”之前的权限是“正常”权限，“--”之后的是隐藏权限。</p>
+<p>接下来，我需要一种方法将这种精心设计的权限嵌入到签名块中。通常，用于对二进制文件签名的是 Apple 的 codesign 实用程序。然而，该实用程序只接受 XML 权限作为输入，用户无法提供 DER 块。在某个时刻，codesign 将用户提供的 XML 转换为 DER，并将两者嵌入到生成的二进制文件中。</p>
+<p>我认为嵌入自定义 DER 到二进制文件中最简单的方法是修改 codesign 的行为，特别是 XML 到 DER 的转换过程。为此，我使用了 <a href="https://github.com/googleprojectzero/TinyInst">TinyInst</a>，这是一个我与贡献者共同开发的动态插桩库。TinyInst 目前支持 macOS 和 Windows。</p>
+<p>为了嵌入自定义 DER，我挂钩了 libCoreEntitlements 中用于 XML 到 DER 转换的两个函数：CESizeSerialization 和 CESerialize（在 macOS 13 / iOS 16 上是 CESerializeWithOptions）。第一个计算 DER 的大小，第二个输出 DER 字节。</p>
+<p>最初，我使用 TinyInst 的通用低级插桩 API 编写了这些钩子。然而，由于这个过程比必要的更繁琐，在此期间我创建了一个专门用于函数挂钩的 API。因此，与其链接到我随漏洞报告发送给 Apple 的初始实现，不如让我展示如何使用新的 <a href="https://github.com/googleprojectzero/TinyInst/blob/master/hook.md">TinyInst Hook API</a> 来实现这些钩子：</p>
+<p>cehook.h</p>
+<p>#include &quot;hook.h&quot;</p>
+<p>class CESizeSerializationHook : public HookReplace {<br>public:<br>    CESizeSerializationHook() : HookReplace(&quot;libCoreEntitlements.dylib&quot;,<br>                                            &quot;_CESizeSerialization&quot;, 3) {}<br>protected:<br>    void OnFunctionEntered() override;<br>};</p>
+<p>class CESerializeWithOptionsHook : public HookReplace {<br>public:<br>    CESerializeWithOptionsHook() : HookReplace(&quot;libCoreEntitlements.dylib&quot;,<br>                                               &quot;_CESerializeWithOptions&quot;, 6) {}<br>protected:<br>    void OnFunctionEntered() override;<br>};</p>
+<p>// 主客户端<br>class CEInst : public TinyInst {<br>public:<br>    CEInst();<br>protected:<br>    void OnModuleLoaded(void* module, char* module_name) override;<br>};</p>
+<p>cehook.cpp</p>
+<p>#include &quot;cehook.h&quot;<br>#include <fstream></p>
+<p>char *der;<br>size_t der_size;<br>size_t kCENoError;</p>
+<p>// 将 entitlements.der 读入缓冲区<br>void ReadEntitlementsFile() {<br>    std::ifstream file(&quot;entitlements.der&quot;, std::ios::binary | std::ios::ate);<br>    if(file.fail()) {<br>        FATAL(&quot;Error reading entitlements file&quot;);<br>    }<br>    der_size = (size_t)file.tellg();<br>    file.seekg(0, std::ios::beg);<br>    der = (char *)malloc(der_size);<br>    file.read(der, der_size);<br>}</p>
+<p>void CESizeSerializationHook::OnFunctionEntered() {<br>    // 第3个参数（输出）是指向大小的指针<br>    printf(&quot;In CESizeSerialization\n&quot;);<br>    size_t out_addr = GetArg(2);<br>    RemoteWrite((void*)out_addr, &amp;der_size, sizeof(der_size));<br>    SetReturnValue(kCENoError);<br>}</p>
+<p>void CESerializeWithOptionsHook::OnFunctionEntered() {<br>    // 第5个参数指向输出缓冲区<br>    printf(&quot;In CESerializeWithOptions\n&quot;);<br>    size_t out_addr = GetArg(4);<br>    RemoteWrite((void*)out_addr, der, der_size);<br>    SetReturnValue(kCENoError);<br>}</p>
+<p>CEInst::CEInst() {<br>    ReadEntitlementsFile();<br>    RegisterHook(new CESizeSerializationHook());<br>    RegisterHook(new CESerializeWithOptionsHook());<br>}</p>
+<p>void CEInst::OnModuleLoaded(void* module, char* module_name) {<br>    if(!strcmp(module_name, &quot;libCoreEntitlements.dylib&quot;)) {<br>        // 我们必须获取 kCENoError 的值，<br>        // 这是 libCoreEntitlements 在没有错误时的返回值<br>        size_t kCENoError_addr =<br>            (size_t)GetSymbolAddress(module, (char*)&quot;_kCENoError&quot;);<br>        if (!kCENoError_addr) FATAL(&quot;Error resolving symbol&quot;);<br>        RemoteRead((void *)kCENoError_addr, &amp;kCENoError, sizeof(kCENoError));<br>    }<br>    TinyInst::OnModuleLoaded(module, module_name);<br>}</p>
+<p>HookReplace（我们两个钩子的基类）是一个辅助类，用于用钩子完全替换函数实现。CESizeSerializationHook::OnFunctionEntered() 和 CESerializeWithOptionsHook::OnFunctionEntered() 是钩子的主体。需要额外的代码来读取替换的权限 DER，并检索 kCENoError 的值，这是 libCoreEntitlements 函数成功时返回的值，我们必须从我们的钩子版本中返回它。请注意，在 macOS Monterey 上，CESerializeWithOptions 应替换为 CESerialize，并且第3个参数将是输出地址，而不是第4个。</p>
+<p>这样，我就可以使用 entitlements.der 文件中提供的 DER 来签署二进制文件。</p>
+<p>现在，工具就绪后，问题变成了如何利用它。或者更确切地说，针对哪个权限。为了利用这个问题，我们需要找到一个最终使用 CEContextQuery API 进行的权限检查。不幸的是，这排除了大多数用户空间守护进程——我查看的所有守护进程仍然以“旧方式”进行权限检查，即首先获取权限的字典表示。这就“只剩下”操作系统内核进行的权限检查。</p>
+<p>幸运的是，内核中的许多检查都是使用易受攻击的 API 进行的。其中一些检查由 AppleMobileFileIntegrity 自身使用 OSEntitlements::queryEntitlementsFor、AppleMobileFileIntegrity::AMFIEntitlementGetBool 或 proc_has_entitlement 等函数执行。但还有其他 API。例如，根据 macOS Monterey 内核缓存，在内核中超过一百个地方使用的 IOTaskHasEntitlement 和 IOCurrentTaskHasEntitlement 函数最终会调用 CEContextQuery（首先调用 amfi-&gt;OSEntitlements_query()）。</p>
+<p>另一个可能易受攻击的 API 是 IOUserClient::copyClientEntitlement，但仅限于 Apple silicon，其中 pmap_cs_enabled() 为 true。虽然我没有测试过，但<a href="https://github.com/apple-oss-distributions/xnu/blob/e7776783b89a353188416a9a346c6cdb4928faad/iokit/Kernel/IOUserClient.cpp#L1480">有一些迹象表明</a>在这种情况下使用了 CEContextQuery API 或类似的东西。IOUserClient::copyClientEntitlement 最显著地被设备驱动程序用来检查权限。</p>
+<p>我尝试在 macOS 和 iOS 上利用这个问题。在 macOS 上，我发现了可以利用这种权限绕过来解锁以前无法触及的攻击面的地方，但没有什么能立即提供独立的漏洞利用。最后，为了在寻找更好的原语时报告一些东西，我<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2376">报告</a>说我能够调用 kext_request API（内核扩展 API）的功能，而我通常不应该能够这样做，即使作为 root 用户。当时，我在 macOS Monterey 版本 12.6 和 12.6.1 上进行了测试。</p>
+<p>在 iOS 上，利用这样的问题可能更有趣，因为它可以作为越狱的一部分。我尝试了 iOS 16.1，但我尝试的所有方法似乎都不起作用，但由于 iOS 平台缺乏内省能力，我当时无法弄清楚原因。</p>
+<p>直到我收到 Apple 对我 macOS 报告的回复，询问我是否可以在 macOS Ventura 上复现。macOS Ventura 就在我向 Apple 发送报告的那一周发布，我不愿意在 macOS Monterey 上有一个正常工作的设置时升级到新的主要版本。但确实，当我升级到 Ventura，并确保我的工具仍然工作后，DER 问题不再复现。这可能也是我所有 iOS 实验都不成功的原因：iOS 16 与 macOS Ventura 共享代码库。</p>
+<p>似乎这个问题是由于重构而修复的，而不是作为安全问题修复的（如果是安全问题，macOS Monterey 也会更新，因为 Apple 不仅为最新主要版本的 macOS 发布安全补丁，也为前两个版本发布）。查看代码，libCoreEntitlements 用于进行低级 DER 解析的 API 似乎发生了一些变化——在 macOS Monterey 上，libCoreEntitlements 主要使用 ccder_decode* 函数与 DER 交互，而在 macOS Ventura 上，更常使用 ccder_blob_decode* 函数。后者还将父 DER 结构作为输入，因此使分层 DER 结构的处理更不容易出错。由于这一变化，der_vm_execute_nocopy 在当前键/值序列结束后继续处理下一个键/值序列（这是预期行为），而不是像以前那样在值对象结束后继续处理。此时，由于我无法在最新的操作系统版本上复现该问题，我不再有动力编写漏洞利用程序，并停止了努力，以便专注于其他项目。</p>
+<p>Apple 于 2022 年 12 月 13 日将该问题列为 CVE-2022-42855。虽然 Apple 将该 CVE 应用于其所有受支持版本的操作系统，包括 macOS Ventura 和 iOS 16，但在这些最新的操作系统版本上，补丁似乎作为一个额外的验证步骤。具体来说，在 macOS Ventura 上，补丁应用于函数 der_decode_key_value，并确保键/值序列除了键和值之外不包含其他元素（换句话说，它确保序列的长度与键 + 值对象的长度匹配）。</p>
+<h2 id="结论">结论</h2><p>很难声称某个特定的代码库没有漏洞。虽然对于特定类型的漏洞来说可能是可能的，但预测复杂代码库可能具有的所有类型的漏洞是困难的，甚至可能是不可能的。毕竟，你无法推理你不知道的东西。</p>
+<p>虽然 DER 编码在解析逻辑问题方面无疑是比 XML 更安全的选择，但这篇博文表明，即使使用 DER 格式，此类问题仍然可能发生。</p>
+<p>那么 SHA1 碰撞呢？虽然相同前缀攻击不应该对 DER 起作用，但这是否仍然留下了选择前缀攻击的可能性？也许吧，但这是以后要探索的事情。或者也许（希望）Apple 会移除其签名块中的 SHA1 支持，那样就没什么可探索的了。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/物联网安全.html" class="tag-link">#物联网安全</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/macOS安全.html" class="tag-link">#macOS安全</a> <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a> <a href="/tag/攻击研究.html" class="tag-link">#攻击研究</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#der-权限" class="toc-link">
+              <span class="toc-text">DER 权限</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#权限如何被检查" class="toc-link">
+              <span class="toc-text">权限如何被检查</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#libcoreentitlements" class="toc-link">
+              <span class="toc-text">libCoreEntitlements</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#插曲-sha1-碰撞" class="toc-link">
+              <span class="toc-text">插曲：SHA1 碰撞</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#实际漏洞" class="toc-link">
+              <span class="toc-text">实际漏洞</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#利用" class="toc-link">
+              <span class="toc-text">利用</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

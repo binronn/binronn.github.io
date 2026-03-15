@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>与时间赛跑——命中微小的内核竞争窗口 - BasicBit</title>
+  <meta name="description" content="与时间赛跑——命中微小的内核竞争窗口">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">与时间赛跑——命中微小的内核竞争窗口</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/3/24
+            </span>
+            <span class="meta-item">Jann Horn</span>
+            <span class="meta-item">移动安全, 网络安全, 防御研究</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/03/racing-against-clock-hitting-tiny.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F03%2Fracing-against-clock-hitting-tiny.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>TL;DR：</p>
+<p>如何在未启用 CONFIG_PREEMPT 的内核上，将一个微小的内核竞争窗口变得非常大：</p>
+<ul>
+<li>利用缓存未命中（cache miss）稍微扩大竞争窗口</li>
+<li>在该窗口内让一个 timerfd 到期（这将在中断处理程序中运行——即硬中断上下文）</li>
+<li>确保 timerfd 触发的唤醒必须遍历由 epoll 创建的 50000 个等待队列项</li>
+</ul>
+<p>让一个线程与定时器竞争，也避免了在每次竞争尝试中累积来自两个线程的时序变化——因此有了这个标题。另一方面，这也意味着你现在必须处理硬件定时器实际如何工作的问题，这本身就会引入奇怪的时序变化。</p>
+<h1 id="引言">引言</h1><p>我最近在 Linux 内核中发现了一个竞争条件（<a href="https://crbug.com/project-zero/2247">https://crbug.com/project-zero/2247</a>）。（当时我正在向某人解释 <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=cbcf01128d0a92e131bd09f1688fe032480b65ca">CVE-2021-0920 的修复</a> 是如何工作的——我解释了为什么 Unix GC 现在是安全的，然后感到困惑，因为我实际上无法弄清楚为什么修复后它就安全了，最终意识到它实际上并不安全。）这是一个相当狭窄的竞争窗口，所以我很好奇是否可以用少量尝试就命中它——尤其是在没有启用 CONFIG_PREEMPT 的内核上，这会使一个线程被另一个线程抢占成为可能，<a href="https://static.sched.com/hosted_files/lsseu2019/04/LSSEU2019%20-%20Exploiting%20race%20conditions%20on%20Linux.pdf#page=12">正如我在 LSSEU2019 上描述的那样</a>。</p>
+<p>这篇文章记录了我如何在普通的 Linux 桌面内核上成功命中这个竞争，如果概念验证（PoC）针对特定机器进行了调优，命中率大约在 30% 左右。不过我没有进行完整的漏洞利用，我在获取释放后使用（UAF）访问的证据后就停止了（借助一个非常大的文件描述符表和 <a href="https://lwn.net/Articles/819834/">userfaultfd</a>，普通用户可能无法使用，具体取决于系统配置），因为这是我好奇的部分。</p>
+<p>这也表明，如果有人投入足够的时间来编写漏洞利用程序，即使是非常小的竞争条件仍然可能是可利用的，所以如果你将非常小的竞争窗口视为不可利用或不将此类问题视为安全漏洞，请小心。</p>
+<p>UAF 复现程序 <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2247#c6">在我们的 bugtracker 中</a>。</p>
+<h1 id="漏洞">漏洞</h1><p>在 Unix 域套接字垃圾回收代码中（用于处理使用 SCM_RIGHTS 文件描述符传递形成的 Unix 域套接字的引用循环），内核试图通过比较文件的引用计数与正在传输的 SKB（套接字缓冲区）中的引用数，来判断它是否可以统计到某个文件的所有引用。如果它们相等，它就假设 Unix 域套接字子系统有效地拥有对该文件的独占访问权，因为它拥有所有引用。</p>
+<p>（相同的模式也出现在文件中，作为 __fdget_pos() 中的一种优化，参见 <a href="https://lore.kernel.org/lkml/CAG48ez1pnatAB095dnbrn9LbuQe4+ENwh-WEW36pM40ozhpruw@mail.gmail.com/">这个 LKML 线程</a>。）</p>
+<p>问题是 struct file 也可以从 RCU 读端临界区引用（你无法通过查看引用计数来检测到），并且只要引用计数非零，__fget_files() 就可以通过 get_file_rcu() / get_file_rcu_many() 将这样的 RCU 引用升级为引用计数引用。例如，当这种情况发生在 dup() 系统调用中时，生成的引用随后将被安装到 FD 表中，并可供后续系统调用使用。</p>
+<p>当垃圾收集器（GC）认为它对一个文件拥有独占访问权时，它将在该文件上执行违反正常套接字相关系统调用（如 recvmsg()）中使用的锁定规则的操作——unix_stream_read_generic() 假设排队的 SKB 只能在 -&gt;iolock 互斥锁下被移除，但 GC 在没有使用该互斥锁的情况下移除了排队的 SKB。（感谢 Xingyu Jin 向我解释这一点。）</p>
+<p>看待这个漏洞的一种方式是，GC 工作正常——这里是一个状态图，显示了 struct file 的一些可能状态，更具体的状态嵌套在不太具体的状态之下，并标记了 GC 中的状态转换：</p>
+<p><img src="/images/8ed773255812/ad5976cb6a7f494c16c88eaa30b29483.png" alt="所有相关状态都是 RCU 可访问的。一个 RCU 可访问的对象可以具有零引用计数或正引用计数。具有正引用计数的对象可以是存活的（live）或由垃圾收集器拥有。当 GC 尝试获取一个文件时，它通过获得对文件所有引用的独占所有权，从状态“存活”转换到状态“由 GC 拥有”。" loading="lazy"></p>
+<p>而 __fget_files() 在试图缩小 struct file 的可能状态时，对其状态做出了错误的假设——它检查 get_file_rcu() / get_file_rcu_many() 是否成功，这在一定程度上缩小了文件的状态，但还不够：</p>
+<p><img src="/images/8ed773255812/8695f3905e6fcc27754e8f0f894622e8.png" alt="__fget_files() 首先使用 get_file_rcu() 有条件地将文件的状态从“任何 RCU 可访问状态”缩小到“任何引用计数状态”。然后它必须将状态从“任何引用计数状态”缩小到“存活”，但它只是假设它们是等价的。" loading="lazy"></p>
+<p>这直接导致了 <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=054aa8d439b9185d4f5eb9a90282d1ce74772969">漏洞是如何被修复的</a>（还有 <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e386dfc56f837da66d00a078e5314bc8382fab83">另一个后续补丁</a>，但那个补丁只是试图澄清代码并挽回一些由此产生的性能损失）——修复在 __fget_files() 中添加了另一个检查，以正确缩小文件的状态，从而保证文件是存活的：</p>
+<p><img src="/images/8ed773255812/cf1ce54be02f96cf1b65c8126ae866ca.png" alt="修复方法是通过检查文件是否仍被文件描述符表项引用，来正确地将状态从“任何引用计数状态”缩小到“存活”。" loading="lazy"></p>
+<p>该修复通过与 FD 表项进行比较，确保只能从另一个存活引用派生出存活引用，FD 表项保证指向一个存活对象。</p>
+<p>[旁注：这个方案类似于用于 struct page 的方案——gup_pte_range() 也使用“获取指针，增加引用计数，重新检查指针”的模式，用于从页表项中无锁地查找 struct page，同时确保在没有持有现有引用的情况下无法创建新的引用计数引用。这对于 struct page 来说非常重要，因为当 gup_pte_range() 持有对它的未计数引用时，页面可以被归还给页面分配器并重用——释放的页面仍然有它们的 struct page，因此不需要延迟页面的释放——所以如果这出了问题，你会得到一个页面 UAF。]</p>
+<p>我最初的建议是通过改变 unix_gc() 确保独占访问的方式来解决这个问题，让它将文件的引用计数设置为零，以防止将 RCU 引用转换为引用计数引用；这样可以避免在热路径 __fget_files() 中添加任何代码，但它只会修复 unix_gc()，而不是我后来发现的 __fdget_pos() 情况，所以很可能这不是修复方式是一件好事：</p>
+<p><img src="/images/8ed773255812/4464a77db20f1c6f192befee6f2d067b.png" alt="" loading="lazy"></p>
+<p>[旁注：在我最初的漏洞报告中，我写道你必须在 GC 中等待一个 RCU 宽限期，但只要 GC 确保被回收的套接字的引用计数永远不会再次变为非零，这就不必要了。]</p>
+<h1 id="竞争">竞争</h1><p>利用这个漏洞涉及多个竞争条件，但到目前为止最难命中的一点是，我们必须在 __fget_files() 中间的小竞争窗口内（例如可以通过 dup() 到达）进行竞争操作，这个窗口位于文件描述符表查找和引用计数增加之间：</p>
+<pre><code class="language-c">static struct file *__fget_files(struct files_struct *files, unsigned int fd,
+                                 fmode_t mask, unsigned int refs)
+{
+        struct file *file;
+
+        rcu_read_lock();
+loop:
+        file = files_lookup_fd_rcu(files, fd); // 竞争窗口开始
+        if (file) {
+                /* File object ref couldn&#39;t be taken.
+                 * dup2() atomicity guarantee is the reason
+                 * we loop to catch the new file (or NULL pointer)
+                 */
+                if (file-&gt;f_mode &amp; mask)
+                        file = NULL;
+                else if (!get_file_rcu_many(file, refs)) // 竞争窗口结束
+                        goto loop;
+        }
+        rcu_read_unlock();
+        return file;
+}
+</code></pre>
+<p>在这个竞争窗口中，文件描述符必须被关闭（以释放 FD 对文件的引用），并且 unix_gc() 运行必须通过检查文件引用计数的点（&quot;total_refs = file_count(u-&gt;sk.sk_socket-&gt;file)&quot;）。</p>
+<p>在版本为 5.10.70-1 的 Debian 5.10.0-9-amd64 内核中，该竞争窗口如下所示：</p>
+<pre><code>&lt;__fget_files+0x1e&gt; cmp    r10,rax
+&lt;__fget_files+0x21&gt; sbb    rax,rax
+&lt;__fget_files+0x24&gt; mov    rdx,QWORD PTR [r11+0x8]
+&lt;__fget_files+0x28&gt; and    eax,r8d
+&lt;__fget_files+0x2b&gt; lea    rax,[rdx+rax*8]
+&lt;__fget_files+0x2f&gt; mov    r12,QWORD PTR [rax] ; 竞争窗口开始
+; r12 现在包含 file*
+&lt;__fget_files+0x32&gt; test   r12,r12
+&lt;__fget_files+0x35&gt; je     ffffffff812e3df7 &lt;__fget_files+0x77&gt;
+&lt;__fget_files+0x37&gt; mov    eax,r9d
+&lt;__fget_files+0x3a&gt; and    eax,DWORD PTR [r12+0x44] ; 加载（用于 -&gt;f_mode）
+&lt;__fget_files+0x3f&gt; jne    ffffffff812e3df7 &lt;__fget_files+0x77&gt;
+&lt;__fget_files+0x41&gt; mov    rax,QWORD PTR [r12+0x38] ; 加载（用于 -&gt;f_count）
+&lt;__fget_files+0x46&gt; lea    rdx,[r12+0x38]
+&lt;__fget_files+0x4b&gt; test   rax,rax
+&lt;__fget_files+0x4e&gt; je     ffffffff812e3def &lt;__fget_files+0x6f&gt;
+&lt;__fget_files+0x50&gt; lea    rcx,[rsi+rax*1]
+&lt;__fget_files+0x54&gt; lock cmpxchg QWORD PTR [rdx],rcx ; 竞争窗口结束（在 cmpxchg 成功时）
+</code></pre>
+<p>如你所见，竞争窗口相当小——大约 12 条指令，假设 cmpxchg 成功。</p>
+<h1 id="缺失一些缓存">缺失一些缓存</h1><p>幸运的是，竞争窗口包含了对 struct file 的前几次内存访问；因此，通过确保 struct file 不存在于最快的 CPU 缓存中，我们可以通过内存访问所需的时间来扩大竞争窗口。标准的方法是使用驱逐模式 / <a href="https://www.cs.columbia.edu/~simha/spyjs.ccs15.pdf">驱逐集</a>；但我们也可以让缓存行在另一个核心上变脏（详见 <a href="https://dreamsofastone.blogspot.com/2016/02/row-hammer-java-script-and-mesi.html">Anders Fogh 的博客文章</a>）。（实际上我不确定这在不同制造商的 CPU 核心或不同 CPU 世代上会增加多少延迟的复杂性——我只在 Intel Skylake 和 Tiger Lake 上测试了我的概念验证的不同版本。缓存一致性协议或侦听的差异可能会产生很大影响。）</p>
+<p>对于包含 struct file 的标志和引用计数的缓存行，这可以通过在另一个 CPU 上临时增加其引用计数然后将其改回来实现，例如使用 close(dup(fd))（或者只是通过多线程进程以几乎任何方式访问 FD）。</p>
+<p>然而，当我们试图通过 dup() 在 __fget_files() 中命中竞争时，我们不希望在命中竞争窗口之前发生任何缓存未命中——那会减慢我们的速度，并可能使我们错过竞争。为了防止这种情况发生，我们可以在尝试竞争前不久，使用一个不同的 FD 号调用 dup() 进行一次预热运行。因为我们还希望 FD 表中的相关缓存行是热的，我们应该为预热运行选择一个 FD 号，使其使用文件描述符表的同一缓存行。</p>
+<h1 id="一个中断">一个中断</h1><p>好吧，缓存未命中可能像是几十或几百纳秒左右——这更好，但还不够好。我们还能做些什么来让这一小段代码执行得更慢呢？</p>
+<p>在 Android 上，内核通常设置 CONFIG_PREEMPT，这将允许滥用调度器以某种方式中断此代码的执行。我过去这样做的方法是给受害者线程一个低调度优先级，并将其与另一个高优先级线程一起固定到特定的 CPU 核心，高优先级线程在空管道（或 eventfd）上的 read() 系统调用上被阻塞；当数据从另一个 CPU 核心写入管道时，管道变得可读，因此高优先级线程（在管道的等待队列上注册）变得可调度，并且一个处理器间中断（IPI）被发送到受害者的 CPU 核心，强制其立即进入调度器。</p>
+<p>这种方法的一个问题，除了依赖于 CONFIG_PREEMPT 之外，是发送 IPI 所涉及的内核代码中的任何时序变化都使得更难在正确的位置实际抢占受害者线程。</p>
+<p>（感谢 <a href="https://xenproject.org/users/security/">Xen 安全团队</a>——我想我第一次听到使用中断来扩大竞争窗口的想法可能来自他们。）</p>
+<h1 id="设置一个闹钟">设置一个闹钟</h1><p>在 Android 手机上，更好的方法不是从 IPI 触发调度器，而是从同一核心上到期的高分辨率定时器触发，尽管我没有让它工作（可能是因为我的代码在其他方面有问题）。</p>
+<p>高分辨率定时器（hrtimers）通过许多用户空间 API 暴露。甚至 select()/pselect() 的超时也使用 hrtimer，尽管这是一个通常应用了一些松弛（slack）的 hrtimer，以便与计划稍后到期的定时器进行批处理。一个非基于 hrtimer 的 API 示例是从 Unix 域套接字（可能还有其他类型的套接字？）读取时使用的超时，可以通过 SO_RCVTIMEO 设置。</p>
+<p>使 hrtimers 成为“高分辨率”的原因是，它们不只是等待下一个周期性时钟滴答的到来；相反，CPU 核心上下一个 hrtimer 的到期时间被编程到硬件定时器中。所以我们可以通过类似 timer_settime() 或 timerfd_settime() 的方式为未来的某个时间设置一个绝对 hrtimer，然后在精确的编程时间，硬件将引发中断！我们已经使操作系统的时序行为与竞争的另一方无关，唯一重要的是硬件！或者……嗯，差不多……</p>
+<h1 id="-旁注-绝对定时器-并不完全是绝对的">[旁注] 绝对定时器：并不完全是绝对的</h1><p>所以我们选择某个我们希望被中断的绝对时间，并使用接受纳秒级绝对时间的系统调用告诉内核。然后当该定时器是下一个被调度的定时器时，操作系统将绝对时间转换为硬件定时器所基于的任何时钟基准/刻度，并将其编程到硬件中。硬件通常支持用绝对时间编程定时器——例如，在现代 X86 上（带有 X86_FEATURE_TSC_DEADLINE_TIMER），你可以简单地将一个绝对时间戳计数器（TSC）截止时间写入 MSR_IA32_TSC_DEADLINE，当达到该截止时间时，你会得到一个中断。arm64 上的情况类似，使用定时器的比较器寄存器（CVAL）。</p>
+<p>然而，在 X86 和 arm64 上，尽管 clockevent 子系统理论上能够向 clockevent 驱动程序提供绝对时间戳（通过 -&gt;set_next_ktime()），但驱动程序只实现了 -&gt;set_next_event()，它接受一个相对时间作为参数。这意味着绝对时间戳必须转换为相对时间，仅仅在片刻之后又转换回绝对时间。这两个操作之间的延迟基本上被添加到定时器的到期时间中。</p>
+<p>幸运的是，这对我来说似乎并不是真正的问题；如果是，我会尝试在计划的到期时间前不久重复调用 timerfd_settime()，以确保在最后一次对硬件定时器进行编程时，相关代码路径在缓存中是热的。（我确实在 arm64 上进行了一些实验，这似乎可能有一点帮助，但我没有真正正确地分析它。）</p>
+<h1 id="一个真正庞大的待办事项列表">一个真正庞大的待办事项列表</h1><p>好吧，我上面说的所有东西在启用 CONFIG_PREEMPT 的 Android 手机上会有帮助，但如果我们试图针对没有启用该选项的普通桌面/服务器内核呢？</p>
+<p>嗯，我们仍然可以以同样的方式触发 hrtimer 中断——只是不能再使用它们立即进入调度器并抢占线程了。但是，我们可以不将中断用于抢占，而是尝试让中断处理程序运行很长时间。</p>
+<p>Linux 有“timerfd”的概念，它是一个引用定时器的文件描述符。例如，你可以在 timerfd 上调用 read()，该操作将阻塞直到定时器到期。或者你可以使用 epoll 监控 timerfd，当定时器到期时，它将显示为可读。</p>
+<p>当 timerfd 就绪时，所有 timerfd 的等待者（包括 epoll 监视），它们在一个链表中排队，通过 wake_up() 路径被唤醒——就像当管道变得可读时一样。因此，如果我们能让等待者列表变得非常长，中断处理程序将不得不花费大量时间遍历该列表。</p>
+<p>对于任何连接到文件描述符的等待队列，由于 epoll，很容易添加大量条目。Epoll 将其监视绑定到特定的 FD 号，所以如果你用数百个 dup() 调用复制一个 FD，你可以使用单个 epoll 实例在该文件上安装数百个等待者。此外，单个进程可以拥有许多 epoll 实例。我使用了 500 个 epoll 实例和 100 个重复的 FD，产生了 50000 个等待队列项。</p>
+<h1 id="测量竞争结果">测量竞争结果</h1><p>这个竞争条件的一个很好的方面是，如果你只命中了困难的竞争（在 dup() 在 FD 表查找和引用计数增加之间被抢占时关闭 FD 并运行 unix_gc()），还没有发生内存损坏，但你可以观察到 GC 错误地从受害套接字中移除了一个套接字缓冲区（SKB）。更好的是，如果竞争失败，只要受害 FD 下方没有未使用的 FD，你也可以看到它在哪个方向上失败了：</p>
+<ul>
+<li>如果 dup() 返回 -1，则调用得太晚 / 中断发生得太早：当 __fget_files() 尝试加载时，file* 已经从 FD 表中消失。</li>
+<li>如果 dup() 返回一个文件描述符：<ul>
+<li>如果它返回一个比受害 FD 更高的 FD，这意味着受害 FD 在 dup() 已经增加了引用计数并分配了一个新的 FD 之后才被关闭。这意味着 dup() 调用得太早 / 中断发生得太晚。</li>
+<li>如果它返回旧的受害 FD 号：<ul>
+<li>如果在 dup() 返回的 FD 上调用 recvmsg() 返回没有数据，意味着竞争成功：GC 错误地移除了排队的 SKB。</li>
+<li>如果 recvmsg() 返回数据，则中断发生在引用计数增加和分配新 FD 之间。dup() 调用得有点太早 / 中断发生得有点太晚。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>基于此，我使用具有可变迭代次数的自旋循环来反复测试不同的时序偏移，并根据时序偏移绘制了竞争尝试的结果。</p>
+<h2 id="结果-debian-内核-在-tiger-lake-上">结果：Debian 内核，在 Tiger Lake 上</h2><p>我在一台 Tiger Lake 笔记本电脑上测试了这一点，内核与反汇编中显示的相同。请注意，X 轴上的“0”是相对于定时器编程到期时间的偏移 -300 ns。</p>
+<p><img src="/images/8ed773255812/6a03e24e38084072454917e03fdf6de0.png" alt="此图显示了竞争尝试结果（太早、成功或太晚）的直方图，X 轴是结果发生的时序偏移。图表显示，根据时序偏移，最多约有 1/3 的竞争尝试成功。" loading="lazy"></p>
+<h2 id="结果-其他内核-在-skylake-上">结果：其他内核，在 Skylake 上</h2><p><img src="/images/8ed773255812/4e6f4da1d40a651a2a5f7d47ae8374da.png" alt="此图显示了 Skylake 处理器的类似直方图。确切的分布不同，但同样，根据时序偏移，大约 1/3 的竞争尝试成功。" loading="lazy"></p>
+<p>这些测量来自一台带有 Skylake CPU 的旧笔记本电脑，运行着不同的内核。这里 X 轴上的“0”是相对于定时器的偏移 -1 us。（这些时序来自运行与上面所示不同内核的系统，但我不认为这有影响。）</p>
+<p>当然，确切的时序在不同 CPU 之间看起来不同，它们可能还基于 CPU 频率缩放而变化？但是，如果你知道正确的时序是什么（或者在尝试实际利用漏洞之前测量机器的时序），你可以以大约 30% 的成功率命中这个狭窄的竞争！</p>
+<h1 id="缓存未命中有多重要-">缓存未命中有多重要？</h1><p>上一节显示，在正确的时序下，竞争成功的概率约为 30%——但它没有显示缓存未命中是否真的对此很重要，或者如果没有它，竞争是否仍然有效。为了验证这一点，我修补了我的测试代码，试图使文件的缓存行变热（存在于缓存中）而不是变冷（不存在于缓存中）：</p>
+<pre><code class="language-diff">@@ -312,8 +312,10 @@
+         }
+
++#if 0
+         // bounce socket&#39;s file refcount over to other cpu
+         pin_to(2);
+         close(SYSCHK(dup(RESURRECT_FD+1-1)));
+         pin_to(1);
++#endif
+
+         //printf(&quot;setting timer\n&quot;);
+@@ -352,5 +354,5 @@
+         close(loop_root);
+         while (ts_is_in_future(spin_stop))
+-              close(SYSCHK(dup(FAKE_RESURRECT_FD)));
++              close(SYSCHK(dup(RESURRECT_FD)));
+         while (ts_is_in_future(my_launch_ts)) /*spin*/;
+</code></pre>
+<p>应用该补丁后，在 Tiger Lake 笔记本电脑上的竞争结果如下所示：</p>
+<p><img src="/images/8ed773255812/fdddaf9e789661e64c3513a99523da08.png" alt="此图是根据时序偏移的竞争结果直方图；它看起来与之前的图表相似，只是几乎没有竞争尝试成功。" loading="lazy"></p>
+<h1 id="但是等等-这些图表说不通啊-">但是等等，这些图表说不通啊！</h1><p>如果你一直在注意，你可能已经注意到我展示的时序图表非常奇怪。如果我们每次都以完全相同的方式确定性地命中竞争，时序图应该看起来像这样（为简单起见，只看“太早”和“太晚”的情况）：</p>
+<p><img src="/images/8ed773255812/bb203f1f4fc13c06dd6e2db3b75ed8cb.png" alt="一个竞争结果直方图的草图，其中“太早”结果从 100% 概率突然下降到 0% 概率，之后不久，“太晚”结果从 0% 概率跳到 100%" loading="lazy"></p>
+<p>当然，也许运行之间存在一些微架构状态不同，导致时序变化——缓存状态、分支预测器状态、频率缩放，或者类似的东西——但少量未考虑的离散事件应该会在图表中添加步骤。（如果你有数学倾向，可以将其建模为理想时序图与单个离散事件的时序延迟分布的卷积结果。）对于两个未考虑的事件，可能看起来像这样：</p>
+<p><img src="/images/8ed773255812/b2563c64257d9c1a0e6f4d9485ec4df6.png" alt="一个竞争结果直方图的草图，其中“太早”结果在多个离散步骤中从 100% 概率下降到 0% 概率，并且重叠地，“太晚”结果在多个离散步骤中从 0% 概率上升到 100%" loading="lazy"></p>
+<p>但图表显示的是更像平滑的线性过渡，像这样：</p>
+<p><img src="/images/8ed773255812/44922e1fd43b67267cfc584248c3a7b9.png" alt="一个竞争结果直方图的草图，其中“太早”结果的份额线性下降，而“太晚”结果的份额线性上升" loading="lazy"></p>
+<p>这在我看来似乎仍然存在根本性的错误。当然，如果有足够多的离散事件混合在一起，曲线最终看起来会像平滑的涂抹——但在我看来，不太可能存在如此大量且分布相对均匀的随机离散事件。当然，我们确实从自旋循环中采样时钟时获得少量的时序不准确性，但这应该被限制在该自旋循环的执行时间内，而时序涂抹对于那来说太大了。</p>
+<p>所以看起来存在一个不是离散事件的随机性来源，而是在某个窗口内引入随机数量时序延迟的东西。所以我开始怀疑硬件定时器。内核正在使用 MSR_IA32_TSC_DEADLINE，而 Intel SDM 告诉我们，那个东西是用 TSC 值编程的，这使得定时器看起来具有非常高的粒度。但 MSR_IA32_TSC_DEADLINE 是 LAPIC 定时器的一种新模式，而旧的 LAPIC 定时器模式是以 APIC 定时器频率为单位编程的。根据 <a href="https://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-vol-3a-part-1-manual.pdf#page=378">Intel SDM, Volume 3A</a>，第 10.5.4 节“APIC Timer”，那是“处理器的总线时钟或核心晶体时钟频率（当 CPUID 叶 0x15 中枚举了 TSC/核心晶体时钟比率时）除以分频配置寄存器中指定的值”。这个频率明显低于 TSC 频率。所以也许 MSR_IA32_TSC_DEADLINE 实际上只是同一个旧 APIC 定时器的前端？</p>
+<p>我尝试测量编程的 TSC 值与实际中断执行之间的差异（不是中断处理程序开始运行的时间，而是旧执行上下文被中断的时间——如果被中断的执行上下文只是在循环中运行 RDTSC，你可以测量到这一点）；结果如下：</p>
+<p><img src="/images/8ed773255812/74c1be989040c6328efe0871accb9764.png" alt="显示噪声的图表。从截止时间 TSC 到中断前最后一次成功 TSC 读取的延迟看起来基本上是随机的，范围大约从 -130 到 10。" loading="lazy"></p>
+<p>如你所见，硬件定时器的到期确实增加了一堆噪声。时序差异的大小也非常接近晶体时钟频率——这台机器上的 TSC/核心晶体时钟比率是 117。所以我尝试绘制执行被中断时的绝对 TSC 值，对 TSC/核心晶体时钟比率取模，得到了这个：</p>
+<p><img src="/images/8ed773255812/c08f9325051eda35fcea9b11731f9a4e.png" alt="显示围绕 0 的清晰分组的图表，大致在 -20 到 10 的范围内，一些噪声散布在图表的其余部分。" loading="lazy"></p>
+<p>这证实了 MSR_IA32_TSC_DEADLINE（显然）是一个内部将指定的 TSC 值转换为粒度较粗的总线时钟/核心晶体时钟时间的接口，至少在某些 Intel CPU 上是这样。</p>
+<p>但这里仍然有一些非常奇怪的地方：执行似乎被中断时的 TSC 值相对于编程的到期时间是负偏移，就好像超时被向下舍入到粒度较粗的时钟，或者类似的情况。为了更好地理解定时器中断是如何工作的，我在另一台系统（一台旧的 Haswell CPU）上使用打了补丁的内核测量了执行被中断的时间以及中断处理程序开始执行的时间相对于编程到期时间的关系（并绘制了两者之间的差异）：</p>
+<p><img src="/images/8ed773255812/d20f6cea89724b871657006444b8991f.png" alt="显示从编程的中断时间到执行中断的滑移（skid）大约在 -100 到 -30 个周期，到中断入口的滑移大约在 360 到 420 个周期，而从执行中断到中断入口的时间具有更少的时序方差，大约在 440 个周期。" loading="lazy"></p>
+<p>所以看起来 CPU 在编程的到期时间之前一点点开始处理定时器中断，但中断处理程序入口需要很长时间（约 450 TSC 时钟周期？），以至于当 CPU 开始执行中断处理程序时，定时器到期时间早已过去。</p>
+<p>无论如何，对我们来说重要的是，当 CPU 由于定时器到期而中断执行时，它总是在 LAPIC 定时器边缘；而 LAPIC 定时器边缘发生在 TSC 值是 TSC/LAPIC 时钟比率的倍数时。一个没有考虑到这一点并错误地假设 MSR_IA32_TSC_DEADLINE 具有 TSC 粒度的漏洞利用程序，其时序将被涂抹一个 LAPIC 时钟周期，可能大约是 40ns。</p>
+<p>使用现有 PoC 在正确时序下可以达到的约 30% 准确率已经不算差；但如果我们控制了定时器的怪异行为，我们能做得更好吗？</p>
+<p>问题是我们实际上是用两个行为不同的定时器来启动竞争：一个基于在循环中调用 clock_gettime() 的定时器（它使用高分辨率 TSC 来计算时间），另一个是基于较低分辨率 LAPIC 时钟的硬件定时器。我看到两个选项来解决这个问题：</p>
+<ol>
+<li>尝试确保第二个定时器设置在 LAPIC 时钟周期的开始——这样，第二个定时器应该有望表现得与第一个完全一样（或者有一个额外的固定偏移，但我们可以补偿）。</li>
+<li>根据第二个定时器到前一个 LAPIC 时钟周期的距离，将第一个定时器的到期时间向下移动。</li>
+</ol>
+<p>（这的一个烦恼是，虽然我们可以从 vDSO 使用的 vvar 映射中获取关于墙钟/单调时间如何从 TSC 计算的信息，但时钟在每个时钟滴答都会受到微小的额外校正，只要任何核心在运行，标准发行版内核（CONFIG_HZ=250）上每 4ms 发生一次。）</p>
+<p>我尝试看看如果我考虑了这种 LAPIC 时钟舍入，并且还使用自定义内核来作弊并控制到期时间从绝对到相对再转换回来可能引入的滑移（见上文），时序图是否会看起来更好，但这仍然没有太大帮助。</p>
+<h1 id="-不-意外-时钟速度很重要">（不）意外：时钟速度很重要</h1><p>我早就应该想到的是，当然，时钟速度很重要。在具有 P-state 的新 Intel CPU 上，CPU 通常控制着自己的频率，并根据需要动态调整；操作系统只是提供一些提示。</p>
+<p>Linux 有一个接口声称可以告诉你每个 CPU 核心的“当前频率”，位于 /sys/devices/system/cpu/cpufreq/policy<n>/scaling_cur_freq，但当我尝试使用它时，每次读取该文件都会得到一个不同的“频率”，这似乎可疑。</p>
+<p>查看实现，结果发现那里显示的值是在 arch_freq_get_on_cpu() 及其被调用者中计算的——该值在读取文件时按需计算，结果缓存约 10 毫秒。该值被确定为上次读取和当前读取之间 MSR_IA32_APERF 和 MSR_IA32_MPERF 增量的比率。所以，如果你有一个每隔几秒轮询这些值并希望显示该时间段内平均时钟频率的工具，这可能是一个好方法；但如果你真的想要当前时钟频率，它就不太合适。</p>
+<p>我在我的内核中 hack 了一个辅助程序，快速连续采样两个 MSR 两次，这给出了更清晰的结果。当我测量竞争成功时的时钟速度和时序偏移时，结果如下所示（仅显示两个时钟速度；Y 轴是在 X 轴指定的时钟偏移和颜色指定的频率缩放下的竞争成功次数）：</p>
+<p><img src="/images/8ed773255812/75dd6615ee956fcdb247ec56325382f7.png" alt="显示成功竞争尝试的时序取决于 CPU 性能设置的图表——在 11/28 性能下，大多数成功竞争尝试发生在时钟偏移 -1200 左右（以 TSC 为单位），而在 14/28 性能下，大多数成功竞争尝试发生在时钟偏移 -1000 左右。" loading="lazy"></p>
+<p>所以很明显，动态频率缩放对竞争的时序有巨大影响——我想这确实是意料之中的。</p>
+<p>但即使考虑了所有这些，图表看起来仍然有点平滑，所以显然还有更多我遗漏的东西——好吧。我决定在这一点上停止对竞争时序的实验，因为我不想投入太多时间。（或者也许我只是因为被更新更闪亮的东西分心而停止了？）</p>
+<h1 id="造成-uaf">造成 UAF</h1><p>无论如何，我本可以花更多时间试图调查时序变化（可能主要是碰壁，因为执行时序的细节真的很难详细理解，要完全理解它，可能需要使用类似 <a href="https://gamozolabs.github.io/metrology/2019/08/19/sushi_roll.html">Gamozo Labs 的 &quot;Sushi Roll&quot;</a> 这样的东西，然后详细检查每条指令，并将观察结果与 CPU 的内部架构进行比较）。我们不要那样做，回到如何实际利用这个漏洞！</p>
+<p>要将此漏洞转化为内存损坏，我们必须滥用 recvmsg() 路径假设接收队列上的 SKB 受套接字互斥锁保护，而 GC 实际上在没有接触套接字互斥锁的情况下从接收队列中删除 SKB。为此，在 Unix GC 运行时，我们必须启动一个 recvmsg() 调用，该调用查找受害 SKB，阻塞直到 Unix GC 释放了 SKB，然后让 recvmsg() 继续在已释放的 SKB 上操作。这相当简单——虽然它是一个竞争，但我们可以通过创建许多不直接从 FD 表引用并有许多小 SKB 排队的套接字，轻松地将 unix_gc() 减慢几毫秒——这是在我的笔记本电脑上，根据 GC 必须扫描的排队 SKB 数量，显示 Unix GC 执行时间的图表：</p>
+<p><img src="/images/8ed773255812/0ae0c7fa18a642bdfe01d5b900b19895.png" alt="显示每次 GC 运行所花费时间与排队 SKB 数量关系的图表。关系大致是线性的。" loading="lazy"></p>
+<p>要将其转化为 UAF，还需要通过 unix_gc() 末尾附近的以下检查：</p>
+<pre><code class="language-c">/* All candidates should have been detached by now. */
+BUG_ON(!list_empty(&amp;gc_candidates));
+</code></pre>
+<p>gc_candidates 是一个先前包含所有被 GC 认为不可达的套接字的列表。然后，GC 试图通过消除它们的相互引用来释放所有这些套接字。如果我们设法保留对 GC 认为将要消失的套接字之一的引用，GC 会通过 BUG_ON() 检测到这一点。</p>
+<p>但我们实际上不需要受害 SKB 引用一个 GC 认为将要消失的套接字；在 scan_inflight() 中，GC 针对任何带有标记为 UNIX_GC_CANDIDATE 的套接字的 SKB，这意味着它只需要是 GC 扫描的候选者。因此，通过让受害 SKB 持有一个不直接从文件描述符表引用，但通过另一个套接字间接被文件描述符表引用的套接字的引用，我们可以确保 BUG_ON() 不会触发。</p>
+<p>我用这个技巧和一些 userfaultfd 技巧扩展了 <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2247#c6">我的复现程序</a>，以使 recv() 在正确的时机运行。如今，普通用户不一定能完全访问 userfaultfd，但由于我只是试图展示概念，并且有 userfaultfd 的替代方案（使用 FUSE 或只是慢速磁盘访问），对于这篇博文来说已经足够了。</p>
+<p>当普通发行版内核正常运行时，UAF 复现程序的 UAF 访问实际上不会被注意到；但如果你添加内核命令行标志 slub_debug=FP（以启用 SLUB 的毒化和完整性检查），复现程序会很快崩溃两次，第一次是毒化解引用，然后是毒化覆盖检测，显示毒化的一个字节被递增：</p>
+<pre><code>general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b6b6b: 0000 [#1] SMP NOPTI
+CPU: 1 PID: 2655 Comm: hardirq_loop Not tainted 5.10.0-9-amd64 #1 Debian 5.10.70-1
+[...]
+RIP: 0010:unix_stream_read_generic+0x72b/0x870
+Code: fe ff ff 31 ff e8 85 87 91 ff e9 a5 fe ff ff 45 01 77 44 8b 83 80 01 00 00 85 c0 0f 89 10 01 00 00 49 8b 47 38 48 85 c0 74 23 &lt;0f&gt; bf 00 66 85 c0 0f 85 20 01 00 00 4c 89 fe 48 8d 7c 24 58 44 89
+RSP: 0018:ffffb789027f7cf0 EFLAGS: 00010202
+RAX: 6b6b6b6b6b6b6b6b RBX: ffff982d1d897b40 RCX: 0000000000000000
+RDX: 6a0fe1820359dce8 RSI: ffffffffa81f9ba0 RDI: 0000000000000246
+RBP: ffff982d1d897ea8 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: ffff982d2645c900 R12: ffffb789027f7dd0
+R13: ffff982d1d897c10 R14: 0000000000000001 R15: ffff982d3390e000
+FS:  00007f547209d740(0000) GS:ffff98309fa40000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f54722cd000 CR3: 00000001b61f4002 CR4: 0000000000770ee0
+PKRU: 55555554
+Call Trace:
+[...]
+ unix_stream_recvmsg+0x53/0x70
+[...]
+ __sys_recvfrom+0x166/0x180
+[...]
+ __x64_sys_recvfrom+0x25/0x30
+ do_syscall_64+0x33/0x80
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[...]
+---[ end trace 39a81eb3a52e239c ]---
+=============================================================================
+BUG skbuff_head_cache (Tainted: G     D          ): Poison overwritten
+</code></pre>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Java安全.html" class="tag-link">#Java安全</a> <a href="/tag/虚拟化安全.html" class="tag-link">#虚拟化安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/API安全.html" class="tag-link">#API安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#引言" class="toc-link">
+              <span class="toc-text">引言</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#漏洞" class="toc-link">
+              <span class="toc-text">漏洞</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#竞争" class="toc-link">
+              <span class="toc-text">竞争</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#缺失一些缓存" class="toc-link">
+              <span class="toc-text">缺失一些缓存</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#一个中断" class="toc-link">
+              <span class="toc-text">一个中断</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#设置一个闹钟" class="toc-link">
+              <span class="toc-text">设置一个闹钟</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#-旁注-绝对定时器-并不完全是绝对的" class="toc-link">
+              <span class="toc-text">[旁注] 绝对定时器：并不完全是绝对的</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#一个真正庞大的待办事项列表" class="toc-link">
+              <span class="toc-text">一个真正庞大的待办事项列表</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#测量竞争结果" class="toc-link">
+              <span class="toc-text">测量竞争结果</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#结果-debian-内核-在-tiger-lake-上" class="toc-link">结果：Debian 内核，在 Tiger Lake 上</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#结果-其他内核-在-skylake-上" class="toc-link">结果：其他内核，在 Skylake 上</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#缓存未命中有多重要-" class="toc-link">
+              <span class="toc-text">缓存未命中有多重要？</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#但是等等-这些图表说不通啊-" class="toc-link">
+              <span class="toc-text">但是等等，这些图表说不通啊！</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#-不-意外-时钟速度很重要" class="toc-link">
+              <span class="toc-text">（不）意外：时钟速度很重要</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#造成-uaf" class="toc-link">
+              <span class="toc-text">造成 UAF</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

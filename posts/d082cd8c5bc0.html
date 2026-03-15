@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聚焦零点击漏洞利用 - BasicBit</title>
+  <meta name="description" content="聚焦零点击漏洞利用">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">聚焦零点击漏洞利用</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/1/18
+            </span>
+            <span class="meta-item">Natalie Silvanovich</span>
+            <span class="meta-item">网络安全, 移动安全, 漏洞利用</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/01/zooming-in-on-zero-click-exploits.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F01%2Fzooming-in-on-zero-click-exploits.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Natalie Silvanovich，Project Zero</p>
+<p>Zoom 是一款在疫情期间广受欢迎的视频会议平台。与我调查过的其他视频会议系统不同（那些系统需要由一名用户发起呼叫，其他用户必须立即接受或拒绝），Zoom 通话通常是提前安排并通过电子邮件邀请加入的。过去，我并未优先审查 Zoom，因为我认为针对 Zoom 客户端的任何攻击都需要用户多次点击。然而，最近在 Pwn2Own 上<a href="https://blog.zoom.us/zoom-sponsors-pwn2own-security-competition/">披露</a>了针对 Windows Zoom 客户端的零点击攻击，表明它确实存在完全远程的攻击面。以下文章详细记录了我对 Zoom 的调查。</p>
+<p>此次分析导致两个漏洞被报告给 Zoom。一个是影响 Zoom 客户端和 MMR 服务器的缓冲区溢出漏洞，另一个是仅对 MMR 服务器上的攻击者有用的信息泄露漏洞。这两个漏洞已于 2021 年 11 月 24 日修复。</p>
+<h2 id="zoom-攻击面概述">Zoom 攻击面概述</h2><p>Zoom 的主要功能是支持多用户会议通话（称为会议），具备音频、视频、屏幕共享和通话内文本消息等多种功能。用户可以通过多种方式加入 Zoom 会议。首先，Zoom 为许多平台（包括 Windows、Mac、Linux、Android 和 iPhone）提供了功能齐全的可安装客户端。用户也可以使用浏览器链接加入 Zoom 会议，但能使用的 Zoom 功能较少。最后，用户可以通过在按键式电话上拨打邀请中提供的电话号码来加入会议，但这只允许访问会议的音频流。本研究主要关注 Zoom 客户端软件，因为其他加入通话的方式使用的是设备现有功能。</p>
+<p>除了会议之外，Zoom 客户端还支持用户 Zoom 联系人可用的其他几种通信功能。Zoom 联系人是用户通过 Zoom 用户界面添加为联系人的另一个用户。双方用户必须同意才能成为 Zoom 联系人。之后，用户可以在会议之外相互发送文本消息，并开启频道进行持续的群组对话。此外，如果任一用户主持会议，他们可以邀请另一用户加入，方式类似于电话呼叫：另一用户会立即收到通知，只需点击一下即可加入会议。这些功能代表了 Zoom 的零点击攻击面。请注意，此攻击面仅对已说服目标接受其为联系人的攻击者可用。同样，会议仅对 Zoom 联系人构成一键攻击面的一部分，因为其他用户需要多次点击才能进入会议。</p>
+<p>尽管如此，对于一个执着的攻击者来说，说服目标加入 Zoom 通话（即使需要多次点击）可能并不那么困难，而且一些组织使用 Zoom 的方式呈现出有趣的攻击场景。例如，许多团体举办公共 Zoom 会议，Zoom 支持付费的 Webinar 功能，允许大量未知与会者加入单向视频会议。攻击者有可能加入公共会议并针对其他与会者。Zoom 还依赖服务器传输音频和视频流，并且默认情况下不启用端到端加密。攻击者有可能入侵 Zoom 的服务器并获取会议数据的访问权限。</p>
+<h2 id="zoom-消息">Zoom 消息</h2><p>我首先查看了 Zoom 的零点击攻击面。将 Linux 客户端加载到 IDA 中，似乎其大部分服务器通信是通过 XMPP 进行的。根据二进制文件中的字符串，可以清楚地看出 XMPP 解析是使用名为 <a href="https://camaya.net/gloox/">gloox</a> 的库执行的。我使用 AFL 和其他覆盖引导的模糊测试工具对这个库进行了模糊测试，但没有发现任何漏洞。然后我查看了 Zoom 如何使用通过 XMPP 提供的数据。</p>
+<p>XMPP 流量似乎是通过 SSL 发送的，因此我根据日志字符串在二进制文件中定位了 SSL_write 函数，并使用 <a href="https://frida.re/">Frida</a> 进行挂钩。输出包含许多 XMPP 节（消息）以及其他网络流量，我对其进行了分析以确定 Zoom 如何使用 XMPP。XMPP 用于 Zoom 客户端之间在会议之外的大部分通信，例如消息和频道，也用于当 Zoom 联系人邀请另一个 Zoom 联系人参加会议时的信令（呼叫建立）。</p>
+<p>我花了一些时间浏览客户端二进制文件，试图确定客户端如何处理 XMPP，例如，如果一个节包含文本消息，该消息如何被提取并显示在客户端中。尽管 Zoom 客户端包含许多日志字符串，但这仍然具有挑战性，最终我请我的队友 Ned Williamson 帮助定位客户端的符号。他发现 Android Zoom SDK 的几个旧版本包含符号。虽然这些版本大约有五年历史，并且不能完整呈现客户端（因为它们只包含客户端使用的一些库），但它们对于理解 Zoom 如何使用 XMPP 非常有帮助。</p>
+<p>可以通过扩展类 StanzaExtension 并实现方法 newInstance 来定义如何将标签转换为 C++ 对象，从而将应用程序定义的标签添加到 gloox 的 XMPP 解析器中。然后使用 MessageHandler 类处理解析后的 XMPP 节。应用程序开发人员扩展此类，实现 handleMessage 方法，其中包含基于接收到的节内容执行应用程序功能的代码。Zoom 在 CXmppIMSession::handleMessage 中实现了其 XMPP 处理，这是一个大型函数，是大多数消息传递和呼叫功能的入口点。许多 XMPP 标签的最终处理阶段在类 ns_zoom_messager::CZoomMMXmppWrapper 中，该类包含许多以 &#39;On&#39; 开头的方法，用于处理特定事件。我花了相当多的时间分析这些代码路径，但没有发现任何漏洞。有趣的是，在我完成这项研究后，Thijs Alkemade 和 Daan Keuper 发布了他们 Pwn2Own 漏洞的<a href="https://sector7.computest.nl/post/2021-08-zoom/">技术文章</a>，其中涉及该区域的漏洞。</p>
+<h2 id="rtp-处理">RTP 处理</h2><p>之后，我调查了 Zoom 客户端如何处理音频和视频内容。与我分析过的所有其他视频会议系统一样，它使用实时传输协议（RTP）来传输这些数据。根据 Linux 客户端二进制文件中包含的日志字符串，Zoom 似乎使用 WebRTC 的一个分支来处理音频。由于我在<a href="/2018/12/adventures-in-video-conferencing-part-1.html">之前的</a><a href="/2020/08/exploiting-android-messengers-part-1.html">文章</a>中已经大量研究过这个库，因此没有进一步调查。对于视频，Zoom 实现了自己的 RTP 处理，并使用名为 Zealot（libzlt）的自定义底层编解码器。</p>
+<p>在 IDA 中分析 Linux 客户端时，我找到了我认为是视频 RTP 入口点的位置，并使用 afl-qemu 对其进行了模糊测试。这导致了多次崩溃，主要是在 RTP 扩展处理中。我尝试修改客户端发送的 RTP 来复现这些漏洞，但另一端的设备没有接收到，我怀疑服务器对其进行了过滤。我尝试通过启用端到端加密来绕过此问题，但 Zoom 不加密 RTP 头部，只加密 RTP 数据包的内容（这是大多数 RTP 实现的典型做法）。</p>
+<p>出于对 Zoom 服务器过滤工作原理的好奇，我决定设置 <a href="https://support.zoom.us/hc/en-us/articles/360034064852-Zoom-On-Premise-Deployment">Zoom On-Premises Deployment</a>。这是一个 Zoom 产品，允许客户设置本地服务器来处理其组织的 Zoom 通话。这需要相当多的配置，最终我联系了 Zoom 安全团队寻求帮助。他们帮助我使其正常工作，我非常感谢他们对这项研究的贡献。</p>
+<p>Zoom On-Premises Deployments 由两个主机组成：控制器和多媒体路由器（MMR）。分析到每个服务器的流量后，很明显 MMR 是在 Zoom 客户端之间传输音频和视频内容的主机。将 MMR 进程的代码加载到 IDA 中，我定位了 RTP 处理的位置，它确实将扩展作为其转发逻辑的一部分进行解析并正确验证，丢弃任何格式错误的 RTP 数据包。</p>
+<p>MMR 上处理 RTP 的代码似乎与我之前在设备上模糊测试的代码不同，因此我也在服务器代码上设置了模糊测试。这具有挑战性，因为代码位于 MMR 二进制文件中，该二进制文件未编译为可重定位二进制文件（稍后会详细说明）。这意味着我无法像通常对没有源代码的二进制文件进行模糊测试那样，将其作为库加载并调用二进制文件中的特定偏移量。相反，我编译了自己的模糊测试存根，将我想要模糊测试的函数作为定义了 fopen 的可重定位文件调用，并在执行 MMR 二进制文件时使用 LD_PRELOAD 加载它。然后，我的代码将在 MMR 二进制文件首次调用 fopen 时控制执行，并能够调用被模糊测试的函数。</p>
+<p>这种方法有很多缺点，最大的缺点是模糊测试存根不能接受命令行参数，执行速度相当慢，而且许多模糊测试工具不尊重目标上的 LD_PRELOAD。尽管如此，我还是能够使用 Mateusz Jurczyk 出色的 <a href="https://github.com/googleprojectzero/DrSancov">DrSanCov</a> 进行代码覆盖模糊测试，但没有结果。</p>
+<h2 id="数据包处理">数据包处理</h2><p>在分析 RTP 流量时，我注意到 Zoom 客户端和 MMR 服务器都处理大量似乎不是 RTP 或 XMPP 的数据包。查看带有符号的 SDK，有一个库似乎做了大量的序列化：libssb_sdk.so。该库包含大量类，这些类定义了具有相同声明的 load_from 和 save_to 方法，因此它们很可能都实现了相同的虚类。</p>
+<p>load_from 方法的一个参数是类 msg_db_t 的对象，它实现了一个支持读取不同数据类型的缓冲区。反序列化由 load_from 方法通过从 msg_db_t 对象读取所需数据来执行，序列化由 save_to 方法通过向其写入来执行。</p>
+<p>使用 Frida 挂钩几个 save_to 方法并将写入的输出与通过 SSL_write 发送的数据进行比较后，很明显这些序列化类是 Zoom 远程攻击面的一部分。检查每个 load_from 方法，有几个包含类似于以下代码（来自 ssb::conf_send_msg_req::load_from）。</p>
+<p>ssb::i_stream_t<a href="ssb::msg_db_t,ssb::bytes_convertor">ssb::msg_db_t,ssb::bytes_convertor</a>::operator&gt;&gt;(</p>
+<p>msg_db, &amp;this-&gt;str_len, consume_bytes, error_out);</p>
+<p>str_len = this-&gt;str_len;</p>
+<p>if ( str_len )</p>
+<p>{</p>
+<p>mem = operator new<a href="str_len"></a>;</p>
+<p>out_len = 0;</p>
+<p>this-&gt;str_mem = mem;</p>
+<p>ssb::i_stream_t<a href="ssb::msg_db_t,ssb::bytes_convertor">ssb::msg_db_t,ssb::bytes_convertor</a>::</p>
+<p>read_str_with_len(msg_db, mem, &amp;out_len);</p>
+<p>read_str_with_len 定义如下。</p>
+<p>int __fastcall ssb::i_stream_t<a href="ssb::msg_db_t,ssb::bytes_convertor">ssb::msg_db_t,ssb::bytes_convertor</a>::</p>
+<p>read_str_with_len(msg_db_t* msg, signed __int8 *mem,</p>
+<p>unsigned int *len)</p>
+<p>{</p>
+<p>if ( !msg-&gt;invalid )</p>
+<p>{</p>
+<p>ssb::i_stream_t<a href="ssb::msg_db_t,ssb::bytes_convertor">ssb::msg_db_t,ssb::bytes_convertor</a>::operator&gt;&gt;(msg, len, (int)len, 0);</p>
+<p>if ( !msg-&gt;invalid )</p>
+<p>{</p>
+<p>if ( *len )</p>
+<p>ssb::i_stream_t<a href="ssb::msg_db_t,ssb::bytes_convertor">ssb::msg_db_t,ssb::bytes_convertor</a>::</p>
+<p>read(msg, mem, *len, 0);</p>
+<p>}</p>
+<p>}</p>
+<p>return msg;</p>
+<p>}</p>
+<p>请注意，字符串缓冲区是根据从 msg_db_t 缓冲区读取的长度分配的，但随后从缓冲区读取第二个长度并将其用作读取字符串的长度。这意味着，如果攻击者能够操纵 msg_db_t 缓冲区的内容，他们可以指定分配的缓冲区长度，并用任意长度的数据覆盖它（最多 0x1FFF 字节，上面的代码片段中未显示）。</p>
+<p>我通过使用 Frida 挂钩 SSL_write 并发送格式错误的数据包来测试此漏洞，它导致 Zoom 客户端在多种平台上崩溃。此漏洞被分配为 <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2223">CVE-2021-34423</a>，并于 2021 年 11 月 24 日修复。</p>
+<p>查看 MMR 服务器的代码，我注意到出现漏洞的类 ssb::conf_send_msg_req::load_from 也存在于 MMR 服务器上。由于 MMR 将 Zoom 会议流量从一个客户端转发到另一个客户端，因此它可能也会反序列化此数据包类型，这是合理的。我在 IDA 中分析了 MMR 代码，发现此类的反序列化仅在 Zoom Webinars 期间发生。我购买了 Zoom Webinar 许可证，并通过发送此数据包成功使自己的 Zoom MMR 服务器崩溃。我不愿意在 Zoom 的公共 MMR 服务器上测试此类漏洞，但相同的代码很可能也存在于 Zoom 的公共服务器中。</p>
+<p>进一步查看反序列化，我注意到所有反序列化的对象都包含一个类型为 ssb::dyna_para_table_t 的可选字段，这基本上是一个属性表，允许将名称字符串到变体对象的映射包含在反序列化的对象中。表中的变体由结构体 ssb::variant_t 实现，如下所示。</p>
+<p>struct variant{</p>
+<p>char type;</p>
+<p>short length;</p>
+<p>var_data data;</p>
+<p>};</p>
+<p>union var_data{</p>
+<p>char i8;</p>
+<p>char* i8_ptr;</p>
+<p>short i16;</p>
+<p>short* i16_ptr;</p>
+<p>int i32;</p>
+<p>int* i32_ptr;</p>
+<p>long long i64;</p>
+<p>long long i64*;</p>
+<p>};</p>
+<p>type 字段的值对应于变体数据的宽度（1 表示 8 位，2 表示 16 位，3 表示 32 位，4 表示 64 位）。length 字段指定变体是否为数组及其长度。如果其值为 0，则变体不是数组，并根据其类型从 data 字段读取数值。如果 length 字段有任何其他值，则将 data 字段强制转换为指针，并读取该大小的数组。</p>
+<p>我对这种实现的直接担忧是它可能容易出现类型混淆。一种可能性是数值可能与数组指针混淆，这将允许攻击者创建具有他们指定指针的变体。然而，客户端和 MMR 都对它们视为数组的变体执行非常积极的类型检查。另一种可能性是指针可能与数值混淆。如果该值曾经返回给攻击者，这可能允许攻击者确定他们控制的缓冲区的地址。我在 MMR 代码中发现了几个位置，其中指针以这种方式转换为数值并记录，但没有攻击者可以获取错误转换值的地方。最后，我查看了如何处理数组数据，发现有几个位置将字节数组变体转换为字符串，但并非所有位置都检查字节数组是否具有空终止符。这意味着如果这些变体被转换为字符串，该字符串可能包含未初始化内存的内容。</p>
+<p>大多数情况下，一个用户发送到 MMR 的数据包会立即转发给其他用户，而无需服务器反序列化。对于某些漏洞来说，这是一个有用的功能，例如，正是这一点允许前面讨论的 CVE-2021-34423 在客户端上触发。然而，变体中的信息泄露需要在服务器上发生才能对攻击者有用。当客户端反序列化传入的数据包时，它是供设备使用的，因此即使反序列化的字符串包含敏感信息，这些信息也不太可能从设备传输出去。与此同时，MMR 的存在明确是为了将信息从一个用户传输到另一个用户，因此如果字符串被反序列化，它很有可能被发送给另一个用户，或以可观察的方式改变服务器行为。所以，我试图找到一种方法让服务器反序列化一个变体并将其转换为字符串。我最终发现，当用户在浏览器中登录 Zoom 时，浏览器无法处理序列化的数据包，因此 MMR 必须将它们转换为字符串，以便可以通过 Web 请求访问它们。确实，我发现如果我从 user_name 变体中移除空终止符，它将被转换为字符串并作为用户的显示名称发送给浏览器。</p>
+<p>该漏洞被分配为 <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2235&q=zoom%5C&can=1">CVE-2021-34424</a>，并于 2021 年 11 月 24 日修复。我在自己的 MMR 以及 Zoom 的公共 MMR 上对其进行了测试，它在两种情况下都有效并返回了指针数据。</p>
+<h2 id="漏洞利用尝试">漏洞利用尝试</h2><p>我尝试利用这些漏洞攻击我的本地 MMR 服务器，虽然我在漏洞利用的某些部分取得了成功，但未能使其完全工作。我首先调查了创建一个可以在 Zoom 客户端之外触发每个漏洞的客户端的可能性，但客户端身份验证似乎很复杂，并且我缺乏这部分代码的符号，因此我没有继续研究，因为我怀疑这将非常耗时。相反，我通过从使用 Frida 挂钩的 Linux Zoom 客户端触发漏洞来分析漏洞的可利用性。</p>
+<p>我首先调查了堆损坏对 MMR 进程的影响。MMR 服务器运行在 CentOS 7 上，它使用现代的 glibc 堆，因此利用堆解链似乎没有希望。我转而研究覆盖堆上分配的 C++ 对象的 vtable。</p>
+<p>我编写了几个在服务器上挂钩 malloc 的 Frida 脚本，并用它们来监控传入流量如何影响内存分配。事实证明，攻击者没有太多有用的方法来控制 MMR 服务器上的内存分配以利用此漏洞。攻击者可以向服务器发送几种数据包类型，导致在堆上分配内存，然后在处理完成后释放，但攻击者可以同时触发分配和释放的情况并不多。此外，MMR 服务器在不同的线程中执行不同类型的处理，这些线程使用唯一的堆区域，因此许多可能发生此类分配的代码区域（例如连接管理）在与漏洞发生线程不同的堆区域中分配内存。我能找到的唯一在同一区域中进行的此类分配与会议设置相关：当用户加入会议时，某些对象会在堆上分配，然后在用户离开会议时释放。不幸的是，这些分配很难自动化，因为它们需要许多唯一的用户帐户才能重复执行分配，并且分配需要可观的时间（几秒钟）。</p>
+<p>最终，我编写了 Frida 脚本，在正常 MMR 操作期间查找与具有 vtable 的 C++ 对象相邻的异常大小的空闲块。有几种分配大小符合此标准，并且由于 CVE-2021-34423 允许攻击者指定被溢出的缓冲区大小，我能够损坏相邻对象的内存。不幸的是，堆验证非常健壮，因此在大多数情况下，MMR 进程会在对损坏的对象进行虚拟调用之前因堆验证错误而崩溃。最终，我通过关注足够小以被堆存储在 fastbins 中的分配大小来绕过此问题，因为存储在 fastbins 中的堆块不包含可验证的堆元数据。大小为 58 的块被证明是最佳选择，通过以该大小触发漏洞，我大约每触发十次漏洞就能控制一次虚拟调用的指针。</p>
+<p>下一步是弄清楚将我能控制的指针指向何处，这比预期的更具挑战性。在我进行这项研究时，MMR 进程没有启用 ASLR（在 2021 年 11 月 28 日发布的版本 4.6.20211128.136 中启用了），因此我希望在二进制文件中找到一系列位置，可以将此调用定向到这些位置，最终以具有可控参数的 execv 调用结束，因为 MMR 初始化代码包含许多对此函数的调用。然而，服务器的几个特性使这变得困难。首先，只有 MMR 二进制文件加载在固定位置。堆和系统库则不是，因此只有实际的 MMR 代码可用，无需绕过 ASLR。其次，如果 MMR 崩溃，它会采用指数退避，最终导致它在每小时整点重新生成。这限制了攻击者可以进行多少次漏洞利用尝试。攻击者可能会花费数天甚至数周时间尝试利用服务器，但这仍然将他们限制在数百次尝试内。这意味着任何对 MMR 服务器的漏洞利用至少需要一定的可靠性，因此某些需要大量尝试的技术（例如在堆上分配一个大缓冲区并尝试猜测其位置）是不切实际的。</p>
+<p>最终，我认为在堆上分配一个具有可控内容的缓冲区并确定其位置会很有帮助。这将使漏洞利用在溢出成功导致虚拟调用的情况下相当可靠，因为该缓冲区可以用作假的 vtable，并且还可以包含可用作 execv 参数的字符串。我尝试使用 CVE-2021-34424 来泄露这样的地址，但未能使其工作。</p>
+<p>此漏洞允许攻击者提供任意大小的字符串，然后该字符串会被越界复制，直到遇到内存中的空字符，然后返回。CVE-2021-34424 有可能返回堆指针，因为 MMR 将受损的堆映射到一个通常不包含空字节的低地址，但是，我无法找到一种方法来强制在越界复制的字符串缓冲区旁边分配特定的堆指针。MMR 使用的 C++ 对象往往是虚拟对象，因此大多数对象分配的前 64 位是包含空字节的 vtable，从而结束复制。其他分配的结构，尤其是较大的结构，往往包含非指针数据。我能够通过指定长度小于 64 位的字符串使此漏洞返回堆指针，因此附近的分配有时是指针本身，但此大小的分配非常频繁，无法准确确定它们指向的堆数据。</p>
+<p>我最后的一个想法是使用另一种类型混淆漏洞来泄露指向可控缓冲区的指针。在处理反序列化的 ssb::kv_update_req 对象时存在这样一个漏洞。此对象的 ssb::dyna_para_table_t 表包含一个名为 nodeid 的变体，它表示消息所指的特定 Zoom 客户端。如果攻击者将此变体更改为数组类型而不是 32 位整数，则指向此数组的指针的地址将被记录为字符串。我尝试将 CVE-2021-34424 与此漏洞结合使用，希望泄露的数据可能是包含指针信息的日志字符串。不幸的是，由于时间问题，我无法使其工作：日志条目需要在漏洞触发的同时几乎完全同时记录，以便日志数据仍在内存中，而我无法足够快地发送数据包。我怀疑通过改进自动化可能使其工作，因为我依赖使用 Frida 挂钩的客户端和浏览器与 Zoom 服务器交互，但我决定不继续研究，因为这需要开发大量工具。</p>
+<h2 id="结论">结论</h2><p>我对 Zoom 进行了安全分析并报告了两个漏洞。一个是影响 Zoom 客户端和 MMR 服务器的缓冲区溢出漏洞，另一个是仅对 MMR 服务器上的攻击者有用的信息泄露漏洞。这两个漏洞已于 2021 年 11 月 24 日修复。</p>
+<p>Zoom MMR 服务器中的漏洞尤其令人担忧，因为该服务器处理会议音频和视频内容，因此一旦被入侵，攻击者可能能够监视任何未启用端到端加密的 Zoom 会议。虽然我未能成功利用这些漏洞，但我能够利用它们执行漏洞利用的许多环节，并且我相信攻击者通过足够的投入能够利用它们。Zoom MMR 进程中缺乏 ASLR 大大增加了攻击者入侵它的风险，Zoom 最近启用它是积极的。尽管如此，如果 MMR 服务器中仍然存在与我报告的漏洞类似的漏洞，攻击者很可能能够绕过它，因此 Zoom 继续提高 MMR 代码的健壮性也很重要。</p>
+<p>还需要注意的是，这项研究之所以可能，是因为 Zoom 允许客户设置自己的服务器，而与此同时，我调查过的其他具有专有服务器的视频会议解决方案都不允许这样做，因此不清楚这些结果与其他视频会议平台相比如何。</p>
+<p>总体而言，虽然本研究中发现的客户端漏洞与 Project Zero 在其他视频会议平台中发现的漏洞相当，但服务器漏洞令人惊讶，尤其是当服务器缺乏 ASLR 并且支持非端到端加密的操作模式时。</p>
+<p>有几个因素通常会导致视频会议应用程序出现安全问题，这些因素也导致了 Zoom 中的这些漏洞。一是 Zoom 包含的代码量巨大。有大量代码我无法确定其功能，并且许多可以反序列化的类似乎并不常用。这既增加了安全研究的难度，又通过使更多可能包含漏洞的代码对攻击者可用而增加了攻击面。此外，Zoom 使用许多专有格式和协议，这意味着理解平台的攻击面并创建操作特定接口的工具非常耗时。使用我们测试的功能还需要支付大约 1500 美元的许可费。这些安全研究的障碍可能意味着 Zoom 没有被尽可能频繁地调查，可能导致简单的漏洞未被发现。</p>
+<p>尽管如此，我在此评估中最大的担忧是 Zoom MMR 服务器缺乏 ASLR。ASLR 可以说是防止内存损坏漏洞利用的最重要缓解措施，大多数其他缓解措施在某种程度上都依赖它才能有效。在绝大多数软件中没有充分的理由禁用它。最近，人们一直在推动通过转向内存安全语言和实施增强的内存缓解措施来降低软件对内存损坏漏洞的敏感性，但这依赖于供应商使用他们编写软件的平台所提供的安全措施。所有为支持 ASLR 的平台编写的软件都应启用它（以及其他基本的内存缓解措施）。</p>
+<p>Zoom 的封闭性也极大地影响了此次分析。大多数视频会议系统使用开源软件，要么是 WebRTC，要么是 PJSIP。虽然这些平台并非没有问题，但由于它们是开放的，研究人员、客户和供应商更容易验证其安全特性并理解它们带来的风险。闭源软件带来了独特的安全挑战，Zoom 可以采取更多措施使其平台对希望评估它的安全研究人员和其他人更加开放。虽然 Zoom 安全团队帮助我访问和配置服务器软件，但尚不清楚其他研究人员是否可以获得支持，而且软件许可仍然昂贵。Zoom 以及其他生产闭源安全敏感软件的公司应考虑如何使其软件对安全研究人员开放。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/漏洞利用.html" class="tag-link">#漏洞利用</a> <a href="/tag/Android安全.html" class="tag-link">#Android安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#zoom-攻击面概述" class="toc-link">
+              <span class="toc-text">Zoom 攻击面概述</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#zoom-消息" class="toc-link">
+              <span class="toc-text">Zoom 消息</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#rtp-处理" class="toc-link">
+              <span class="toc-text">RTP 处理</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#数据包处理" class="toc-link">
+              <span class="toc-text">数据包处理</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#漏洞利用尝试" class="toc-link">
+              <span class="toc-text">漏洞利用尝试</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

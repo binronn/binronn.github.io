@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>对野外僵尸0day的尸检分析 - BasicBit</title>
+  <meta name="description" content="对野外僵尸0day的尸检分析">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">对野外僵尸0day的尸检分析</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/6/14
+            </span>
+            <span class="meta-item">Maddie Stone</span>
+            <span class="meta-item">移动安全, 网络安全, 浏览器安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/06/an-autopsy-on-zombie-in-wild-0-day.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F06%2Fan-autopsy-on-zombie-in-wild-0-day.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Maddie Stone，Google Project Zero</p>
+<p>每当有新的在野0day漏洞被披露时，我总是非常想了解该漏洞的根本原因。这让我们能够判断漏洞是否被完全修复、寻找变体，并构思新的缓解措施。这篇博客讲述的是一个&quot;Safari僵尸0day&quot;的故事，以及它如何&quot;死而复生&quot;，在2022年被披露为在野利用漏洞。CVE-2022-22620最初于2013年修复，2016年被重新引入，然后在2022年被披露为在野利用漏洞。如果您对CVE-2022-22620的完整根本原因分析感兴趣，我们已将其发布<a href="https://googleprojectzero.github.io/0days-in-the-wild//0day-RCAs/2022/CVE-2022-22620.html">在此处</a>。</p>
+<p>在<a href="/2021/02/deja-vu-lnerability.html">2020年在野利用0day年度回顾</a>中，我写道2020年检测并披露的在野利用0day中有25%是先前已披露漏洞的变体。现在2022年已过去近半，我们似乎看到了类似的趋势。攻击者不需要全新的漏洞就能用0day有效利用用户，他们可以使用与先前披露漏洞密切相关的漏洞。这篇博客只聚焦于今年的一个例子，因为它与我们之前讨论过的其他变体略有不同。我们之前讨论的大多数变体之所以存在，是因为补丁不完整。但在本例中，当该漏洞在2013年最初被报告时，变体已被完全修复。然而，这个变体在3年后的大规模重构工作中被重新引入。然后该漏洞又继续存在了5年，直到2022年1月作为在野0day被修复。</p>
+<h1 id="开始调查">开始调查</h1><p>对于CVE-2022-22620，我有两条信息来帮助我弄清楚这个漏洞：<a href="https://github.com/WebKit/WebKit/commit/486816dc355c19f1de1b8056f85d0bbf7084dd6e">补丁</a>（感谢Apple与我分享！）和<a href="https://support.apple.com/en-us/HT213093">安全公告中的描述</a>，其中说明该漏洞是一个释放后使用（use-after-free）漏洞。补丁中的主要更改是将函数<code>FrameLoader::loadInSameDocument</code>的第二个参数（<code>stateObject</code>）的类型从原始指针<code>SerializedScriptValue*</code>更改为引用计数指针<code>RefPtr&lt;SerializedScriptValue&gt;</code>。</p>
+<p><a href="https://trac.webkit.org/changeset/288539/webkit/trunk/Source/WebCore/loader/FrameLoader.cpp">trunk/Source/WebCore/loader/FrameLoader.cpp</a></p>
+<p>1094</p>
+<p>1094</p>
+<p>// 这与 didOpenURL 所做的工作类型相同，只是它依赖于一个事实</p>
+<p>1095</p>
+<p>1095</p>
+<p>// 即更高级别已经检查了URL是否匹配，并且滚动是正确的操作。</p>
+<p>1096</p>
+<p>void FrameLoader::loadInSameDocument(const URL&amp; url, SerializedScriptValue* stateObject, bool isNewNavigation)</p>
+<p>1096</p>
+<p>void FrameLoader::loadInSameDocument(URL url, RefPtr<SerializedScriptValue> stateObject, bool isNewNavigation)</p>
+<p>每当我分析浏览器在野0day的根本原因时，除了研究代码，我通常还会搜索提交历史和bug跟踪器，看看是否能找到任何相关信息。我这样做是为了试图了解bug是何时引入的，同时也为了节省时间。（有很多0day需要研究！😀）</p>
+<h1 id="前世今生">前世今生</h1><p>对于CVE-2022-22620，我浏览了FrameLoader.cpp的<a href="https://git-scm.com/docs/git-blame">git</a><a href="https://git-scm.com/docs/git-blame">blame</a>视图。具体来说，我正在查看<a href="https://github.com/WebKit/WebKit/blame/7b23cae2a1b1ffd026288f15261f8ba272c3b24b/Source/WebCore/loader/FrameLoader.cpp#L1096"><code>loadInSameDocument</code>的定义</a>[<a href="https://github.com/WebKit/WebKit/blame/7b23cae2a1b1ffd026288f15261f8ba272c3b24b/Source/WebCore/loader/FrameLoader.cpp#L1096)%E3%80%82%E6%9F%A5%E7%9C%8B%E6%88%91%E4%BB%AC%E8%A1%A5%E4%B8%81%E4%B9%8B%E5%89%8D%E8%BF%99%E4%B8%80%E8%A1%8C%E7%9A%84git">https://github.com/WebKit/WebKit/blame/7b23cae2a1b1ffd026288f15261f8ba272c3b24b/Source/WebCore/loader/FrameLoader.cpp#L1096)。查看我们补丁之前这一行的git</a> blame时，有一个非常<a href="https://github.com/WebKit/WebKit/commit/aa31b6b4d09b09acdf1cec11f2f7f35bd362dd0e">有趣的提交</a>。该提交实际上将<code>stateObject</code>参数从引用计数指针<code>PassRefPtr&lt;SerializedScriptValue&gt;</code>更改为原始指针<code>SerializedScriptValue*</code>。这个2016年12月的更改引入了CVE-2022-22620。<a href="https://github.com/WebKit/WebKit/commit/aa31b6b4d09b09acdf1cec11f2f7f35bd362dd0e#diff-9fb71b6fa7156160059b0216d05933e621d422df2b20f72ad7399eb946b8ba04">变更日志甚至写道</a>：</p>
+<p>(WebCore::FrameLoader::loadInSameDocument)：为序列化脚本值状态对象使用原始指针。没有人传递所有权。</p>
+<p>但将其作为Ref传递给statePopped，因为我们需要传递null值的所有权，至少目前是这样。</p>
+<p>现在我很感兴趣，想追踪之前将<code>stateObject</code>参数更改为<code>PassRefPtr&lt;SerializedScriptValue&gt;</code>的提交。我很幸运，只需要在历史记录中再往回追溯两步。有一个<a href="https://github.com/WebKit/WebKit/commit/4b3be1d3a8d22cb2b2f5ddb8299f7cd25a21cebf">2013年的提交</a>将<code>stateObject</code>参数从原始指针<code>SerializedScriptValue*</code>更改为引用计数指针<code>PassRefPtr&lt;SerializedScriptValue&gt;</code>。这个2013年2月的提交所做的与我们2022年的提交相同。该提交的标题是&quot;SerializedScriptValue::deserialize中的释放后使用&quot;，并包含了对该释放后使用如何工作的良好描述。</p>
+<p>该提交还包括一个测试：</p>
+<p>添加了一个测试，演示了由于SerializedScriptValue的释放后使用而导致的崩溃。</p>
+<p>测试：fast/history/replacestate-nocrash.html</p>
+<p>该测试的触发条件是：</p>
+<p>Object.prototype.<strong>defineSetter</strong>(&quot;foo&quot;,function(){history.replaceState(&quot;&quot;, &quot;&quot;)});</p>
+<p>history.replaceState({foo:1,zzz:&quot;a&quot;.repeat(1&lt;&lt;22)}, &quot;&quot;);</p>
+<p>history.state.length;</p>
+<p>我希望这个测试会使易受攻击的WebKit版本崩溃，这样我就可以完成根本原因分析，继续研究下一个bug。不幸的是，它没有崩溃。</p>
+<p>提交描述中包含了一条注释，建议查看一个Chromium bug。（在此期间，Chromium仍在使用WebKit渲染引擎。Chromium在<a href="https://blog.chromium.org/2013/04/blink-rendering-engine-for-chromium.html">2013年4月分叉了Blink渲染引擎</a>。）我看到我现在的Project Zero队友Sergei Glazunov早在2013年就报告了这个<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=171839">Chromium bug</a>，所以我向他询问了细节。</p>
+<p>2013年的释放后使用漏洞（未分配CVE编号）是History API实现中的一个bug。该API允许访问（和修改）当前框架中访问过的页面堆栈，这些页面状态存储为SerializedScriptValue。History API为state公开了一个getter，以及一个<code>replaceState</code>方法，允许覆盖&quot;最近&quot;的历史条目。该bug在于，在state的getter实现中，对当前&quot;最近&quot;历史条目值调用了<code>SerializedScriptValue::deserialize</code>，但没有增加其引用计数。由于<code>SerializedScriptValue::deserialize</code>可能触发用户JavaScript的回调，该回调可以调用<code>replaceState</code>，通过用新值替换历史条目值来丢弃对其的唯一引用。当回调返回时，<code>SerializedScriptValue::deserialize</code>的其余部分使用了一个已释放的<code>this</code>指针运行。</p>
+<p>为了修复这个bug，开发人员似乎决定通过将参数类型从原始指针更改为<code>PassRefPtr&lt;SerializedScriptValue&gt;</code>，来更改每个调用<code>SerializedScriptValue::deserialize</code>的地方，以增加<code>stateObject</code>上的引用计数。虽然最初报告的触发是通过<code>V8History::stateAccessorGetter</code>函数在<code>stateObject</code>上调用<code>deserialize</code>，但开发人员的修复也捕获并修补了通过<code>loadInSameDocument</code>调用<code>deserialize</code>的路径。</p>
+<p>影响<code>stateObject</code>的更改时间线如下：</p>
+<ul>
+<li><p><a href="https://github.com/WebKit/WebKit/commit/e544495d282d4726fcb491e0e441ddba338b5ec1">2009年12月 - 添加了状态对象History API。</a></p>
+<ul>
+<li><code>HistoryItem.m_stateObject</code>的类型是<code>RefPtr&lt;SerializedScriptValue&gt;</code></li>
+<li><code>HistoryItem::stateObject()</code>返回<code>SerializedScriptValue*</code></li>
+<li><code>FrameLoader::loadInSameDocument</code>将<code>stateObject</code>参数作为<code>SerializedScriptValue*</code>接收</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/WebKit/WebKit/commit/4b3be1d3a8d22cb2b2f5ddb8299f7cd25a21cebf">2013年1月 - 修补Sergei的bug</a></p>
+<ul>
+<li><code>HistoryItem::stateObject</code>返回一个<code>PassRefPtr&lt;SerializedScriptValue&gt;</code></li>
+<li><code>FrameLoader::loadInSameDocument</code>将<code>stateObject</code>参数作为<code>PassRefPtr&lt;SerializedScriptValue&gt;</code>接收</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/WebKit/WebKit/commit/ec83a53b569f6c2b493e9874a498cd1b683656a1">2015年9月 - 弃用history目录中PassRefPtr的使用</a></p>
+<ul>
+<li><code>HistoryItem::stateObject</code>返回<code>RefPtr</code>而不是<code>PassRefPtr</code></li>
+</ul>
+</li>
+<li><p><a href="https://github.com/WebKit/WebKit/commit/ed43edee9f8f114c3b2db3c0420e23f926a968ee">2016年10月 - （可能）临时重构</a></p>
+<ul>
+<li><code>HistoryItem::stateObject()</code>更改为返回原始指针而不是<code>RefPtr</code></li>
+</ul>
+</li>
+<li><p><a href="https://github.com/WebKit/WebKit/commit/aa31b6b4d09b09acdf1cec11f2f7f35bd362dd0e">2016年12月 - 引入CVE-2022-22600</a></p>
+<ul>
+<li><code>FrameLoader::loadInSameDocument</code>更改为将<code>stateObject</code>作为原始指针而不是<code>PassRefPtr&lt;SerializedScriptValue&gt;</code>接收</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/WebKit/WebKit/commit/486816dc355c19f1de1b8056f85d0bbf7084dd6e">2022年1月 - 修补CVE-2022-22600</a></p>
+<ul>
+<li><code>FrameLoader::loadInSameDocument</code>更改为将<code>stateObject</code>作为<code>RefPtr&lt;SerializedScriptValue&gt;</code>接收</li>
+</ul>
+</li>
+</ul>
+<h1 id="深入剖析">深入剖析</h1><p>当我们查看<code>FrameLoader::loadInSameDocument</code>的更改时间线时，似乎该bug是在2016年12月由于重构而被重新引入的。问题是，为什么补丁作者认为<code>loadInSameDocument</code>不需要持有引用。根据<a href="https://github.com/WebKit/WebKit/commit/aa31b6b4d09b09acdf1cec11f2f7f35bd362dd0e">2016年12月提交的变更日志</a>：为序列化脚本值状态对象使用原始指针。没有人传递所有权。</p>
+<p>我的评估是，这是由于2016年10月<code>HistoryItem:stateObject</code>的更改。当作者在2016年12月评估dom目录中所需的重构更改时，看起来唯一调用<code>loadInSameDocument</code>的地方要么传递了一个<code>null</code>值，要么传递了<code>stateObject()</code>的结果，而自2016年10月起，<code>stateObject()</code>现在传递的是原始<code>SerializedScriptValue*</code>指针。当查看参数类型的这两种选项时，开发人员可能因此认为<code>loadInSameDocument</code>不需要共享<code>stateObject</code>的所有权。</p>
+<p>那么，为什么<code>HistoryItem::stateObject</code>的返回值在2016年10月从<code>RefPtr</code>更改为原始指针呢？我很难找到解释。</p>
+<p>根据描述，2016年10月的补丁旨在&quot;用WebCore::Exception替换所有ExceptionCodeWithMessage的使用&quot;。但当我们查看变更日志时，似乎作者还决定对<code>HistoryItem</code>进行一些（看似无关的）重构。这些是该提交中少数与异常无关的描述的更改之一。作为外部人员查看这些提交，似乎开发人员在处理所需的异常重构时，碰巧想顺便做一点&quot;清理&quot;。如果这只是代码工作中的额外临时步骤，而不是提交的目标，那么开发人员和审阅者可能没有进一步追踪<code>HistoryItem::stateObject</code>的完整生命周期，这似乎是合理的。</p>
+<p>虽然2016年10月对<code>HistoryItem</code>的更改不足以引入该bug，但似乎该更改很可能导致2016年12月的开发人员认为<code>loadInSameDocument</code>不需要增加<code>stateObject</code>的引用计数。</p>
+<p>2016年10月和2016年12月的提交都非常庞大。10月的提交更改了40个文件，增加了900行，删除了1225行。12月的提交更改了95个文件，增加了1336行，删除了1325行。对于任何开发人员或审阅者来说，要详细理解这些提交中每个更改的安全影响似乎是不现实的，尤其是当它们涉及生命周期语义时。</p>
+<h1 id="僵尸复活">僵尸复活</h1><p>我们现在已经追踪了修复2013年漏洞的更改演变过程……然后又撤销了这些修复……所以我回过头来确定2022年的bug。这是同一个bug，但通过不同的路径触发。这就是为什么2013年的测试用例没有使本应易受CVE-2022-22620攻击的WebKit版本崩溃：</p>
+<ol>
+<li>2013年的测试用例通过<code>V8History::stateAccessorAndGetter</code>路径而不是<code>FrameLoader::loadInSameDocument</code>触发该bug，并且</li>
+<li>作为Sergei 2013年bug报告的一部分，采取了额外的加固措施，防止在反序列化期间处理用户代码回调。</li>
+</ol>
+<p>因此，我们需要弄清楚如何调用<code>loadInSameDocument</code>，并且不是使用反序列化来触发JavaScript回调，而是需要在<code>loadInSameDocument</code>函数中找到另一个会触发用户JavaScript回调的事件。</p>
+<p>为了快速弄清楚如何调用<code>loadInSameDocument</code>，我修改了WebKit源代码，以便在调用<code>loadInSameDocument</code>时触发测试失败，然后运行fast/history目录中的所有测试。在80个测试中，有5个调用了<code>loadInSameDocument</code>：</p>
+<ul>
+<li><a href="https://github.com/WebKit/WebKit/blob/main/LayoutTests/fast/history/multiple-back-forward-navigations.html">fast/history/multiple-back-forward-navigations.html</a></li>
+<li><a href="https://github.com/WebKit/WebKit/blob/main/LayoutTests/fast/history/history-traversal-is-asynchronous.html">fast/history/history-traversal-is-asynchronous.html</a></li>
+<li><a href="https://github.com/WebKit/WebKit/blob/main/LayoutTests/fast/history/history-back-forward-within-subframe-hash.html">fast/history/history-back-forward-within-subframe-hash.html</a></li>
+<li><a href="https://github.com/WebKit/WebKit/blob/main/LayoutTests/fast/history/link-inside-any.html">fast/history/link-inside-any.html</a></li>
+<li><a href="https://github.com/WebKit/WebKit/blob/main/LayoutTests/fast/history/timed-refresh-in-cached-frame.html">fast/history/timed-refresh-in-cached-frame.html</a></li>
+</ul>
+<p>测试<code>history-back-forward-within-subframe-hash.html</code>和<code>fast/history/history-traversal-is-asynchronous.html</code>最有帮助。我们可以通过设置一个历史堆栈来触发对<code>loadInSameDocument</code>的调用，该堆栈中的对象位置是同一页面，但包含一个哈希（hash）。然后我们调用<code>history.back()</code>返回到包含带哈希URL的状态。<code>loadInSamePage</code>负责滚动到该位置。</p>
+<p>history.pushState(&quot;state1&quot;, &quot;&quot;, location + &quot;#foo&quot;);</p>
+<p>history.pushState(&quot;state2&quot;, &quot;&quot;); // 当前状态</p>
+<p>history.back(); // 返回到 state1，触发 loadInSameDocument</p>
+<p>既然我知道了如何调用<code>loadInSameDocument</code>，我就与Sergei合作，确定我们如何在<code>loadInSameDocument</code>函数执行期间的某个时刻（但在调用<code>statePopped</code>之前）获得用户代码执行（<a href="https://github.com/WebKit/WebKit/blob/7b23cae2a1b1ffd026288f15261f8ba272c3b24b/Source/WebCore/loader/FrameLoader.cpp#L1158">FrameLoader.cpp#1158</a>）：</p>
+<p>m_frame.document()-&gt;statePopped(stateObject ? Ref<SerializedScriptValue> { *stateObject } : SerializedScriptValue::nullValue());</p>
+<p>用户代码的回调必须发生在调用<code>statePopped</code>之前，因为<code>stateObject</code>在那里被转换为引用，因此现在将被引用计数。我们假设这将是&quot;已释放&quot;对象被&quot;使用&quot;的地方。</p>
+<p>如果你深入研究<code>loadInSameDocument</code>中进行的调用，我们会发现有一条路径会派发<code>blur</code>事件。我们也可以使用像<a href="https://codeql.github.com/">CodeQL</a>这样的工具来查看是否存在从<code>loadInSameDocument</code>到<code>dispatchEvent</code>的路径，但在本例中我们只是手动审计。到<code>blur</code>事件的调用树是：</p>
+<p>FrameLoader::loadInSameDocument</p>
+<p>FrameLoader::scrollToFragmentWithParentBoundary</p>
+<p>FrameView::scrollToFragment</p>
+<p>FrameView::scrollToFragmentInternal</p>
+<p>FocusController::setFocusedElement</p>
+<p>FocusController::setFocusedFrame</p>
+<p>dispatchWindowEvent(Event::create(eventNames().blurEvent, Event::CanBubble::No, Event::IsCancelable::No));</p>
+<p>每当焦点从一个元素移动到另一个元素时，<code>blur</code>事件就会在该元素上触发。在我们的例子中，当我们需要滚动到当前页面内的新位置时，会触发<code>loadInSameDocument</code>。如果我们正在滚动并因此将焦点更改为新元素，则<code>blur</code>事件会在先前具有焦点的元素上触发。</p>
+<p>我们触发器的最后一部分是在<code>onblur</code>事件处理程序中释放<code>stateObject</code>。为此，我们调用<code>replaceState</code>，它用新对象覆盖当前历史状态。这导致对<code>stateObject</code>的最后一个引用被丢弃，因此它被释放。<code>loadInSameDocument</code>在其调用<code>statePopped</code>时仍然使用已释放的<code>stateObject</code>。</p>
+<p>input = document.body.appendChild(document.createElement(&quot;input&quot;));</p>
+<p>a = document.body.appendChild(document.createElement(&quot;a&quot;));</p>
+<p>a.id = &quot;foo&quot;;</p>
+<p>history.pushState(&quot;state1&quot;, &quot;&quot;, location + &quot;#foo&quot;);</p>
+<p>history.pushState(&quot;state2&quot;, &quot;&quot;);</p>
+<p>setTimeout(() =&gt; {</p>
+<p>input.focus();</p>
+<p>input.onblur = () =&gt; history.replaceState(&quot;state3&quot;, &quot;&quot;);</p>
+<p>setTimeout(() =&gt; history.back(), 1000);</p>
+<p>}, 1000);</p>
+<p>在2013年和2022年的案例中，根本漏洞都是<code>stateObject</code>没有被正确引用计数。2013年，开发人员在修补触发漏洞的所有不同路径方面做得很好，不仅仅是提交的概念验证中的那一条。这意味着他们也消灭了<code>loadInSameDocument</code>中的漏洞。2016年12月的重构随后复活了该漏洞，使其能够在野外被利用，并在2022年重新修补。</p>
+<h1 id="结论">结论</h1><p>通常当我们谈论变体时，它们之所以存在是因为补丁不完整：供应商没有正确且完全地修复报告的漏洞。然而，对于CVE-2022-22620，该漏洞在2013年已被正确且完全地修复。它的修复只是在2016年的重构过程中出现了倒退。我们不知道攻击者在野外利用这个漏洞有多长时间，但我们知道该漏洞（再次）存在了5年：从2016年12月到2022年1月。</p>
+<p>对于本应采取哪些不同措施，并没有简单的答案。2013年响应初始bug报告的开发人员遵循了许多最佳实践：</p>
+<ul>
+<li>修补了触发漏洞的所有路径，不仅仅是概念验证中的那一条。这意味着他们修补了后来成为CVE-2022-22620的变体。</li>
+<li>随补丁提交了测试用例。</li>
+<li>详细的提交消息解释了漏洞以及他们如何修复它。</li>
+<li>反序列化期间的额外加固措施。</li>
+</ul>
+<p>作为一个专注于攻击性安全的研究团队，我们可以对现代软件开发团队面临的核心挑战做出假设：遗留代码、对审阅者快速周转的期望、重构和安全工作通常不受重视且回报不足，以及缺乏内存安全缓解措施。开发人员和安全团队需要时间来审查补丁，尤其是安全问题的补丁，并且奖励这些努力将会带来改变。从长远来看，这也将为供应商节省资源。在本例中，在一个漏洞最初被分类、修补、测试和发布9年后，整个过程不得不重复一遍，但这次是在野外利用的压力下进行的。</p>
+<p>虽然这个案例研究是关于Safari/WebKit的0day，但这并不是Safari独有的问题。早在2022年，我们已经看到了针对Chromium、Windows、Pixel和iOS的在野0day，它们也是先前披露漏洞的变体。这提醒我们，作为防御者，我们都需要在审查和审计代码及补丁方面保持警惕。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/0day.html" class="tag-link">#0day</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/Java安全.html" class="tag-link">#Java安全</a> <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a> <a href="/tag/JS安全.html" class="tag-link">#JS安全</a> <a href="/tag/Safari.html" class="tag-link">#Safari</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#开始调查" class="toc-link">
+              <span class="toc-text">开始调查</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#前世今生" class="toc-link">
+              <span class="toc-text">前世今生</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#深入剖析" class="toc-link">
+              <span class="toc-text">深入剖析</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#僵尸复活" class="toc-link">
+              <span class="toc-text">僵尸复活</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

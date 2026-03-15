@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>打破声音屏障第一部分：使用Mach消息对CoreAudio进行模糊测试 - BasicBit</title>
+  <meta name="description" content="打破声音屏障第一部分：使用Mach消息对CoreAudio进行模糊测试">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">打破声音屏障第一部分：使用Mach消息对CoreAudio进行模糊测试</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2025/5/9
+            </span>
+            <span class="meta-item">Dillon Franke</span>
+            <span class="meta-item">模糊测试, 移动安全, 网络安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2025/05/breaking-sound-barrier-part-i-fuzzing.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2025%2F05%2Fbreaking-sound-barrier-part-i-fuzzing.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p><strong>特邀作者：Dillon Franke，高级安全工程师，20% 时间用于 Project Zero</strong></p>
+<p>每秒，高权限的 macOS 系统守护进程都会接收并处理数百条 IPC 消息。在某些情况下，这些消息处理器会接受来自沙盒化或非特权进程的数据。</p>
+<p>在这篇博文中，我将探讨如何将 Mach IPC 消息用作攻击向量，以发现和利用沙盒逃逸。我将详细介绍如何使用自定义的 fuzzing 工具、动态插桩以及大量的调试/静态分析，在 coreaudiod 系统守护进程中发现一个高风险的类型混淆漏洞。在此过程中，我还会讨论遇到的一些困难和权衡。</p>
+<p>坦率地说，这是我首次涉足 macOS 安全研究领域，也是我第一次构建自定义的 fuzzing 工具。我希望这篇博文能为那些希望从事类似研究工作的人提供指导。</p>
+<p>我将开源我构建的 fuzzing 工具，以及我在这个项目中编写的几个有用工具。所有这些都可以在这里找到：<a href="https://github.com/googleprojectzero/p0tools/tree/master/CoreAudioFuzz">https://github.com/googleprojectzero/p0tools/tree/master/CoreAudioFuzz</a></p>
+<h1 id="方法-知识驱动的-fuzzing">方法：知识驱动的 Fuzzing</h1><p>在这个研究项目中，我采用了一种结合了 fuzzing 和手动逆向工程的混合方法，我称之为知识驱动的 fuzzing。这种方法是我从朋友 <a href="https://x.com/NedWilliamson">Ned Williamson</a> 那里学到的，它在自动化和针对性调查之间取得了平衡。Fuzzing 提供了快速测试各种输入并识别系统行为偏离预期区域的手段。然而，当 fuzzer 的代码覆盖率停滞不前或遇到特定障碍时，手动分析就派上了用场，迫使我更深入地研究目标的内部工作原理。</p>
+<p>知识驱动的 fuzzing 有两个关键优势。首先，研究过程永远不会停滞，因为提高 fuzzer 代码覆盖率的目标始终存在。其次，实现这个目标需要对正在 fuzzing 的代码有深入的理解。当你开始对真实的、与安全相关的崩溃进行分类时，逆向工程过程已经让你对代码库有了广泛的了解，从而能够从知情角度分析崩溃。</p>
+<p>我在本次研究中遵循的循环如下：</p>
+<ol>
+<li>识别攻击向量</li>
+<li>选择目标</li>
+<li>创建 fuzzing 工具</li>
+<li>Fuzzing 并产生崩溃</li>
+<li>分析崩溃和代码覆盖率</li>
+<li>迭代改进 fuzzing 工具</li>
+<li>重复步骤 4-6</li>
+</ol>
+<h1 id="识别攻击向量">识别攻击向量</h1><p>标准的浏览器沙盒通过限制直接操作系统访问来限制代码执行。因此，利用浏览器漏洞通常需要使用单独的“沙盒逃逸”漏洞。</p>
+<p>由于进程间通信（IPC）机制允许两个进程相互通信，它们自然可以作为从沙盒化进程到非受限进程的桥梁。这使得它们成为沙盒逃逸的主要攻击向量，如下图所示。</p>
+<p><img src="/images/6d6f72722aea/7f6ef7fe95f339daee06e2ee28d14c8b.png" alt="一张说明 SANDBOX ESCAPE 和 PRIVILEGE ESCALATION 的图表。沙盒逃逸部分显示一个位于 SANDBOX RESTRICTED 内的 Web Browser Process 通过 MACH IPC 与 Message Handler 通信。权限提升部分显示一个 Unprivileged Process 通过 MACH IPC 与一个 Message Handler Highly Privileged Process 通信。" loading="lazy"></p>
+<p>我选择了 Mach 消息，这是 macOS 操作系统中最低级别的 IPC 组件，作为本次研究的重点攻击向量。我选择它们主要是因为我希望在最核心的层面理解 macOS IPC 机制，以及 Mach 消息在历史上的安全问题的记录。</p>
+<h2 id="先前工作和背景">先前工作和背景</h2><p>在利用链中利用 Mach 消息远非新想法。例如，Ian Beer 在 2016 年<a href="/2016/10/taskt-considered-harmful.html">发现了一个与处理 task_t Mach 端口相关的 XNU 内核核心设计问题</a>，这允许通过 Mach 消息进行利用。<a href="/2019/08/in-wild-ios-exploit-chain-2.html">另一篇博文</a>展示了 2019 年一个野外利用链如何利用 Mach 消息进行堆整理技术。我也从 Ret2 Systems 的<a href="https://blog.ret2.io/2018/06/05/pwn2own-2018-exploit-development/">博文</a>中获得了许多灵感，该文讲述了如何利用 Mach 消息处理器来发现并武器化 Safari 沙盒逃逸。</p>
+<p>我不会花太多时间详细说明 Mach 消息的工作原理（这更适合一篇更<a href="https://dmcyk.xyz/post/xnu_ipc_i_mach_messages/">全面的文章</a>），但这里简要概述一下本文涉及的 Mach IPC：</p>
+<ol>
+<li>Mach 消息存储在由 Mach 端口表示的内核管理消息队列中</li>
+<li>如果一个进程拥有某个端口的接收权限（receive right），它可以从该端口获取消息</li>
+<li>如果一个进程拥有某个端口的发送权限（send right），它可以向该端口发送消息</li>
+</ol>
+<p>macOS 应用程序可以向引导服务器（bootstrap server）注册服务，引导服务器是一个特殊的 Mach 端口，默认情况下所有进程都拥有其发送权限。这允许其他进程向引导服务器发送 Mach 消息来查询特定服务，引导服务器可以响应该服务的 Mach 端口的发送权限。macOS 系统守护进程通过 launchd 注册 Mach 服务。你可以查看 <code>/System/Library/LaunchAgents</code> 和 <code>/System/Library/LaunchDaemons</code> 目录下的 <code>.plist</code> 文件来了解注册的服务。例如，下面的 <code>.plist</code> 文件突出显示了 macOS 上为通讯录应用程序注册的 Mach 服务，标识符为 <code>com.apple.AddressBook.AssistantService</code>。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+&lt;dict&gt;
+    &lt;key&gt;POSIXSpawnType&lt;/key&gt;
+    &lt;string&gt;Adaptive&lt;/string&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;com.apple.AddressBook.AssistantService&lt;/string&gt;
+    &lt;key&gt;MachServices&lt;/key&gt;
+    &lt;dict&gt;
+        &lt;key&gt;com.apple.AddressBook.AssistantService&lt;/key&gt;
+        &lt;true/&gt;
+    &lt;/dict&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/ABAssistantService.app/Contents/MacOS/ABAssistantService&lt;/string&gt;
+    &lt;/array&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre>
+<h1 id="选择目标">选择目标</h1><p>决定研究 Mach 服务后，下一个问题是选择哪个服务作为目标。为了让沙盒化进程向服务发送 Mach 消息，必须明确允许。如果进程使用苹果的 App Sandbox 功能，这是在 <code>.sb</code> 文件中完成的，使用 <a href="https://tinyscheme.sourceforge.net/home.html">TinyScheme</a> 格式编写。下面的代码片段显示了 WebKit GPU 进程沙盒文件的摘录。<code>allow mach-lookup</code> 指令用于允许沙盒化进程查找并向服务发送 Mach 消息。</p>
+<pre><code># File: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/Resources/com.apple.WebKit.GPUProcess.sb
+
+(with-filter (system-attribute apple-internal)
+  (allow mach-lookup
+    (global-name &quot;com.apple.analyticsd&quot;)
+    (global-name &quot;com.apple.diagnosticd&quot;)))
+
+(allow mach-lookup
+  (global-name &quot;com.apple.audio.audiohald&quot;)
+  (global-name &quot;com.apple.CARenderServer&quot;)
+  (global-name &quot;com.apple.fonts&quot;)
+  (global-name &quot;com.apple.PowerManagement.control&quot;)
+  (global-name &quot;com.apple.trustd.agent&quot;)
+  (global-name &quot;com.apple.logd.events&quot;))
+</code></pre>
+<p>这帮助我将关注范围从所有 macOS 进程大幅缩小到拥有沙盒可访问 Mach 服务的进程：</p>
+<p><img src="/images/6d6f72722aea/01fdb356de9fbf757aac2f42d0c87386.png" alt="一个说明 macOS 上进程类型的维恩图。最外层、最大的椭圆代表 All MacOS Processes。其内部，一个较小的椭圆代表 Processes with a Mach Service。最内层、最小的椭圆代表 Processes with a Sandbox Allowed Mach Service，表示一个具有越来越严格限制和特定 Mach 服务权限的进程子集。" loading="lazy"></p>
+<p>除了检查沙盒配置文件，我还使用了 Jonathan Levin 的 <a href="https://web.archive.org/web/20240519054616/https://newosxbook.com/src.jl?tree%3Dlistings%26file%3D/sbtool.c">sbtool</a> 工具来测试给定进程可以交互哪些 Mach 服务。该工具（虽然有点过时，但我成功编译了）在底层使用内置的 <code>sandbox_exec</code> 函数，提供了一个很好的可访问 Mach 服务标识符列表：</p>
+<pre><code>❯ ./sbtool 2813 mach
+com.apple.logd
+com.apple.xpc.smd
+com.apple.remoted
+com.apple.metadata.mds
+com.apple.coreduetd
+com.apple.apsd
+com.apple.coreservices.launchservicesd
+com.apple.bsd.dirhelper
+com.apple.logind
+com.apple.revision
+…Truncated…
+</code></pre>
+<p>最终，我选择查看 coreaudiod 守护进程，特别是 <code>com.apple.audio.audiohald</code> 服务，原因如下：</p>
+<ul>
+<li>它是一个复杂的进程</li>
+<li>它允许来自多个有影响的应用程序（包括 Safari GPU 进程）的 Mach 通信</li>
+<li>该 Mach 服务有大量的消息处理器</li>
+<li>该服务似乎允许控制和修改音频硬件，这可能需要提升的权限</li>
+<li>coreaudiod 二进制文件及其大量使用的 CoreAudio 框架都是闭源的，这将提供一个独特的逆向工程挑战</li>
+</ul>
+<h1 id="创建-fuzzing-工具">创建 Fuzzing 工具</h1><p>选择攻击向量和目标后，下一步是创建一个 fuzzing 工具，能够通过攻击向量（Mach 消息）在目标内的适当位置发送输入。</p>
+<p>覆盖率引导的 fuzzer 是一个强大的武器，但前提是它的能量集中在正确的地方——就像放大镜聚焦阳光来点火一样。没有适当的聚焦，能量就会消散，收效甚微。</p>
+<h2 id="确定入口点">确定入口点</h2><p>理想情况下，fuzzer 应该完美复制潜在攻击者可用的环境和能力。然而，这并不总是可行的。通常需要做出权衡，例如为了更高的性能、简化的插桩或易于开发而接受更高的误报率。因此，确定 fuzzing 的“正确位置”高度依赖于特定的目标和研究目标。</p>
+<h3 id="选项-1-进程间-fuzzing">选项 1：进程间 Fuzzing</h3><p>所有 Mach 消息都是使用 <code>mach_msg</code> API 发送和接收的，如下所示。因此，我认为 fuzzing coreaudiod 的 Mach 消息处理器最直观的方法是编写一个调用 <code>mach_msg</code> API 的 fuzzing 工具，并允许我的 fuzzer 修改消息内容以产生崩溃。这种方法看起来像这样：</p>
+<p><img src="/images/6d6f72722aea/804f6b586aa4bb6c3611f47f1d63b7e0.png" alt="一个显示进程间通信的图表。一个 "SENDING PROCESS" 调用 mach_msg API，通过 "Mach IPC" 发送消息到一个 "Kernel-Managed Message Queue"。这个队列然后通过 "Mach IPC" 将消息转发到 "RECEIVING PROCESS" 中的 "Mach Message Handler"。" loading="lazy"></p>
+<p>然而，这种方法有一个很大的缺点：由于我们发送的是 IPC 消息，fuzzing 工具将与目标处于不同的进程空间。这意味着代码覆盖率信息需要跨进程边界共享，而大多数 fuzzing 工具不支持这一点。此外，内核消息队列处理增加了显著的性能开销。</p>
+<h3 id="选项-2-直接工具">选项 2：直接工具</h3><p>虽然前期需要更多工作，但另一个选择是编写一个 fuzzing 工具，直接加载并调用感兴趣的 Mach 消息处理器。这将具有巨大的优势，即让我们的 fuzzer 和插桩与消息处理器处于同一进程中，使我们能够更容易地获取代码覆盖率。</p>
+<p><img src="/images/6d6f72722aea/9df6b67d28bc61cebd7cf880fd397877.png" alt="一个说明 SINGLE PROCESS 通信的图表。它显示 Load Library & Call Message Handler 通过 Fuzzing Harness 与同一进程内的 Mach Message Handler 通信。" loading="lazy"></p>
+<p>这种 fuzzing 方法的一个显著缺点是，它假设所有 fuzzer 生成的输入都通过了内核的 Mach 消息验证层，而在真实系统中，这发生在消息处理器被调用之前。正如我们稍后将看到的，情况并非总是如此。然而，在我看来，在同一进程空间中进行 fuzzing 的优点（速度和易于收集代码覆盖率）超过了潜在误报增加的缺点。</p>
+<p>方法如下：</p>
+<ol>
+<li>识别一个合适的函数来处理传入的 Mach 消息</li>
+<li>编写一个 fuzzing 工具，从 coreaudiod 加载消息处理代码</li>
+<li>使用 fuzzer 生成输入并调用 fuzzing 工具</li>
+<li>希望有所收获</li>
+</ol>
+<h2 id="寻找-mach-消息处理器">寻找 Mach 消息处理器</h2><p>首先，我搜索了 Mach 服务标识符 <code>com.apple.audio.audiohald</code>，但在 coreaudiod 二进制文件中没有找到对它的引用。接下来，我使用 <code>otool</code> 检查了它加载的库。从逻辑上讲，CoreAudio 框架似乎是存放我们消息处理器代码的好候选。</p>
+<pre><code>$ otool -L /usr/sbin/coreaudiod
+/usr/sbin/coreaudiod:
+    /System/Library/PrivateFrameworks/caulk.framework/Versions/A/caulk (compatibility version 1.0.0, current version 1.0.0)
+    /System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio (compatibility version 1.0.0, current version 1.0.0)
+    /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 2602.0.255)
+    /usr/lib/libAudioStatistics.dylib (compatibility version 1.0.0, current version 1.0.0, weak)
+    /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 2602.0.255)
+    /usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
+    /usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1700.255.5)
+    /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1345.120.2)
+</code></pre>
+<p>然而，我惊讶地发现 <code>otool</code> 返回的路径并不存在！</p>
+<pre><code>$ stat /System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio
+stat: /System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio: stat: No such file or directory
+</code></pre>
+<h3 id="dyld-共享缓存">Dyld 共享缓存</h3><p>一些研究告诉我，从 macOS Big Sur 开始，大多数框架二进制文件并不存储在磁盘上，而是存储在 <a href="https://forums.developer.apple.com/forums/thread/692383">dyld</a><a href="https://forums.developer.apple.com/forums/thread/692383">共享缓存</a>中，这是一种预链接库的机制，以允许应用程序运行得更快。幸运的是，IDA Pro、Binary Ninja 和 Ghidra 支持解析 dyld 共享缓存以获取其中存储的库。我还使用了这个<a href="https://github.com/keith/dyld-shared-cache-extractor">有用的工具</a>来成功提取库以进行额外分析。</p>
+<p>在 IDA 中获取 CoreAudio 框架后，我很快找到了一个对 <code>bootstrap_check_in</code> 的调用，并将服务标识符作为参数传递，证明 CoreAudio 框架二进制文件负责设置我想要 fuzzing 的 Mach 服务。然而，尽管进行了相当多的逆向工程，仍然不清楚消息处理代码在哪里。</p>
+<p><img src="/images/6d6f72722aea/8a96f65dcd5f4a8b15838a7bbf69870c.png" alt="反汇编代码的截图。显示了函数 macOS_PlatformBehaviors::get_system_port。高亮显示了 _bootstrap_check_in 的调用，以及作为服务名传递的字符串 com.apple.audio.audiohald。" loading="lazy"></p>
+<p>原来这是因为使用了 <a href="https://www.gnu.org/software/hurd/microkernel/mach/mig/gnu_mig.html">Mach Interface Generator</a>（MIG），这是苹果的一种接口定义语言，通过抽象掉大部分 Mach 层，使编写 RPC 客户端和服务器更容易。编译时，MIG 消息处理代码被打包到一个称为子系统（subsystem）的结构中。可以轻松地 grep 这些子系统来找到它们的偏移量：</p>
+<pre><code>$ nm -m ./System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio | grep -i subsystem
+(undefined) external _CACentralStateDumpRegisterSubsystem (from AudioToolboxCore)
+00007ff840470138 (__DATA_CONST,__const) non-external _HALC_HALB_MIGClient_subsystem
+00007ff840470270 (__DATA_CONST,__const) non-external _HALS_HALB_MIGServer_subsystem
+</code></pre>
+<p>接下来，我在 IDA 中搜索对 <code>_HALS_HALB_MIGServer_subsystem</code> 符号的交叉引用，这识别了解析传入 Mach 消息的 MIG 服务器函数！该例程如下所示，第一个参数（<code>rdi</code> 寄存器）是传入的 Mach 消息，第二个参数（<code>rsi</code> 寄存器）是返回给客户端的消息。MIG 服务器函数从 Mach 消息中提取 <code>msgh_id</code> 参数，并用它来索引到 MIG 子系统中。然后，调用必要的函数处理器。</p>
+<p><img src="/images/6d6f72722aea/c8ce45c31bce2027cc77855534f21d3c.png" alt="HALB_MIGServer_server 内的反汇编代码流程图。注释高亮了 Incoming msg rdi 以及 Get msg ID 和 Get subsystem offset 的步骤。然后使用此偏移量 Index into function handler based on msg ID，最终指向一个 Call function 块。" loading="lazy"></p>
+<p>我通过在 coreaudiod 进程上设置一个 LLDB 断点（在<a href="https://conference.hitb.org/hitbsecconf2021sin/materials/D2T1%2520-%2520Summer%2520of%2520Fuzz%2520-%2520MacOS%2520-%2520Jeremy%2520Brown.pdf#page=11">禁用 SIP</a> 之后）来进一步确认这一点，断点设在 <code>_HALB_MIGServer_server</code> 函数上。然后，我调整了系统音量，断点被命中：</p>
+<p><img src="/images/6d6f72722aea/d24cd36804f51408da4ea5c080726217.png" alt="调试器 lldb 窗口显示在 CoreAudio_HALB_MIGServer_server 中命中断点。进程在此函数开头停止，指令 push rbp 被高亮显示。线程信息指示队列是 com.apple.audio.device.BuiltInSpeakerDevice.event" loading="lazy"></p>
+<p>在这个例子中，追踪从 MIG 子系统调用的消息处理器显示，根据 Mach 消息的 <code>msgh_id</code> 调用了 <code>_XObject_HasProperty</code> 函数。</p>
+<p><img src="/images/6d6f72722aea/3ff1b298576f898f9f3e782216a5a8a2.png" alt="调试器 lldb 窗口显示一个停止进程的两个状态。第一个状态显示进程在 CoreAudio_HALB_MIGServer_server 内的 call rcx 指令处停止。执行 step into si 命令后，第二个状态显示进程在 CoreAudio__XObject_HasProperty 的开头停止，如红色箭头和高亮的函数名所示。" loading="lazy"></p>
+<p>根据 <code>msgh_id</code>，可以从 MIG 子系统访问几十个消息处理器。它们很容易通过 MIG 添加的方便的 <code>__X</code> 前缀来识别。</p>
+<p><img src="/images/6d6f72722aea/5f7a0974041057ff5a972a1bb1a53f49.png" alt="一个函数名列表，可能来自软件库或框架，涉及对象和系统上下文管理。每个函数名前缀都有一个 f 图标并以红色高亮，可能表示它们对分析感兴趣或已被修补。示例包括 __XObject_PropertyListener、__XIOContext_PauseIO、__XSystem_CreateIOContext 和 __XObject_HasProperty。" loading="lazy"></p>
+<p><code>_HALB_MIGServer_server</code> 函数在接近低级消息处理代码的同时，仍然类似于调用 <code>mach_msg</code> 所接受的输入，这达到了一个很好的平衡。我决定这就是注入 fuzz 输入的地方。</p>
+<h2 id="创建基本的-fuzzing-工具">创建基本的 Fuzzing 工具</h2><p>确定了我想要 fuzzing 的函数后，下一步是编写一个程序来读取文件，并将文件内容作为输入传递给目标函数。这可能就像将 CoreAudio 库与我的 fuzzing 工具链接并调用 <code>_HALB_MIGServer_server</code> 函数一样简单，但不幸的是，该函数没有被导出。</p>
+<p>相反，我从 <a href="https://x.com/ifsecure">Ivan Fratric</a> 和他的 <a href="https://github.com/googleprojectzero/TinyInst/">TinyInst</a> 工具（我们稍后会更多地讨论它）中借用了一些逻辑，该工具<a href="https://github.com/googleprojectzero/TinyInst/blob/fb1cceb7ec3c44cb18c4c01685e496777e0bcdc9/macOS/debugger.cpp#L1169">从库中返回给定符号的地址</a>。该代码解析 Mach-O 二进制文件的结构，特别是它们的头部和加载命令，以定位和提取符号信息。这使得<a href="https://github.com/googleprojectzero/p0tools/blob/master/CoreAudioFuzz/helpers/initialization.cc">在我的 fuzzing 工具中解析和调用目标函数</a>成为可能，即使它没有被导出。</p>
+<p>因此，我的工具的高级功能如下：</p>
+<ol>
+<li>加载 CoreAudio 库</li>
+<li>从 CoreAudio 库获取目标函数的函数指针</li>
+<li>从文件读取输入</li>
+<li>使用输入调用目标函数</li>
+</ol>
+<p>我的 fuzzing 工具的完整实现可以在<a href="https://github.com/googleprojectzero/p0tools/blob/master/CoreAudioFuzz/harness.mm">这里</a>找到。下面是一个调用工具从输入文件发送消息的示例：</p>
+<pre><code>$ ./harness -f corpora/basic/1 -v
+*******NEW MESSAGE*******
+Message ID: 1010000 (XSystem_Open)
+------ MACH MSG HEADER ------
+msg_bits: 2319532353
+msg_size: 56
+msg_remote_port: 1094795585
+msg_local_port: 1094795585
+msg_voucher_port: 1094795585
+msg_id: 1010000
+------ MACH MSG BODY (32 bytes) ------
+0x01 0x00 0x00 0x00 0x03 0x30 0x00 0x00 0x41 0x41 0x41 0x41 0x41 0x41 0x11 0x00 0x41 0x41 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+------ MACH MSG TRAILER ------
+msg_trailer_type: 0
+msg_trailer_size: 32
+msg_seqno: 0
+msg_sender: 0
+------ MACH MSG TRAILER BODY (32 bytes) ------
+0xf5 0x01 0x00 0x00 0xf5 0x01 0x00 0x00 0x14 0x00 0x00 0x00 0xf5 0x01 0x00 0x00 0x14 0x00 0x00 0x00 0x7e 0x02 0x00 0x00 0xa3 0x86 0x01 0x00 0x4f 0x06 0x00 0x00
+Processing function result: 1
+*******RETURN MESSAGE*******
+------ MACH MSG HEADER ------
+msg_bits: 1
+msg_size: 36
+msg_remote_port: 1094795585
+msg_local_port: 0
+msg_voucher_port: 0
+msg_id: 1010100
+------ MACH MSG BODY (12 bytes) ------
+0x00 0x00 0x00 0x00 0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+</code></pre>
+<h1 id="收集合法的-mach-消息">收集合法的 Mach 消息</h1><p>我现在有了一种方法，可以直接将数据传递到我想要 fuzzing 的 MIG 子系统（<code>_HALB_MIGServer_server</code>）。然而，我不知道处理器期望的特定消息大小、选项或数据。虽然覆盖率引导的 fuzzer 会随着时间的推移发现正确的消息格式，但在刚开始 fuzzing 时获取一个合法的输入<a href="https://github.com/google/fuzzing/blob/master/docs/good-fuzz-target.md#seed-corpus">种子语料库</a>以提高效率是有利的。</p>
+<p>为此，我使用 LLDB 在 MIG 子系统上设置断点，并转储第一个参数（包含传入的 Mach 消息）。然后，我操作操作系统以导致 Mach 消息被发送到 coreaudiod。macOS 的 Audio MIDI Setup 应用程序最终非常适合这个目的，因为它允许创建、编辑和删除音频设备。</p>
+<p><img src="/images/6d6f72722aea/3e263085fe23a2871b7520b75ae62d6b.png" alt="macOS 音频设备设置的截图。一个红色箭头指向左下角的 "+" 按钮，一个下拉菜单打开，显示 "Create Aggregate Device" 被高亮，指示正在执行的操作。" loading="lazy"></p>
+<h1 id="fuzzing-并产生崩溃">Fuzzing 并产生崩溃</h1><p>有了一个小型种子语料库和输入传递机制，下一步是配置一个 fuzzer 来使用创建的 fuzzing 工具并获取代码覆盖率。我使用了由 Ivan Fratric 构建和维护的优秀 <a href="https://github.com/googleprojectzero/Jackalope">Jackalope fuzzer</a>。我选择 Jackalope 主要是因为其高度的可定制性——它允许轻松实现自定义变异器、插桩和样本传递。此外，我很欣赏它在 macOS 上的无缝使用，特别是其由 <a href="https://github.com/googleprojectzero/TinyInst">TinyInst</a> 驱动的代码覆盖率功能。相比之下，我尝试使用 Frida 收集 macOS 系统守护进程的代码覆盖率但失败了。</p>
+<p>我使用以下命令启动 Jackalope fuzzing 运行：</p>
+<pre><code>$ jackalope -in in/ -out out/ -delivery file -instrument_module CoreAudio -target_module harness -target_method _fuzz -nargs 1 -iterations 1000 -persist -loop -dump_coverage -cmp_coverage -generate_unwind -nthreads 5 -- ./harness -f @@
+</code></pre>
+<h1 id="迭代改进-fuzzing-工具">迭代改进 Fuzzing 工具</h1><p>这个工具很快产生了许多崩溃，表明我走对了路。然而，我很快了解到，最初的崩溃通常并不表示安全漏洞，而是 fuzzing 工具本身的设计缺陷或无效假设。</p>
+<h2 id="迭代-1-目标初始化">迭代 1：目标初始化</h2><p>我的 fuzzing 方法的一个困难是，我的目标函数（Mach 消息处理器）期望 HAL 系统处于特定状态才能开始接收 Mach 消息。通过简单地用我的 fuzzing 工具调用库函数，这些假设被打破了。</p>
+<p>这导致错误开始出现。如下图所示，该工具绕过了 coreaudiod 进程在启动时通常会处理的大部分引导功能。</p>
+<p><img src="/images/6d6f72722aea/08edf66532953790f6ee96eda55cc87d.png" alt="两个比较代码执行的图表。左侧图表标记为 "Fuzzer + Harness"，显示一条路径 1 直接调用 "CoreAudio Library" 内的 "Process Mach Message"。右侧图表标记为 "Coreaudiod Native Process"，显示在 "CoreAudio Library" 中调用 "Process Mach Message" 之前的多个步骤 1, 2, 3, ..., X。" loading="lazy"></p>
+<p>代码覆盖率以及错误消息在帮助确定 fuzzing 工具忽略的一些初始化步骤方面非常有用。例如，我注意到我的数据流在大多数 Mach 消息处理器中总是很早就失败，并记录消息 <code>Error: there is no system</code>。</p>
+<p><img src="/images/6d6f72722aea/876984e12c41c49cbae93c35b7ae06b8.png" alt="反汇编代码执行的流程图。一条路径，用 "We always go this way!" 高亮，导致成功的 HALS_System::GetInstance 调用。另一条路径显示在调用 HALS_Object_SetProperty 后出现错误消息 "Error: There is no system"，如果满足不同的条件。" loading="lazy"></p>
+<p>原来我需要先初始化 HAL 系统，才能正确与 Mach API 交互。在我的情况下，<a href="https://github.com/dillonfranke/breaking-the-sound-barrier/blob/1e221ce5b2b15a9cd56185c42b211a70a0e6d867/harness.mm#L1602">在我的 fuzzing 工具中</a>调用 <code>_AudioHardwareStartServer</code> 函数处理了大部分必要的初始化。</p>
+<h2 id="迭代-2-api-调用链">迭代 2：API 调用链</h2><p>我的第一个 fuzzing 工具尝试很酷，但它做了一个相当大的假设：所有可访问的 Mach 消息处理器都彼此独立运行。我很快了解到这个假设是错误的。当我运行 fuzzer 时，开始出现如下错误消息：</p>
+<p><img src="/images/6d6f72722aea/a7db85c861b6a9c33c415999f72c204d.png" alt="一个终端窗口显示来自 mach-send 的日志输出。一行被红色框和箭头高亮，指向与 coreaudiod 错误相关的文本 "Plist: there is no client"。" loading="lazy"></p>
+<p>该错误似乎表明 <code>SetPropertyData</code> Mach 处理器期望通过之前的 Mach 消息注册一个客户端。显然，我正在 fuzzing 的 Mach 处理器是有状态的，并且彼此依赖才能正常工作。我的 fuzzing 工具需要考虑这一点，才能有希望获得目标上的良好代码覆盖率。</p>
+<p>这突显了 fuzzing 世界中的一个常见问题：大多数覆盖率引导的 fuzzer 接受单个输入（一堆字节），而我们想要 fuzzing 的许多东西接受完全不同的数据格式，例如几个不同类型的参数，甚至是几个函数调用。这篇<a href="https://github.com/google/fuzzing/blob/master/docs/structure-aware-fuzzing.md">谷歌文章</a>很好地解释了这个问题，Ned Williamson 的<a href="https://youtu.be/xzG0pLM4Q64">2019 年 OffensiveCon 演讲</a>也是如此。</p>
+<p>为了绕过这个限制，我们可以使用一种我称之为 API 调用链的技术，它将每个 fuzz 输入视为一个可以读取的流，以构建多个有效输入。因此，每个 fuzzing 迭代都能够生成多个 Mach 消息。这个简单但重要的见解允许 fuzzer 使用相同的代码覆盖率引导的输入来探索单独函数调用之间的相互依赖性。</p>
+<p><a href="https://github.com/llvm/llvm-project/blob/main/compiler-rt/include/fuzzer/FuzzedDataProvider.h">FuzzedDataProvider 类</a>是 LibFuzzer 的一部分，但可以作为头文件包含用于任何 fuzzing 工具，它是消费 fuzz 样本并将其转换为更有意义的数据类型的绝佳选择。考虑以下伪代码：</p>
+<pre><code class="language-cpp">extern &quot;C&quot; int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
+    FuzzedDataProvider fuzz_data(data, size); // 初始化 FDP
+    while (fuzz_data.remaining_bytes() &gt;= MACH_MSG_MIN_SIZE) { // 继续直到消耗完所有字节
+        uint32_t msg_id = fuzz_data.ConsumeIntegralInRange&lt;uint32_t&gt;(1010000, 1010062);
+        switch (msg_id) {
+            case &#39;1010000&#39;: {
+                send_XSystem_Open_msg(fuzz_data);
+            }
+            case &#39;1010001&#39;: {
+                send_XSystem_Close_msg(fuzz_data);
+            }
+            case &#39;1010002&#39;: {
+                send_XSystem_GetObjectInfo_msg(fuzz_data);
+            }
+            ... continued
+        }
+    }
+}
+</code></pre>
+<p>这段代码将一堆字节转换为一种机制，可以以确定性的方式重复调用带有 fuzz 数据的 API。更重要的是，覆盖率引导的 fuzzer 将能够探索和识别一系列能提高代码覆盖率的 API 调用。从 fuzzer 的角度来看，它只是在修改一个字节数组，完全不知道底层发生的额外复杂性。</p>
+<p>例如，我的 fuzzer 很快发现，与 audiohald 服务的大多数交互都需要先调用 <code>_XSystem_Open</code> 消息处理器来注册客户端，然后才能调用大多数 API。随着时间的推移，fuzzer 保存到其语料库的输入自然反映了这一事实。</p>
+<h2 id="迭代-3-模拟有缺陷-不需要的功能">迭代 3：模拟有缺陷/不需要的功能</h2><p>有时覆盖率会停滞不前，fuzzer 难以探索新的代码路径。例如，假设我们正在 fuzzing 一个 HTTP 服务器，它一直卡住，因为它试图在启动时读取和解析配置文件。如果我们的重点是服务器的请求解析和响应逻辑，我们可能会选择模拟我们不关心的功能，以便将 fuzzer 的代码覆盖率探索集中在其他地方。</p>
+<p>在我的 fuzzing 工具的情况下，调用初始化例程导致我的工具尝试向引导服务器注册 <code>com.apple.audio.audiohald</code> Mach 服务，这引发了错误，因为它已经被 launchd 注册了。由于我的工具不需要注册 Mach 服务来注入消息（记住，我们的工具直接调用 MIG 子系统），我决定模拟该功能。</p>
+<p>在处理纯 C 函数时，可以使用<a href="http://toves.freeshell.org/interpose/">函数拦截</a>来轻松修改函数的行为。在下面的例子中，我声明了一个新版本的 <code>bootstrap_check_in</code> 函数，它只是返回 <code>KERN_SUCCESS</code>，有效地将其空操作化，同时告诉调用者它是成功的。</p>
+<pre><code class="language-c">#include &lt;mach/mach.h&gt;
+#include &lt;stdarg.h&gt;
+
+// Forward declaration for bootstrap_check_in
+kern_return_t bootstrap_check_in(mach_port_t bootstrap_port, const char *service_name, mach_port_t *service_port);
+
+// Custom implementation of bootstrap_check_in
+kern_return_t custom_bootstrap_check_in(mach_port_t bootstrap_port, const char *service_name, mach_port_t *service_port) {
+    // Ensure service_port is non-null and set it to a non-zero value
+    if (service_port) {
+        *service_port = 1;  // Set to a non-zero value
+    }
+    return KERN_SUCCESS;  // Return 0 (KERN_SUCCESS)
+}
+
+// Interposing array for bootstrap_check_in
+__attribute__((used)) static struct {
+    const void* replacement;
+    const void* replacee;
+} interposers[] __attribute__((section(&quot;__DATA,__interpose&quot;))) = {
+    { (const void *)custom_bootstrap_check_in, (const void *)bootstrap_check_in }
+};
+</code></pre>
+<p>对于 C++ 函数，我使用 TinyInst 的 <a href="https://github.com/googleprojectzero/TinyInst/blob/master/hook.md">Hook API</a> 来修改有问题的功能。在一个特定场景中，我的 fuzzer 不断使目标崩溃，因为 <code>CFRelease</code> 函数被用 NULL 指针调用。一些进一步的分析告诉我，这是一个与安全无关的 bug，其中用户的输入（假定包含有效的 <code>plist</code> 对象）没有得到适当的验证。如果 <code>plist</code> 对象无效或为 NULL，下游的函数调用将包含 NULL，并发生中止。</p>
+<p><img src="/images/6d6f72722aea/1d45e713efaeb471a48ec18a2e1ec5d1.png" alt="函数 HALS_SettingsManager::_WriteSetting 的反汇编代码流程图。文本注释高亮显示在调用 _CFPropertyListCreateDeepCopy 之前 No Check for NULL Property List。另一个注释指向标记为 CFRelease 的 jmp _CFRelease 指令，指示可能存在释放后使用或类似的内存损坏漏洞。" loading="lazy"></p>
+<p>因此，我编写了以下 <a href="https://github.com/googleprojectzero/TinyInst/blob/master/hook.md">TinyInst hook</a>，它检查传递给函数的 <code>plist</code> 对象是否为 NULL。如果是，我的 hook 提前返回函数调用，绕过有问题的代码。</p>
+<pre><code class="language-cpp">void HALSWriteSettingHook::OnFunctionEntered() {
+    printf(&quot;HALS_SettingsManager::_WriteSetting Entered\n&quot;);
+    if (!GetRegister(RDX)) {
+        printf(&quot;NULL plist passed as argument, returning to prevent NULL CFRelease\n&quot;);
+        printf(&quot;Current $RSP: %p\n&quot;, GetRegister(RSP));
+        void *return_address;
+        RemoteRead((void*)GetRegister(RSP), &amp;return_address, sizeof(void *));
+        printf(&quot;Current return address: %p\n&quot;, GetReturnAddress());
+        printf(&quot;Current $RIP: %p\n&quot;, GetRegister(RIP));
+        SetRegister(RAX, 0);
+        SetRegister(RIP, GetReturnAddress());
+        printf(&quot;$RIP register is now: %p\n&quot;, GetRegister(ARCH_PC));
+        SetRegister(RSP, GetRegister(RSP) + 8); // Simulate a ret instruction
+        printf(&quot;$RSP is now: %p\n&quot;, GetRegister(RSP));
+    }
+}
+</code></pre>
+<p>接下来，我修改了 Jackalope 以使用我的插桩，通过 <a href="https://github.com/googleprojectzero/Jackalope/blob/bd461f4adfc3e4e1cb14516661e57a202071ac2d/fuzzer.h#L163">CreateInstrumentation</a> API。这样，我的 hook 在每次 fuzzing 迭代中都被应用，烦人的 NULL <code>CFRelease</code> 调用停止了。下面的输出显示 hook 防止了因传递给麻烦 API 的 NULL <code>plist</code> 对象而导致的崩溃：</p>
+<pre><code>Instrumented module CoreAudio, code size: 7516156
+Hooking function __ZN11HALS_System13_WriteSettingEP11HALS_ClientPK10__CFStringPKv in module CoreAudio
+HALS_SettingsManager::_WriteSetting Entered
+NULL plist passed as argument, returning to prevent NULL CFRelease
+Current $RSP: 0x7ff7bf83b358
+Current return address: 0x7ff8451e7430
+Current $RIP: 0x7ff84533a675
+$RIP register is now: 0x7ff8451e7430
+$RSP is now: 0x7ff7bf83b360
+Total execs: 6230
+Unique samples: 184 (0 discarded)
+Crashes: 3 (2 unique)
+Hangs: 0
+Offsets: 13550
+Execs/s: 134
+</code></pre>
+<p>用于使用自定义插桩重现和构建此 fuzzer 的代码可以在这里找到：<a href="https://github.com/googleprojectzero/p0tools/tree/master/CoreAudioFuzz/jackalope-modifications">https://github.com/googleprojectzero/p0tools/tree/master/CoreAudioFuzz/jackalope-modifications</a></p>
+<h2 id="迭代-4-改进样本结构">迭代 4：改进样本结构</h2><p>以 fuzzing 为中心的审计技术的一个优点是，它突出了你正在审计的代码中的知识空白。当你解决这些空白时</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/权限提升.html" class="tag-link">#权限提升</a> <a href="/tag/Rust安全.html" class="tag-link">#Rust安全</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/物联网安全.html" class="tag-link">#物联网安全</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/macOS安全.html" class="tag-link">#macOS安全</a> <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#方法-知识驱动的-fuzzing" class="toc-link">
+              <span class="toc-text">方法：知识驱动的 Fuzzing</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#识别攻击向量" class="toc-link">
+              <span class="toc-text">识别攻击向量</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#先前工作和背景" class="toc-link">先前工作和背景</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#选择目标" class="toc-link">
+              <span class="toc-text">选择目标</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#创建-fuzzing-工具" class="toc-link">
+              <span class="toc-text">创建 Fuzzing 工具</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#确定入口点" class="toc-link">确定入口点</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#选项-1-进程间-fuzzing" class="toc-link">选项 1：进程间 Fuzzing</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#选项-2-直接工具" class="toc-link">选项 2：直接工具</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#寻找-mach-消息处理器" class="toc-link">寻找 Mach 消息处理器</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#dyld-共享缓存" class="toc-link">Dyld 共享缓存</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#创建基本的-fuzzing-工具" class="toc-link">创建基本的 Fuzzing 工具</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#收集合法的-mach-消息" class="toc-link">
+              <span class="toc-text">收集合法的 Mach 消息</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#fuzzing-并产生崩溃" class="toc-link">
+              <span class="toc-text">Fuzzing 并产生崩溃</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#迭代改进-fuzzing-工具" class="toc-link">
+              <span class="toc-text">迭代改进 Fuzzing 工具</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#迭代-1-目标初始化" class="toc-link">迭代 1：目标初始化</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#迭代-2-api-调用链" class="toc-link">迭代 2：API 调用链</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#迭代-3-模拟有缺陷-不需要的功能" class="toc-link">迭代 3：模拟有缺陷/不需要的功能</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#迭代-4-改进样本结构" class="toc-link">迭代 4：改进样本结构</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RC4 仍被认为有害 - BasicBit</title>
+  <meta name="description" content="RC4 仍被认为有害">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">RC4 仍被认为有害</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/10/27
+            </span>
+            <span class="meta-item">James Forshaw</span>
+            <span class="meta-item">漏洞分析, 网络安全, 攻击研究</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/10/rc4-is-still-considered-harmful.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F10%2Frc4-is-still-considered-harmful.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：James Forshaw，Project Zero</p>
+<p>我最近花了很多时间研究Windows身份验证实现，特别是Kerberos。2022年6月，我发现了一个关于RC4加密处理的有趣问题<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2310">2310</a>，如果你能够拦截Kerberos与KDC之间的网络流量，或者当用户配置为禁用典型预认证要求时，该漏洞允许你以另一个用户的身份进行身份验证。</p>
+<p>这篇博客文章将更详细地介绍这个漏洞的工作原理，以及我如何仅需最少的暴力破解就能利用它。注意，我不会花时间完全解释Kerberos身份验证的工作原理，网上有很多资源。例如，在Microsoft工作的<a href="https://twitter.com/SteveSyfuhs">Steve Syfuhs</a>的<a href="https://syfuhs.net/a-bit-about-kerberos">这篇博客文章</a>是一个很好的入门。</p>
+<h2 id="背景">背景</h2><p>Kerberos是一个非常古老的身份验证协议。当前版本（v5）在1993年的<a href="https://datatracker.ietf.org/doc/html/rfc1510">RFC1510</a>中描述，尽管在2005年的<a href="https://datatracker.ietf.org/doc/html/rfc4120">RFC4120</a>中进行了更新。由于Kerberos的核心安全概念是使用加密来证明对用户凭据的了解，因此其设计允许协商客户端和服务器将使用的加密和校验和算法。</p>
+<p>例如，当向密钥分发中心（KDC）发送初始身份验证服务请求（AS-REQ）时，客户端可以指定支持的加密算法列表，作为预定义的整数标识符，如下面RFC4120中ASN.1定义的片段所示。</p>
+<p>KDC-REQ-BODY    ::= SEQUENCE {</p>
+<p>...</p>
+<p>etype    [8] SEQUENCE OF Int32 -- EncryptionType</p>
+<p>-- in preference order --,</p>
+<p>...</p>
+<p>}</p>
+<p>当服务器收到请求时，它会检查其支持的加密类型列表以及用户帐户支持的加密类型（基于用户配置的密钥），然后通常会选择客户端最偏好的算法。选定的算法随后用于任何需要加密的操作，例如生成会话密钥或如下所示的EncryptedData结构：</p>
+<p>EncryptedData   ::= SEQUENCE {</p>
+<p>etype   [0] Int32 -- EncryptionType --,</p>
+<p>kvno    [1] UInt32 OPTIONAL,</p>
+<p>cipher  [2] OCTET STRING -- ciphertext</p>
+<p>}</p>
+<p>KDC将返回一个身份验证服务回复（AS-REP）结构，其中包含用户的票据授予票据（TGT）和一个EncryptedData结构，该结构包含使用TGT请求服务票据所需的会话密钥。然后，用户可以使用与请求的加密算法对应的已知密钥来解密会话密钥并完成身份验证过程。</p>
+<p><img src="/images/518a0994c955/46f18c597656b6e09ef2950223fc4fd2.png" alt="Alt Text: 显示基本Kerberos身份验证和请求AES密钥类型的图表。" loading="lazy"></p>
+<p>这种选择加密算法的灵活性既是福音也是诅咒。在Kerberos的原始实现中，仅支持DES加密，按照现代标准，DES过于脆弱。由于这种灵活性，开发人员能够通过<a href="https://datatracker.ietf.org/doc/html/rfc3962">RFC3962</a>添加对AES的支持，所有现代版本的Windows都支持AES。然后可以在客户端和服务器之间协商使用双方都支持的最佳算法。然而，除非明确禁用弱算法，否则没有什么能阻止恶意客户端或服务器降级正在使用的加密算法，并尝试使用密码学攻击来破坏Kerberos。</p>
+<p>现代版本的Windows已经开始禁用DES作为支持的加密算法，转而优先使用AES。然而，Windows还支持另一种默认启用的加密算法，即<a href="https://en.wikipedia.org/wiki/RC4">RC4</a>。Microsoft在Windows 2000中为Kerberos使用了这种算法，尽管其文档在2006年<a href="https://datatracker.ietf.org/doc/html/rfc4757">RFC4757</a>发布之前一直处于草案形式。</p>
+<p>RC4流密码有许多重大弱点，但在引入时，它仍然被认为是比DES更好的选择，因为DES已被证明对硬件破解（如EFF的&quot;<a href="https://en.wikipedia.org/wiki/EFF_DES_cracker">Deep Crack</a>&quot;）足够脆弱。使用RC4还有一个优点，即它相对容易在缩减密钥大小的模式下运行，以满足美国对密码系统的出口要求。</p>
+<p>如果你阅读了Kerberos中RC4实现的RFC，你会注意到它并没有直接使用流密码。相反，它实施了各种保护措施来防范常见的密码学攻击：</p>
+<ul>
+<li>加密数据受到带密钥的MD5 HMAC哈希的保护，以防止篡改，这对于像RC4这样的简单流密码来说是微不足道的。哈希数据包括一个随机生成的8字节&quot;混淆器&quot;，因此即使对于相同的明文，哈希也是随机的。</li>
+<li>用于加密的密钥派生自哈希和基础密钥。这与混淆器结合，几乎确保相同的密钥永远不会被重复用于加密。</li>
+<li>基础密钥不是用户的密钥，而是派生自使用用户密钥对4字节消息类型值进行MD5 HMAC密钥处理的结果。例如，AS-REQ和AS-REP结构的消息类型不同。这可以防止攻击者将Kerberos用作加密预言机，并在协议的不相关部分重用现有的加密数据。</li>
+</ul>
+<p>RC4的许多已知弱点与收集使用已知密钥加密的大量密文有关。由于RC4-HMAC算法的设计和Kerberos的一般功能原则，这实际上并不是一个重大问题。然而，Microsoft为Kerberos定义的RC4的最大弱点与其说是算法本身，不如说是从用户密码生成用户密钥的方式。</p>
+<p>如前所述，Kerberos在Windows 2000中引入，以取代从NT 3.1开始使用的现有NTLM身份验证过程。然而，将现有用户迁移到新的身份验证协议存在一个问题。通常，KDC不存储用户的密码，而是存储该密码的哈希形式。对于NTLM，该哈希是使用MD4算法的单次传递从Unicode密码生成的。因此，为了提供简单的升级路径，Microsoft指定RC4-HMAC Kerberos密钥就是这个相同的哈希值。</p>
+<p>由于MD4输出是16字节大小，暴力破解整个密钥是不切实际的。然而，哈希算法没有针对暴力破解攻击的保护措施，例如没有加盐或多重迭代。如果攻击者可以访问使用RC4-HMAC密钥加密的密文，他们可以尝试通过猜测密码来暴力破解密钥。由于用户倾向于选择弱密码或简单密码，这增加了暴力破解攻击成功恢复密钥的机会。有了密钥，攻击者就可以以该用户的身份向他们喜欢的任何服务进行身份验证。</p>
+<p>为了获得适当的密文，攻击者可以向KDC发出请求并指定他们需要的加密类型。最著名的攻击技术称为<a href="https://attack.mitre.org/techniques/T1558/003/">Kerberoasting</a>。该技术为目标用户请求服务票据，并将RC4-HMAC加密类型指定为首选算法。如果用户配置了RC4密钥，则返回的票据可以使用RC4-HMAC算法加密。由于票据数据的明文中有很大一部分是已知的，攻击者可以尝试从中暴力破解密钥。</p>
+<p>这种技术确实要求攻击者在KDC上拥有一个帐户来发出服务票据请求。它还要求用户帐户配置了服务主体名称（SPN），以便可以请求票据。此外，现代版本的Windows Server将尝试通过强制使用从服务用户密码派生的AES密钥来阻止此攻击，即使攻击者只请求了RC4支持。</p>
+<p>另一种形式称为<a href="https://attack.mitre.org/techniques/T1558/004/">AS-REP Roasting</a>。这依赖于初始身份验证请求返回加密数据，而不是请求服务票据。当用户发送AS-REQ结构时，KDC可以查找用户，生成TGT及其关联的会话密钥，然后使用用户的RC4-HMAC密钥加密返回该信息。此时，KDC在返回加密数据之前尚未验证客户端是否知道用户的密钥，这允许攻击者暴力破解密钥，而无需自己在KDC上拥有帐户。</p>
+<p>幸运的是，这种攻击更为罕见，因为Windows的Kerberos实现需要预认证。对于基于密码的登录，用户使用其加密密钥加密时间戳值，该值作为AS-REQ的一部分发送给KDC。KDC可以解密时间戳，检查其是否在一个小的时间窗口内，然后才返回用户的TGT和加密的会话密钥。这将阻止攻击者获取用于暴力破解攻击的加密数据。</p>
+<p>然而，Windows确实支持一个用户帐户标志：&quot;不需要Kerberos预认证&quot;。如果在用户上启用此标志，则身份验证请求不需要发送加密的时间戳，AS-REP roasting过程可以继续进行。这应该是一种不常见的配置。</p>
+<p>暴力破解攻击的成功完全取决于密码复杂性。通常，服务用户帐户具有长的、至少25个字符的随机生成密码，这几乎不可能被暴力破解。普通用户通常密码较弱，但他们不太可能配置SPN，这使他们成为Kerberoasting的目标。系统管理员也可以通过在整个网络中完全禁用RC4来缓解攻击，尽管出于兼容性原因，这通常不会做。一个更有限的替代方案是将敏感用户添加到<a href="https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group">受保护用户组</a>，这为他们禁用RC4，而不必在整个网络中禁用。</p>
+<h2 id="windows-kerberos加密实现">Windows Kerberos加密实现</h2><p>在研究Windows Defender Credential Guard（CG）时，我想了解Windows实际上如何实现各种Kerberos加密方案。CG至少对于Kerberos的主要目标是保护用户的密钥，特别是那些从密码和TGT的会话密钥派生出来的密钥。如果我能找到一种使用弱加密算法密钥的方法，我希望能够提取原始密钥，从而移除CG的保护。</p>
+<p>加密算法都在CRYPTDLL.DLL库中实现，该库与客户端KERBEROS.DLL和服务器KDCSVC.DLL中的核心Kerberos库是分开的。这个接口是未公开的，但很容易弄清楚如何调用导出的函数。例如，要从加密类型整数获取&quot;加密系统&quot;，可以使用以下导出函数：</p>
+<p>NTSTATUS CDLocateCSystem(int etype, KERB_ECRYPT** engine);</p>
+<p>KERB_ECRYPT结构包含引擎的配置信息，例如密钥大小以及将密码转换为密钥、生成新会话密钥以及执行加密或解密的函数指针。该结构还包含一个文本名称，以便您可以快速了解算法应该是什么，这导致了以下支持的系统：</p>
+<p>名称                                          加密类型</p>
+<hr>
+<p>RSADSI RC4-HMAC                               24<br>RSADSI RC4-HMAC                               23<br>Kerberos AES256-CTS-HMAC-SHA1-96              18<br>Kerberos AES128-CTS-HMAC-SHA1-96              17<br>Kerberos DES-CBC-MD5                          3<br>Kerberos DES-CBC-CRC                          1<br>RSADSI RC4-MD4                                -128<br>Kerberos DES-Plain                            -132<br>RSADSI RC4-HMAC                               -133<br>RSADSI RC4                                    -134<br>RSADSI RC4-HMAC                               -135<br>RSADSI RC4-EXP                                -136<br>RSADSI RC4                                    -140<br>RSADSI RC4-EXP                                -141<br>Kerberos AES128-CTS-HMAC-SHA1-96-PLAIN        -148<br>Kerberos AES256-CTS-HMAC-SHA1-96-PLAIN        -149</p>
+<p>具有正值的加密类型是RFC中定义的众所周知的加密类型，而负值是私有类型。因此，我决定花时间研究这些私有类型。大多数私有类型只是现有已知类型的细微变化，或者是具有旧编号的克隆。</p>
+<p>然而，有一个类型与众不同，即&quot;RSADSI RC4-MD4&quot;，类型值为-128。之所以不同，是因为其实现极其不安全，具体来说，它具有以下特性：</p>
+<ul>
+<li>密钥大小为16字节，但加密算法只使用密钥的前8个字节。</li>
+<li>密钥按原样使用，没有盲化，因此对于相同的用户密钥，密钥流始终相同。</li>
+<li>忽略消息类型，这意味着在使用相同密钥时，Kerberos协议不同部分的密钥流是相同的。</li>
+<li>加密数据不包含任何密码学哈希来防止篡改密文，这对于RC4基本上是灾难性的。尽管名称中包含MD4，但这仅用于从密码派生密钥，不用于任何消息完整性。</li>
+<li>生成的会话密钥大小为16字节，但只包含40位（5字节）的随机性。剩余的11字节填充固定值0xAB。</li>
+</ul>
+<p>从密码学的角度来看，说这很糟糕是轻描淡写的。幸运的是，可以安全地假设，虽然这个加密系统在CRYPTDLL中实现，但它不会被Kerberos使用？不幸的是，并非如此——当在AS-REQ中发送给KDC时，它完全被接受为有效的加密类型。那么问题就变成了如何利用这种行为？</p>
+<h2 id="在线利用-cve-2022-33647-">在线利用（CVE-2022-33647）</h2><p>我最初的想法是攻击会话密钥生成。如果我们能让服务器返回带有TGT的RC4-MD4会话密钥的AS-REP，那么该密钥的任何后续使用都可以被捕获并用于暴力破解40位密钥。那时，我们可以获取以明文发送的用户TGT和会话密钥，并以该认证用户的身份发出请求。</p>
+<p>强制首选加密类型为RC4-MD4的最明显方法是拦截客户端和KDC之间的连接。AS-REQ的etype字段对于基于密码的身份验证不受保护。因此，代理可以修改该字段，使其仅包含RC4-MD4，然后发送给KDC。完成后，代理还需要捕获服务票据请求以获取加密数据进行暴力破解。</p>
+<p>暴力破解40位密钥在技术上是可行的，至少如果你构建了一个巨大的查找表，但我觉得这不切实际。我意识到有一种更简单的方法，当客户端进行身份验证时，它通常会向KDC发送一个没有预认证时间戳的请求。只要预认证未被禁用，KDC就会向客户端返回一个带有KDC_ERR_PREAUTH_REQUIRED错误代码的Kerberos错误。</p>
+<p>作为该错误响应的一部分，KDC还在<a href="https://datatracker.ietf.org/doc/html/rfc4120#section-5.2.7.5">PA-ETYPE-INFO2</a>预认证数据结构中发送可接受的加密类型列表。此列表包含密码到密钥派生的附加信息，例如AES密钥的盐。客户端可以使用此信息正确生成用户的加密密钥。我注意到，如果你只返回一个指示支持RC4-MD4的条目，那么客户端将使用不安全的算法生成预认证时间戳。即使客户端最初没有请求RC4-MD4，这也能工作。</p>
+<p>当KDC收到时间戳时，它将使用RC4-MD4算法进行验证，并返回AS-REP，其中TGT的RC4-MD4会话密钥使用与时间戳相同的密钥加密。由于RC4-MD4算法中已经提到的弱点，用于时间戳的密钥流必须与响应中用于加密会话密钥的密钥流相同。因此，我们可以发起已知明文攻击，从时间戳中恢复密钥流，并用其解密部分响应。</p>
+<p><img src="/images/518a0994c955/e3b3da86a52d1955380c24a9fe4b3217.png" alt="显示攻击过程的图表。一台带有Kerberos客户端的计算机向攻击者发送AS-REQ，攻击者返回一个错误，请求预认证并选择RC4-MD4加密。客户端然后将用户的密码转换为RC4-MD4密钥，用于加密时间戳发送给KDC。这用于验证用户身份验证，并返回一个AS-REP，其中包含为RC4-MD4生成的TGT会话密钥。" loading="lazy"></p>
+<p>时间戳本身具有以下ASN.1结构，该结构使用<a href="https://en.wikipedia.org/wiki/X.690#DER_encoding">可分辨编码规则（DER）</a>序列化，然后进行加密。</p>
+<p>PA-ENC-TS-ENC           ::= SEQUENCE {</p>
+<p>patimestamp     [0] KerberosTime -- client&#39;s time --,</p>
+<p>pausec          [1] Microseconds OPTIONAL</p>
+<p>}</p>
+<p>AS-REP加密响应具有以下ASN.1结构：</p>
+<p>EncASRepPart  ::= SEQUENCE {</p>
+<p>key             [0] EncryptionKey,</p>
+<p>last-req        [1] LastReq,</p>
+<p>nonce           [2] UInt32,</p>
+<p>key-expiration  [3] KerberosTime OPTIONAL,</p>
+<p>flags           [4] TicketFlags,</p>
+<p>authtime        [5] KerberosTime,</p>
+<p>starttime       [6] KerberosTime OPTIONAL,</p>
+<p>endtime         [7] KerberosTime,</p>
+<p>renew-till      [8] KerberosTime OPTIONAL,</p>
+<p>srealm          [9] Realm,</p>
+<p>sname           [10] PrincipalName,</p>
+<p>caddr           [11] HostAddresses OPTIONAL</p>
+<p>}</p>
+<p>从这两个结构中我们可以看到，幸运的是，AS-REP中的会话密钥位于加密数据的开头。这意味着时间戳的已知部分和密钥之间应该存在重叠，允许我们应用密钥流恢复来解密会话密钥，而无需任何暴力破解。</p>
+<p><img src="/images/518a0994c955/0fdaa3d37ebce71415bbafc23f1d993b.png" alt="显示时间戳和加密AS-REP部分的ASN.1 DER结构的图表。它显示时间戳中的已知字节与AS-REP中的40位会话密钥存在重叠。" loading="lazy"></p>
+<p>该图表显示了时间戳和AS-REP开头的ASN.1 DER结构。绿色带有特定十六进制数字的值是我们知道或可以计算的明文，因为它们是ASN.1结构的一部分，例如类型和长度。我们可以看到，时间戳中的4个已知字节与会话密钥的前4个字节存在明显的重叠。由于末尾的填充，我们只需要密钥的前5个字节，但这确实意味着我们需要暴力破解最后一个密钥字节。</p>
+<p>我们可以通过两种方式之一进行暴力破解。首先，我们可以向KDC发送带有用户TGT和猜测的会话密钥的服务票据请求，直到一个成功。这最多需要向KDC发送256个请求。或者，我们可以捕获来自客户端的服务票据请求，这可能在身份验证后立即发生。由于服务票据请求将使用会话密钥加密，我们可以在本地执行暴力破解攻击，而无需与KDC通信，这样会更快。无论选择哪种选项，这种方法都比暴力破解整个40位会话密钥快几个数量级。</p>
+<p>执行此利用的最简单方法是拦截客户端到服务器的连接并修改流量。然而，由于没有预认证的初始请求只返回错误消息，因此很可能可以通过在KDC处理真实请求时向客户端注入响应来完成利用。这只需要能够监控网络流量并将任意网络流量注入该网络即可完成。不过，我尚未验证这种方法。</p>
+<h2 id="无需拦截的利用-cve-2022-33679-">无需拦截的利用（CVE-2022-33679）</h2><p>需要访问客户端到服务器的身份验证流量确实使这个漏洞看起来影响较小。尽管存在许多攻击者可以拦截的场景，例如共享WiFi网络，或者可能用于危害计算机帐户身份验证的物理攻击，这些攻击可能发生在域加入系统启动时。</p>
+<p>如果存在一种攻击向量，可以在完全不需要真实Kerberos用户的情况下利用此漏洞，那将很有趣。我意识到，如果用户禁用了预认证，那么我们就拥有了执行攻击所需的一切。重要的是，如果预认证被禁用，我们可以为用户请求TGT，指定RC4-MD4加密，KDC将使用该算法加密返回AS-REP。</p>
+<p>利用的关键是反转先前的攻击，不是使用时间戳来解密AS-REP，而是使用AS-REP来加密时间戳。然后，当时间戳值发送给KDC时，我们可以将其用作加密预言机，以暴力破解足够的密钥流字节来解密TGT的会话密钥。例如，如果我们移除时间戳的可选微秒组件，我们得到以下DER编码值：</p>
+<p><img src="/images/518a0994c955/1bba68bdbd78c837b0330c33774ffab2.png" alt="显示时间戳和加密AS-REP部分的ASN.1 DER结构的图表。它显示AS-REP中的已知字节与时间戳字符串存在重叠，可用于生成有效的加密时间戳。" loading="lazy"></p>
+<p>该图表显示，目前时间戳（由T字节表示）和40位会话密钥之间没有重叠。然而，我们知道或者至少可以计算AS-REP的整个DER编码数据以覆盖整个时间戳缓冲区。我们可以用此来计算用户的RC4-MD4密钥的密钥流，而无需实际知道密钥本身。有了密钥流，我们可以加密一个有效的时间戳并将其发送给KDC。</p>
+<p>如果KDC响应一个有效的AS-REP，那么我们知道我们已经正确计算了密钥流。我们如何用此来开始解密会话密钥？用于时间戳的KerberosTime值是一个ASCII字符串，形式为YYYYMMDDHHmmssZ。KDC将此字符串解析为适合服务器处理的格式。解析器将时间作为NUL终止的字符串，因此我们可以在字符串末尾添加一个额外的NUL字符，这不应影响解析。因此，我们可以将时间戳更改为以下内容：</p>
+<p><img src="/images/518a0994c955/7d95952c694817b15934f6e6c2f17c73.png" alt="显示时间戳和加密AS-REP部分的ASN.1 DER结构的图表。它显示时间戳字符串末尾的最终NUL字符与40位会话密钥的第一个字节重叠。" loading="lazy"></p>
+<p>我们现在可以猜测加密的NUL字符的值，并将新的时间戳发送给KDC。如果KDC返回错误，我们知道解析失败，因为它没有解密为NUL字符。然而，如果身份验证成功，我们猜测的值就是密钥流中的下一个字节，我们可以解密会话密钥的第一个字节。</p>
+<p>此时我们遇到了一个问题，我们不能只是添加另一个NUL字符，因为解析器会在我们发送的第一个NUL字符处停止。即使该值没有解密为NUL，也无法检测到。这时第二个技巧就派上用场了，我们不是扩展字符串，而是滥用DER中编码值长度的方式。长度可以有两种形式之一：如果长度小于128，则为短形式；否则为长形式。</p>
+<p>对于短形式，长度编码在单个字节中。对于长形式，第一个字节的最高位设置为1，低7位以大端格式编码长度值的尾随字节数。例如，在上图中，时间戳的总大小为0x14字节，以短形式存储。我们可以改为以任意大小的长形式编码长度，例如0x81 0x14、0x82 0x00 0x14、0x83 0x00 0x00 0x14等。下面显示的示例移动NUL字符以暴力破解会话密钥的下两个字节：</p>
+<p><img src="/images/518a0994c955/b766ac5c89b7bd4715d58ed74aca370e.png" alt="显示时间戳和加密AS-REP部分的ASN.1 DER结构的图表。它显示扩展第一个长度字段，使得时间戳字符串末尾的最终NUL字符与40位会话密钥的第二和第三个字节重叠。" loading="lazy"></p>
+<p>尽管从技术上讲，DER应该期望使用编码长度所需的最短形式，但Microsoft ASN.1库在解析时并不强制执行这一点，因此我们可以重复这种长度编码技巧来覆盖密钥中剩余的4个未知字节。由于利用一次暴力破解一个字节，我们需要发送给KDC的最大请求数是5 × 28，即1280个请求，而不是240个请求，后者大约是1万亿个。</p>
+<p>即使请求数量如此之少，暴力破解密钥仍然可能需要大约30秒，但这仍然使其成为一种实用的攻击。尽管这在网络上会非常嘈杂，并且你会期望任何称职的EDR系统都会注意到，但到那时可能为时已晚。</p>
+<h2 id="修复措施">修复措施</h2><p>我能找到的唯一修复是在域控制器的KDC服务中。Microsoft添加了一个新标志，默认禁用RC4-MD4算法和加密类型为-133的旧RC4-HMAC变体。可以通过设置KDC配置注册表值AllowOldNt4Crypto来重新启用此行为。对NT4的引用很好地表明了此漏洞存在了多长时间，因为它可能早于Windows 2000中引入Kerberos。客户端可能也有一些更改，但我无法立即找到它们，而且花时间进行逆向工程并不值得。</p>
+<p>在发现类似攻击之前降低风险是很好的。禁用RC4绝对是推荐的，但这可能会带来<a href="https://syfuhs.net/lessons-in-disabling-rc4-in-active-directory">其自身的问题</a>。如果这个特定漏洞在野外被利用，应该很容易检测到。此外，不寻常的Kerberos加密类型以及重复的登录尝试也会立即成为危险信号。</p>
+<p>另一个选项是在环境中的所有客户端和KDC上强制执行<a href="https://syfuhs.net/kerberos-fast-armoring">Kerberos Armoring（FAST）</a>。这将使检查和篡改Kerberos身份验证流量变得更加困难。然而，它并非万灵药，例如，要使FAST工作，域加入的计算机需要首先在没有FAST的情况下进行身份验证，以获得可用于保护通信的密钥。如果该初始身份验证被破坏，整个保护就会失效。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/WiFi安全.html" class="tag-link">#WiFi安全</a> <a href="/tag/攻击研究.html" class="tag-link">#攻击研究</a> <a href="/tag/加密.html" class="tag-link">#加密</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#背景" class="toc-link">
+              <span class="toc-text">背景</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#windows-kerberos加密实现" class="toc-link">
+              <span class="toc-text">Windows Kerberos加密实现</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#在线利用-cve-2022-33647-" class="toc-link">
+              <span class="toc-text">在线利用（CVE-2022-33647）</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#无需拦截的利用-cve-2022-33679-" class="toc-link">
+              <span class="toc-text">无需拦截的利用（CVE-2022-33679）</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#修复措施" class="toc-link">
+              <span class="toc-text">修复措施</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

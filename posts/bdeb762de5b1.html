@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2025年12月安全更新回顾 - BasicBit</title>
+  <meta name="description" content="2025年12月安全更新回顾">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-no-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">2025年12月安全更新回顾</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2026/3/15
+            </span>
+            
+            <span class="meta-item">云安全, 网络安全, 防御研究</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://www.zerodayinitiative.com/blog/2025/12/9/the-december-2025-security-update-review" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fwww.zerodayinitiative.com%2Fblog%2F2025%2F12%2F9%2Fthe-december-2025-security-update-review" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>这是2025年最后一个补丁星期二，但这丝毫不减其精彩程度。请暂时放下你的假期计划，让我们一同回顾Adobe和微软提供的最新安全更新。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击<a href="https://helpx.adobe.com/security/products/experience-manager/apsb25-115.html">这里</a>查看：</p>
+<p><strong>Adobe 2025年12月补丁</strong></p>
+<p>12月份，Adobe发布了五份安全公告，修复了Adobe Reader、ColdFusion、Experience Manager、Creative Cloud Desktop和Adobe DNG软件开发工具包（SDK）中的139个独立CVE。不必被如此庞大的CVE数量吓到。其中大部分是Adobe <a href="https://helpx.adobe.com/security/products/coldfusion/apsb25-105.html">Experience Manager</a>中简单的跨站脚本（XSS）漏洞。其中也包含几个严重级别的基于DOM的XSS漏洞，所以无论如何都不要忽视这个补丁——只是不必对大量的CVE感到恐慌。我也不会对<a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fhelpx.adobe.com%2Fcontent%2Fdam%2Fhelp%2Fen%2Fcoldfusion%2Fcoldfusion-2025-lockdown-guide-v1.0.pdf&data=05%7C02%7Cswatson%40adobe.com%7C557feaedad0a489672c208dd73823030%7Cfa7b1b5a7b34438794aed2c178decee1%7C0%7C0%7C638793725177753303%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=U0om1LqgHis%2B5P%2BoaODHCxiftLK3izU1%2B44dssyOnDk%3D&reserved=0">ColdFusion</a>的更新感到恐慌，但Adobe确实将此修复的部署优先级设为1。他们指出目前没有已知的针对这些CVE的主动攻击，但此次修复了多个任意代码执行漏洞。另外，如果你正在运行ColdFusion，请务必查看他们的加固指南之一。适用于ColdFusion 2025的指南可以在<a href="https://helpx.adobe.com/security/products/acrobat/apsb25-119.html">这里</a>找到。</p>
+<p><a href="https://helpx.adobe.com/security/products/dng-sdk/apsb25-118.html">Adobe Reader</a>的更新比预期要小，四个已修复的CVE中只有两个会导致代码执行。我并非抱怨——只是预期会更多。<a href="https://helpx.adobe.com/security/products/creative-cloud/apsb25-120.html">Adobe DNG软件开发工具包</a>的补丁也修复了四个CVE，其中一个会导致代码执行。最后，<a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-62221">Creative Cloud Desktop</a>的更新修复了一个重要级别的漏洞。</p>
+<p>Adobe本月修复的所有漏洞在发布时均未被列为公开已知或正遭受主动攻击。除了ColdFusion的修复外，Adobe本月发布的所有更新均被列为部署优先级3。</p>
+<p><strong>Microsoft 2025年12月补丁</strong></p>
+<p>微软以发布区区56个新CVE结束了这一年，这些漏洞涉及Windows和Windows组件、Office和Office组件、Microsoft Edge（基于Chromium）、Exchange Server、Azure、Copilot、PowerShell和Windows Defender。其中一个漏洞是通过ZDI项目提交的。在今天发布的补丁中，三个被评为严重级别，其余则为重要级别。算上发布说明中列出的第三方Chromium更新，CVE总数达到70个。</p>
+<p>加上今天发布的CVE，微软在2025年修复的CVE总数达到1,139个。再次说明，这不包括本月早些时候发布的针对Azure Linux和CBL Mariner的大量更新，因为这些应被视为应用于Azure资产的Linux CVE。这使得2025年成为漏洞数量第二大的年份，仅比2020年少111个CVE。随着微软产品组合的持续扩大以及AI漏洞日益普遍，这个数字在2026年可能会更高。</p>
+<p>微软列出了一个正遭受主动攻击的漏洞，但另外两个在发布时是公开已知的。让我们更仔细地看看本月一些更有趣的更新，从正遭受主动攻击的漏洞开始：</p>
+<ul>
+<li><p><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55680"><strong>CVE-2025-62221</strong></a>** - Windows云文件迷你筛选器驱动程序权限提升漏洞**<br>这是本月唯一被列为正遭受主动攻击的漏洞，并且——至少从表面上看——与10月份修补的一个<a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-62554">漏洞</a>相似。然而，10月份的漏洞是竞争条件，而这个是释放后重用（UAF）。它允许攻击者在受影响的系统上执行权限提升。这类漏洞通常与代码执行漏洞结合使用以接管系统。它似乎影响所有受支持的Windows版本，因此如果你必须确定优先级，这应该在你的列表首位。</p>
+</li>
+<li><p><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-62557"><strong>CVE-2025-62554</strong></a><strong>/</strong><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-62562"><strong>62557</strong></a>** - Microsoft Office远程代码执行漏洞**<br>我们又来了，看到两个以预览窗格为攻击向量的Office漏洞。对于那些计数的人（比如我），这已经是连续第11个月出现严重级别的Office漏洞，且包含预览窗格作为攻击向量。如果你是Mac用户，那就不走运了，因为Office LTSC for Mac 2021和2024的更新尚未发布。希望微软能在利用开始之前发布这些更新。</p>
+</li>
+<li><p><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-64671"><strong>CVE-2025-62562</strong></a>** - Microsoft Outlook远程代码执行漏洞**<br>乍一看，我以为这是另一个预览窗格问题，但并非如此。实际上，此漏洞仅对SharePoint Enterprise Server 2016被评为严重级别——对其他所有平台均为重要级别。然而，所有受影响平台的CVSS评分相同（7.8）。对于此漏洞，攻击者需要诱使用户回复特制的电子邮件。目前尚不清楚为何在SharePoint 2016上情况更糟，但如果你在企业中运行此版本，请不要跳过此更新。</p>
+</li>
+<li><p><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62221"><strong>CVE-2025-64671</strong></a>** - GitHub Copilot for Jetbrains远程代码执行漏洞**<br>这是被列为公开已知的漏洞，它是Copilot中的一个命令注入漏洞，允许未经授权的用户在受影响系统上执行其代码。它被列为本地漏洞，但远程攻击者很可能通过社会工程诱使某人触发命令注入。通过利用不受信任文件或模型上下文协议（MCP）服务器中的恶意跨提示注入，攻击者可以将额外命令附加到用户终端自动批准设置允许的命令上，从而无需进一步确认即可执行。我预计在2026年我们会看到更多此类漏洞。</p>
+</li>
+</ul>
+<p>以下是微软2025年12月发布的CVE完整列表：</p>
+<table>
+<thead>
+<tr>
+<th>CVE</th>
+<th>标题</th>
+<th>严重性</th>
+<th>CVSS</th>
+<th>公开</th>
+<th>已利用</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64671">CVE-2025-62221</a></td>
+<td>Windows云文件迷你筛选器驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>是</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-54100">CVE-2025-64671</a></td>
+<td>GitHub Copilot for Jetbrains远程代码执行漏洞</td>
+<td>重要</td>
+<td>8.4</td>
+<td>是</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62554">CVE-2025-54100 †</a></td>
+<td>PowerShell远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>是</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62557">CVE-2025-62554</a></td>
+<td>Microsoft Office远程代码执行漏洞</td>
+<td>严重</td>
+<td>8.4</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62562">CVE-2025-62557</a></td>
+<td>Microsoft Office远程代码执行漏洞</td>
+<td>严重</td>
+<td>8.4</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62572">CVE-2025-62562</a></td>
+<td>Microsoft Outlook远程代码执行漏洞</td>
+<td>严重</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62550">CVE-2025-62572</a></td>
+<td>应用程序信息服务权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62463">CVE-2025-62550</a></td>
+<td>Azure Monitor Agent远程代码执行漏洞</td>
+<td>重要</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62465">CVE-2025-62463</a></td>
+<td>DirectX图形内核拒绝服务漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62573">CVE-2025-62465</a></td>
+<td>DirectX图形内核拒绝服务漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62552">CVE-2025-62573</a></td>
+<td>DirectX图形内核权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62469">CVE-2025-62552</a></td>
+<td>Microsoft Access远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62569">CVE-2025-62469</a></td>
+<td>Microsoft代理文件系统权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62553">CVE-2025-62569</a></td>
+<td>Microsoft代理文件系统权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62556">CVE-2025-62553</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62560">CVE-2025-62556</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62561">CVE-2025-62560</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62563">CVE-2025-62561</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62564">CVE-2025-62563</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64666">CVE-2025-62564</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64667">CVE-2025-64666 †</a></td>
+<td>Microsoft Exchange Server权限提升漏洞</td>
+<td>重要</td>
+<td>7.5</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62455">CVE-2025-64667 †</a></td>
+<td>Microsoft Exchange Server欺骗漏洞</td>
+<td>重要</td>
+<td>5.3</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64672">CVE-2025-62455</a></td>
+<td>Microsoft消息队列（MSMQ）权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62555">CVE-2025-64672</a></td>
+<td>Microsoft SharePoint Server欺骗漏洞</td>
+<td>重要</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62558">CVE-2025-62555</a></td>
+<td>Microsoft Word远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62559">CVE-2025-62558</a></td>
+<td>Microsoft Word远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62458">CVE-2025-62559</a></td>
+<td>Microsoft Word远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62570">CVE-2025-62458</a></td>
+<td>Win32k权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62466">CVE-2025-62570</a></td>
+<td>Windows相机帧服务器监视器信息泄露漏洞</td>
+<td>重要</td>
+<td>7.1</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62454">CVE-2025-62466</a></td>
+<td>Windows客户端缓存权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62457">CVE-2025-62454</a></td>
+<td>Windows云文件迷你筛选器驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62470">CVE-2025-62457</a></td>
+<td>Windows云文件迷你筛选器驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62468">CVE-2025-62470</a></td>
+<td>Windows通用日志文件系统驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64670">CVE-2025-62468</a></td>
+<td>Windows Defender防火墙服务信息泄露漏洞</td>
+<td>重要</td>
+<td>4.4</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64679">CVE-2025-64670</a></td>
+<td>Windows DirectX信息泄露漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64680">CVE-2025-64679</a></td>
+<td>Windows DWM核心库权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62565">CVE-2025-64680</a></td>
+<td>Windows DWM核心库权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64658">CVE-2025-62565</a></td>
+<td>Windows文件资源管理器权限提升漏洞</td>
+<td>重要</td>
+<td>7.3</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62567">CVE-2025-64658</a></td>
+<td>Windows文件资源管理器权限提升漏洞</td>
+<td>重要</td>
+<td>7.5</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62571">CVE-2025-62567</a></td>
+<td>Windows Hyper-V拒绝服务漏洞</td>
+<td>重要</td>
+<td>5.3</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-55233">CVE-2025-62571</a></td>
+<td>Windows Installer权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62461">CVE-2025-55233</a></td>
+<td>Windows投影文件系统权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62462">CVE-2025-62461</a></td>
+<td>Windows投影文件系统权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62464">CVE-2025-62462</a></td>
+<td>Windows投影文件系统权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62467">CVE-2025-62464</a></td>
+<td>Windows投影文件系统权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62472">CVE-2025-62467</a></td>
+<td>Windows投影文件系统权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62474">CVE-2025-62472</a></td>
+<td>Windows远程访问连接管理器权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62456">CVE-2025-62474</a></td>
+<td>Windows远程访问连接管理器权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62473">CVE-2025-62456</a></td>
+<td>Windows弹性文件系统（ReFS）远程代码执行漏洞</td>
+<td>重要</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62549">CVE-2025-62473</a></td>
+<td>Windows路由和远程访问服务（RRAS）信息泄露漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64678">CVE-2025-62549</a></td>
+<td>Windows路由和远程访问服务（RRAS）远程代码执行漏洞</td>
+<td>重要</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64661">CVE-2025-64678</a></td>
+<td>Windows路由和远程访问服务（RRAS）远程代码执行漏洞</td>
+<td>重要</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-59516">CVE-2025-64661</a></td>
+<td>Windows Shell权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-59517">CVE-2025-59516</a></td>
+<td>Windows存储VSP驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-64673">CVE-2025-59517</a></td>
+<td>Windows存储VSP驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-62223">CVE-2025-64673</a></td>
+<td>Windows存储VSP驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13630">CVE-2025-62223 *</a></td>
+<td>Microsoft Edge（基于Chromium）for Mac欺骗漏洞</td>
+<td>低</td>
+<td>4.3</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13631">CVE-2025-13630 *</a></td>
+<td>Chromium：CVE-2025-13630 V8中的类型混淆</td>
+<td>高</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13632">CVE-2025-13631 *</a></td>
+<td>Chromium：CVE-2025-13631 Google Updater中的不当实现</td>
+<td>高</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13633">CVE-2025-13632 *</a></td>
+<td>Chromium：CVE-2025-13632 DevTools中的不当实现</td>
+<td>高</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13634">CVE-2025-13633 *</a></td>
+<td>Chromium：CVE-2025-13633 数字凭证中的释放后重用</td>
+<td>高</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13720">CVE-2025-13634 *</a></td>
+<td>Chromium：CVE-2025-13634 下载功能中的不当实现</td>
+<td>中</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13721">CVE-2025-13720 *</a></td>
+<td>Chromium：CVE-2025-13720 Loader中的错误转换</td>
+<td>中</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13635">CVE-2025-13721 *</a></td>
+<td>Chromium：CVE-2025-13721 v8中的竞争条件</td>
+<td>中</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13636">CVE-2025-13635 *</a></td>
+<td>Chromium：CVE-2025-13635 下载功能中的不当实现</td>
+<td>低</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13637">CVE-2025-13636 *</a></td>
+<td>Chromium：CVE-2025-13636 分屏视图中的不当实现</td>
+<td>低</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13638">CVE-2025-13637 *</a></td>
+<td>Chromium：CVE-2025-13637 下载功能中的不当实现</td>
+<td>低</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13639">CVE-2025-13638 *</a></td>
+<td>Chromium：CVE-2025-13638 媒体流中的释放后重用</td>
+<td>低</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2025-13640">CVE-2025-13639 *</a></td>
+<td>Chromium：CVE-2025-13639 WebRTC中的不当实现</td>
+<td>低</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="__PLACEHOLDER_82__">CVE-2025-13640 *</a></td>
+<td>Chromium：CVE-2025-13640 密码功能中的不当实现</td>
+<td>低</td>
+<td>不适用</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+</tbody></table>
+<p>** 表示此CVE已由第三方发布，现被纳入微软发布内容中。<br><em>† 表示需要进一步的管理操作才能完全解决该漏洞。</em></p>
+<p>既然我们已经涵盖了所有严重级别的CVE，让我们直接看看12月发布中修复的其他代码执行漏洞。正如预期，大部分是与Office相关的&quot;打开即拥有&quot;漏洞，其中预览窗格不是攻击向量。还有现在无处不在的RRAS服务漏洞。Windows弹性文件系统（ReFS）中存在一个由于堆溢出导致的漏洞，可以通过网络访问，但需要身份验证。这与Azure Monitor中的漏洞类似。根据微软的说法，&quot;具有本地网络访问权限的攻击者可以针对运行Azure Monitor的Azure Linux虚拟机利用堆溢出，将权限提升至syslog用户，从而执行任意命令。&quot; PowerShell漏洞的修复是本月另一个公开已知的漏洞，并且需要的不仅仅是补丁。该漏洞本身是一个简单的命令注入，但在应用更新后，当你使用Invoke-WebRequest命令时，你会收到安全警告信息。安装补丁后很可能还需要重启，因此请确保完成此操作以完全解决该漏洞。</p>
+<p>接下来看看本月获得补丁的权限提升漏洞，大多数只是导致SYSTEM级别的代码执行或管理员权限（如果经过身份验证的用户运行特制代码）。Windows Shell中的漏洞可能导致代码执行完整性级别的提升——从低完整性提升到中完整性，以逃逸AppContainer隔离。RRAS中的漏洞需要经过身份验证且加入域的用户，但它可能允许攻击者在目标系统上执行代码。代理文件系统中有一个奇怪的漏洞被列为权限提升，但描述读起来像是拒绝服务（DoS）。标准用户可以通过UAF使系统崩溃。这听起来确实像是本地DoS。最后，Exchange服务器中有一个由美国国家安全局（NSA）报告的漏洞。微软表示利用的可能性不大，但NSA。要利用此漏洞似乎需要相当多的准备工作，但NSA。另外，Exchange Server 2016和2019的更新不可用，因为它们已停止支持。如果你仍在使用这些版本，需要升级到扩展安全更新（ESU）计划。</p>
+<p>说到Exchange，服务器中还有一个欺骗漏洞，允许攻击者欺骗显示给用户的&quot;发件人&quot;电子邮件地址。此漏洞<em>并非</em>由NSA报告，但攻击者仍可利用此UI误传欺骗关键信息。微软决定修复此问题值得称赞。本月修复的另一个欺骗漏洞在SharePoint中，表现为跨站脚本（XSS）漏洞。</p>
+<p>本月只有四个信息泄露漏洞获得补丁，幸运的是，所有这些漏洞仅导致信息泄露，内容为未指定的内存内容或内存地址。Windows Defender中的漏洞还要求攻击者属于特定的用户组。</p>
+<p>12月发布包含三个拒绝服务（DoS）漏洞的修复，其描述与我们11月看到的情况类似。虽然它们都指出攻击者可以通过网络（或本地）拒绝该组件的服务，但两个DirectX图形内核漏洞指出，低权限的Hyper-V客户机可以利用它们导致Hyper-V环境发生DoS。目前尚不清楚这将如何发生，但如果你正在运行Hyper-V，请不要忽视这些补丁。</p>
+<p>本月没有发布新的安全公告。</p>
+<p><strong>展望未来</strong></p>
+<p>我们将在2026年1月13日再次开始补丁流程，届时我将带着对发布内容的分析和想法回来。在那之前，祝大家圣诞-光明-宽扎节快乐，注意安全，打补丁愉快，愿所有重启都顺利平稳！</p>
+<ul>
+<li><a href="/blog/tag/Security+Patch">安全补丁</a></li>
+<li><a href="/blog/tag/Adobe">Adobe</a></li>
+<li><a href="/blog/tag/Microsoft">Microsoft</a></li>
+</ul>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/云安全.html" class="tag-link">#云安全</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/Edge.html" class="tag-link">#Edge</a> <a href="/tag/Azure安全.html" class="tag-link">#Azure安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/XSS.html" class="tag-link">#XSS</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

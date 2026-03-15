@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Zero指标解析 - BasicBit</title>
+  <meta name="description" content="Project Zero指标解析">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Project Zero指标解析</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/2/10
+            </span>
+            <span class="meta-item">Ryan Schoen</span>
+            <span class="meta-item">移动安全, 网络安全, 浏览器安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/02/a-walk-through-project-zero-metrics.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F02%2Fa-walk-through-project-zero-metrics.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Ryan Schoen，Project Zero</p>
+<h1 id="内容摘要">内容摘要</h1><ul>
+<li>2021年，厂商修复Project Zero报告的安全漏洞平均耗时52天。相比三年前约80天的平均修复时间，这是一个显著的加速。</li>
+<li>除了平均修复时间远低于<a href="/vulnerability-disclosure-faq.html">90天截止期限</a>外，我们还观察到厂商错过截止期限（或额外的<a href="/vulnerability-disclosure-faq.html">14天宽限期</a>）的情况有所减少。2021年，只有一个漏洞超过了修复截止期限，尽管有14%的漏洞使用了宽限期。</li>
+<li>厂商/产品向用户发布修复补丁所需时间的差异反映了其产品设计、开发实践、更新节奏以及对安全报告的总体处理流程。我们希望这种比较能够展示最佳实践，并鼓励厂商尝试新的策略。</li>
+<li>这种数据汇总和分析对Project Zero来说相对较新，但我们希望未来能更多地开展此类工作。我们鼓励所有厂商考虑发布关于外部报告漏洞的修复时间和补丁发布时间的汇总数据，并总体上增加数据共享和透明度。</li>
+</ul>
+<h1 id="概述">概述</h1><p>近十年来，Google的Project Zero一直致力于增加恶意行为者发现和利用安全漏洞的难度，从而显著提升互联网的整体安全性。在此期间，我们与业界同仁合作，改变了组织优先处理安全漏洞修复和软件更新的方式。</p>
+<p>为了帮助我们观察到的生态系统变化提供背景，我们回顾了Project Zero报告的一系列漏洞、各类厂商如何响应这些漏洞，并试图从这些数据中识别趋势，例如整个行业如何更快地修补漏洞。</p>
+<p>在本文中，我们关注的是2019年1月至2021年12月期间报告的已修复漏洞（2019年是我们修改披露政策并开始记录所报告漏洞更详细指标的一年）。我们将引用的数据可在<a href="https://bugs.chromium.org/p/project-zero/issues/list">Project Zero Bug Tracker</a>以及各种开源项目仓库中公开获取（用于追踪开源浏览器漏洞时间线的数据即来源于此）。</p>
+<p>我们的数据存在一些注意事项，最主要的是我们将查看少量样本，因此数字上的差异可能具有统计显著性，也可能没有。此外，Project Zero的研究方向几乎完全由个别研究人员的个人选择决定，因此我们研究目标的变化对指标的影响可能与厂商行为变化的影响一样大。本文旨在尽可能客观地呈现数据，并在最后附上一些主观分析。</p>
+<h1 id="数据概览-">数据概览！</h1><p>2019年至2021年间，Project Zero根据标准的90天截止期限向厂商报告了<a href="https://bugs.chromium.org/p/project-zero/issues/list?sort=id&colspec=ID%20Status%20Restrict%20Finder%20Reported%20Deadline%20Remaining%20CVE%20Vendor%20Product%20Summary&q=status%21%3DInvalid%20id%3E%3D1748%20id%3C%3D2248%20Deadline%3A90&can=1">376个问题</a>。其中351个（93.4%）漏洞已被修复，14个（3.7%）被厂商标记为&quot;不予修复&quot;。另有11个（2.9%）漏洞尚未修复，尽管截至本文撰写时，其中8个已超过修复截止期限；其余3个仍在修复期限内。大多数漏洞集中在少数几家厂商，其中向微软报告了96个漏洞（26%），向苹果报告了85个（23%），向谷歌报告了60个（16%）。</p>
+<h1 id="截止期限遵守情况">截止期限遵守情况</h1><p>一旦厂商在我们的标准截止期限内收到漏洞报告，他们有90天的时间来修复漏洞并向公众发布修补版本。如果厂商确认计划在总共104天（90天+14天宽限期）的窗口期内发布修复，他们也可以请求14天的宽限期。</p>
+<p>在本节中，我们将查看厂商能够满足这些截止期限的频率。下表包含了自2019年1月以来在90天截止期限内向厂商报告并已修复的所有漏洞，按报告数量最多的厂商排列。</p>
+<h3 id="2019-2021年截止期限遵守情况及修复时间-按漏洞报告数量-">2019-2021年截止期限遵守情况及修复时间（按漏洞报告数量）</h3><table>
+<thead>
+<tr>
+<th align="left">厂商</th>
+<th align="left">总漏洞数</th>
+<th align="left">第90天前修复</th>
+<th align="left">宽限期内修复</th>
+<th align="left">超出截止期限及宽限期</th>
+<th align="left">平均修复天数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Apple</td>
+<td align="left">84</td>
+<td align="left">73 (87%)</td>
+<td align="left">7 (8%)</td>
+<td align="left">4 (5%)</td>
+<td align="left">69</td>
+</tr>
+<tr>
+<td align="left">Microsoft</td>
+<td align="left">80</td>
+<td align="left">61 (76%)</td>
+<td align="left">15 (19%)</td>
+<td align="left">4 (5%)</td>
+<td align="left">83</td>
+</tr>
+<tr>
+<td align="left">Google</td>
+<td align="left">56</td>
+<td align="left">53 (95%)</td>
+<td align="left">2 (4%)</td>
+<td align="left">1 (2%)</td>
+<td align="left">44</td>
+</tr>
+<tr>
+<td align="left">Linux</td>
+<td align="left">25</td>
+<td align="left">24 (96%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (4%)</td>
+<td align="left">25</td>
+</tr>
+<tr>
+<td align="left">Adobe</td>
+<td align="left">19</td>
+<td align="left">15 (79%)</td>
+<td align="left">4 (21%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">65</td>
+</tr>
+<tr>
+<td align="left">Mozilla</td>
+<td align="left">10</td>
+<td align="left">9 (90%)</td>
+<td align="left">1 (10%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">46</td>
+</tr>
+<tr>
+<td align="left">Samsung</td>
+<td align="left">10</td>
+<td align="left">8 (80%)</td>
+<td align="left">2 (20%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">72</td>
+</tr>
+<tr>
+<td align="left">Oracle</td>
+<td align="left">7</td>
+<td align="left">3 (43%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">4 (57%)</td>
+<td align="left">109</td>
+</tr>
+<tr>
+<td align="left">Others*</td>
+<td align="left">55</td>
+<td align="left">48 (87%)</td>
+<td align="left">3 (5%)</td>
+<td align="left">4 (7%)</td>
+<td align="left">44</td>
+</tr>
+<tr>
+<td align="left"><strong>总计</strong></td>
+<td align="left"><strong>346</strong></td>
+<td align="left"><strong>294 (84%)</strong></td>
+<td align="left"><strong>34 (10%)</strong></td>
+<td align="left"><strong>18 (5%)</strong></td>
+<td align="left"><strong>61</strong></td>
+</tr>
+</tbody></table>
+<ul>
+<li>为求完整，&quot;其他&quot;类别中包含的厂商有：Apache、ASWF、Avast、AWS、c-ares、Canonical、F5、Facebook、git、Github、glibc、gnupg、gnutls、gstreamer、haproxy、Hashicorp、insidesecure、Intel、Kubernetes、libseccomp、libx264、Logmein、Node.js、opencontainers、QT、Qualcomm、RedHat、Reliance、SCTPLabs、Signal、systemd、Tencent、Tor、udisks、usrsctp、Vandyke、VietTel、webrtc和Zoom。</li>
+</ul>
+<p>总体而言，数据显示，这里几乎所有大型厂商的平均修复时间都在90天以内。宽限期内的修复大部分来自苹果和微软（34个中的22个）。</p>
+<p>在此期间，厂商超出截止期限和宽限期的情况约占5%。在这个切片中，Oracle的超期率最高，但必须承认其样本量相对较小，只有大约7个漏洞。其次是微软，在其80个截止期限中有4个超期。</p>
+<p>所有厂商修复漏洞的平均天数为61天。聚焦于这个统计数据，我们可以按年份细分：</p>
+<h3 id="2019-2021年漏洞修复时间-按漏洞报告数量-">2019-2021年漏洞修复时间（按漏洞报告数量）</h3><table>
+<thead>
+<tr>
+<th align="left">厂商</th>
+<th align="left">2019年漏洞数（平均修复天数）</th>
+<th align="left">2020年漏洞数（平均修复天数）</th>
+<th align="left">2021年漏洞数（平均修复天数）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Apple</td>
+<td align="left">61 (71)</td>
+<td align="left">13 (63)</td>
+<td align="left">11 (64)</td>
+</tr>
+<tr>
+<td align="left">Microsoft</td>
+<td align="left">46 (85)</td>
+<td align="left">18 (87)</td>
+<td align="left">16 (76)</td>
+</tr>
+<tr>
+<td align="left">Google</td>
+<td align="left">26 (49)</td>
+<td align="left">13 (22)</td>
+<td align="left">17 (53)</td>
+</tr>
+<tr>
+<td align="left">Linux</td>
+<td align="left">12 (32)</td>
+<td align="left">8 (22)</td>
+<td align="left">5 (15)</td>
+</tr>
+<tr>
+<td align="left">Others*</td>
+<td align="left">54 (63)</td>
+<td align="left">35 (54)</td>
+<td align="left">14 (29)</td>
+</tr>
+<tr>
+<td align="left"><strong>总计</strong></td>
+<td align="left"><strong>199 (67)</strong></td>
+<td align="left"><strong>87 (54)</strong></td>
+<td align="left"><strong>63 (52)</strong></td>
+</tr>
+</tbody></table>
+<ul>
+<li>为求完整，&quot;其他&quot;类别中包含的厂商有：Adobe、Apache、ASWF、Avast、AWS、c-ares、Canonical、F5、Facebook、git、Github、glibc、gnupg、gnutls、gstreamer、haproxy、Hashicorp、insidesecure、Intel、Kubernetes、libseccomp、libx264、Logmein、Mozilla、Node.js、opencontainers、Oracle、QT、Qualcomm、RedHat、Reliance、Samsung、SCTPLabs、Signal、systemd、Tencent、Tor、udisks、usrsctp、Vandyke、VietTel、webrtc和Zoom。</li>
+</ul>
+<p>由此，我们可以看到几点：首先，总体修复时间持续下降，但最显著的是在2019年至2020年之间。微软、苹果和Linux在此期间总体上缩短了修复时间，而谷歌在2020年加速后，2021年又有所放缓。也许最令人印象深刻的是，图表中未列出的其他厂商集体将修复时间缩短了一半以上，尽管这可能反映了研究目标的变化，而非任何特定厂商实践的改变。</p>
+<p>最后，仅关注2021年，我们看到：</p>
+<ul>
+<li>只有<a href="https://bugs.chromium.org/p/project-zero/issues/list?colspec=ID%20Status%20Restrict%20Finder%20Reported%20Deadline%20Remaining%20CVE%20Vendor%20Product%20Summary&q=id%3E%3D2137%20Deadline%3DExceeded%20-Deadline-Grace&can=1">1个截止期限被超出</a>，而其他两年平均每年有9个</li>
+<li>宽限期使用了9次（值得注意的是其中一半由微软使用），略低于其他年份平均12.5次</li>
+</ul>
+<h1 id="手机操作系统">手机操作系统</h1><p>由于上表中的产品涵盖多种类型（桌面操作系统、移动操作系统、浏览器），我们也可以专注于一个特定的、希望更具可比性的领域：手机操作系统。</p>
+<table>
+<thead>
+<tr>
+<th align="left">厂商</th>
+<th align="left">总漏洞数</th>
+<th align="left">平均修复时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">iOS</td>
+<td align="left">76</td>
+<td align="left">70</td>
+</tr>
+<tr>
+<td align="left">Android (Samsung)</td>
+<td align="left">10</td>
+<td align="left">72</td>
+</tr>
+<tr>
+<td align="left">Android (Pixel)</td>
+<td align="left">6</td>
+<td align="left">72</td>
+</tr>
+</tbody></table>
+<p>首先需要注意的是，在此期间，iOS从Project Zero收到的漏洞报告数量明显多于任何版本的Android，但这并非研究目标选择的不平衡，而更多地反映了苹果发布软件的方式。iMessage、Facetime和Safari/WebKit等&quot;应用&quot;的安全更新都是作为操作系统更新的一部分发布的，因此我们将它们纳入操作系统的分析中。另一方面，Android上独立应用的安全更新是通过Google Play商店进行的，因此未包含在此次分析中。</p>
+<p>尽管如此，这三家厂商的平均修复时间都极为相似。根据我们现有的数据，很难确定漏洞生命周期（例如分类、补丁编写、测试等）的每个部分花费了多少时间。然而，开源产品确实为我们了解时间花费在何处提供了一个窗口。</p>
+<h1 id="浏览器">浏览器</h1><p>对于大多数软件，我们无法深入探究时间线的具体细节。具体来说：在厂商收到安全问题报告后，&quot;修复时间&quot;中有多少是花费在漏洞报告和修复代码提交之间，又有多少时间花费在修复代码提交和发布包含修复的构建版本之间？我们确实有一个窗口可以观察开源软件，特别是Project Zero进行漏洞研究的那类开源软件：开源浏览器。</p>
+<h3 id="开源浏览器修复时间分析-按漏洞数量-">开源浏览器修复时间分析（按漏洞数量）</h3><table>
+<thead>
+<tr>
+<th align="left">浏览器</th>
+<th align="left">漏洞数</th>
+<th align="left">从漏洞报告到公开补丁的平均天数</th>
+<th align="left">从公开补丁到发布版本的平均天数</th>
+<th align="left">从漏洞报告到发布版本的平均天数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Chrome</td>
+<td align="left">40</td>
+<td align="left">5.3</td>
+<td align="left">24.6</td>
+<td align="left">29.9</td>
+</tr>
+<tr>
+<td align="left">WebKit</td>
+<td align="left">27</td>
+<td align="left">11.6</td>
+<td align="left">61.1</td>
+<td align="left">72.7</td>
+</tr>
+<tr>
+<td align="left">Firefox</td>
+<td align="left">8</td>
+<td align="left">16.6</td>
+<td align="left">21.1</td>
+<td align="left">37.8</td>
+</tr>
+<tr>
+<td align="left"><strong>总计</strong></td>
+<td align="left"><strong>75</strong></td>
+<td align="left"><strong>8.8</strong></td>
+<td align="left"><strong>37.3</strong></td>
+<td align="left"><strong>46.1</strong></td>
+</tr>
+</tbody></table>
+<p>我们也可以查看相同的数据，但将每个漏洞在直方图中展开。特别是，从修复代码公开提交到该修复发布给用户的时间量直方图清晰地讲述了一个故事（在上表中，这对应于&quot;从公开补丁到发布版本的平均天数&quot;列）：</p>
+<p><img src="/images/fd0551a5903b/f1d45122da3977e942f17335462c19ee.png" alt="显示Firefox、Webkit和Chrome从修复代码公开提交到修复版本发布的时间分布直方图。Webkit仍处于直方图较高端的事实告诉我们，他们的大部分时间花费在修复代码提交后发布修复版本上。" loading="lazy"></p>
+<p>表格和图表共同告诉我们以下几点：</p>
+<p>Chrome目前是这三款浏览器中最快的，从漏洞报告到在稳定渠道发布修复平均需要30天。其补丁提交速度非常快，从漏洞报告到补丁公开提交平均只需5天。该补丁向公众发布的时间占据了整个时间窗口的大部分，但总体而言，我们仍然看到直方图中Chrome（蓝色）的柱状图偏向左侧。（重要说明：尽管同属一家公司，Project Zero对Chrome遵循与外部安全研究人员相同的政策和程序。更多信息请参阅我们的<a href="/vulnerability-disclosure-faq.html">漏洞披露FAQ</a>。）</p>
+<p>Firefox在此次分析中排名第二，尽管可供分析的数据点相对较少。Firefox平均在38天内发布修复。其中不到一半的时间用于修复代码公开提交，但需要注意的是，Firefox有意延迟提交安全补丁，以减少修复发布前的暴露时间。一旦补丁公开，其发布修复版本的平均速度比Chrome快几天——绝大多数修复在其公开补丁后的10-15天内发布。</p>
+<p>WebKit是此次分析中的异常值，发布补丁所需天数最长，为73天。其修复代码公开提交的时间介于Chrome和Firefox之间，但不幸的是，这给机会主义攻击者留下了很长的时间来寻找补丁并在修复提供给用户之前利用它。这可以从第二个直方图中苹果（红色）的柱状图大部分位于图表右侧看出，除了一个例外，其他所有都超过了30天标记。</p>
+<h1 id="分析-希望与展望">分析、希望与展望</h1><p>总体而言，我们从数据中看到了一些有希望的趋势。厂商几乎修复了他们收到的所有漏洞，并且通常在90天截止期限内完成，必要时加上14天宽限期。在过去三年中，厂商大多加快了补丁速度，有效地将总体平均修复时间缩短至约52天。2021年，只有一个90天截止期限被超出。我们怀疑这种趋势可能是由于负责任的披露政策已成为行业事实上的标准，并且厂商更有能力对不同截止期限的报告做出快速反应。我们还怀疑厂商之间相互学习了最佳实践，因为行业的透明度在不断提高。</p>
+<p>一个重要注意事项：我们知道，与其他漏洞报告相比，Project Zero的报告可能是特例，因为它们可能会得到更快的处理，因为存在公开披露的实际风险（如果未满足截止期限条件，团队将进行披露），并且Project Zero是可靠漏洞报告的可信来源。我们鼓励厂商发布指标，即使是高级别的指标，以便更好地了解整个行业安全问题的修复速度，并继续鼓励其他安全研究人员分享他们的经验。</p>
+<p>对于谷歌，特别是Chrome，我们怀疑安全漏洞的快速周转时间部分归功于其快速的发布周期，以及他们为安全更新提供的额外稳定版本。我们对Chrome最近从6周发布周期切换到<a href="https://blog.chromium.org/2021/03/speeding-up-release-cycle.html">4周发布周期</a>感到鼓舞。在Android方面，我们看到Pixel版本的Android发布修复的速度与三星版本以及iOS大致相当。即便如此，我们鼓励Android团队寻找其他方法来加快安全更新的应用，并推动该行业领域进一步发展。</p>
+<p>对于苹果，我们对补丁提交速度的加快、最近较少使用宽限期以及没有错过截止期限感到满意。特别是对于WebKit，我们希望看到从提交补丁到向用户发布之间的时间能够减少，尤其是因为WebKit的安全性影响到iOS上使用的所有浏览器，因为WebKit是iOS平台上唯一允许的浏览器引擎。</p>
+<p>对于微软，我们怀疑修复时间长以及微软对宽限期的依赖是其每月&quot;补丁星期二&quot;更新节奏的结果，这可能使开发团队更难满足披露截止期限。我们希望微软可以考虑为安全问题实施更频繁的补丁节奏，或者寻找方法进一步简化其内部流程，以更快地提交和发布代码。</p>
+<h1 id="展望未来">展望未来</h1><p>本文代表了我们对自己公开数据所做的一些数字分析，我们希望未来能继续这项工作。既然我们已经建立了过去几年的基线，我们计划继续发布年度更新，以更好地了解趋势的进展。</p>
+<p>为此，我们希望对厂商的流程和时间线有更深入的了解。我们鼓励所有厂商考虑发布关于外部报告漏洞的修复时间和补丁发布时间的汇总数据。通过更多的透明度、信息共享和行业协作，我们相信我们可以相互学习最佳实践，更好地理解现有的困难，并有望为所有人创造一个更安全的互联网环境。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/漏洞分析.html" class="tag-link">#漏洞分析</a> <a href="/tag/AWS安全.html" class="tag-link">#AWS安全</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a> <a href="/tag/Firefox.html" class="tag-link">#Firefox</a> <a href="/tag/Safari.html" class="tag-link">#Safari</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#内容摘要" class="toc-link">
+              <span class="toc-text">内容摘要</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#概述" class="toc-link">
+              <span class="toc-text">概述</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#数据概览-" class="toc-link">
+              <span class="toc-text">数据概览！</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#截止期限遵守情况" class="toc-link">
+              <span class="toc-text">截止期限遵守情况</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#2019-2021年截止期限遵守情况及修复时间-按漏洞报告数量-" class="toc-link">2019-2021年截止期限遵守情况及修复时间（按漏洞报告数量）</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#2019-2021年漏洞修复时间-按漏洞报告数量-" class="toc-link">2019-2021年漏洞修复时间（按漏洞报告数量）</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#手机操作系统" class="toc-link">
+              <span class="toc-text">手机操作系统</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#浏览器" class="toc-link">
+              <span class="toc-text">浏览器</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#开源浏览器修复时间分析-按漏洞数量-" class="toc-link">开源浏览器修复时间分析（按漏洞数量）</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#分析-希望与展望" class="toc-link">
+              <span class="toc-text">分析、希望与展望</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#展望未来" class="toc-link">
+              <span class="toc-text">展望未来</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

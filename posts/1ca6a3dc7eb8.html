@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows Bug Class：使用 IDispatch 访问受陷阱保护的 COM 对象 - BasicBit</title>
+  <meta name="description" content="Windows Bug Class：使用 IDispatch 访问受陷阱保护的 COM 对象">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Windows Bug Class：使用 IDispatch 访问受陷阱保护的 COM 对象</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2025/1/30
+            </span>
+            <span class="meta-item">James Forshaw</span>
+            <span class="meta-item">网络安全, 漏洞利用, 防御研究</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2025/01/windows-bug-class-accessing-trapped-com.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2025%2F01%2Fwindows-bug-class-accessing-trapped-com.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：James Forshaw，Google Project Zero</p>
+<p>面向对象的远程处理技术，如DCOM和.NET Remoting，使得开发能够跨越进程和安全边界的面向对象服务接口变得非常容易。这是因为它们被设计为支持广泛的对象，不仅包括服务中实现的对象，还包括任何其他兼容远程处理的对象。例如，如果你想在客户端-服务器边界上公开一个XML文档，你可以使用预先存在的COM或.NET库，并将该对象返回给客户端。默认情况下，当对象被返回时，它是通过引用进行封送（marshaled by reference）的，这导致对象停留在进程外服务器中。</p>
+<p>这种灵活性有许多缺点，其中之一就是本文的主题——被困对象（trapped object）漏洞类别。并非所有可以远程处理的对象都必然是安全的。例如，前面提到的XML库（包括COM和.NET）都支持在XSLT文档的上下文中执行任意脚本代码。如果XML文档对象可以通过边界访问，那么客户端就可以在服务器进程的上下文中执行代码，这可能导致权限提升或远程代码执行。</p>
+<p>有多种场景可能引入此类漏洞。最常见的情况是不安全对象被无意中共享。一个例子是<a href="https://project-zero.issues.chromium.org/issues/42450766">CVE-2019-0555</a>。这个漏洞的出现是因为在开发Windows Runtime库时需要XML文档对象。开发者决定在现有的XML DOM Document v6 COM对象中添加一些代码，以公开运行时特定的接口。由于这些运行时接口不支持XSLT脚本功能，因此假设在跨越权限边界时公开是安全的。不幸的是，恶意客户端可以查询仍然可访问的旧IXMLDOMDocument接口，并使用它来运行XSLT脚本，从而逃逸沙箱。</p>
+<p>另一种情况是存在异步封送（asynchronous marshaling）原语。在这种情况下，对象既可以通过值（by value）也可以通过引用（by reference）进行封送，而平台默认选择通过引用作为默认机制。例如，<a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.fileinfo?view%3Dnetframework-4.8.1">FileInfo</a>和<a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.directoryinfo?view%3Dnetframework-4.8.1">DirectoryInfo</a>这两个.NET类都是可序列化的，因此可以通过值封送发送到.NET远程处理服务。但它们也继承自<a href="https://learn.microsoft.com/en-us/dotnet/api/system.marshalbyrefobject?view%3Dnetframework-4.8.1">MarshalByRefObject</a>类，这意味着它们也可以通过引用进行封送。攻击者可以利用这一点，向服务器发送对象的序列化形式，当服务器反序列化时，将在服务器进程中创建对象的新实例。如果攻击者可以读回创建的对象，运行时将通过引用将其封送回攻击者，使对象被困在服务器进程中。最后，攻击者可以调用对象上的方法，例如创建新文件，这些操作将以服务器的权限执行。这种攻击在我的<a href="https://github.com/tyranid/ExploitRemotingService">ExploitRemotingService</a>工具中实现。</p>
+<p>我将提到的最后一种情况与本文最相关，即滥用远程处理技术用于查找和实例化对象的内置机制，以创建意外对象。例如，在COM中，如果你能找到一条代码路径，使用任意CLSID调用<a href="https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-cocreateinstance">CoCreateInstance</a> API，并将该对象传递回客户端，那么你就可以利用它在服务器上下文中运行任意代码。这种形式的一个例子是<a href="https://project-zero.issues.chromium.org/issues/42450084">CVE-2017-0211</a>，这是一个跨越安全边界公开<a href="https://learn.microsoft.com/en-us/windows/win32/stg/structured-storage-start-page">结构化存储</a>（Structured Storage）对象的漏洞。存储对象支持<a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nn-oaidl-ipropertybag">IPropertyBag</a>接口，该接口可用于在服务器上下文中创建任意COM对象，并将其返回给客户端。这可以通过在服务器中创建XML DOM Document对象，通过引用封送回客户端，然后使用XSLT脚本功能在服务器上下文中运行任意代码以提升权限来利用。</p>
+<h2 id="idispatch-的作用是什么-">IDispatch 的作用是什么？</h2><p><a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nn-oaidl-idispatch">IDispatch</a>接口是OLE自动化（OLE Automation）功能的一部分，这是COM的原始用例之一。它允许COM客户端在运行时与服务器进行后期绑定（late binding），以便可以从VBA和JScript等脚本语言使用该对象。该接口在进程和权限边界之间完全受支持，尽管它更常用于进程内组件，如ActiveX。</p>
+<p>为了便于在运行时调用COM对象，服务器必须向客户端公开一些类型信息，以便客户端知道如何打包参数以通过接口的<a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nf-oaidl-idispatch-invoke">Invoke</a>方法发送。类型信息存储在开发人员定义的磁盘上的<a href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/automat/type-libraries-and-the-object-description-language">类型库</a>（Type Library）文件中，客户端可以使用IDispatch接口的<a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nf-oaidl-idispatch-gettypeinfo">GetTypeInfo</a>方法查询该库。由于类型库接口的COM实现是通过引用封送的，返回的<a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nn-oaidl-itypeinfo">ITypeInfo</a>接口被困在服务器中，对其调用的任何方法都将在服务器的上下文中执行。</p>
+<p>ITypeInfo接口公开了两个客户端可以调用的有趣方法：<a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nf-oaidl-itypeinfo-invoke">Invoke</a>和<a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nf-oaidl-itypeinfo-createinstance">CreateInstance</a>。事实证明，Invoke对我们的目的来说并不那么有用，因为它不支持远程处理，只有在当前进程中加载了类型库时才能调用。然而，CreateInstance被实现为可远程调用的，这将通过调用CoCreateInstance从CLSID实例化一个COM对象。关键的是，创建的对象将在服务器的进程中，而不是客户端。</p>
+<p>但是，如果你查看链接的API文档，会发现没有可以传递给CreateInstance的CLSID参数，那么类型库接口如何知道要创建什么对象呢？ITypeInfo接口表示类型库中可以存在的任何类型。GetTypeInfo返回的类型只包含有关客户端要调用的接口的信息，因此调用CreateInstance只会返回错误。然而，类型库也可以存储&quot;CoClass&quot;类型的信息。这些类型定义了要创建的对象的CLSID，因此调用CreateInstance将会成功。</p>
+<p>我们如何从接口类型信息对象转到表示类的对象呢？ITypeInfo接口为我们提供了<a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nf-oaidl-itypeinfo-getcontainingtypelib">GetContainingTypeLib</a>方法，该方法返回对包含的ITypeLib接口的引用。然后可以使用该接口枚举类型库中所有支持的类。如果远程公开，一个或多个类可能不安全。让我们通过使用我的<a href="http://oleview.net">OleView.NET</a> PowerShell模块来演练一个实际示例。首先，我们想找到一些同时支持IDispatch的目标COM服务。这将为我们提供潜在的权限提升途径。</p>
+<pre><code>PS&gt; $cls = Get-ComClass -Service
+PS&gt; $cls | % { Get-ComInterface -Class $_ | Out-Null }
+PS&gt; $cls | ? { $true -in $_.Interfaces.InterfaceEntry.IsDispatch } |
+Select Name, Clsid
+
+Name                                                  Clsid
+----                                                  -----
+WaaSRemediation                                       72566e27-1abb-4eb3-b4f0-eb431cb1cb32
+Search Gathering Manager                              9e175b68-f52a-11d8-b9a5-505054503030
+Search Gatherer Notification                          9e175b6d-f52a-11d8-b9a5-505054503030
+AutomaticUpdates                                      bfe18e9c-6d87-4450-b37c-e02f0b373803
+Microsoft.SyncShare.SyncShareFactory Class            da1c0281-456b-4f14-a46d-8ed2e21a866f
+</code></pre>
+<p>Get-ComClass的-Service开关返回在本地服务中实现的类。然后我们查询所有支持的接口，我们不需要此命令的输出，因为查询的接口存储在Interfaces属性中。最后，我们筛选出任何公开IDispatch的COM类，得到5个候选类。接下来，我们将选择第一个类WaasRemediation，并检查其类型库以寻找有趣的类。</p>
+<pre><code>PS&gt; $obj = New-ComObject -Clsid 72566e27-1abb-4eb3-b4f0-eb431cb1cb32
+PS&gt; $lib = Import-ComTypeLib -Object $obj
+PS&gt; Get-ComObjRef $lib.Instance | Select ProcessId, ProcessName
+
+ProcessId ProcessName
+--------- -----------
+27020 svchost.exe
+
+PS&gt; $parsed = $lib.Parse()
+PS&gt; $parsed
+
+Name               Version TypeLibId
+----               -------- ---------
+WaaSRemediationLib 1.0      3ff1aab8-f3d8-11d4-825d-00104b3646c0
+
+PS&gt; $parsed.Classes | Select Name, Uuid
+
+Name                          Uuid
+----                          ----
+WaaSRemediationAgent          72566e27-1abb-4eb3-b4f0-eb431cb1cb32
+WaaSProtectedSettingsProvider 9ea82395-e31b-41ca-8df7-ec1cee7194df
+</code></pre>
+<p>脚本创建COM对象，然后使用Import-ComTypeLib命令获取类型库接口。我们可以通过使用Get-ComObjRef封送它，然后提取进程信息来检查类型库接口是否真的在进程外运行，结果显示它在svchost.exe实例中运行，这是共享服务可执行文件。通过接口检查类型库很麻烦，为了更容易显示支持的类，我们可以使用Parse方法将库解析为更易于使用的对象模型。然后我们可以转储库的信息，包括其类的列表。</p>
+<p>不幸的是，对于这个COM对象，类型库支持的唯一类已经注册在服务中运行，因此我们一无所获。我们需要的是一个仅在本地进程中注册运行，但由类型库公开的类。这是可能的，因为类型库可以同时由本地进程内组件和进程外服务共享。</p>
+<p>我检查了其他4个COM类（其中一个注册不正确，未被相应服务公开），没有找到有用的类来尝试利用。此时你可能会决定放弃，但事实证明有一些可访问的类，它们只是被隐藏了。这是因为一个类型库可以引用其他类型库，这些库可以使用相同的接口集进行检查。让我们看看：</p>
+<pre><code>PS&gt; $parsed.ReferencedTypeLibs
+
+Name   Version TypeLibId
+----   ------- ----------
+stdole 2.0     00020430-0000-0000-c000-000000000046
+
+PS&gt; $parsed.ReferencedTypeLibs[0].Parse().Classes | Select Name, Uuid
+
+Name       Uuid
+----       ----
+StdFont    0be35203-8f91-11ce-9de3-00aa004bb851
+StdPicture 0be35204-8f91-11ce-9de3-00aa004bb851
+
+PS&gt; $cls = Get-ComClass -Clsid 0be35203-8f91-11ce-9de3-00aa004bb851
+PS&gt; $cls.Servers
+
+Key Value
+--- -----
+InProcServer32 C:\Windows\System32\oleaut32.dll
+</code></pre>
+<p>在示例中，我们可以使用ReferencedTypeLibs属性来显示解析库时遇到哪些类型库。我们可以看到stdole的单个条目，这基本上总是会被导入。如果你幸运的话，可能还有其他导入的库可以检查。我们可以解析stdole库以检查其类列表。类型库导出了两个类，如果我们检查StdFont的服务器，可以看到它只被指定为在进程中创建，现在我们有了一个寻找漏洞的目标类。要获取stdole类型库的进程外接口，我们需要找到一个引用它的类型。引用的原因是，诸如IUnknown和IDispatch之类的通用接口是在库中定义的，因此我们需要查询可以直接访问的接口的基类型。让我们尝试在COM服务中创建对象。</p>
+<pre><code>PS&gt; $iid = $parsed.Interfaces[0].Uuid
+PS&gt; $ti = $lib.GetTypeInfoOfGuid($iid)
+PS&gt; $href = $ti.GetRefTypeOfImplType(0)
+PS&gt; $base = $ti.GetRefTypeInfo($href)
+PS&gt; $stdole = $base.GetContainingTypeLib()
+PS&gt; $stdole.Parse()
+
+Name   Version TypeLibId
+----   ------- ---------
+stdole 2.0     00020430-0000-0000-c000-000000000046
+
+PS&gt; $ti = $stdole.GetTypeInfoOfGuid(&quot;0be35203-8f91-11ce-9de3-00aa004bb851&quot;)
+PS&gt; $font = $ti.CreateInstance()
+PS&gt; Get-ComObjRef $font | Select ProcessId, ProcessName
+
+ProcessId ProcessName
+--------- -----------
+27020 svchost.exe
+
+PS&gt;  Get-ComInterface -Object $Obj
+
+Name                 IID                                                  HasProxy   HasTypeLib
+----                 ---                                                  --------   ----------
+...
+IFont                bef6e002-a874-101a-8bba-00aa00300cab True       False
+IFontDisp            bef6e003-a874-101a-8bba-00aa00300cab True       True
+</code></pre>
+<p>我们通过<a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nf-oaidl-itypeinfo-getreftypeofimpltype">GetRefTypeOfImplType</a>和<a href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nf-oaidl-itypeinfo-getreftypeinfo">GetRefTypeInfo</a>的组合查询现有接口的基类型，然后使用GetContainingTypeLib获取引用的类型库接口。我们可以解析该库以确认我们获得了stdole库。接下来，我们获取StdFont类的类型信息并调用CreateInstance。我们可以检查对象的进程以确保它是在进程外创建的，结果显示它被困在服务进程中。作为最终检查，我们可以查询对象的接口以证明它是一个字体对象。</p>
+<p>现在我们只需要找到一种方法来利用这两个类中的任何一个，第一个问题是只能访问StdFont对象。StdPicture对象会进行检查以防止在进程外使用。我在字体对象中没有找到有用的可利用行为，但我没有花太多时间寻找。当然，如果有人想在该类中寻找合适的漏洞，请自便。</p>
+<p>因此，这项研究陷入了死胡同，至少就系统服务而言是这样。可能有一些可以从沙箱访问的COM服务器，但对可从AppContainer访问的服务器进行的初步分析没有显示任何明显的候选者。然而，在进一步思考之后，我意识到它可以作为一种注入技术，注入到以相同权限级别运行的进程中。例如，我们可以劫持StdFont的COM注册，使用<a href="https://learn.microsoft.com/en-us/windows/win32/com/treatas">TreatAs</a>注册表键指向任何其他类。这个其他类将是可利用的，例如将JScript引擎加载到目标进程中并运行脚本。</p>
+<p>尽管如此，注入技术通常不是我在这个博客上讨论的内容，那更像是恶意软件的领域。然而，有一种情况可能具有有趣的安全影响。如果我们能利用它注入到Windows受保护进程（Windows Protected Process）中呢？命运的一个奇怪转折是，我们刚刚检查的WaaSRemediationAgent类可能就是我们的入场券：</p>
+<pre><code>PS&gt; $cls = Get-ComClass -Clsid 72566e27-1abb-4eb3-b4f0-eb431cb1cb32
+PS&gt; $cls.AppIDEntry.ServiceProtectionLevel
+
+WindowsLight
+</code></pre>
+<p>当我们检查托管服务的保护级别时，它被配置为在PPL-Windows级别运行！让我们看看是否能从这项研究中挽救一些价值。</p>
+<h2 id="受保护进程注入">受保护进程注入</h2><p>我之前曾<a href="/2018/10/injecting-code-into-windows-protected.html">撰文</a>（并做过演讲）讨论过注入Windows受保护进程的话题。我建议重新阅读那篇博客文章，以更好地了解之前的注入攻击背景。然而，一个关键点是，微软不认为PPL是一个安全边界，因此他们通常不会在安全公告中及时修复任何漏洞，但他们可能会选择在新版本的Windows中修复它。</p>
+<p>想法很简单，我们将重定向StdFont类注册以指向另一个类，这样当我们通过类型库创建它时，它将在受保护进程中运行。选择使用StdFont应该更通用，因为如果WaaSRemediationAgent被移除，我们可以转而使用不同的COM服务器。我们只需要一个合适的类，它能在受保护进程中运行并给我们任意代码执行能力。</p>
+<p>不幸的是，这立即排除了任何像JScript这样的脚本引擎。如果你重新阅读了我的上一篇博客文章，代码完整性（Code Integrity）模块明确阻止了常见脚本引擎在受保护进程中加载。相反，我需要一个可以在进程外访问并且可以加载到受保护进程中的类。我意识到一个选择是加载一个已注册的.NET COM类。我曾<a href="/2017/04/exploiting-net-managed-dcom.html">撰文</a>讨论过.NET DCOM如何可利用，以及不应使用它，但在这种情况下，我们恰恰需要它的漏洞。</p>
+<p>那篇博客文章讨论了利用序列化原语，然而有一种更简单的攻击，我通过使用DCOM上的<a href="https://learn.microsoft.com/en-us/dotnet/api/system.type?view%3Dnetframework-4.8.1">System.Type</a>类来利用。通过访问Type对象，你可以执行任意反射并调用任何你喜欢的方法，包括从字节数组加载程序集，这将绕过签名检查并完全控制受保护进程。</p>
+<p>微软<a href="https://learn.microsoft.com/en-us/security-updates/SecurityBulletins/2014/ms14-009">修复</a>了这种行为，但他们留下了一个配置值<a href="https://support.microsoft.com/en-gb/topic/marshaling-of-reflection-types-may-not-work-over-dcom-after-you-install-a-security-update-from-security-bulletin-ms14-009-b3ae0bd6-fb65-4e75-b399-0add119cc16f">AllowDCOMReflection</a>，允许你重新启用它。由于我们不是提升权限，并且我们需要以管理员身份运行才能更改COM类注册信息，我们只需在注册表中启用DCOM反射，即在将.NET框架加载到受保护进程之前，向HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft.NETFramework键写入值为1的DWORD类型的AllowDCOMReflection。</p>
+<p>需要采取以下步骤来实现注入：</p>
+<ol>
+<li>在注册表中启用DCOM反射。</li>
+<li>添加TreatAs键以将StdFont重定向到System.Object COM类。</li>
+<li>创建WaaSRemediationAgent对象。</li>
+<li>使用类型库获取StdFont类类型信息。</li>
+<li>使用CreateInstance方法创建StdFont对象，这实际上将加载.NET框架并返回System.Object类的实例。</li>
+<li>使用.NET反射调用<a href="https://learn.microsoft.com/en-us/dotnet/api/system.reflection.assembly.load?view%3Dnetframework-4.8.1%23system-reflection-assembly-load(system-byte(">System.Reflection.Assembly::Load</a>方法并传入字节数组。</li>
+<li>在加载的程序集中创建一个对象以强制代码执行。</li>
+<li>清理所有注册表更改。</li>
+</ol>
+<p>你需要使用非.NET语言执行这些步骤，否则序列化机制将启动并在调用进程中重新创建反射对象。我用C++编写了我的PoC，但如果你愿意，也可以用Python等语言实现。我不会公开提供PoC，但代码与我为<a href="https://github.com/tyranid/IE11SandboxEscapes/blob/master/CVE-2014-0257/CVE-2014-0257.cpp">CVE-2014-0257</a>编写的漏洞利用非常相似，那将为你提供一个如何在C++中使用DCOM反射的示例。另外请注意，.NET COM对象的默认设置是使用v2框架运行，该框架默认不再安装。为了避免在v4上折腾使其工作，我直接从Windows组件安装程序安装了v2。</p>
+<p>我的PoC在Windows 10上首次运行就成功了，但不幸的是，当我在Windows 11 24H2上运行时失败了。我可以创建.NET对象，但调用对象上的任何方法都失败，错误为TYPE_E_CANTLOADLIBRARY。我本可以就此打住，证明了我的观点，但我想知道在Windows 11上是什么失败了。让我们深入探讨一下，看看我们是否能做些什么使其在最新版本的Windows上工作。</p>
+<h2 id="windows-11-的问题">Windows 11 的问题</h2><p>我能够证明问题与受保护进程有关，如果我更改服务注册以在未受保护状态下运行，那么PoC就有效。因此，一定有什么东西在专门在受保护进程中运行时阻止了库的加载。这似乎通常不影响类型库，stdole的加载工作正常，所以是.NET特有的问题。</p>
+<p>在用Process Monitor检查PoC的行为后，很明显mscorlib.tlb库正在被加载以在服务器中实现存根类（stub class）。由于某种原因，它加载失败，这阻止了存根的创建，进而导致任何调用失败。此时，我对正在发生的事情有了一个想法。在之前的<a href="/2018/10/injecting-code-into-windows-protected.html">博客文章</a>中，我讨论了通过修改NGEN COM进程用于创建接口存根的类型库来引入类型混淆（type-confusion）的攻击。这使我能够覆盖KnownDlls句柄并强制任意DLL加载到内存中。我从<a href="https://github.com/itm4n">Clément Labro</a>和<a href="https://blog.slowerzs.net/posts/pplsystem/">其他人</a>的工作中了解到，大多数围绕KnownDlls的攻击现在都被阻止了，但我怀疑对类型库类型混淆技巧也有某种修复。</p>
+<p>深入研究oleaut32.dll，我找到了有问题的修复，VerifyTrust方法如下所示：</p>
+<pre><code>NTSTATUS VerifyTrust(LoadInfo *load_info) {
+    PS_PROTECTION protection;
+    BOOL is_protected;
+    CheckProtectedProcessForHardening(&amp;is_protected, &amp;protection);
+    if (!is_protected)
+        return SUCCESS;
+    ULONG flags;
+    BYTE level;
+    HANDLE handle = load_info-&gt;Handle;
+    NTSTATUS status = NtGetCachedSigningLevel(handle, &amp;flags, &amp;level,
+                                              NULL, NULL, NULL);
+    if (FAILED(status) ||
+        (flags &amp; 0x182) == 0 ||
+        FAILED(NtCompareSigningLevels(level, 12))) {
+        status = NtSetCachedSigningLevel(0x804, 12, &amp;handle, 1, handle);
+    }
+    return status;
+}
+</code></pre>
+<p>此方法在加载类型库期间被调用。它使用缓存的签名级别（cached signing level），这也是我在上一篇博客文章中提到的，来验证文件是否具有12的签名级别，这对应于Windows签名级别。如果它没有适当的缓存签名级别，代码将尝试使用NtSetCachedSigningLevel来设置它。如果失败，则假定文件无法在受保护进程中加载并返回错误，这导致类型库加载失败。注意，类似的修复阻止了滥用运行对象表（Running Object Table）来引用进程外类型库，但这与本次讨论无关。</p>
+<p>根据Get-AuthenticodeSignature的输出，mscorlib.tlb文件已签名，尽管是通过目录签名（catalog signing）。签名证书是Microsoft Windows Production PCA 2011，这与.NET Runtime DLL的证书完全相同，因此没有理由它不会获得Windows签名级别。让我们尝试使用我的<a href="https://www.powershellgallery.com/packages/NtObjectManager">NtObjectManager</a> PowerShell模块手动设置缓存签名级别，看看是否能得到一些启示：</p>
+<pre><code>PS&gt; $path = &quot;C:\windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.tlb&quot;
+PS&gt; Set-NtCachedSigningLevel $path -Flags 0x804 -SigningLevel 12 -Win32Path
+Exception calling &quot;SetCachedSigningLevel&quot; with &quot;4&quot; argument(s): &quot;(0xC000007B) - {Bad Image}
+%hs is either not designed to run on Windows or it contains an error. Try installing the program again using the
+original installation media or contact your system administrator or the software vendor for support. Error status 0x&quot;
+PS&gt; Format-HexDump $path -Length 64 -ShowAll
+
+00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  - 0123456789ABCDEF
+-----------------------------------------------------------------------------
+00000000: 4D 53 46 54 02 00 01 00 00 00 00 00 09 04 00 00  - MSFT............
+00000010: 00 00 00 00 43 00 00 00 02 00 04 00 00 00 00 00  - ....C...........
+00000020: 25 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00  - %...............
+00000030: 2E 0D 00 00 33 FA 00 00 F8 08 01 00 FF FF FF FF  - ....3...........
+</code></pre>
+<p>设置签名级别给我们带来了STATUS_INVALID_IMAGE_FORMAT错误。查看类型库文件的前64个字节显示它是一个原始类型库，而不是打包在PE文件中。这在Windows上相当不常见，即使文件扩展名为TLB，类型库通常也作为资源打包在PE文件中。我想我们运气不好，除非我们能在文件上设置缓存签名级别，否则它将被阻止加载到受保护进程中，而我们需要它加载以支持存根类通过DCOM调用.NET接口。</p>
+<p>顺便说一句，奇怪的是，我有一个Windows 11虚拟机，其中包含非DLL形式的类型库，它可以成功设置缓存签名级别。我一定以某种方式更改了虚拟机的配置以支持此功能，但我不知道那是什么，我决定不再深入探讨。</p>
+<p>我们可以尝试找到类型库文件的先前版本，该版本既有效签名，又打包在PE文件中，但是，我宁愿不这样做。当然，几乎肯定有另一个我们可以加载的COM对象，而不是.NET，它可能给我们任意代码执行能力，但我已经下定决心采用这种方法。最终，解决方案比我预期的更简单，出于某种原因，类型库文件的32位版本（即在Framework中，而不是Framework64中）打包在DLL中，我们可以在其上设置缓存签名级别。</p>
+<pre><code>PS&gt; $path = &quot;C:\windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.tlb&quot;
+PS&gt; Format-HexDump $path -Length 64 -ShowAll
+
+00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  - 0123456789ABCDEF
+-----------------------------------------------------------------------------
+00000000: 4D 5A 90 00 03 00 00 00 04 00 00 00 FF FF 00 00  - MZ..............
+00000010: B8 00 00 00 00 00 00 00 40 00 00 00 00 00 00 00  - ........@.......
+00000020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  - ................
+00000030: 00 00 00 00 00 00 00 00 00 00 00 00 B8 00 00 00  - ................
+
+PS&gt; Set-NtCachedSigningLevel $path -Flags 0x804 -SigningLevel 12 -Win32Path
+PS&gt; Get-NtCachedSigningLevel $path -Win32Path
+
+Flags               : TrustedSignature
+SigningLevel        : Windows
+Thumbprint          : B9590CE5B1B3F377EAA6F455574C977919BB785F12A444BEB2...
+ThumbprintBytes     : {185, 89, 12, 229...}
+ThumbprintAlgorithm : Sha256
+</code></pre>
+<p>因此，要在Windows 11 24H2上利用，我们可以将类型库注册路径从64位版本切换到32位版本，然后重新运行漏洞利用。VerifyTrust函数将自动为我们设置缓存签名级别，因此我们不需要做任何额外的事情使其工作。尽管从技术上讲，它是类型库的不同版本，但对于我们的用例来说没有任何区别，存根生成器代码也不关心。</p>
+<h2 id="结论">结论</h2><p>我在本文中讨论了Windows上一个有趣的漏洞类别，尽管它也适用于任何类似的面向对象的远程处理跨进程或远程处理协议。它展示了如何通过利用OLE自动化的一个特性，特别是IDispatch接口和类型库，使COM对象被困在更高权限的进程中。</p>
+<p>虽然我未能演示权限提升，但我展示了如何使用WaaSRemediationAgent类公开的IDispatch接口将代码注入到PPL-Windows进程中。虽然这不是最高可能的保护级别，但它允许访问大多数受保护运行的进程，包括LSASS。我们看到微软已经做了一些工作来尝试缓解现有的攻击，例如类型库类型混淆，但在我们的情况下，这种缓解措施不应该阻止加载，因为我们不需要更改类型库本身。虽然攻击需要管理员权限，但通用技术不需要。如果你能找到合适的公开IDispatch的COM服务器，你可以修改本地用户的COM和.NET注册，以普通用户身份进行攻击，注入到PPL中。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/Rust安全.html" class="tag-link">#Rust安全</a> <a href="/tag/容器安全.html" class="tag-link">#容器安全</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Python安全.html" class="tag-link">#Python安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/API安全.html" class="tag-link">#API安全</a> <a href="/tag/漏洞利用.html" class="tag-link">#漏洞利用</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#idispatch-的作用是什么-" class="toc-link">
+              <span class="toc-text">IDispatch 的作用是什么？</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#受保护进程注入" class="toc-link">
+              <span class="toc-text">受保护进程注入</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#windows-11-的问题" class="toc-link">
+              <span class="toc-text">Windows 11 的问题</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CVE-2021-1782，一个iOS野外漏洞中的凭证问题 - BasicBit</title>
+  <meta name="description" content="CVE-2021-1782，一个iOS野外漏洞中的凭证问题">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">CVE-2021-1782，一个iOS野外漏洞中的凭证问题</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/4/14
+            </span>
+            <span class="meta-item">Ian Beer</span>
+            <span class="meta-item">攻击研究, 网络安全, 移动安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/04/cve-2021-1782-ios-in-wild-vulnerability.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F04%2Fcve-2021-1782-ios-in-wild-vulnerability.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Ian Beer，Google Project Zero</p>
+<p>这篇博客文章是我对2021年初被野外利用并修复的一个漏洞的分析。与<a href="/2022/04/cve-2021-30737-xerubs-2021-ios-asn1.html">上周发布的文章</a>（分析了ASN.1解析器漏洞）类似，本文基于我在分析补丁和试图理解XNU凭证子系统时所做的笔记。我希望这篇文章能够填补凭证子系统内部工作原理及其导致此漏洞的特殊性的文档空白。</p>
+<p>CVE-2021-1782在iOS 14.4中修复，正如<a href="https://twitter.com/s1guza/status/1354575808547999744">@s1guza在推特上</a>指出的：</p>
+<p><img src="/images/3aead4f18186/651a0be62d5db9e75236fc798e2a584a.png" alt=""所以iOS 14.4在这段代码位（ipc_voucher.c中的user_data_get_value()）周围加了锁。"e_made"似乎起到引用计数的作用，你应该能够让它与自身竞争，导致一些引用丢失，最终导致双重释放"" loading="lazy"></p>
+<p>此漏洞于2021年1月26日修复，苹果于2021年5月28日更新了iOS 14.4的发布说明，指出该问题可能已被主动利用：</p>
+<p><img src="/images/3aead4f18186/01fd51a5796a7c8847824d9a3f6da887.png" alt="内核。适用于：iPhone 6s及更新机型、iPad Pro（所有型号）、iPad Air 2及更新机型、iPad第5代及更新机型、iPad mini 4及更新机型、以及iPod touch（第7代）。影响：恶意应用可能能够提升权限。苹果获悉有报告称此问题可能已被主动利用。描述：通过改进锁定解决了竞争条件。CVE-2021-1772：匿名研究人员。条目更新于2021年5月28日" loading="lazy"></p>
+<h2 id="凭证">凭证</h2><p>凭证到底是什么？</p>
+<p>内核代码有一个简洁的描述：</p>
+<p>凭证是一组指向特定资源管理器属性值的引用计数不可变（一旦创建）索引（这些属性值本身也是引用计数的）。</p>
+<p>这个定义在技术上是正确的，但可能本身并不那么有帮助。</p>
+<p>要真正理解此漏洞的根本原因和可利用性，需要涵盖大量凭证代码库。XNU的这一部分相当晦涩且复杂。</p>
+<p>凭证是一个键值对的引用计数表。所有已创建凭证的指针都存储在全局的<code>ivht_bucket</code>哈希表中。</p>
+<p>对于特定的键值对集合，应该只有一个凭证对象。在创建凭证期间，有一个去重阶段，将新凭证与哈希表中的所有现有凭证进行比较，以确保它们保持唯一，如果找到重复项，则返回对现有凭证的引用。</p>
+<p>以下是凭证的结构：</p>
+<pre><code class="language-c">struct ipc_voucher {
+    iv_index_t     iv_hash;        /* 校验和哈希 */
+    iv_index_t     iv_sum;         /* 值的校验和 */
+    os_refcnt_t    iv_refs;        /* 引用计数 */
+    iv_index_t     iv_table_size;  /* 凭证表的大小 */
+    iv_index_t     iv_inline_table[IV_ENTRIES_INLINE];
+    iv_entry_t     iv_table;       /* 凭证属性条目表 */
+    ipc_port_t     iv_port;        /* 代表凭证的端口 */
+    queue_chain_t  iv_hash_link;   /* 哈希链上的链接 */
+};
+
+#define IV_ENTRIES_INLINE MACH_VOUCHER_ATTR_KEY_NUM_WELL_KNOWN
+</code></pre>
+<p>凭证代码库以非常通用、可扩展的方式编写，尽管其实际使用和支持的功能集相当有限。</p>
+<h2 id="键">键</h2><p>凭证中的键不是任意的。键是凭证<code>iv_table</code>的索引；值在<code>iv_table</code>中的位置决定了它存储在哪个&quot;键&quot;下。虽然凭证代码库支持运行时添加新的键类型，但此功能并未使用，只有少量固定的、众所周知的键：</p>
+<pre><code class="language-c">#define MACH_VOUCHER_ATTR_KEY_ALL ((mach_voucher_attr_key_t)~0)
+#define MACH_VOUCHER_ATTR_KEY_NONE ((mach_voucher_attr_key_t)0)
+/* 其他众所周知的键将在此添加 */
+#define MACH_VOUCHER_ATTR_KEY_ATM ((mach_voucher_attr_key_t)1)
+#define MACH_VOUCHER_ATTR_KEY_IMPORTANCE ((mach_voucher_attr_key_t)2)
+#define MACH_VOUCHER_ATTR_KEY_BANK ((mach_voucher_attr_key_t)3)
+#define MACH_VOUCHER_ATTR_KEY_PTHPRIORITY ((mach_voucher_attr_key_t)4)
+#define MACH_VOUCHER_ATTR_KEY_USER_DATA ((mach_voucher_attr_key_t)7)
+#define MACH_VOUCHER_ATTR_KEY_TEST ((mach_voucher_attr_key_t)8)
+#define MACH_VOUCHER_ATTR_KEY_NUM_WELL_KNOWN MACH_VOUCHER_ATTR_KEY_TEST
+</code></pre>
+<p><code>ipc_voucher</code>中的<code>iv_inline_table</code>有8个条目。但其中只有四个实际上被支持并具有任何相关功能。ATM凭证属性已弃用，支持它们的代码已消失，因此只有IMPORTANCE（2）、BANK（3）、PTHPRIORITY（4）和USER_DATA（7）是有效的键。关于何时应该使用术语&quot;键&quot;和何时使用&quot;属性&quot;存在一些混淆（可能是我个人的）；我将互换使用它们来指代这些键值及其管理的相应值&quot;类型&quot;。稍后会详细讨论。</p>
+<h2 id="值">值</h2><p>凭证<code>iv_table</code>中的每个条目都是一个<code>iv_index_t</code>：</p>
+<pre><code class="language-c">typedef natural_t iv_index_t;
+</code></pre>
+<p>每个值又是一个索引；这次是进入每个键的值缓存，抽象为&quot;凭证属性缓存控制对象&quot;，由以下结构表示：</p>
+<pre><code class="language-c">struct ipc_voucher_attr_control {
+    os_refcnt_t   ivac_refs;
+    boolean_t     ivac_is_growing;      /* 表是否正在增长 */
+    ivac_entry_t  ivac_table;           /* 凭证属性值条目表 */
+    iv_index_t    ivac_table_size;      /* 属性值表的大小 */
+    iv_index_t    ivac_init_table_size; /* 属性值表的大小 */
+    iv_index_t    ivac_freelist;        /* 第一个空闲元素的索引 */
+    ipc_port_t    ivac_port;            /* 用于访问缓存控制的端口 */
+    lck_spin_t    ivac_lock_data;
+    iv_index_t    ivac_key_index;       /* 此值的键索引 */
+};
+</code></pre>
+<p>这些通过另一个全局表间接访问：</p>
+<pre><code class="language-c">static ipc_voucher_global_table_element iv_global_table[MACH_VOUCHER_ATTR_KEY_NUM_WELL_KNOWN];
+</code></pre>
+<p>（同样，代码中的注释表明，未来此表可能会增长，并允许在用户空间管理属性，但目前它只是一个固定大小的数组。）</p>
+<p>该表中的每个元素具有以下结构：</p>
+<pre><code class="language-c">typedef struct ipc_voucher_global_table_element {
+    ipc_voucher_attr_manager_t      ivgte_manager;
+    ipc_voucher_attr_control_t      ivgte_control;
+    mach_voucher_attr_key_t         ivgte_key;
+} ipc_voucher_global_table_element;
+</code></pre>
+<p><code>iv_global_table</code>和每个凭证的<code>iv_table</code>都是通过（键-1）索引的，而不是键，因此userdata条目是[6]，而不是[7]，尽管数组仍然有8个条目。</p>
+<p><code>ipc_voucher_attr_control_t</code>提供了一个管理&quot;值&quot;的抽象接口，而<code>ipc_voucher_attr_manager_t</code>提供了&quot;类型特定&quot;的逻辑来实现每种类型的语义（这里我所说的&quot;类型&quot;指的是&quot;键&quot;或&quot;属性&quot;类型）。让我们更具体地看看这意味着什么。以下是<code>ipc_voucher_attr_manager_t</code>的定义：</p>
+<pre><code class="language-c">struct ipc_voucher_attr_manager {
+    ipc_voucher_attr_manager_release_value_t    ivam_release_value;
+    ipc_voucher_attr_manager_get_value_t        ivam_get_value;
+    ipc_voucher_attr_manager_extract_content_t  ivam_extract_content;
+    ipc_voucher_attr_manager_command_t          ivam_command;
+    ipc_voucher_attr_manager_release_t          ivam_release;
+    ipc_voucher_attr_manager_flags              ivam_flags;
+};
+</code></pre>
+<p><code>ivam_flags</code>是一个包含一些标志的<code>int</code>；其他五个字段是函数指针，定义了特定属性类型的语义。以下是<code>user_data</code>类型的<code>ipc_voucher_attr_manager</code>结构：</p>
+<pre><code class="language-c">const struct ipc_voucher_attr_manager user_data_manager = {
+    .ivam_release_value =   user_data_release_value,
+    .ivam_get_value =       user_data_get_value,
+    .ivam_extract_content = user_data_extract_content,
+    .ivam_command =         user_data_command,
+    .ivam_release =         user_data_release,
+    .ivam_flags =           IVAM_FLAGS_NONE,
+};
+</code></pre>
+<p>这五个函数指针是从通用凭证代码到类型特定代码的唯一接口。接口可能看起来简单，但其中有一些棘手的微妙之处；我们稍后会讨论！</p>
+<p>让我们回到通用的<code>ipc_voucher_attr_control</code>结构，它以类型无关的方式维护每个键的&quot;值&quot;。最重要的字段是<code>ivac_entry_t ivac_table</code>，它是一个<code>ivac_entry_s</code>的数组。存储在每个凭证<code>iv_table</code>中的就是指向此表的索引。</p>
+<p>以下是该表中每个条目的结构：</p>
+<pre><code class="language-c">struct ivac_entry_s {
+    iv_value_handle_t ivace_value;
+    iv_value_refs_t   ivace_layered:1,   /* 分层有效条目 */
+                      ivace_releasing:1, /* 释放进行中 */
+                      ivace_free:1,      /* 在空闲列表上 */
+                      ivace_persist:1,   /* 持久化条目，不计数made引用 */
+                      ivace_refs:28;     /* 引用计数 */
+    union {
+        iv_value_refs_t ivaceu_made;       /* made计数（非分层） */
+        iv_index_t      ivaceu_layer;      /* 下一个有效层（分层） */
+    } ivace_u;
+    iv_index_t        ivace_next;        /* 哈希或空闲列表 */
+    iv_index_t        ivace_index;       /* 哈希头（独立） */
+};
+</code></pre>
+<p><code>ivace_refs</code>是此表索引的引用计数。请注意，此条目是数组中的内联条目；因此，此引用计数变为零不会导致<code>ivac_entry_s</code>被释放回内核分配器（例如区域分配器）。相反，它将此表索引移动到空闲条目的空闲列表上。表可以增长但永远不会缩小。</p>
+<p>非空闲的表条目在<code>ivace_value</code>中存储一个类型特定的&quot;句柄&quot;。以下是该类型的typedef链：</p>
+<pre><code class="language-c">iv_value_handle_t ivace_value
+typedef mach_voucher_attr_value_handle_t iv_value_handle_t;
+typedef uint64_t mach_voucher_attr_value_handle_t;
+</code></pre>
+<p>句柄是一个<code>uint64_t</code>，但实际上属性可以（并且确实）在那里存储指针，隐藏在强制转换后面。</p>
+<p><code>attr_control</code>保证对于特定的<code>ivace_value</code>，永远只有一个（活动的）<code>ivac_entry_s</code>。这意味着每次新的<code>ivace_value</code>需要一个<code>ivac_entry</code>时，都需要搜索<code>attr_control</code>的<code>ivac_table</code>，以查看是否已存在匹配的值。为了加速此过程，正在使用的<code>ivac_entries</code>被链接在哈希桶中，以便可以搜索（希望显著）更短的条目链表，而不是线性扫描整个表。（请注意，这不是指针的链表；链中的每个链接都是表中的一个索引。）</p>
+<h2 id="用户数据属性">用户数据属性</h2><p><code>user_data</code>是四种支持的、已实现的凭证属性类型之一。它的唯一目的是管理任意用户控制数据的缓冲区。由于<code>attr_control</code>仅在<code>ivace_value</code>（这是一个指针）上执行去重，<code>userdata</code>属性管理器负责确保具有相同缓冲区值（匹配长度和字节）的userdata值具有相同的指针。</p>
+<p>为此，它维护一个<code>user_data_value_element</code>结构的哈希表，该结构包装了一个可变大小的字节缓冲区：</p>
+<pre><code class="language-c">struct user_data_value_element {
+    mach_voucher_attr_value_reference_t e_made;
+    mach_voucher_attr_content_size_t    e_size;
+    iv_index_t                          e_sum;
+    iv_index_t                          e_hash;
+    queue_chain_t                       e_hash_link;
+    uint8_t                             e_data[];
+};
+</code></pre>
+<p>每个内联的<code>e_data</code>缓冲区最多可达16KB。<code>e_hash_link</code>存储哈希表桶列表指针。</p>
+<p><code>e_made</code>不是一个简单的引用计数。查看代码，你会注意到没有任何地方会递减它。由于在<code>ivace_entry</code>和<code>user_data_value_element</code>之间应该（几乎）总是存在1:1映射，此结构不需要引用计数。然而，有一个非常棘手的竞争条件（这不是导致漏洞的竞争条件！）需要<code>e_made</code>字段。这种竞争条件在某种程度上是有文档记录的，我们最终会讨论到...</p>
+<h2 id="配方">配方</h2><p><code>host_create_mach_voucher</code>主机端口MIG（<a href="https://www.nextop.de/NeXTstep_3.3_Developer_Documentation/OperatingSystem/Part1_Mach/02_Messages/Messages.htmld/index.html">Mach Interface Generator</a>）方法是创建凭证的用户空间接口：</p>
+<pre><code class="language-c">kern_return_t
+host_create_mach_voucher(mach_port_name_t host,
+                         mach_voucher_attr_raw_recipe_array_t recipes,
+                         mach_voucher_attr_recipe_size_t recipesCnt,
+                         mach_port_name_t *voucher);
+</code></pre>
+<p><code>recipes</code>指向一个填充了打包的可变大小<code>mach_voucher_attr_recipe_data</code>结构序列的缓冲区：</p>
+<pre><code class="language-c">typedef struct mach_voucher_attr_recipe_data {
+    mach_voucher_attr_key_t            key;
+    mach_voucher_attr_recipe_command_t command;
+    mach_voucher_name_t                previous_voucher;
+    mach_voucher_attr_content_size_t   content_size;
+    uint8_t                            content[];
+} mach_voucher_attr_recipe_data_t;
+</code></pre>
+<p><code>key</code>是我们之前看到的四种支持的凭证属性类型之一（importance、bank、pthread_priority和user_data）或通配符值（<code>MACH_VOUCHER_ATTR_KEY_ALL</code>），表示该命令应应用于所有键。有许多通用命令以及类型特定命令。命令可以通过<code>previous_voucher</code>字段可选地引用现有凭证，该字段应命名一个凭证端口。</p>
+<p>以下是凭证创建支持的通用命令：</p>
+<ul>
+<li><code>MACH_VOUCHER_ATTR_COPY</code>：从先前的凭证复制属性值。您可以指定通配符键以从先前的凭证复制所有属性值。</li>
+<li><code>MACH_VOUCHER_ATTR_REMOVE</code>：从正在构建的凭证中删除指定的属性值。这也可以从正在构建的凭证中删除所有属性（这可以说没有意义）。</li>
+<li><code>MACH_VOUCHER_ATTR_SET_VALUE_HANDLE</code>：此命令仅对内核客户端有效；它允许调用者指定任意的<code>ivace_value</code>，这对用户空间没有意义，应该无法访问。</li>
+<li><code>MACH_VOUCHER_ATTR_REDEEM</code>：从先前凭证&quot;兑换&quot;属性的语义不由凭证代码定义；这取决于各个管理器来确定这可能意味着什么。</li>
+</ul>
+<p>以下是每种类型凭证创建的属性特定命令：</p>
+<p><strong>bank：</strong></p>
+<ul>
+<li><code>MACH_VOUCHER_ATTR_BANK_CREATE</code></li>
+<li><code>MACH_VOUCHER_ATTR_BANK_MODIFY_PERSONA</code></li>
+<li><code>MACH_VOUCHER_ATTR_AUTO_REDEEM</code></li>
+<li><code>MACH_VOUCHER_ATTR_SEND_PREPROCESS</code></li>
+</ul>
+<p><strong>importance：</strong></p>
+<ul>
+<li><code>MACH_VOUCHER_ATTR_IMPORTANCE_SELF</code></li>
+</ul>
+<p><strong>user_data：</strong></p>
+<ul>
+<li><code>MACH_VOUCHER_ATTR_USER_DATA_STORE</code></li>
+</ul>
+<p><strong>pthread_priority：</strong></p>
+<ul>
+<li><code>MACH_VOUCHER_ATTR_PTHPRIORITY_CREATE</code></li>
+</ul>
+<p>请注意，还有更多命令可以通过<code>mach_voucher_attr_command</code> MIG方法&quot;针对&quot;凭证执行，该方法调用属性管理器的<code>ivam_command</code>函数指针。这些是：</p>
+<p><strong>bank：</strong></p>
+<ul>
+<li><code>BANK_ORIGINATOR_PID</code></li>
+<li><code>BANK_PERSONA_TOKEN</code></li>
+<li><code>BANK_PERSONA_ID</code></li>
+</ul>
+<p><strong>importance：</strong></p>
+<ul>
+<li><code>MACH_VOUCHER_IMPORTANCE_ATTR_DROP_EXTERNAL</code></li>
+</ul>
+<p><strong>user_data：</strong></p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>pthread_priority：</strong></p>
+<ul>
+<li>无</li>
+</ul>
+<p>让我们看一个创建具有单个<code>user_data</code>属性的凭证的示例配方，该属性由4个字节{0x41, 0x41, 0x41, 0x41}组成：</p>
+<pre><code class="language-c">struct udata_dword_recipe {
+    mach_voucher_attr_recipe_data_t recipe;
+    uint32_t payload;
+};
+
+struct udata_dword_recipe r = {0};
+r.recipe.key = MACH_VOUCHER_ATTR_KEY_USER_DATA;
+r.recipe.command = MACH_VOUCHER_ATTR_USER_DATA_STORE;
+r.recipe.content_size = sizeof(uint32_t);
+r.payload = 0x41414141;
+</code></pre>
+<p>让我们详细跟踪此配方的路径。</p>
+<p>以下是<code>host_create_mach_voucher</code>中最重要的部分，展示了三个高级阶段：凭证分配、属性创建和凭证去重。此代码不负责查找或分配凭证的mach端口；这是由MIG层代码完成的。</p>
+<pre><code class="language-c">/* 分配新凭证 */
+voucher = iv_alloc(ivgt_keys_in_use);
+if (IV_NULL == voucher) {
+    return KERN_RESOURCE_SHORTAGE;
+}
+
+/* 迭代配方项 */
+while (0 &lt; recipe_size - recipe_used) {
+    ipc_voucher_t prev_iv;
+
+    if (recipe_size - recipe_used &lt; sizeof(*sub_recipe)) {
+        kr = KERN_INVALID_ARGUMENT;
+        break;
+    }
+
+    /* 查找下一个配方 */
+    sub_recipe =
+        (mach_voucher_attr_recipe_t)(void *)&amp;recipes[recipe_used];
+    if (recipe_size - recipe_used - sizeof(*sub_recipe) &lt;
+        sub_recipe-&gt;content_size) {
+        kr = KERN_INVALID_ARGUMENT;
+        break;
+    }
+    recipe_used += sizeof(*sub_recipe) + sub_recipe-&gt;content_size;
+
+    /* 将凭证端口名称（当前空间）转换为凭证引用 */
+    prev_iv =
+        convert_port_name_to_voucher(sub_recipe-&gt;previous_voucher);
+    if (MACH_PORT_NULL != sub_recipe-&gt;previous_voucher &amp;&amp;
+        IV_NULL == prev_iv) {
+        kr = KERN_INVALID_CAPABILITY;
+        break;
+    }
+
+    kr = ipc_execute_voucher_recipe_command(
+        voucher,
+        sub_recipe-&gt;key,
+        sub_recipe-&gt;command,
+        prev_iv,
+        sub_recipe-&gt;content,
+        sub_recipe-&gt;content_size,
+        FALSE);
+
+    ipc_voucher_release(prev_iv);
+    if (KERN_SUCCESS != kr) {
+        break;
+    }
+}
+
+if (KERN_SUCCESS == kr) {
+    *new_voucher = iv_dedup(voucher);
+} else {
+    *new_voucher = IV_NULL;
+    iv_dealloc(voucher, FALSE);
+}
+</code></pre>
+<p>在此代码片段的顶部，通过<code>iv_alloc</code>分配了一个新凭证。然后在循环中调用<code>ipc_execute_voucher_recipe_command</code>，以消耗用户空间提供的任意多个子配方结构。每个子配方可以通过子配方的<code>previous_voucher</code>字段可选地引用现有凭证。请注意，MIG本身不支持包含端口的可变大小结构，因此它作为mach端口名称传递，该名称在调用任务的mach端口命名空间中查找，并通过<code>convert_port_name_to_voucher</code>转换为凭证引用。此处的预期功能是能够引用其他凭证中的属性以复制或&quot;兑换&quot;它们。如前所述，兑换凭证属性的语义不由抽象凭证代码定义，这取决于各个属性管理器来决定其含义。</p>
+<p>一旦整个配方被消耗并且所有<code>iv_table</code>条目被填充，<code>iv_dedup</code>然后搜索<code>ivht_bucket</code>哈希表，查看是否存在具有匹配属性集的现有凭证。请记住，存储在凭证中的每个属性值都是属性控制器的属性表的索引；并且这些属性是唯一的，因此只需比较凭证索引数组即可确定所有属性值是否相等。如果找到匹配的凭证，<code>iv_dedup</code>返回对现有凭证的引用，并调用<code>iv_dealloc</code>来释放新创建的凭证。否则，如果未找到现有的匹配凭证，<code>iv_dedup</code>将新创建的凭证添加到<code>ivht_bucket</code>哈希表中。</p>
+<p>让我们看看<code>ipc_execute_voucher_recipe_command</code>，它负责填充凭证<code>iv_table</code>中请求的条目。请注意，<code>key</code>和<code>command</code>是任意的、受控的双字。<code>content</code>是指向受控字节缓冲区的指针，<code>content_size</code>是该输入缓冲区的正确大小。MIG层将配方的总体输入大小（这是子配方的集合）限制为5260字节，任何输入内容缓冲区都必须适合其中。</p>
+<pre><code class="language-c">static kern_return_t
+ipc_execute_voucher_recipe_command(
+    ipc_voucher_t                      voucher,
+    mach_voucher_attr_key_t            key,
+    mach_voucher_attr_recipe_command_t command,
+    ipc_voucher_t                      prev_iv,
+    mach_voucher_attr_content_t        content,
+    mach_voucher_attr_content_size_t   content_size,
+    boolean_t                          key_priv)
+{
+    iv_index_t prev_val_index;
+    iv_index_t val_index;
+    kern_return_t kr;
+
+    switch (command) {
+</code></pre>
+<p><code>MACH_VOUCHER_ATTR_USER_DATA_STORE</code>不是此处switch语句的case值之一，因此代码落入默认情况：</p>
+<pre><code class="language-c">    default:
+        kr = ipc_replace_voucher_value(voucher,
+                                       key,
+                                       command,
+                                       prev_iv,
+                                       content,
+                                       content_size);
+        if (KERN_SUCCESS != kr) {
+            return kr;
+        }
+        break;
+    }
+    return KERN_SUCCESS;
+</code></pre>
+<p>以下是该代码：</p>
+<pre><code class="language-c">static kern_return_t
+ipc_replace_voucher_value(
+    ipc_voucher_t                          voucher,
+    mach_voucher_attr_key_t                key,
+    mach_voucher_attr_recipe_command_t     command,
+    ipc_voucher_t                          prev_voucher,
+    mach_voucher_attr_content_t            content,
+    mach_voucher_attr_content_size_t       content_size)
+{
+    ...
+
+    /*
+     * 获取此key_index的管理器。
+     * 返回对控制的引用。
+     */
+    key_index = iv_key_to_index(key);
+    ivgt_lookup(key_index, TRUE, &amp;ivam, &amp;ivac);
+    if (IVAM_NULL == ivam) {
+        return KERN_INVALID_ARGUMENT;
+    }
+    ..
+</code></pre>
+<p><code>iv_key_to_index</code>只是从键中减去1（假设它是有效的且不是<code>MACH_VOUCHER_ATRR_KEY_ALL</code>）：</p>
+<pre><code class="language-c">static inline iv_index_t
+iv_key_to_index(mach_voucher_attr_key_t key)
+{
+    if (MACH_VOUCHER_ATTR_KEY_ALL == key ||
+        MACH_VOUCHER_ATTR_KEY_NUM_WELL_KNOWN &lt; key) {
+        return IV_UNUSED_KEYINDEX;
+    }
+    return (iv_index_t)key - 1;
+}
+</code></pre>
+<p><code>ivgt_lookup</code>然后获取该键的属性管理器和属性控制器的引用。管理器实际上只是一堆函数指针，定义了不同&quot;键类型&quot;的实际含义；而控制器存储（并缓存）这些键的值。</p>
+<p>让我们继续阅读<code>ipc_replace_voucher_value</code>。以下是下一个语句：</p>
+<pre><code class="language-c">/* 保存在正在形成的凭证中存储的当前值 */
+save_val_index = iv_lookup(voucher, key_index);
+</code></pre>
+<p>这一点对于理解凭证代码应该如何工作很重要；配方不仅可以引用其他凭证（通过<code>previous_voucher</code>端口），还可以在创建过程中引用自身。您不必为希望在凭证中具有值的每种属性类型只有一个子配方；您可以为该类型指定多个子配方。这样做实际上有意义吗？好吧，对于安全研究人员来说幸运的是，我们不必担心功能是否真的有意义；对我们来说，这一切只是一个奇怪的机器！（代码中暗示了未来的功能，其中属性值可以&quot;分层&quot;或&quot;链接&quot;，但目前此类功能不存在。）</p>
+<p><code>iv_lookup</code>返回特定凭证中给定键的&quot;值索引&quot;。这意味着它只返回给定凭证<code>iv_table</code>中的<code>iv_index_t</code>：</p>
+<pre><code class="language-c">static inline iv_index_t
+iv_lookup(ipc_voucher_t iv, iv_index_t key_index)
+{
+    if (key_index &lt; iv-&gt;iv_table_size) {
+        return iv-&gt;iv_table[key_index];
+    }
+    return IV_UNUSED_VALINDEX;
+}
+</code></pre>
+<p>此值索引唯一标识现有属性值，但您需要向属性的控制器请求实际值。在获取该先前值之前，代码首先确定此子配方是否可能尝试引用此凭证当前存储的值，或者是否显式传递了<code>previous_voucher</code>。先前凭证中的值优先于正在构建的凭证中已有的任何值。</p>
+<pre><code class="language-c">prev_val_index = (IV_NULL != prev_voucher) ?
+    iv_lookup(prev_voucher, key_index) :
+    save_val_index;
+</code></pre>
+<p>然后代码查找要操作的实际先前值：</p>
+<pre><code class="language-c">ivace_lookup_values(key_index, prev_val_index,
+                    previous_vals, &amp;previous_vals_count);
+</code></pre>
+<p><code>key_index</code>是我们正在操作的键，在此示例中为<code>MACH_VOUCHER_ATTR_KEY_USER_DATA</code>。此函数称为<code>ivace_lookup_values</code>（注意复数形式）。凭证代码中有一些注释表明，也许将来值本身可以被放入链表中，以便您可以拥有更大的值（或分层/链式值）。但此功能未实现；<code>ivace_lookup_values</code>将始终只返回1个值。</p>
+<p>以下是<code>ivace_lookup_values</code>：</p>
+<pre><code class="language-c">static void
+ivace_lookup_values(
+    iv_index_t                              key_index,
+    iv_index_t                              value_index,
+    mach_voucher_attr_value_handle_array_t         values,
+    mach_voucher_attr_value_handle_array_size_t    *count)
+{
+    ipc_voucher_attr_control_t ivac;
+    ivac_entry_t ivace;
+
+    if (IV_UNUSED_VALINDEX == value_index ||
+        MACH_VOUCHER_ATTR_KEY_NUM_WELL_KNOWN &lt;= key_index) {
+        *count = 0;
+        return;
+    }
+
+    ivac = iv_global_table[key_index].ivgte_control;
+    assert(IVAC_NULL != ivac);
+
+    /*
+     * 获取条目，然后获取链接的值。
+     */
+    ivac_lock(ivac);
+    assert(value_index &lt; ivac-&gt;ivac_table_size);
+    ivace = &amp;ivac-&gt;ivac_table[value_index];
+
+    /*
+     * TODO: 支持链式值（用于有效凭证）。
+     */
+    assert(ivace-&gt;ivace_refs &gt; 0);
+    values[0] = ivace-&gt;ivace_value;
+    ivac_unlock(ivac);
+    *count = 1;
+}
+</code></pre>
+<p>凭证代码中使用的锁定对于最终正确理解底层漏洞非常重要，但目前我略过它，我们将在必要时返回检查相关锁。</p>
+<p>让我们讨论<code>ivace_lookup_values</code>代码。它们索引<code>iv_global_table</code>以获取指向属性类型的控制器的指针：</p>
+<pre><code class="language-c">ivac = iv_global_table[key_index].ivgte_control;
+</code></pre>
+<p>它们获取该控制器的锁，然后索引其<code>ivac_table</code>以找到该值的<code>struct ivac_entry_s</code>，并从那里读取<code>ivace_value</code>值：</p>
+<pre><code class="language-c">ivac_lock(ivac);
+assert(value_index &lt; ivac-&gt;ivac_table_size);
+ivace = &amp;ivac-&gt;ivac_table[value_index];
+assert(ivace-&gt;ivace_refs &gt; 0);
+values[0] = ivace-&gt;ivace_value;
+ivac_unlock(ivac);
+*count = 1;
+</code></pre>
+<p>让我们回到调用函数（<code>ipc_replace_voucher_value</code>）并继续阅读：</p>
+<pre><code class="language-c">/* 调用资源管理器以获取新值 */
+new_value_voucher = IV_NULL;
+kr = (ivam-&gt;ivam_get_value)(
+    ivam, key, command,
+    previous_vals, previous_vals_count,
+    content, content_size,
+    &amp;new_value, &amp;new_flag, &amp;new_value_voucher);
+if (KERN_SUCCESS != kr) {
+    ivac_release(ivac);
+    return kr;
+}
+</code></pre>
+<p><code>ivam-&gt;ivam_get_value</code>正在调用属性类型的函数指针，该指针定义了特定类型&quot;get_value&quot;的含义。这里的术语<code>get_value</code>有点令人困惑；我们不是试图存储一个新值吗？（并且没有后续调用像&quot;store_value&quot;这样的方法。）更好地思考<code>get_value</code>语义的方式是，它旨在评估<code>previous_vals</code>（来自<code>previous_voucher</code>的值或此凭证中当前的值）和<code>content</code>（来自此子配方的任意字节缓冲区），并将它们组合/评估以创建值表示。然后由控制器层来存储/缓存该值。（实际上，这个系统中有一个繁琐的问题，我们稍后会讨论，涉及锁定...）</p>
+<p><code>user_data</code>属性类型的<code>ivam_get_value</code>是<code>user_data_get_value</code>：</p>
+<pre><code class="language-c">static kern_return_t
+user_data_get_value(
+    ipc_voucher_attr_manager_t                  __assert_only manager,
+    mach_voucher_attr_key_t                     __assert_only key,
+    mach_voucher_attr_recipe_command_t          command,
+    mach_voucher_attr_value_handle_array_t      prev_values,
+    mach_voucher_attr_value_handle_array_size_t prev_value_count,
+    mach_voucher_attr_content_t                 content,
+    mach_voucher_attr_content_size_t            content_size,
+    mach_voucher_attr_value_handle_t            *out_value,
+    mach_voucher_attr_value_flags_t             *out_flags,
+    ipc_voucher_t                               *out_value_voucher)
+{
+    user_data_element_t elem;
+    assert(&amp;user_data_manager == manager);
+    USER_DATA_ASSERT_KEY(key);
+
+    /* 永远没有输出凭证 */
+    *out_value_voucher = IPC_VOUCHER_NULL;
+    *out_flags = MACH_VOUCHER_ATTR_VALUE_FLAGS_NONE;
+
+    switch (command) {
+    case MACH_VOUCHER_ATTR_REDEEM:
+        /* 兑换先前值就是该值 */
+        if (0 &lt; prev_value_count) {
+            elem = (user_data_element_t)prev_values[0];
+            assert(0 &lt; elem-&gt;e_made);
+            elem-&gt;e_made++;
+            *out_value = prev_values[0];
+            return KERN_SUCCESS;
+        }
+        /* 兑换默认值就是默认值 */
+        *out_value = 0;
+        return KERN_SUCCESS;
+
+    case MACH_VOUCHER_ATTR_USER_DATA_STORE:
+        if (USER_DATA_MAX_DATA &lt; content_size) {
+            return KERN_RESOURCE_SHORTAGE;
+        }
+        /* 空就是默认值 */
+        if (0 == content_size) {
+            *out_value = 0;
+            return KERN_SUCCESS;
+        }
+        elem = user_data_dedup(content, content_size);
+        *out_value = (mach_voucher_attr_value_handle_t)elem;
+        return KERN_SUCCESS;
+
+    default:
+        /* 所有其他命令都是未知的 */
+        return KERN_INVALID_ARGUMENT;
+    }
+}
+</code></pre>
+<p>让我们看看<code>MACH_VOUCHER_ATTR_USER_DATA_STORE</code>情况，这是我们放在单个子配方中的命令。（漏洞在上面的<code>MACH_VOUCHER_ATTR_REDEEM</code>代码中，但在讨论之前我们需要更多背景知识。）在<code>MACH_VOUCHER_ATTR_USER_DATA_STORE</code>情况下，输入的任意字节缓冲区被传递给<code>user_data_dedup</code>，然后该返回值作为<code>out_value</code>的值返回。以下是<code>user_data_dedup</code>：</p>
+<pre><code class="language-c">static user_data_element_t
+user_data_dedup(
+    mach_voucher_attr_content_t                 content,
+    mach_voucher_attr_content_size_t            content_size)
+{
+    iv_index_t sum;
+    iv_index_t hash;
+    user_data_element_t elem;
+    user_data_element_t alloc = NULL;
+
+    sum = user_data_checksum(content, content_size);
+    hash = USER_DATA_HASH_BUCKET(sum);
+
+retry:
+    user_data_lock();
+    queue_iterate(&amp;user_data_bucket[hash], elem, user_data_element_t, e_hash_link) {
+        assert(elem-&gt;e_hash == hash);
+        /* 如果总和匹配... */
+        if (elem-&gt;e_sum == sum &amp;&amp; elem-&gt;e_size == content_size) {
+            iv_index_t i;
+            /* 并且所有数据匹配 */
+            for (i = 0; i &lt; content_size; i++) {
+                if (elem-&gt;e_data[i] != content[i]) {
+                    break;
+                }
+            }
+            if (i &lt; content_size) {
+                continue;
+            }
+            /* ... 我们找到了匹配项... */
+            elem-&gt;e_made++;
+            user_data_unlock();
+            if (NULL != alloc) {
+                kfree(alloc, sizeof(*alloc) + content_size);
+            }
+            return elem;
+        }
+    }
+
+    if (NULL == alloc) {
+        user_data_unlock();
+        alloc = (user_data_element_t)kalloc(sizeof(*alloc) + content_size);
+        alloc-&gt;e_made = 1;
+        alloc-&gt;e_size = content_size;
+        alloc-&gt;e_sum = sum;
+        alloc-&gt;e_hash = hash;
+        memcpy(alloc-&gt;e_data, content, content_size);
+        goto retry;
+    }
+
+    queue_enter(&amp;user_data_bucket[hash], alloc, user_data_element_t, e_hash_link);
+    user_data_unlock();
+    return alloc;
+}
+</code></pre>
+<p><code>user_data</code>属性只是唯一的缓冲区指针。每个缓冲区由一个<code>user_data_value_element</code>结构表示，该结构具有一个元数据头，后跟一个包含任意字节数据的可变大小内联缓冲区：</p>
+<pre><code class="language-c">struct user_data_value_element {
+    mach_voucher_attr_value_reference_t     e_made;
+    mach_voucher_attr_content_size_t        e_size;
+    iv_index_t                              e_sum;
+    iv_index_t                              e_hash;
+    queue_chain_t                           e_hash_link;
+    uint8_t                                 e_data[];
+};
+</code></pre>
+<p>指向这些元素的指针存储在<code>user_data_bucket</code>哈希表中。</p>
+<p><code>user_data_dedup</code>搜索<code>user_data_bucket</code>哈希表，查看是否已存在匹配的<code>user_data_value_element</code>。如果没有，则分配一个并将其添加到哈希表中。请注意，在调用<code>kalloc()</code>时不允许持有锁，因此代码必须先释放<code>user_data</code>锁，分配一个<code>user_data_value_element</code>，然后再次获取锁，并第二次检查哈希表，以确保在锁被释放时没有其他线程也分配并插入匹配的<code>user_data_value_element</code>。</p>
+<p><code>user_data_value_element</code>的<code>e_made</code>字段对我们最终要讨论的漏洞至关重要，因此让我们在此检查其使用。</p>
+<p>如果创建了新的<code>user_data_value_element</code>，则其<code>e_made</code>字段初始化为1。如果找到与请求的内容缓冲区匹配的现有<code>user_data_value_element</code>，则在返回指向该<code>user_data_value_element</code>的指针之前递增<code>e_made</code>字段。兑换<code>user_data_value_element</code>（通过<code>MACH_VOUCHER_ATTR_REDEEM</code>命令）也只是在返回之前递增要兑换的元素的<code>e_made</code>。<code>e_made</code>字段的类型是<code>mach_voucher_attr_value_reference_t</code>，因此很容易认为此字段是引用计数。但现实比这更微妙。</p>
+<p><code>e_made</code>不完全是一个引用计数的第一个提示是，如果你在XNU中搜索<code>e_made</code>，你会注意到它从未被递减。也没有任何地方将该结构的指针强制转换为另一种类型，将第一个双字视为引用计数。<code>e_made</code>只能增加（好吧，从技术上讲，也没有任何东西阻止它溢出，所以它也可以在每2^32次递增中减少1...）</p>
+<p>让我们回到<code>user_data_get_value</code>的调用者<code>ipc_replace_voucher_value</code>：</p>
+<p>下一部分又是未使用功能的代码。当前的凭证属性类型实现都没有返回<code>new_value_voucher</code>，因此此条件永远不会为真：</p>
+<pre><code class="language-c">/* TODO: 从返回的凭证中插入值 */
+if (IV_NULL != new_value_voucher) {
+    iv_release(new_value_voucher);
+}
+</code></pre>
+<p>接下来，代码需要将<code>new_value</code>包装在<code>ivace_entry</code>中，并确定该<code>ivace_entry</code>在控制器的值表中的索引。这是通过<code>ivace_reference_by_value</code>完成的：</p>
+<pre><code class="language-c">/*
+ * 查找或创建与此属性值关联的表中的槽。
+ * ivac引用被转移到新值，或者如果我们找到匹配的现有值则被消耗。
+ */
+val_index = ivace_reference_by_value(ivac, new_value, new_flag);
+iv_set(voucher, key_index, val_index);
+</code></pre>
+<pre><code class="language-c">/*
+ * 查找给定&lt;键，索引&gt;对的值。
+ *
+ * 消耗传递的凭证控制的引用。
+ * 要么将其捐赠给新创建的值缓存，要么将其释放（如果我们附加到现有的值缓存条目）。
+ */
+static iv_index_t
+ivace_reference_by_value(
+    ipc_voucher_attr_control_t      ivac,
+    mach_voucher_attr_value_handle_t        value,
+    mach_voucher_attr_value_flags_t          flag)
+{
+    ivac_entry_t ivace = IVACE_NULL;
+    iv_index_t hash_index;
+    iv_index_t index;
+
+    if (IVAC_NULL == ivac) {
+        return IV_UNUSED_VALINDEX;
+    }
+
+    ivac_lock(ivac);
+restart:
+    hash_index = IV_HASH_VAL(ivac-&gt;ivac_init_table_size, value);
+    index = ivac-&gt;ivac
+</code></pre>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#凭证" class="toc-link">
+              <span class="toc-text">凭证</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#键" class="toc-link">
+              <span class="toc-text">键</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#值" class="toc-link">
+              <span class="toc-text">值</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#用户数据属性" class="toc-link">
+              <span class="toc-text">用户数据属性</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#配方" class="toc-link">
+              <span class="toc-text">配方</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

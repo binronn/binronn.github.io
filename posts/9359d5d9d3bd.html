@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows注册表探索之旅 #3：学习资源 - BasicBit</title>
+  <meta name="description" content="Windows注册表探索之旅 #3：学习资源">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Windows注册表探索之旅 #3：学习资源</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2024/6/27
+            </span>
+            <span class="meta-item">Mateusz Jurczyk</span>
+            <span class="meta-item">模糊测试, 移动安全, 网络安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2024/06/the-windows-registry-adventure-3.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2024%2F06%2Fthe-windows-registry-adventure-3.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Mateusz Jurczyk，Google Project Zero</p>
+<p>在着手研究一个新的漏洞研究目标时，尤其是闭源目标，我优先考虑尽可能多地收集相关信息。当目标是一个像 Windows 注册表这样古老且基础的子系统时，这就变得特别有趣。在这种情况下，有价值的信息碎片可能隐藏在被人遗忘的文档、绝版的书籍和尘封的开源代码中——每一份都可能提供拼图中关键的一块。发掘它们需要一些努力，但回报往往是巨大的。这些信息碎片可能包含关于软件某些部分如何实现以及为何如此实现的线索——是哪些设计决策导致了特定的结果等等。当看到全局时，就更容易推理软件的行为、理解原始开发者的意图，并思考可能的边界情况。在其他时候，如果别人已经投入了时间和精力，它只是简单地加速了逆向工程的过程，节省了用于推导某些逻辑部分的时间。</p>
+<p>关于如何超越二进制文件并利用所有可用信息来源，Alex Ionescu 在 OffensiveCon 2019 的主题演讲 <a href="https://www.google.com/url?q=https://www.youtube.com/watch?v%3D2D9ExVc0G10&sa=D&source=editors&ust=1719419260925259&usg=AOvVaw3LnsRqXBHEQsSo_ypMfgN3">&quot;Reversing Without Reversing&quot;</a> 中给出了一个很好的解释。我的注册表安全审计也确实涉及了大量动手的逆向工程，但它也大量补充了并非直接来自 ntoskrnl.exe 的信息。虽然 Alex 的演讲讨论了整体研究 Windows，但这篇博文提供了一个具体的案例研究，说明如何在实践中应用这些想法。本文的第二个目标是将所有收集到的材料整合成一个全面、易于未来研究者查阅的总结。完整的列表可能看起来有些庞大，因为它包含了一些重叠信息的引用，所以我发现关键的部分都用 🔑 符号标记了。我强烈建议查阅这些资源，因为它们提供了有助于理解未来文章的上下文。</p>
+<h2 id="microsoft-learn">Microsoft Learn</h2><p>官方文档可能是处理新 API 时首先要研究的最直观的东西。对于微软来说，这意味着 Microsoft Learn（前身为 MSDN Library），这是一个为 Windows 软件开发人员维护的庞大技术信息库。它完全在线提供，并包含以下专门针对注册表的部分和文章：</p>
+<ul>
+<li><p>🔑 <a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry&sa=D&source=editors&ust=1719419260925792&usg=AOvVaw0agpd0xSGxOkcQNj63yNkS">注册表</a> – 关于所有注册表相关主题的主页。它包含了丰富的知识，对于任何对这个系统机制有浓厚兴趣的人来说都是必读的。它分为三个部分：</p>
+<ul>
+<li><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/sysinfo/about-the-registry&sa=D&source=editors&ust=1719419260926040&usg=AOvVaw2Z-n3Gm2jH6dWyxe8e1FlI">关于注册表</a> – 提供注册表的介绍及其许多基本概念。</li>
+<li><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/sysinfo/using-the-registry&sa=D&source=editors&ust=1719419260926310&usg=AOvVaw3x3HEA8m9cEwcqAMxVdroL">使用注册表</a> – 提供几个示例，说明如何在 C++ 中使用注册表 API 执行某些常见任务。</li>
+<li><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry-reference&sa=D&source=editors&ust=1719419260926535&usg=AOvVaw1ucGm_DnsJrbPjiwB-QnQJ">注册表参考</a> – 包含构成注册表 API 的所有函数的完整文档（参见<a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry-functions&sa=D&source=editors&ust=1719419260926667&usg=AOvVaw0M5cMM7jBfGvv6PTHUPgwQ">注册表函数</a>），并指定了<a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry-element-size-limits&sa=D&source=editors&ust=1719419260926822&usg=AOvVaw3n9UY5Yu93oMS0YuExsJQG">注册表元素大小限制</a>。</li>
+</ul>
+</li>
+<li><p><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/windows-registry-advanced-users&sa=D&source=editors&ust=1719419260927075&usg=AOvVaw3wmHnDsrZ0kapdpVJsrWJr">高级用户的 Windows 注册表信息</a> – 一篇讨论注册表原理的独立文章。它看起来有些过时（提到的最新版本是 Windows Vista），并且基于一个可以追溯到<a href="https://www.google.com/url?q=https://web.archive.org/web/20041014015655/http://support.microsoft.com/kb/256986&sa=D&source=editors&ust=1719419260927250&usg=AOvVaw3gsDKCguqwFzwDZYhnh1v6">至少 2004 年</a>的旧 KB256986 文章。</p>
+</li>
+<li><p><a href="https://www.google.com/url?q=https://www.itprotoday.com/windows-78/inside-windows-nt-registry&sa=D&source=editors&ust=1719419260927444&usg=AOvVaw09BQFK_6biwhVlehhEZXEX">Windows NT 注册表内部</a> 和 <a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/previous-versions//cc750583(v%3Dtechnet.10">注册表内部</a> – 分别由 Mark Russinovich 于 1997 年和 1999 年在 Windows NT Magazine 上发表的两篇文章。</p>
+</li>
+<li><p><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc974061(v%3Dmsdn.10">Windows 2000 注册表参考</a> – Windows 2000 Resource Kit 捆绑的官方帮助文件 regentry.chm 的网络镜像。它包括对注册表的简要介绍，随后是对标准注册表内容的详细描述，即用于系统和应用程序高级配置的键和值。</p>
+</li>
+<li><p><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc778196(v%3Dws.10">Windows Server 2003 Resource Kit 注册表参考</a> – 一个类似但更近期的 Windows Server 2003 参考。</p>
+</li>
+<li><p><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/perfctrs/using-the-registry-functions-to-consume-counter-data&sa=D&source=editors&ust=1719419260928279&usg=AOvVaw0edjiiNj9ftcHQWWnkGex6">使用注册表函数使用计数器数据</a> – 关于通过注册表伪键收集性能数据的信息：HKEY_PERFORMANCE_DATA、HKEY_PERFORMANCE_TEXT 和 HKEY_PERFORMANCE_NLSTEXT。</p>
+</li>
+<li><p><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/devnotes/offline-registry-library-portal&sa=D&source=editors&ust=1719419260928498&usg=AOvVaw0RKTlr3-wRaNznkQcKeuof">离线注册表库</a> – 内置 Windows offreg.dll 库的完整文档，该库可用于在不将注册表配置单元加载到操作系统的情况下检查/操作它们。</p>
+</li>
+<li><p>注册表系统调用文档，例如 <a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-zwcreatekey&sa=D&source=editors&ust=1719419260928745&usg=AOvVaw0b8--9rg8cL3tmxL0qaruP">ZwCreateKey</a> – 注册表内核模式支持的参考指南，揭示了其内部工作原理以及高级 API 函数在底层如何实现的众多细节。</p>
+</li>
+<li><p><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/filtering-registry-calls&sa=D&source=editors&ust=1719419260928982&usg=AOvVaw22v1Rw2J7WBijPJdxhruLN">过滤注册表调用</a> – 一组八篇文章，详细说明了作为内核驱动程序开发人员如何正确实现注册表回调。</p>
+</li>
+<li><p><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-cmregistercallbackex&sa=D&source=editors&ust=1719419260929252&usg=AOvVaw1Mlmkd6d_H9p7deMfmC9c1">CmRegisterCallbackEx 函数 (wdm.h)</a> – 用于注册回调的 CmRegisterCallbackEx 例程的文档。从那里，可以浏览到其他相关页面，例如<a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-ex_callback_function&sa=D&source=editors&ust=1719419260929403&usg=AOvVaw10Rr8gExyjf8OxneIb9MZw">回调函数原型</a>的文档，并进一步查看所有特定于操作的结构（如 <a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ns-wdm-_reg_create_key_information&sa=D&source=editors&ust=1719419260929551&usg=AOvVaw1oDgmvtzyO_z0YnuKUVCfZ">REG_CREATE_KEY_INFORMATION</a>）的文档。</p>
+</li>
+<li><p><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrp/0fa3191d-bb79-490a-81bd-54c2601b7a78&sa=D&source=editors&ust=1719419260929778&usg=AOvVaw2VamwJMFBN_uq1JE1TXYyk">[MS-RRP]: Windows 远程注册表协议</a> – 远程注册表功能使用的 RPC 协议的技术规范。</p>
+</li>
+</ul>
+<h2 id="博客和在线资源">博客和在线资源</h2><p>由于注册表存储了大量用户活动的痕迹，它是取证调查中一个流行的信息来源。因此，多年来发表了许多文章和博客文章，重点关注内部配置单元结构、与注册表相关的内核对象以及恢复已删除的数据。以下是我在网上找到的非官方注册表资源列表，从最早到最新：</p>
+<ul>
+<li><a href="https://www.google.com/url?q=http://pogostick.net/~pnh/ntpasswd/WinReg.txt&sa=D&source=editors&ust=1719419260930285&usg=AOvVaw1lQoK1mdLSLZKgZ54JV54j">WinReg.txt</a>，作者未知（署名为 B.D.）– 基于逆向工程的 Windows 3.x (SHCC3.10)、Windows 95 (CREG) 和 Windows NT (regf) 配置单元二进制格式的文档。它可能是第一份公开描述配置单元未记录结构的文章。</li>
+<li><a href="https://www.google.com/url?q=https://web.archive.org/web/20190717124313/http://www.beginningtoseethelight.org/ntsecurity/index.htm&sa=D&source=editors&ust=1719419260930566&usg=AOvVaw0bzp_31FNjPoRkIucdMJJ5">安全帐户管理器</a>，作者未知（署名为 <a href="mailto:clark@hushmail.com">clark@hushmail.com</a>）– 一篇主要关注 Windows 2000 和 XP 中用户管理内部原理的综合性文章，剖析了 SAM 组件使用的许多二进制结构。由于用户和凭据管理与注册表高度相关（所有身份验证数据都存储在那里），文章还包括一个“注册表结构”部分，解释了 regf 配置单元文件的编码。</li>
+<li>🔑 <a href="https://www.google.com/url?q=https://github.com/msuhanov/regf/blob/master/Windows%2520registry%2520file%2520format%2520specification.md&sa=D&source=editors&ust=1719419260930969&usg=AOvVaw01AppKMx17kxmQ40zJDio0">Windows 注册表文件格式规范</a>，Maxim Suhanov – 一份高质量且相对最新的 regf 格式 1.3 到 1.6 版本的规范，并包含关于古老版本 1.1 和 1.2 的额外信息。</li>
+<li><a href="https://www.google.com/url?q=https://github.com/libyal/libregf/blob/main/documentation/Windows%2520NT%2520Registry%2520File%2520(REGF">Windows NT 注册表文件 (REGF) 格式规范</a>，Joachim Metz – 另一份与 libregf 库相关的独立开发的 regf 格式规范。</li>
+<li><a href="https://www.google.com/url?q=https://moyix.blogspot.com/search/label/registry&sa=D&source=editors&ust=1719419260931479&usg=AOvVaw2jWtpJubQ_9AD1holuohYV">Push the Red Button</a>，Brendan Dolan-Gavitt (moyix) – 一个专注于安全、逆向工程和取证的个人博客。它包含许多有趣的与注册表相关的帖子，可追溯到 2007-2009 年。</li>
+<li><a href="https://www.google.com/url?q=https://windowsir.blogspot.com/search/label/Registry&sa=D&source=editors&ust=1719419260931760&usg=AOvVaw2KjYL-Dj6josNqSkm2x6p9">Windows 事件响应</a>，Harlan Carvey – 一个专注于 Windows 事件响应和数字分析的技术博客，包含 2006 年至 2022 年间发表的涉及注册表的各种帖子。</li>
+<li><a href="https://www.google.com/url?q=https://dfir.ru/?s%3Dregistry&sa=D&source=editors&ust=1719419260932015&usg=AOvVaw3XVMCaxW7BAeqkb3-j8Jaw">我的 DFIR 博客</a>，Maxim Suhanov – 另一个专注于数字取证的博客，多次提及 Windows 注册表。它提供了一些其他地方难以找到的原始信息，例如参见<a href="https://www.google.com/url?q=https://dfir.ru/2020/08/15/containerized-registry-hives-in-windows/&sa=D&source=editors&ust=1719419260932256&usg=AOvVaw3P5QUsQogwenB2aMUZPo46">Windows 中的容器化注册表配置单元</a>。</li>
+<li><a href="https://www.google.com/url?q=https://www.mandiant.com/resources/blog/digging-up-the-past-windows-registry-forensics-revisited&sa=D&source=editors&ust=1719419260932565&usg=AOvVaw15OqdOqe4rurf0H8R9AqXE">挖掘过去：Windows 注册表取证再探</a>，David Via – Mandiant 的一篇博客文章，讨论从注册表配置单元和事务日志中恢复数据。</li>
+<li><a href="https://www.google.com/url?q=https://scorpiosoftware.net/2020/07/17/creating-registry-links/&sa=D&source=editors&ust=1719419260932855&usg=AOvVaw0FpH1t8d08TSokmWL0tNok">创建注册表链接</a> 和 <a href="https://www.google.com/url?q=https://scorpiosoftware.net/2022/04/15/mysteries-of-the-registry/&sa=D&source=editors&ust=1719419260933035&usg=AOvVaw1Qn3SYF03C4J05-L-DQ5CM">注册表的奥秘</a>，Pavel Yosifovich – 两篇博客文章，涵盖在注册表中创建符号链接及其整体内部结构。</li>
+<li><a href="https://www.google.com/url?q=https://en.wikipedia.org/wiki/Windows_Registry&sa=D&source=editors&ust=1719419260933296&usg=AOvVaw1jNF0kLz5Ia_x2u7yAbSWI">Windows 注册表</a>，维基百科贡献者 – 一如既往，维基百科没有让人失望，尽管文章包含的深度技术细节不多，但它有关于注册表历史、其高级设计以及在系统中作用的广泛章节。</li>
+</ul>
+<p>此外，<a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/&sa=D&source=editors&ust=1719419260933753&usg=AOvVaw0EWx8a08YtEQfY3wWCBWAY">The Old New Thing</a> 是一个极好的技术博客，探索 Windows 功能背后的怪癖、设计决策和历史背景。它由一位在微软工作超过 30 年的员工 Raymond Chen 撰写，每天发布一篇帖子，令人惊叹地保持了一致性。虽然这些博客文章在技术上不是文档，但它们在社区中备受推崇，可以被视为事实上的微软知识资源——只是比 Microsoft Learn 更有趣。在过去的 20 多年里，Raymond 有时会写关于注册表的文章，分享有关此功能的有趣幕后故事和轶事。我试图在下面的单一列表中查找并汇编所有相关的与注册表相关的帖子：</p>
+<ul>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20030808-00/?p%3D42943&sa=D&source=editors&ust=1719419260934223&usg=AOvVaw01WdHr1SXnVQIrQFfBcK4I">为什么注册表文件被称为“hive”？</a> (2003 年 8 月 8 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20031103-00/?p%3D41973&sa=D&source=editors&ust=1719419260934467&usg=AOvVaw3Vzz5ZMFiKZULHmtSn6BCy">Shell Folders 键的漫长而悲伤的故事</a> (2003 年 11 月 3 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20040824-00/?p%3D38063&sa=D&source=editors&ust=1719419260934700&usg=AOvVaw0sTngHTVXtTKcNkiOMUpcl">警惕非空终止的注册表字符串</a> (2004 年 8 月 24 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20060222-11/?p%3D32193&sa=D&source=editors&ust=1719419260934933&usg=AOvVaw1LYUDcRap8eQd6EL5ZUDAT">读取注册表键的性能成本</a> (2006 年 2 月 22 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20070302-00/?p%3D27783&sa=D&source=editors&ust=1719419260935174&usg=AOvVaw0kOvsbUVcWUbgbq4vf4vnu">.Default 用户不是默认用户</a> (2007 年 3 月 2 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20071126-00/?p%3D24383&sa=D&source=editors&ust=1719419260935440&usg=AOvVaw0K1JKDbzNmAgDTTP6fWsEE">为什么 INI 文件被弃用而支持注册表？</a> (2007 年 11 月 26 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20080117-00/?p%3D23783&sa=D&source=editors&ust=1719419260935817&usg=AOvVaw0-iIZ8yTaSocz7lqDqhDXv">16 位 Windows 中的注册表键是如何工作的？</a> (2008 年 1 月 17 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20080118-00/?p%3D23773&sa=D&source=editors&ust=1719419260936041&usg=AOvVaw3EEvRSEj9zMGmj_VWkhBfw">为什么注册表键有默认值？</a> (2008 年 1 月 18 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20090123-00/?p%3D19403&sa=D&source=editors&ust=1719419260936290&usg=AOvVaw2oBGmUYmYwJwXwynmpU-1K">为什么不能对注册表值应用 ACL？</a> (2009 年 1 月 23 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20090204-00/?p%3D19263&sa=D&source=editors&ust=1719419260936528&usg=AOvVaw1i-e6CWT3Yot-ND9Yv8ZIt">描述注册表各个部分的术语是什么？</a> (2009 年 2 月 4 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20090205-00/?p%3D19243&sa=D&source=editors&ust=1719419260936767&usg=AOvVaw3UvT0tacu5DHRjXhSdu6aj">各种注册表数据类型的含义与其处理方式不同</a> (2009 年 2 月 5 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20090326-00/?p%3D18703&sa=D&source=editors&ust=1719419260937008&usg=AOvVaw3AIcdhVCkoCBlp7oGu2wr4">无法将某人锁定在注册表之外是一个功能，而不是一个错误</a> (2009 年 3 月 26 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20110322-00/?p%3D11163&sa=D&source=editors&ust=1719419260937258&usg=AOvVaw1aP67uXZwASfZv92IkVrhI">为什么注册表中有“!Do not use this registry key”这条消息？</a> (2011 年 3 月 22 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20110907-00/?p%3D9713&sa=D&source=editors&ust=1719419260937492&usg=AOvVaw0o3fkFGFJlrbOimfjSe33q">为什么注册表是分层数据库而不是关系数据库？</a> (2011 年 9 月 7 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20120510-00/?p%3D7663&sa=D&source=editors&ust=1719419260937718&usg=AOvVaw1u_iU--z3w7lAn6JnuTLV6">廉价娱乐：在注册表中搜索拼写错误</a> (2012 年 5 月 10 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20120521-00/?p%3D7573&sa=D&source=editors&ust=1719419260937956&usg=AOvVaw02egU_Y-mcEBNRCXNNxcFR">16 位 Windows 中的注册表是什么样的？</a> (2012 年 5 月 21 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20121004-00/?p%3D6413&sa=D&source=editors&ust=1719419260938196&usg=AOvVaw2wwszWngXZT704yHNQWLNH">为什么 RegOpenKey 有时（但不是总是）在我使用两个反斜杠而不是一个时失败？</a> (2012 年 10 月 4 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20121205-00/?p%3D5913&sa=D&source=editors&ust=1719419260938467&usg=AOvVaw0myyGtwpHf6YBG7ch_CHtB">为什么当没有人写入 HKEY_CLASSES_ROOT 时，我会收到对 HKEY_CLASSES_ROOT 更改的通知？</a> (2012 年 12 月 5 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20150226-00/?p%3D44583&sa=D&source=editors&ust=1719419260938702&usg=AOvVaw047hlj6fm32TH5LH_gXjt3">RegNotifyChangeKeyValue 没那么糟糕</a> (2015 年 2 月 26 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20160120-00/?p%3D92892&sa=D&source=editors&ust=1719419260938946&usg=AOvVaw05mheyvAjmnt-NCgNYewqN">那么我调用 RegOpenKey 而不是 RegOpenKeyEx 有多糟糕？</a> (2016 年 1 月 20 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20160908-00/?p%3D94275&sa=D&source=editors&ust=1719419260939176&usg=AOvVaw3Z59hNqMxGtPVsKm2IKTZs">如何在调试器中更改注册表键？</a> (2016 年 9 月 8 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20161128-00/?p%3D94815&sa=D&source=editors&ust=1719419260939385&usg=AOvVaw0WsnH8VNye5CQ75oWpa5Je">如果我只想创建一个注册表键但不打算对其做任何其他操作，我应该请求什么安全访问掩码？</a> (2016 年 11 月 28 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20170525-00/?p%3D96225&sa=D&source=editors&ust=1719419260939560&usg=AOvVaw3oxC29G9PZ0U1IfW3WWnT5">诊断为什么不能在易失父键下创建稳定子键</a> (2017 年 5 月 25 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20181015-00/?p%3D99975&sa=D&source=editors&ust=1719419260939728&usg=AOvVaw0USGVjGop5ZnsxOzD3nehK">如何在不挂载的情况下以编程方式检查和操作注册表配置单元文件？</a> (2018 年 10 月 15 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20190109-00/?p%3D100665&sa=D&source=editors&ust=1719419260939898&usg=AOvVaw0KG5HjKheobU-oHUCUNXyz">这涉及到在这个气密舱口的另一边：搞乱某人的注册表</a> (2019 年 1 月 9 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20200102-00/?p%3D103287&sa=D&source=editors&ust=1719419260940087&usg=AOvVaw1MKONf9oZuQHMSOSWaAX-m">为什么 RegSetKeySecurity 不传播可继承的 ACE，而 SetSecurityInfo 会？</a> (2020 年 1 月 2 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20200310-00/?p%3D103549&sa=D&source=editors&ust=1719419260940260&usg=AOvVaw1cUB77W9RQB76Wos51ludK">SM_AccessoriesName 注册表值的悲伤但简短的故事</a> (2020 年 3 月 10 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20200507-00/?p%3D103733&sa=D&source=editors&ust=1719419260940426&usg=AOvVaw37M0ysGm_RvzzwV3T5mQ5T">为什么 RegNotifyChangeKeyValue 在键被删除后停止通知？</a> (2020 年 5 月 7 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20201221-00/?p%3D104574&sa=D&source=editors&ust=1719419260940600&usg=AOvVaw1xhCga5yl_O8TyCSqh6kSB">如何在不受支持的系统上模拟 REG_NOTIFY_THREAD_AGNOSTIC 标志？第 1 部分</a> (2020 年 12 月 21 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20201222-00/?p%3D104582&sa=D&source=editors&ust=1719419260940789&usg=AOvVaw0O6mWlS5iCO2moFHDgIp7L">如何在不受支持的系统上模拟 REG_NOTIFY_THREAD_AGNOSTIC 标志？第 2 部分</a> (2020 年 12 月 22 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20201223-00/?p%3D104584&sa=D&source=editors&ust=1719419260941340&usg=AOvVaw1Jiej2alDhR6UF4POxVxaS">如何在不受支持的系统上模拟 REG_NOTIFY_THREAD_AGNOSTIC 标志？第 3 部分</a> (2020 年 12 月 23 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20201224-00/?p%3D104599&sa=D&source=editors&ust=1719419260941791&usg=AOvVaw32oqMZqomMlvh1DqQA3U-a">如何在不受支持的系统上模拟 REG_NOTIFY_THREAD_AGNOSTIC 标志？第 4 部分</a> (2020 年 12 月 24 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20201225-00/?p%3D104602&sa=D&source=editors&ust=1719419260942214&usg=AOvVaw1E0jHpOZNo64Scm4udJyFn">如何在不受支持的系统上模拟 REG_NOTIFY_THREAD_AGNOSTIC 标志？第 5 部分</a> (2020 年 12 月 25 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20210723-00/?p%3D105479&sa=D&source=editors&ust=1719419260942786&usg=AOvVaw1qelrSSSAQgyesL5LTGohR">将空指针作为键名传递给 RegOpenKeyEx 的历史</a> (2021 年 7 月 23 日)</li>
+<li><a href="https://www.google.com/url?q=https://devblogs.microsoft.com/oldnewthing/20231020-00/?p%3D108911&sa=D&source=editors&ust=1719419260943455&usg=AOvVaw2O02OvtNX0tQl8svJpbimS">关于 RegOverridePredefKey 未实现的失败承诺</a> (2023 年 10 月 20 日)</li>
+</ul>
+<h2 id="学术论文和演示文稿">学术论文和演示文稿</h2><p>在数字取证过程中从注册表中恢复有意义的痕迹也是学术界已知的问题。为了找到相关的工作，我通常首先在 <a href="https://www.google.com/url?q=https://scholar.google.com/&sa=D&source=editors&ust=1719419260944494&usg=AOvVaw0YtTbdmRySGLWusI2xMggq">Google Scholar</a> 中输入几篇已知论文的标题，然后深入进行其参考文献的广度优先搜索。以下是我找到的与注册表相关的内容：</p>
+<ul>
+<li><a href="https://www.google.com/url?q=https://www.sciencedirect.com/science/article/pii/S1742287608000297&sa=D&source=editors&ust=1719419260945439&usg=AOvVaw2WSEbMsB3gaE4Wr_ah3RJg">Windows 注册表在内存中的取证分析</a> (2008)，Brendan Dolan-Gavitt – 一篇详细介绍从物理内存转储中提取和分析 Windows 注册表数据技术的论文。</li>
+<li><a href="https://www.google.com/url?q=http://sentinelchicken.com/research/registry_recovery/&sa=D&source=editors&ust=1719419260946172&usg=AOvVaw2vb0OH8A0LAHei4k0JKzlw">从 Windows 注册表恢复已删除的数据</a> (2008)，Timothy D. Morgan – 一篇论文及随附的幻灯片，研究了基于 NT 的 Windows 系统中已删除的注册表数据结构，提出了一种恢复算法，并引入了 RegLookup 工具来实现此恢复过程。</li>
+<li><a href="https://www.google.com/url?q=http://sentinelchicken.com/data/JolantaThomassenDISSERTATION.pdf&sa=D&source=editors&ust=1719419260946926&usg=AOvVaw2dMGxYEU66bxVK7qe0U0aJ">Windows 注册表配置单元文件中未分配空间的取证分析</a> (2008)，Jolanta Thomassen – 一篇 63 页的硕士论文，证明了从配置单元文件内的未分配空间恢复已删除或更新的 Windows 注册表键的可行性。</li>
+<li><a href="https://www.google.com/url?q=https://web.archive.org/web/20090529202753/http://amnesia.gtisc.gatech.edu/~moyix/suzibandit.ltd.uk/MSc/Registry%2520Structure%2520-%2520Main%2520V4.pdf&sa=D&source=editors&ust=1719419260947881&usg=AOvVaw0Us3lO7Q4JHc_08-oFGvdW">Windows 注册表的内部结构</a> (2009)，Peter Norris – 一篇 144 页的硕士论文，专注于重建损坏的注册表文件、分析历史状态以及从分散的片段中提取独立的取证证据。</li>
+<li><a href="https://www.google.com/url?q=http://www.sentinelchicken.com/data/TheWindowsNTRegistryFileFormat.pdf&sa=D&source=editors&ust=1719419260948654&usg=AOvVaw2r5dgqdcU9xRI8HULMDHit">Windows NT 注册表文件格式</a> (2009)，Timothy D. Morgan – 一篇简洁的论文，全面描述了 regf 格式的数据结构。</li>
+<li><a href="https://www.google.com/url?q=https://www.i.u-tokyo.ac.jp/edu/training/ss/lecture/new-documents/Lectures/09-Registry/Registry.pdf&sa=D&source=editors&ust=1719419260949481&usg=AOvVaw2rR2BkNKB0fcaoXBqAsH4L">Windows 内核内部：NT 注册表实现</a> (2009)，David B. Probert – 一份幻灯片，通过 Windows 内核的视角讨论注册表内部原理，提供了 Windows 内核开发人员的独特视角。</li>
+</ul>
+<h2 id="开源软件">开源软件</h2><p>套用一句名言，源代码胜过千言万语。有时，直接查看代码比阅读英文解释更容易掌握一个概念或设计。虽然注册表的规范实现是 Windows 内核，但多年来已经开发了许多开源项目来操作注册表配置单元。它们通常要么基于开发者自己进行的 regf 格式分析，要么基于现有的文档和其他开源工具。它们存在的三个主要原因是：a) 计算机取证，b) 在其他主机平台上模拟 Windows 行为，c) 直接访问 SAM 配置单元以更改/重置本地用户凭据。无论出于何种原因，此类项目可能有助于更好地理解内部配置单元格式，并在必要时帮助构建概念验证配置单元。我找到的所有相关开源库和实用程序列表如下所示：</p>
+<ul>
+<li><a href="https://www.google.com/url?q=https://github.com/libyal/libregf&sa=D&source=editors&ust=1719419260951444&usg=AOvVaw1wbD9_bHavG5GJmZhtapst">libregf</a> – 一个用 C 编写的库，带有 Python 绑定。</li>
+<li><a href="https://www.google.com/url?q=https://github.com/libguestfs/hivex&sa=D&source=editors&ust=1719419260952045&usg=AOvVaw0hmo--_R1EL0lFfFcu0zrq">hivex</a> – 一个用 C 编写的库，作为 <a href="https://www.google.com/url?q=https://libguestfs.org/&sa=D&source=editors&ust=1719419260952382&usg=AOvVaw3crw_JVJLgs5MYNBi7s7MI">libguestfs</a> 项目的一部分，支持 OCaml、Perl、Python 和 Ruby 绑定。</li>
+<li><a href="https://www.google.com/url?q=https://github.com/reactos/reactos/tree/master/sdk/lib/cmlib&sa=D&source=editors&ust=1719419260952995&usg=AOvVaw2sqQNPUUMV3NWrRZ--xApY">cmlib</a> – 一个用 C 实现的模块，作为 <a href="https://www.google.com/url?q=https://reactos.org/&sa=D&source=editors&ust=1719419260953315&usg=AOvVaw1KlgNHuZha4B6baXWahSIk">ReactOS</a> 的一部分，与 Windows 的实现非常相似。</li>
+<li><a href="https://www.google.com/url?q=https://pogostick.net/~pnh/ntpasswd/&sa=D&source=editors&ust=1719419260953855&usg=AOvVaw0JHZPpnmH0ZwyCk8v4aaCG">chntpw</a> (离线 Windows 密码编辑器) – 一个在 1997 年至 2014 年间用 C 开发的工具，用于直接在 SAM 配置单元中离线管理 Windows 用户密码。与注册表相关的代码位于 ntreg.c (regf 解析器) 和 reged.c (基本注册表编辑器) 中。</li>
+<li><a href="https://www.google.com/url?q=https://www.samba.org/&sa=D&source=editors&ust=1719419260954449&usg=AOvVaw0M9HM1tM-l50d645uRf2c2">Samba</a> – Samba 项目包含了 Windows 注册表的另一个实现（位于 source3/registry 和 source4/lib/registry 下）。</li>
+<li><a href="https://www.google.com/url?q=https://github.com/mkorman90/regipy&sa=D&source=editors&ust=1719419260954958&usg=AOvVaw0RhCPn3TAD4ARIeo1doAD5">regipy</a> – 一个 Python 注册表配置单元解析库及配套工具。</li>
+<li><a href="https://www.google.com/url?q=https://github.com/msuhanov/yarp/&sa=D&source=editors&ust=1719419260955438&usg=AOvVaw12DN7_ee88FD4Xyuimn07r">yarp</a> – 字面意思是又一个注册表解析器（用 Python 编写）。</li>
+<li><a href="https://www.google.com/url?q=https://github.com/EricZimmerman/Registry&sa=D&source=editors&ust=1719419260956158&usg=AOvVaw2ZaptRk23JnoVLBVoWsTHc">Registry</a> – 一个用 C# 编写的配置单元解析器。</li>
+<li><a href="https://www.google.com/url?q=https://github.com/ColinFinck/nt-hive&sa=D&source=editors&ust=1719419260956686&usg=AOvVaw0y1NmJXYcAXA4duUe3gaja">nt-hive</a> – 一个用 Rust 编写的配置单元解析器（具有只读功能）。</li>
+<li><a href="https://www.google.com/url?q=https://github.com/strozfriedberg/notatin&sa=D&source=editors&ust=1719419260957252&usg=AOvVaw1tg1CYodxFTex-VHDv-AfP">Notatin</a> – 另一个用 Rust 编写的配置单元解析器，包括 Python 绑定和辅助二进制文件。</li>
+</ul>
+<p>最后，在撰写本文时，只需在 <a href="https://www.google.com/url?q=https://github.com/&sa=D&source=editors&ust=1719419260957999&usg=AOvVaw1GBW5kCguqYC_YKYM2U5jh">GitHub</a> 上搜索一些内部内核函数名称，就可能揭示 20 多年前 Windows 本身是如何实现某些功能的。</p>
+<h2 id="sdk-头文件">SDK 头文件</h2><p>随软件开发工具包分发的头文件是一个有趣的情况，因为一方面它们是微软希望开发者使用的官方资源，但另一方面——它们有点隐蔽，因为在线文档并不总是与它们的内容保持同步。因此，我们可以探索它们在磁盘上的本地副本，有时会发现未在线公开记录的工件（函数声明、结构定义、注释）。一些与注册表最相关的头文件是：</p>
+<ul>
+<li><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/api/winreg/&sa=D&source=editors&ust=1719419260959782&usg=AOvVaw0ZBrSIqPhtAe3inJ529PzZ">winreg.h</a> (用户模式) – 列表中的主要注册表头文件，包含来自官方注册表 API 的函数和结构原型。</li>
+<li><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/&sa=D&source=editors&ust=1719419260960477&usg=AOvVaw3cDD1enjMeMLlzYsmAf2aJ">wdm.h</a> (内核模式) – 指定了许多由注册表系统调用接口使用的有趣常量/标志和类型，例如配置单元加载标志（NtLoadKey2 的第三个参数，如 REG_LOAD_HIVE_OPEN_HANDLE 等）或键/值查询结构（KEY_TRUST_INFORMATION、KEY_VALUE_LAYER_INFORMATION 等）。</li>
+<li><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntddk/&sa=D&source=editors&ust=1719419260960889&usg=AOvVaw0niS_TzAw-hM92Z2KvXHc0">ntddk.h</a> (内核模式) – 包含一些其他地方找不到的类型，例如 KEY_LAYER_INFORMATION。</li>
+<li><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/api/winnt/&sa=D&source=editors&ust=1719419260961095&usg=AOvVaw1E28iy16B4PgEF8POYpJOx">winnt.h</a> (用户模式) – 大多与 wdm.h 等效。</li>
+<li><a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows/win32/api/winternl/&sa=D&source=editors&ust=1719419260961259&usg=AOvVaw1d0osga5nxpsMkcR3PCahf">winternl.h</a> (用户模式) – 包含一些与注册表相关的系统调用声明（NtRenameKey、NtSetInformationKey）。</li>
+</ul>
+<h2 id="安全研究">安全研究</h2><p>在开始一个新项目时，了解先前的安全研究尤其有用。它不仅经常揭示目标的深层技术细节，而且来自志同道合的专业人士，他们通过安全视角查看代码，并可能激发关于进一步弱点或需要更多关注领域的想法。就注册表而言，我认为与其高复杂性和在 Windows 操作系统中扮演的关键角色相比，公开领域所做的工作相对较少。尽管如此，我还是发现了一些非常有见地的材料，尤其是来自 Project Zero 的同事 James Forshaw 的材料。我在这个主题上收集到的所有与安全相关的资源完整列表如下所示（包括一些对我过去发表作品的引用）：</p>
+<ul>
+<li><a href="https://www.google.com/url?q=https://j00ru.vexillium.org/slides/2010/confidence.pdf&sa=D&source=editors&ust=1719419260961763&usg=AOvVaw0_-hjsGRJPbe3zOg5sMppI">近期 Windows 漏洞案例研究</a> (2010)，Gynvael Coldwind，Mateusz Jurczyk – 关于 Gynvael 和我在 2009/2010 年短暂的注册表研究期间发现的几个安全漏洞的演示。</li>
+<li><a href="https://www.google.com/url?q=https://www.fortinet.com/blog/threat-research/microsoft-kernel-integer-overflow-vulnerability&sa=D&source=editors&ust=1719419260961959&usg=AOvVaw3G2wknr8OBH7aIgwdYiQF-">微软内核整数溢出漏洞</a> (2016)，Honggang Ren – 关于 CVE-2016-0070 的文章，这是一个在加载畸形配置单元文件时的 Windows 内核漏洞。</li>
+<li><a href="https://www.google.com/url?q=https://bugs.chromium.org/p/project-zero/issues/list?q%3Did%253A873%252C874%252C876%252C993%26can%3D1&sa=D&source=editors&ust=1719419260962143&usg=AOvVaw3YT7h6ZbgxaMmg-35a2MA8">Project Zero 漏洞跟踪器</a> (2016)，James Forshaw，Mateusz Jurczyk – 作为简单注册表配置单元 fuzzing 的结果提交给微软的四份漏洞报告。</li>
+<li><a href="https://www.google.com/url?q=https://bugs.chromium.org/p/project-zero/issues/list?q%3Did%253A123%252C215%252C865%252C870%252C871%252C872%252C875%252C1492%252C1494%252C1554%252C1599%252C1786%252C1795%252C2047%252C2048%252C2120%252C2129%26can%3D1&sa=D&source=editors&ust=1719419260962359&usg=AOvVaw3wqrPPu_BmLT9VwglTof1R">Project Zero 漏洞跟踪器</a> (2014-2020)，James Forshaw – James 发现的 17 个与注册表相关的漏洞，其中许多是注册表与其他系统机制（安全模拟、文件系统）交叉处的逻辑问题。</li>
+</ul>
+<h2 id="书籍">书籍</h2><p>对于一个像注册表这样有 20 多年历史的代码库，可以预期早期一些涵盖它的资源是以纸质形式而非互联网形式发布的。因此，我标准流程的一部分是在 <a href="https://www.google.com/url?q=https://books.google.com/&sa=D&source=editors&ust=1719419260962643&usg=AOvVaw0-UAZXVeUgJjNJEhCqVwuZ">Google Books</a> 中搜索与特定技术相关的各种技术术语和关键词，看看会出现什么。对于注册表，这些可能是例如 &quot;regedit&quot;、&quot;regf&quot;、&quot;hbin&quot;、&quot;LOG1&quot;、&quot;RegCreateKey&quot;、&quot;NtCreateKey&quot;、&quot;HvAllocateCell&quot;、&quot;\Registry\Machine&quot;、&quot;key control block&quot; 等等。在某些情况下，这会得到具有独特、严格技术信息的书籍，而在其他情况下，最有见地的部分是历史视角，能够看到该技术首次推出后不久是如何被看待的。有时，书籍的价值直到它到达邮箱才完全显现，因为它既没有作为电子书出售，也没有在 Google Books 中提供预览，因此需要实体副本。</p>
+<p>我找到的完全或部分专门介绍 Windows 注册表的书籍如下（从最新到最旧）：</p>
+<ul>
+<li>🔑 <a href="https://www.google.com/url?q=https://www.google.com/books/edition/Windows_Internals_Part_2/L8UIvAEACAAJ?hl%3Den&sa=D&source=editors&ust=1719419260963035&usg=AOvVaw3nOf2wp7mYzIK_V4ps1w69">Windows Internals (第 2 部分，第 7 版)</a>，作者 Andrea Allievi、Alex Ionescu、Mark E. Russinovich、David A. Solomon – Windows Internals 系列是一本深入的技术指南，深入探讨了操作系统的架构、组件和底层机制。最新版涵盖 Windows 10，包含一个专门介绍注册表的 35 页章节，并探讨了许多其他地方难以找到的技术细节。值得注意的是，自 Windows Internals 4（对应 Windows XP/Server 2003）以来，该书就涵盖了注册表，后续版本中的解释逐渐扩展。比较这些章节可能是一个有趣的练习，可以观察注册表多年来是如何演变的。</li>
+<li><a href="https://www.google.com/url?q=https://www.google.com/books/edition/Windows_Registry_Forensics/BtVtBgAAQBAJ?hl%3Den&sa=D&source=editors&ust=1719419260963350&usg=AOvVaw0vMnD5Xl-eQljUT5lPZtTW">Windows 注册表取证</a>，作者 Harlan Carvey</li>
+<li><a href="https://www.google.com/url?q=https://www.google.com/books/edition/Microsoft_Windows_Registry_Guide_2nd_Edi/rayHzwEACAAJ?hl%3Den&sa=D&source=editors&ust=1719419260963534&usg=AOvVaw3FJBsGCrSlM7MgMMITi5FS">Microsoft Windows 注册表指南</a>，作者 Jerry Honeycutt</li>
+<li><a href="https://www.google.com/url?q=https://www.google.com/books/edition/Managing_the_Windows_NT_Registry/rYIhAQAAIAAJ?hl%3Den&sa=D&source=editors&ust=1719419260963707&usg=AOvVaw3QUPD9LwuKFhT4EHvK6qct">管理 Windows NT 注册表</a> 和 <a href="https://www.google.com/url?q=https://www.google.com/books/edition/Managing_the_Windows_2000_Registry/36lOt-iJ6kEC?hl%3Den&sa=D&source=editors&ust=1719419260963831&usg=AOvVaw0NGhMulnvWz9qNm1EyHJM-">管理 Windows 2000 注册表</a>，作者 Paul E. Robichaux</li>
+<li><a href="https://www.google.com/url?q=https://www.google.com/books/edition/Inside_the_Registry_for_Microsoft_Window/zDr22AwXWqsC?hl%3Den&sa=D&source=editors&ust=1719419260964034&usg=AOvVaw3OqukDCCGGF56KUGWYM4o_">Inside the Registry for Microsoft Windows 95</a>，作者 Günter Born</li>
+<li><a href="https://www.google.com/url?q=https://www.google.com/books/edition/Inside_the_Windows_95_Registry/ZLZQAAAAMAAJ?hl%3Den&sa=D&source=editors&ust=1719419260964265&usg=AOvVaw0BQ_2kprRoXuQ5dygXqFYs">Inside the Windows 95 Registry</a>，作者 Ron Petrusha</li>
+</ul>
+<h2 id="专利">专利</h2><p>另一个可能难以找到的有用信息来源是专利，由 <a href="https://www.google.com/url?q=https://patents.google.com/&sa=D&source=editors&ust=1719419260964570&usg=AOvVaw1mNgUsigveI52zhI9nWF5u">Google Patents</a> 索引。我通过这种方式找到的一个特别有价值的结果是 🔑 <a href="https://www.google.com/url?q=https://patents.google.com/patent/US20170279678A1/en&sa=D&source=editors&ust=1719419260964681&usg=AOvVaw1A0MmARNgoEH6VuVcCMXLo">容器化配置</a> (US20170279678A1)，这是微软 2016 年的专利，它彻底解释了注册表中差异配置单元和分层键背后的核心概念。这些机制是 Windows 10 周年更新中引入的新功能的一部分，旨在更好地支持容器化，但关于其工作原理的任何官方文档都无处可寻。因此，该专利是理解这种新注册表功能复杂方面的绝佳辅助工具，增加了必要的上下文，并帮助理解原本高度隐晦的内核函数，如 <code>CmpPrepareDiscardAndReplaceKcbAndUnbackedHigherLayers</code>。</p>
+<h2 id="手动分析">手动分析</h2><p>到目前为止，我们讨论的所有资源都可以通过网页浏览器、文本编辑器或物理形式访问。但还有另一种类型的信息源，它同样重要（如果不是更重要的话），并且需要更专业的工具来理解它。我指的是我们可以从 Windows 中负责处理注册表的可执行映像中提取的知识，既包括“标准”的逆向工程，也包括充分利用其中或其周围的任何有用工件。我将在后续文章中更多地介绍动手逆向过程，现在我们将注意力转向那些无需推理就能向我们呈现清晰信息的工件。</p>
+<p>顺便说一下，迄今为止最需要查看的文件是 ntoskrnl.exe，即核心 NT 内核映像。它包含了内核空间注册表实现的全部内容，无论是从安全角度还是功能角度来看都很有趣。我个人 99% 的手动分析时间都在查看那个特定的二进制文件，但值得注意的是，还有一些其他与注册表相关的可执行文件和库：</p>
+<ul>
+<li>winload.exe – Windows 引导加载程序，在 Windows 内核之前执行。其职责之一是将 SYSTEM 配置单元加载到内存中并从中读取一些配置，因此它包含了 ntoskrnl.exe 中注册表代码的部分副本。</li>
+<li>offreg.dll – 离线注册表库，也与内核共享一些注册表代码（但在用户模式下执行）。</li>
+<li>kernelbase.dll – 主要的 WinAPI 库之一，实现了大部分用户空间的注册表 API。</li>
+<li>ntdll.dll – 另一个核心用户模式库，在注册表 API 和内核注册表实现之间提供桥梁。</li>
+<li>regsvc.dll – 实现远程注册表服务的 DLL。</li>
+</ul>
+<p>让我们研究一下通过运行反汇编器/反编译器可以轻松获得哪些关于注册表的信息。我个人使用 IDA Pro + Hex-Rays，因此下面的示例基于它们。</p>
+<h3 id="-公共符号-pdb-">🔑 公共符号 (PDB)</h3><p>微软为 C:\Windows 中找到的大多数可执行映像提供公共符号，以方便开发人员和安全研究人员。所谓“公共”符号，我指的是主要包含二进制文件中函数名称的 PDB 文件，这些名称有助于在调试期间或在崩溃事件中符号化系统堆栈跟踪。过去，符号曾经捆绑在系统安装介质或单独的 Resource Kit 光盘上，后来以预打包存档的形式从微软网站下载。这两种渠道都已弃用，目前唯一支持的获取符号的方式是按文件从 <a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/microsoft-public-symbols&sa=D&source=editors&ust=1719419260966122&usg=AOvVaw1CUphRjOVmjkz5MtmvwQ27">Microsoft 符号服务器</a> 获取。PDB 文件可以使用官方的 <a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/using-symchk&sa=D&source=editors&ust=1719419260966252&usg=AOvVaw1Y4RO-pSVwSCNJ4Ki_2mhy">SymChk</a> 工具直接下载，也可以通过支持符号服务器的软件（例如 IDA Pro、WinDbg）间接下载。</p>
+<p>就 ntoskrnl.exe 而言，其附带的符号是最宝贵的信息来源之一。正如之前的文章所述，Windows 内核遵循一致的命名约定，因此我们可以立即看到哪些内部例程与注册表相关，以及我们可能开始分析的入口点（与注册表相关的系统调用处理程序）在哪里。它向我们展示了我们正在处理的代码范围（1000 多个注册表函数），并使得可以执行诸如<a href="/2024/04/the-windows-registry-adventure-2.html">博客文章 #2</a> 中所示的分析（统计每个系统版本的行数），而无需进行任何逆向工程工作。也许最重要的是，函数名称在进行实际逆向时大大简化了代码推理，特别是对于具有非常描述性名称的函数，如 <code>CmpCheckAndFixSecurityCellsRefcount</code> 或 <code>CmpPromoteSingleKeyFromParentKcbAndChildKeyNode</code>。</p>
+<p><img src="/images/9359d5d9d3bd/ec48b543fd5f32c8f14f00785f4b4c05.png" alt="显示名称和地址的截图" loading="lazy"></p>
+<p>我们可以在内核调试符号中找到的另一种信息是类型：枚举、结构和联合。然而，有两个注意事项。首先，只有一些类型包含在 PDB 中，并且不清楚微软使用什么标准来决定是否发布它们。我粗略估计大约 50% 的注册表类型可以在那里找到，主要是基础类型。其次，即使某些类型的原型在符号中，函数参数和局部变量也没有用它们的类型进行注释，因此仍然需要确定相应的类型并手动注释变量，以便反编译的输出有意义。尽管如此，能够访问这些信息对于在局部层面理解代码以及把握大局仍然是一个巨大的帮助。</p>
+<p>可以在公共符号中找到的结构有：</p>
+<ul>
+<li>配置单元描述符（HHIVE、CMHIVE）及相关结构</li>
+<li>配置单元 bin 和 cell 结构（HBIN、CM_KEY_NODE、CM_KEY_VALUE、CM_KEY_SECURITY、...）</li>
+<li>键对象相关结构（CM_KEY_BODY、CM_KEY_CONTROL_BLOCK、...）</li>
+<li>一些事务相关结构（CM_TRANS、CM_KCB_UOW、...）</li>
+<li>一些分层键相关结构（CM_KCB_LAYER_INFO、...）</li>
+</ul>
+<p>同时，缺失且需要手动重建的结构有：</p>
+<ul>
+<li>解析上下文和路径信息结构（如 CmpParseKey 所用）</li>
+<li>一些事务相关结构（磁盘上的事务日志记录、轻量级事务对象描述符、...）</li>
+<li>虚拟化相关结构</li>
+<li>大多数分层键相关结构</li>
+</ul>
+<p>大多数相关的类型名称以“CM”开头，因此很容易在 IDA 的 Local Types 窗口中找到它们：</p>
+<p><img src="/images/9359d5d9d3bd/0d55ae8ca9605785236c128454c94af4.png" alt="IDA 截图显示以 CM 开头的 Local Types" loading="lazy"></p>
+<p>我想借此机会感谢微软提供符号供下载，并鼓励其他供应商也为其产品这样做。 🙂</p>
+<h3 id="windows-的调试-checked-版本">Windows 的调试/Checked 版本</h3><p>微软过去曾发布 Windows 的调试/checked 版本（除了“free”版本），从 Windows NT 到早期的 Windows 10。它们之间的<a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/checked-and-free-build-differences&sa=D&source=editors&ust=1719419260968815&usg=AOvVaw0R8e3pRntzVwKO67ew2f2S">区别</a>在于，调试/checked 版本禁用了某些编译器优化，并启用了额外的调试检查，以尽早识别内部系统状态不一致。内核模式驱动程序的开发人员被鼓励在将其视为稳定并交付给客户之前，在调试/checked Windows 版本上进行测试。不幸的是，这些特殊版本已经<a href="https://www.google.com/url?q=https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/checked-and-free-build-differences&sa=D&source=editors&ust=1719419260968815&usg=AOvVaw0R8e3pRntzVwKO67ew2f2S">停产</a>，不再适用于最新的 Windows 10 和 11。</p>
+<p>这些旧版本在逆向工程背景下可能非常有价值，因为额外的检查可能揭示代码所做的一些不变量和假设，但在查看零售版本时并不明显。更重要的是，这些检查通常是详细的，并包括调用诸如 <code>RtlAssert</code>、<code>DbgPrint</code>、<code>DbgPrintEx</code> 等函数，传递失败断言的文本表示、源代码文件名和/或行号。这些可能泄露变量、结构成员、枚举、常量和其他类型信息的名称。让我们看一些例子：</p>
+<pre><code>DbgPrintEx(DPFLTR_CONFIG_ID, 24u, &quot;\tImplausible size %lx\n&quot;, v13);
+DbgPrintEx(DPFLTR_CONFIG_ID, 24u, &quot;\tKey is bigger than containing cell.\n&quot;);
+DbgPrintEx(DPFLTR_CONFIG_ID, 0, &quot;invalid name starting with NULL on key %08lx\n&quot;, a3);
+DbgPrintEx(DPFLTR_CONFIG_ID, 0, &quot;invalid (ODD) name length on key %08lx\n&quot;, a3);
+DbgPrintEx(DPFLTR_CONFIG_ID, 24u, &quot;\tNo key signature\n&quot;);
+DbgPrintEx(DPFLTR_CONFIG_ID, 0, &quot;\tData:%08lx - unallocated Data\n&quot;, v20);
+DbgPrintEx(DPFLTR_CONFIG_ID, 24u, &quot;Class:%08lx - Implausible size \n&quot;, v20);
+DbgPrintEx(DPFLTR_CONFIG_ID, 24u, &quot;SecurityCell is HCELL_NIL for (%p,%08lx) !!!\n&quot;, a1, v67);
+DbgPrintEx(DPFLTR_CONFIG_ID, 24u, &quot;SecurityCell %08lx bad security for (%p,%08lx) !!!\n&quot;, v86, a1, v73);
+DbgPrintEx(DPFLTR_CONFIG_ID, 0, &quot;Root cell cannot be a symlink or predefined handle\n&quot;);
+DbgPrintEx(DPFLTR_CONFIG_ID, 0, &quot;invalid flags on root key %lx\n&quot;, v31);
+DbgPrintEx(DPFLTR_CONFIG_ID, 24u, &quot;\tWrong parent value.\n&quot;);
+</code></pre>
+<p><code>CmpCheckKey</code> 函数负责验证新加载的配置单元中每个键的结构正确性，对于遇到的每个问题，它都会打印一条或多或少的详细消息。这可以帮助我们更好地理解这些检查各自旨在完成什么。</p>
+<pre><code>DbgPrintEx(DPFLTR_CONFIG_ID, 0, &quot;CmKCBToVirtualPath ==&gt; Could not get name even from parent KCB = %p!!!!\n&quot;, a1);
+</code></pre>
+<p>这条消息可以解释为某种回退机制在转换注册表路径时失败。这可能表明一个有趣/脆弱的代码结构，事实上，周围的代码确实受到了 16 位整数溢出和由此产生的池内存损坏的影响（在 Project Zero <a href="https://www.google.com/url?q=https://bugs.chromium.org/p/project-zero/issues/detail?id%3D2341&sa=D&source=editors&ust=1719419260973702&usg=AOvVaw0SMrH7PXSKM-4BGHgURnhi">issue #2341</a> 中报告）。因此，整个代码块（包括漏洞）被移除，因为它在功能上是冗余的，没有任何实际用途。</p>
+<pre><code>RtlAssert(&quot;(*VirtContext) &amp; CMP_VIRT_IDENTITY_RESTRICTED&quot;, &quot;minkernel\\ntos\\config\\cmveng.c&quot;, 3554u, 0i64);
+</code></pre>
+<p><code>CmpIsSystemEntity</code> 中的这行代码揭示了几条信息：函数参数名称（<code>VirtContext</code>）、一个未在任何其他资源中记录的标志的内部名称（<code>CMP_VIRT_IDENTITY_RESTRICTED</code>），以及表达式的源文件名和行号（<code>minkernel\ntos\config\cmveng.c:3554</code>）。这些信息可以移植到我们的主反汇编器数据库（如 .idb）中，并在以后帮助我们更好地理解使用相同对象/标志的其他代码区域。</p>
+<pre><code>DbgPrintEx(DPFLTR_CONFIG_ID, 22u, &quot;Error[1] %lx while processing CmLogRecActionDeleteKey\n&quot;, v12);
+</code></pre>
+<p><code>CmpDoReDoRecord</code> 中的这个和类似调用告知我们事务记录类型的内部名称（<code>CmLogRecActionCreateKey</code>、<code>CmLogRecActionDeleteKey</code> 等），这些名称同样没有在其他任何地方公开提及。</p>
+<h2 id="调试和实验">调试和实验</h2><p>探测正在运行的 Windows 系统的注册表是我想到的最后一种了解它的方式。在某种意义上，这是一个必要的步骤，因为我们只能通过阅读静态文档和代码走这么远。在某个时刻，我们将被迫调查与配置单元对应的真实内存映射，探索内存中注册表对象的内容，或者验证特定函数的行为是否符合我们的预期。幸运的是，有一些工具可以让我们窥视内部注册表状态，超越了 Regedit 等标准实用程序允许的范围。它们在下面的章节中简要描述。</p>
+<h3 id="扩展的-regedit-替代品">扩展的 Regedit 替代品</h3><p>内置的 Regedit.exe 实用程序功能相当基础，虽然它足以满足大多数修补和系统管理目的，但一些第三方开发人员创建了具有扩展选项集的自定义注册表编辑器。我个人没有使用过它们，所以我无法证明它们的质量，但它们可能为其他研究人员提供一些好处。一个例子是 <a href="https://www.google.com/url?q=https://github.com/zodiacon/TotalRegistry&sa=D&source=editors&ust=1719419260975682&usg=AOvVaw0ndduj9AIaPe2f0oFloYdb">Total Registry</a>，其主要优点是除了标准的带有五个</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/漏洞分析.html" class="tag-link">#漏洞分析</a> <a href="/tag/PDF安全.html" class="tag-link">#PDF安全</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/容器安全.html" class="tag-link">#容器安全</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/Python安全.html" class="tag-link">#Python安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#microsoft-learn" class="toc-link">
+              <span class="toc-text">Microsoft Learn</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#博客和在线资源" class="toc-link">
+              <span class="toc-text">博客和在线资源</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#学术论文和演示文稿" class="toc-link">
+              <span class="toc-text">学术论文和演示文稿</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#开源软件" class="toc-link">
+              <span class="toc-text">开源软件</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#sdk-头文件" class="toc-link">
+              <span class="toc-text">SDK 头文件</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#安全研究" class="toc-link">
+              <span class="toc-text">安全研究</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#书籍" class="toc-link">
+              <span class="toc-text">书籍</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#专利" class="toc-link">
+              <span class="toc-text">专利</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#手动分析" class="toc-link">
+              <span class="toc-text">手动分析</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#-公共符号-pdb-" class="toc-link">🔑 公共符号 (PDB)</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#windows-的调试-checked-版本" class="toc-link">Windows 的调试/Checked 版本</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#调试和实验" class="toc-link">
+              <span class="toc-text">调试和实验</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#扩展的-regedit-替代品" class="toc-link">扩展的 Regedit 替代品</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

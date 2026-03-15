@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CVE-2021-30737，@xerub 发现的 2021 年 iOS ASN.1 漏洞 - BasicBit</title>
+  <meta name="description" content="CVE-2021-30737，@xerub 发现的 2021 年 iOS ASN.1 漏洞">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">CVE-2021-30737，@xerub 发现的 2021 年 iOS ASN.1 漏洞</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/4/7
+            </span>
+            <span class="meta-item">Ian Beer</span>
+            <span class="meta-item">网络安全, 模糊测试, 移动安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/04/cve-2021-30737-xerubs-2021-ios-asn1.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F04%2Fcve-2021-30737-xerubs-2021-ios-asn1.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Ian Beer，Google Project Zero</p>
+<p>这篇博文是我对 <a href="https://twitter.com/xerub">@xerub</a> 发现的一个漏洞的分析。<a href="http://phrack.org/issues/70/12.html#article">Phrack 发布了 @xerub 的分析文章</a>，请先查看那篇文章。</p>
+<p>除了进行自己的漏洞研究外，我也花时间尽可能跟上公开的最新技术动态，尤其是在特别有趣的漏洞细节公布或新的野外利用被发现时。最初这篇文章只是我去年试图理解这个漏洞时做的一系列笔记。但这个漏洞本身及其背后的故事非常引人入胜，我认为值得将这些笔记整理成更连贯的形式与社区分享。</p>
+<h2 id="背景">背景</h2><p>2021年4月14日，《华盛顿邮报》发表了一篇关于 <a href="https://www.vice.com/en/article/8xdayg/iphone-zero-days-inside-azimuth-security">Azimuth</a> 解锁圣贝纳迪诺 iPhone 的文章，其中包含了一条非公开信息：</p>
+<p>&quot;Azimuth 专门寻找重大漏洞。据知情人士透露，Dowd [...] 在 Mozilla 的开源代码中发现了一个漏洞，苹果使用该代码允许配件插入 iPhone 的 Lightning 端口。&quot;</p>
+<p>iPhone 上运行的 Mozilla 代码并不多，可能成为此类攻击面一部分的代码更少。因此，如果这个说法准确，几乎可以肯定 Azimuth 利用了 <a href="https://opensource.apple.com/source/Security/">Security.framework</a> 中使用的 <a href="https://en.wikipedia.org/wiki/ASN.1">ASN.1</a> 解析器中的漏洞，该解析器是 Mozilla NSS ASN.1 解析器的一个分支。</p>
+<p>我在 <a href="https://bugzilla.mozilla.org/">bugzilla</a>（Mozilla 的问题跟踪器）中搜索了与《华盛顿邮报》文章中讨论的时间线匹配的候选漏洞，并将其缩小到几个可能的漏洞，包括：<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1202868">1202868</a>、<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1192028">1192028</a>、<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1245528">1245528</a>。</p>
+<p>我很惊讶 ASN.1 代码中竟然有这么多看起来可被利用的问题，并决定将审计 NSS ASN.1 解析器作为季度目标。</p>
+<p>一个月后，正如预料的那样，我完全没有朝着这个目标做任何事，这时我看到了 <a href="https://twitter.com/xerub/status/1397190931653222400">@xerub 的这条推文</a>：</p>
+<p><img src="/images/d5df340e41d2/b063ee6d7ccae883348ed1cb8779cf17.png" alt="@xerub: CVE-2021-30737 相当严重。请尽快更新。（无耻摘录自完整链源代码）2021年5月25日下午4:00" loading="lazy"></p>
+<p>@xerub：CVE-2021-30737 相当严重。请尽快更新。（无耻摘录自完整链源代码）2021年5月25日下午4:00</p>
+<p>无耻摘录内容如下：</p>
+<p>// 这是真家伙。不要冒险，不要留情！我就是状态机！</p>
+<p>而 CVE-2021-30737，在 iOS 14.6 中修复，在 <a href="https://support.apple.com/en-us/HT212528#:~:text=2021%2D30699%3A%20videosdebarraquito-,Security,CVE%2D2021%2D30737%3A%20xerub,-WebKit">iOS 发布说明</a> 中描述为：</p>
+<p><img src="/images/d5df340e41d2/40d6ad901849871850caaeda14101f26.png" alt="文本截图。转录：安全性。适用于：iPhone 6s 及更新机型、iPad Pro（所有型号）、iPad Air 2 及更新机型、iPad 第5代及更新机型、iPad mini 4 及更新机型，以及 iPod touch（第7代）。影响：处理恶意制作的证书可能导致任意代码执行。描述：通过移除易受攻击的代码，解决了 ASN.1 解码器中的内存损坏问题。CVE-2021-30737：xerub" loading="lazy"></p>
+<p>影响：处理恶意制作的证书可能导致任意代码执行</p>
+<p>描述：通过移除易受攻击的代码，解决了 ASN.1 解码器中的内存损坏问题。</p>
+<p>我有点懊恼自己没有凭直觉行动，因为那里显然隐藏着一些很棒的东西。我记下了一旦苹果发布源代码就进行 diff 比较，几周后他们终于在 <a href="https://opensource.apple.com/source/Security/Security-59754.120.12/">opensource.apple.com 的 Security 包</a> 中发布了。</p>
+<p>以下是包含 ASN.1 解析器的 <a href="https://opensource.apple.com/source/Security/Security-59754.120.12/OSX/libsecurity_asn1/lib/secasn1d.c.auto.html">secasn1d.c</a> 在 MacOS 11.4 和 11.3 版本之间的 diff：</p>
+<p>diff --git a/OSX/libsecurity_asn1/lib/secasn1d.c b/OSX/libsecurity_asn1/lib/secasn1d.c</p>
+<p>index f338527..5b4915a 100644</p>
+<p>--- a/OSX/libsecurity_asn1/lib/secasn1d.c</p>
+<p>+++ b/OSX/libsecurity_asn1/lib/secasn1d.c</p>
+<p>@@ -434,9 +434,6 @@ loser:</p>
+<p>PORT_ArenaRelease(cx-&gt;our_pool, state-&gt;our_mark);</p>
+<p>state-&gt;our_mark = NULL;</p>
+<p>}</p>
+<ul>
+<li>if (new_state != NULL) {</li>
+<li><pre><code>   PORT_Free(new_state);
+</code></pre>
+</li>
+<li>}</li>
+</ul>
+<p>return NULL;</p>
+<p>}</p>
+<p>@@ -1794,19 +1791,13 @@ sec_asn1d_parse_bit_string (sec_asn1d_state *state,</p>
+<p>/*PORT_Assert (state-&gt;pending &gt; 0); */</p>
+<p>PORT_Assert (state-&gt;place == beforeBitString);</p>
+<ul>
+<li>if ((state-&gt;pending == 0) || (state-&gt;contents_length == 1)) {</li>
+</ul>
+<ul>
+<li>if (state-&gt;pending == 0) {</li>
+</ul>
+<p>if (state-&gt;dest != NULL) {</p>
+<p>SecAsn1Item *item = (SecAsn1Item *)(state-&gt;dest);</p>
+<p>item-&gt;Data = NULL;</p>
+<p>item-&gt;Length = 0;</p>
+<p>state-&gt;place = beforeEndOfContents;</p>
+<ul>
+<li><pre><code>          }
+</code></pre>
+</li>
+<li><pre><code>          if(state-&gt;contents_length == 1) {
+</code></pre>
+</li>
+<li><pre><code>                  /* skip over (unused) remainder byte */
+</code></pre>
+</li>
+<li><pre><code>                  return 1;
+</code></pre>
+</li>
+<li><pre><code>          }
+</code></pre>
+</li>
+<li><pre><code>          else {
+</code></pre>
+</li>
+<li><pre><code>                  return 0;
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><pre><code>       return 0;
+</code></pre>
+</li>
+</ul>
+<p>}</p>
+<p>}</p>
+<p>第一个更改（移除 PORT_Free）对苹果的用例无关紧要，因为它修复了一个双重释放问题，但这不影响苹果的构建。这仅在启用&quot;分配器标记&quot;时相关，而此功能是禁用的。</p>
+<p>因此，漏洞一定在 sec_asn1d_parse_bit_string 中。我们从 xerub 的推文中知道状态机出了问题，但要弄清楚这一点，我们需要了解一些 ASN.1 基础知识，然后开始研究 NSS ASN.1 状态机的工作原理。</p>
+<h2 id="asn-1-编码">ASN.1 编码</h2><p>ASN.1 是一种类型-长度-值序列化格式，但它有一个巧妙的特性：它也可以处理你不知道值长度但仍想序列化的情况！这个特性只有在 ASN.1 按照基本编码规则（BER）编码时才可能实现。还有一种更严格的编码称为 DER（可辨别编码规则），它强制规定特定值只有一种正确的编码，并禁止在不知道最终长度的情况下序列化值的情况。</p>
+<p><a href="https://luca.ntop.org/Teaching/Appunti/asn1.html">这个页面是 ASN.1 很好的入门指南</a>。我强烈建议浏览一下以对 ASN.1 有一个很好的概述。</p>
+<p>ASN.1 中有很多内置类型。我只描述理解此漏洞所需的最低限度（主要是因为我知道的也不多！）所以让我们从序列化 ASN.1 对象的第一个字节开始，弄清楚如何解码它：</p>
+<p>第一个字节告诉你类型，最低的 5 位定义了类型标识符。特殊的类型标识符值 0x1f 告诉你类型标识符不适合这 5 位，而是以不同的方式编码（我们将忽略这一点）：</p>
+<p><img src="/images/d5df340e41d2/b07ed776d9ad3789757cda223f939a63.png" alt="显示序列化 ASN.1 对象前两个字节的图表。本例中第一个字节是类型和类标识符，第二个是长度。" loading="lazy"></p>
+<p>显示序列化 ASN.1 对象前两个字节的图表。本例中第一个字节是类型和类标识符，第二个是长度。</p>
+<p>第一个字节的高两位告诉你类型的类别：通用、应用、内容特定或私有。对我们来说，我们将其保留为 0（通用）。</p>
+<p>第 6 位是乐趣开始的地方。值为 1 告诉我们这是原始编码，这意味着长度后面是内容字节，可以直接解释为预期类型。例如，字符串&quot;HELLO&quot;作为 ASN.1 可打印字符串的原始编码将有一个长度为 5 的字节，后跟 ASCII 字符&quot;HELLO&quot;。这一切都相当简单。</p>
+<p>然而，第 6 位的值为 0 告诉我们这是构造编码。这意味着长度后面的字节不是该类型的&quot;原始&quot;内容字节，而是一个或多个&quot;块&quot;的 ASN.1 编码，这些块需要单独解析并连接以形成最终输出值。为了让事情更加复杂，还可以指定长度值为 0，这意味着你甚至不知道重建的输出会有多长，或者需要多少后续输入来完全构建输出。</p>
+<p>最后一种情况（具有不定长度的构造类型）称为不定形式。构成单个不定值的输入结束由一个序列化的类型信号表示，该类型的标识符、构造、类别和长度值都等于 0，编码为两个 NULL 字节。</p>
+<h2 id="asn-1-位串">ASN.1 位串</h2><p>大多数 ASN.1 字符串类型不需要特殊处理；它们只是原始字节缓冲区。其中一些有长度限制。例如：BMP 字符串必须具有偶数长度，而 UNIVERSAL 字符串的长度必须是 4 字节的倍数，但仅此而已。</p>
+<p>ASN.1 位串是比特串，而不是字节串。例如，你可以有一个长度为单个比特的位串（所以是 0 或 1），或者一个长度为 127 比特的位串（所以是 15 个完整字节加上额外的 7 比特）。</p>
+<p>编码的 ASN.1 位串在长度之后、内容之前有一个额外的元数据字节，该字节编码最终字节中未使用的比特数。</p>
+<p><img src="/images/d5df340e41d2/c8b43d4af48134037e2d13883b933f5d.png" alt="显示 3 比特位串完整编码的图表。长度为 2 包括未使用比特计数字节，其值为 5，表示只有最终字节的最高 3 位有效。" loading="lazy"></p>
+<p>显示 3 比特位串完整编码的图表。长度为 2 包括未使用比特计数字节，其值为 5，表示只有最终字节的最高 3 位有效。</p>
+<h2 id="解析-asn-1">解析 ASN.1</h2><p>ASN.1 数据总是需要与模板一起解码，模板告诉解析器期望什么数据，并提供输出指针以填充解析后的输出数据。以下是我的测试程序用于测试位串代码的模板：</p>
+<p>const SecAsn1Template simple_bitstring_template[] = {</p>
+<p>{</p>
+<p>SEC_ASN1_BIT_STRING | SEC_ASN1_MAY_STREAM, // kind: bit string,</p>
+<p>//  may be constructed</p>
+<p>0,     // offset: in dest/src</p>
+<p>NULL,  // sub: subtemplate for indirection</p>
+<p>sizeof(SecAsn1Item) // size: of output structure</p>
+<p>}</p>
+<p>};</p>
+<p>SecASN1Item 是一个非常简单的缓冲区包装器。我们可以提供一个 SecAsn1Item 供解析器使用以返回解析后的位串，然后调用解析器：</p>
+<p>SecAsn1Item decoded = {0};</p>
+<p>PLArenaPool* pool = PORT_NewArena(1024);</p>
+<p>SECStatus status =</p>
+<p>SEC_ASN1Decode(pool,     // pool: arena for destination allocations</p>
+<p>&amp;decoded, // dest: decoded encoded items in to here</p>
+<p>&amp;simple_bitstring_template, // template</p>
+<p>asn1_bytes,      // buf: asn1 input bytes</p>
+<p>asn1_bytes_len); // len: input size</p>
+<h2 id="nss-asn-1-状态机">NSS ASN.1 状态机</h2><p>状态机有两个核心数据结构：</p>
+<p>SEC_ASN1DecoderContext - 整体解析上下文</p>
+<p>sec_asn1d_state - 单个解析器状态，保存在双向链表中，形成嵌套状态的堆栈</p>
+<p>以下是状态对象的精简版本，显示了相关字段：</p>
+<p>typedef struct sec_asn1d_state_struct {</p>
+<p>SEC_ASN1DecoderContext *top;</p>
+<p>const SecAsn1Template *theTemplate;</p>
+<p>void *dest;</p>
+<p>struct sec_asn1d_state_struct *parent;</p>
+<p>struct sec_asn1d_state_struct *child;</p>
+<p>sec_asn1d_parse_place place;</p>
+<p>unsigned long contents_length;</p>
+<p>unsigned long pending;</p>
+<p>unsigned long consumed;</p>
+<p>int depth;</p>
+<p>} sec_asn1d_state;</p>
+<p>解析状态机的主要引擎是方法 SEC_ASN1DecoderUpdate，它接受一个上下文对象、原始输入缓冲区和长度：</p>
+<p>SECStatus</p>
+<p>SEC_ASN1DecoderUpdate (SEC_ASN1DecoderContext *cx,</p>
+<p>const char *buf, size_t len)</p>
+<p>当前状态存储在上下文对象的 current 字段中，该当前状态的 place 字段决定了解析器当前所处的状态。这些状态定义如下：</p>
+<p>typedef enum {</p>
+<p>beforeIdentifier,</p>
+<p>duringIdentifier,</p>
+<p>afterIdentifier,</p>
+<p>beforeLength,</p>
+<p>duringLength,</p>
+<p>afterLength,</p>
+<p>beforeBitString,</p>
+<p>duringBitString,</p>
+<p>duringConstructedString,</p>
+<p>duringGroup,</p>
+<p>duringLeaf,</p>
+<p>duringSaveEncoding,</p>
+<p>duringSequence,</p>
+<p>afterConstructedString,</p>
+<p>afterGroup,</p>
+<p>afterExplicit,</p>
+<p>afterImplicit,</p>
+<p>afterInline,</p>
+<p>afterPointer,</p>
+<p>afterSaveEncoding,</p>
+<p>beforeEndOfContents,</p>
+<p>duringEndOfContents,</p>
+<p>afterEndOfContents,</p>
+<p>beforeChoice,</p>
+<p>duringChoice,</p>
+<p>afterChoice,</p>
+<p>notInUse</p>
+<p>} sec_asn1d_parse_place;</p>
+<p>状态机循环根据 place 字段决定调用哪个方法：</p>
+<p>switch (state-&gt;place) {</p>
+<p>case beforeIdentifier:</p>
+<p>consumed = sec_asn1d_parse_identifier (state, buf, len);</p>
+<p>what = SEC_ASN1_Identifier;</p>
+<p>break;</p>
+<p>case duringIdentifier:</p>
+<p>consumed = sec_asn1d_parse_more_identifier (state, buf, len);</p>
+<p>what = SEC_ASN1_Identifier;</p>
+<p>break;</p>
+<p>case afterIdentifier:</p>
+<p>sec_asn1d_confirm_identifier (state);</p>
+<p>break;</p>
+<p>...</p>
+<p>每个可能消耗输入的状态方法都传递一个指针（buf）指向原始输入缓冲区中下一个未消耗的字节，以及剩余未消耗字节的计数（len）。</p>
+<p>然后由这些方法中的每一个返回它们消耗了多少输入，并通过更新上下文对象的 status 字段来发出任何错误信号。</p>
+<p>解析器可以是递归的：一个状态可以将其 -&gt;place 字段设置为期望处理已解析子状态的状态，然后分配一个新的子状态。例如，在解析 ASN.1 序列时：</p>
+<p>state-&gt;place = duringSequence;</p>
+<p>state = sec_asn1d_push_state (state-&gt;top, state-&gt;theTemplate + 1,</p>
+<p>state-&gt;dest, PR_TRUE);</p>
+<p>当前状态将其自身的下一个状态设置为 duringSequence，然后调用 sec_asn1d_push_state，后者分配一个新的状态对象，具有新的模板和父状态 dest 字段的副本。</p>
+<p>sec_asn1d_push_state 更新上下文的 current 字段，使得 SEC_ASN1DecoderUpdate 的下一次循环将看到这个子状态作为当前状态：</p>
+<p>cx-&gt;current = new_state;</p>
+<p>请注意，新分配的子状态的 place 字段（决定当前状态）的初始值由模板决定。然后，该子状态遵循的状态机路径的最终状态将负责将自己从状态堆栈中弹出，以便其父状态可以到达 duringSequence 状态以消耗子状态的结果。</p>
+<h2 id="缓冲区管理">缓冲区管理</h2><p>缓冲区管理是 NSS ASN.1 解析器开始变得真正令人费解的地方。如果你通读代码，你会注意到在填充输出缓冲区时极度缺乏边界检查——基本上没有。例如，sec_asn1d_parse_leaf 只是简单地 memcpy 到输出缓冲区，没有边界检查来确保字符串的长度与缓冲区的大小匹配。</p>
+<p>内存安全性不是通过显式的边界检查来确保长度有效，而是依赖于这样一个事实：解码有效的 ASN.1 永远不会产生比其输入更大的输出。</p>
+<p>也就是说，没有解压缩或输入扩展的形式，因此任何解析后的输出数据的长度必须等于或短于编码它的输入。NSS 利用这一点，并将所有输出缓冲区过度分配为与其输入一样大。</p>
+<p>对于原始字符串，这非常简单：提供了长度和输入，所以不会出什么大错。但对于构造字符串，这就有点棘手了……</p>
+<p>思考构造字符串的一种方式是将其视为子字符串的树，嵌套深度可达 32 层。以下是一个示例：</p>
+<p><img src="/images/d5df340e41d2/2398ae875a60df632d90dbd401198fb8.png" alt="一个外部构造定长字符串，有三个子节点：一个原始字符串"abc"、一个构造不定长字符串和一个原始字符串"ghi"。构造不定长字符串有两个子节点，一个原始字符串"def"和一个内容结束标记。" loading="lazy"></p>
+<p>一个外部构造定长字符串，有三个子节点：一个原始字符串&quot;abc&quot;、一个构造不定长字符串和一个原始字符串&quot;ghi&quot;。构造不定长字符串有两个子节点，一个原始字符串&quot;def&quot;和一个内容结束标记。</p>
+<p>我们从一个构造定长字符串开始。字符串的长度值 L 是构成此字符串的剩余输入的完整大小；该数量的输入字节应被解析为子字符串并连接以形成解析后的输出。</p>
+<p>此时，NSS ASN.1 字符串解析器使用第一个输入字符串的长度 L 分配解析后输出字符串的输出缓冲区。这个缓冲区是过度分配的最坏情况。但真正有趣的部分是，NSS 分配输出缓冲区后，立即丢弃了那个长度！不过，快速浏览代码可能不太明显。分配的缓冲区存储为缓冲区包装器类型的 Data 字段：</p>
+<p>typedef struct cssm_data {</p>
+<p>size_t Length;</p>
+<p>uint8_t * __nullable Data;</p>
+<p>} SecAsn1Item, SecAsn1Oid;</p>
+<p>（回想一下，我们在模板中传递了一个指向 SecAsn1Item 的指针；它的 Data 字段在这里被填充为分配的字符串缓冲区指针。这种类型在 NSS 和苹果的分支之间略有不同，但这里的差异无关紧要。）</p>
+<p>那个 Length 字段不是分配的 Data 缓冲区的大小。它是一个（类型特定的）计数，决定了 Data 指向的缓冲区中有多少比特或字节是有效的。我说类型特定是因为对于位串，Length 以比特为单位存储，但对于其他字符串，它以字节为单位。（<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1245528">CVE-2016-1950</a> 是 NSS 中的一个错误，代码混淆了这些单位。）</p>
+<p>解析器没有存储分配的缓冲区大小以及缓冲区指针，而是每次遇到子字符串/子字符串时，都会走回当前正在解析的状态堆栈，以找到最内层的定长字符串。在向上遍历状态时，它会检查每个状态以确定它已经消耗了多少输入，以便能够确定当前待解析的子字符串是否确实完全包含在最内层的封闭定长字符串内。</p>
+<p>如果这听起来很复杂，确实如此！执行此操作的逻辑在这里，我花了好几天时间才将其拆解开来，弄清楚这是在做什么：</p>
+<p>sec_asn1d_state *parent = sec_asn1d_get_enclosing_construct(state);</p>
+<p>while (parent &amp;&amp; parent-&gt;indefinite) {</p>
+<p>parent = sec_asn1d_get_enclosing_construct(parent);</p>
+<p>}</p>
+<p>unsigned long remaining = parent-&gt;pending;</p>
+<p>parent = state;</p>
+<p>do {</p>
+<p>if (!sec_asn1d_check_and_subtract_length(&amp;remaining,</p>
+<p>parent-&gt;consumed,</p>
+<p>state-&gt;top)</p>
+<p>||</p>
+<p>/* If parent-&gt;indefinite is true, parent-&gt;contents_length is</p>
+<ul>
+<li>zero and this is a no-op. */</li>
+</ul>
+<p>!sec_asn1d_check_and_subtract_length(&amp;remaining,</p>
+<p>parent-&gt;contents_length,</p>
+<p>state-&gt;top)</p>
+<p>||</p>
+<p>/* If parent-&gt;indefinite is true, then ensure there is enough</p>
+<ul>
+<li>space for an EOC tag of 2 bytes. */</li>
+</ul>
+<p>(  parent-&gt;indefinite</p>
+<p>&amp;&amp;</p>
+<p>!sec_asn1d_check_and_subtract_length(&amp;remaining,</p>
+<p>2,</p>
+<p>state-&gt;top)</p>
+<p>)</p>
+<p>) {</p>
+<p>/* This element is larger than its enclosing element, which is</p>
+<ul>
+<li>invalid. */</li>
+</ul>
+<p>return;</p>
+<p>}</p>
+<p>} while ((parent = sec_asn1d_get_enclosing_construct(parent))</p>
+<p>&amp;&amp;</p>
+<p>parent-&gt;indefinite);</p>
+<p>它首先向上遍历状态堆栈以找到最内层的构造定长状态，并使用其 state-&gt;pending 值作为上限。然后它再次遍历状态堆栈，并为每个中间状态从 pending 的原始值中减去这些中间状态可能消耗的字节数。很明显，pending 值因此至关重要；它用于确定上限，所以如果我们能搞乱它，这个&quot;边界检查&quot;可能会出错。</p>
+<p>在弄清楚这显然是唯一进行任何边界检查的地方后，我更加仔细地查看了修复。</p>
+<p>我们知道 sec_asn1d_parse_bit_string 是唯一更改的函数：</p>
+<p>static unsigned long</p>
+<p>sec_asn1d_parse_bit_string (sec_asn1d_state *state,</p>
+<p>const char *buf, unsigned long len)</p>
+<p>{</p>
+<p>unsigned char byte;</p>
+<p>/*PORT_Assert (state-&gt;pending &gt; 0); */</p>
+<p>PORT_Assert (state-&gt;place == beforeBitString);</p>
+<p>if ((state-&gt;pending == 0) || (state-&gt;contents_length == 1)) {</p>
+<p>if (state-&gt;dest != NULL) {</p>
+<p>SecAsn1Item *item = (SecAsn1Item *)(state-&gt;dest);</p>
+<p>item-&gt;Data = NULL;</p>
+<p>item-&gt;Length = 0;</p>
+<p>state-&gt;place = beforeEndOfContents;</p>
+<p>}</p>
+<p>if(state-&gt;contents_length == 1) {</p>
+<p>/* skip over (unused) remainder byte */</p>
+<p>return 1;</p>
+<p>}</p>
+<p>else {</p>
+<p>return 0;</p>
+<p>}</p>
+<p>}</p>
+<p>if (len == 0) {</p>
+<p>state-&gt;top-&gt;status = needBytes;</p>
+<p>return 0;</p>
+<p>}</p>
+<p>byte = (unsigned char) *buf;</p>
+<p>if (byte &gt; 7) {</p>
+<p>dprintf(&quot;decodeError: parse_bit_string remainder oflow\n&quot;);</p>
+<p>PORT_SetError (SEC_ERROR_BAD_DER);</p>
+<p>state-&gt;top-&gt;status = decodeError;</p>
+<p>return 0;</p>
+<p>}</p>
+<p>state-&gt;bit_string_unused_bits = byte;</p>
+<p>state-&gt;place = duringBitString;</p>
+<p>state-&gt;pending -= 1;</p>
+<p>return 1;</p>
+<p>}</p>
+<p>函数的高亮区域是补丁移除的字符。这个函数旨在返回它消耗的输入字节数（由 buf 指向），我最初的直觉是注意到补丁移除了通过此函数的一条路径，在该路径中，你可能会使消耗的输入字节数和 pending 不同步。当它们在移除的代码中返回 1 时，它们也应该递减 state-&gt;pending，就像它们在此函数返回 1 的其他地方所做的那样。</p>
+<p>我花了相当长的时间试图弄清楚如何将其转化为有用的东西，但最终我认为你做不到。</p>
+<p>那么这里还发生了什么？</p>
+<p>这个状态是在 buf 指向原始位串长度值之后的第一个字节时达到的。state-&gt;contents_length 是该解析长度的值。如前所述，位串是一种独特的 ASN.1 字符串类型，因为它们在开头有一个额外的元数据字节（未使用比特计数字节）。拥有一个定长的零长度字符串是完全没问题的——实际上，这（某种程度上）在 prepareForContents 状态中更早地处理了，该状态直接短路到 afterEndOfContents：</p>
+<p>if (state-&gt;contents_length == 0 &amp;&amp; (! state-&gt;indefinite)) {</p>
+<p>/*</p>
+<ul>
+<li>A zero-length simple or constructed string; we are done.</li>
+</ul>
+<p>*/</p>
+<p>state-&gt;place = afterEndOfContents;</p>
+<p>这里他们检测到一个内容长度为 0 的定长字符串类型。但这没有处理仅由未使用比特计数字节组成的位串的边缘情况。该位串的 state-&gt;contents_length 值将为 1，但它实际上没有任何&quot;内容&quot;。</p>
+<p>正是这种情况与 sec_asn1d_parse_bit_string 中的 (state-&gt;contents_length == 1) 条件匹配：</p>
+<p>if ((state-&gt;pending == 0) || (state-&gt;contents_length == 1)) {</p>
+<p>if (state-&gt;dest != NULL) {</p>
+<p>SecAsn1Item *item = (SecAsn1Item *)(state-&gt;dest);</p>
+<p>item-&gt;Data = NULL;</p>
+<p>item-&gt;Length = 0;</p>
+<p>state-&gt;place = beforeEndOfContents;</p>
+<p>}</p>
+<p>if(state-&gt;contents_length == 1) {</p>
+<p>/* skip over (unused) remainder byte */</p>
+<p>return 1;</p>
+<p>}</p>
+<p>else {</p>
+<p>return 0;</p>
+<p>}</p>
+<p>}</p>
+<p>通过将 state-&gt;place 设置为 beforeEndOfContents，他们再次尝试短路状态机，跳过字符串内容被消耗后的状态。但在这里，他们采取了在 prepareForContents 中尝试实现完全相同目标时没有采取的额外步骤。除了更新 state-&gt;place 之外，他们还将 dest SecAsn1Item 的 Data 字段置为 NULL，并将 Length 设置为 0。</p>
+<p>我之前提到过，为递归解析构造字符串的子字符串而分配的新子状态会获得父状态 dest 字段的副本（这是一个指向输出缓冲区的指针的指针）。这是有道理的：输出缓冲区只分配一次，然后由子状态以线性方式递归填充。（从技术上讲，如果最外层的字符串是不定长度的，这实际上不是它的工作方式，对于这种情况有单独的处理，而是构建一个子字符串的链表，最终连接起来，参见 sec_asn1d_concat_substrings。）</p>
+<p>如果输出缓冲区只分配一次，那么如果你像他们在这里那样将 Data 设置为 NULL 会发生什么？退一步说，这到底有没有意义？</p>
+<p>不，我认为这没有任何意义。此时将 Data 设置为 NULL 至少会导致内存泄漏，因为这是指向输出缓冲区的唯一指针。</p>
+<p>但有趣的是，这并不是将该指针置为 NULL 的唯一后果。item-&gt;Data 用于表示其他东西。</p>
+<p>以下是 prepare_for_contents 中的一个片段，当它确定输出缓冲区中是否有足够空间用于此子字符串时：</p>
+<p>} else if (state-&gt;substring) {</p>
+<p>/*</p>
+<ul>
+<li><p>If we are a substring of a constructed string, then we may</p>
+</li>
+<li><p>not have to allocate anything (because our parent, the</p>
+</li>
+<li><p>actual constructed string, did it for us).  If we are a</p>
+</li>
+<li><p>substring and we <em>do</em> have to allocate, that means our</p>
+</li>
+<li><p>parent is an indefinite-length, so we allocate from our pool;</p>
+</li>
+<li><p>later our parent will copy our string into the aggregated</p>
+</li>
+<li><p>whole and free our pool allocation.</p>
+</li>
+</ul>
+<p>*/</p>
+<p>if (item-&gt;Data == NULL) {</p>
+<p>PORT_Assert (item-&gt;Length == 0);</p>
+<p>poolp = state-&gt;top-&gt;our_pool;</p>
+<p>} else {</p>
+<p>alloc_len = 0;</p>
+<p>}</p>
+<p>正如注释所暗示的，如果此时 item-&gt;Data 为 NULL 且 state-&gt;substring 为 true，那么（他们认为）一定 是这种情况：他们当前正在解析一个外层不定长字符串的子字符串，该字符串没有已分配的定长缓冲区。在这种情况下，item-&gt;Data 指针的含义与我们之前描述的不同：它只是一个临时缓冲区，仅用于保存此子字符串。就在这之前，alloc_len 被设置为此子字符串的内容长度；对于外层定长的情况，至关重要的是 alloc_len 然后在这里被设置为 0（这实际上表明缓冲区已经 分配，他们一定不能 分配新的缓冲区）。</p>
+<p>为了强调可能微妙的一点：问题是使用这个组合（state-&gt;substring &amp;&amp; !item-&gt;Data）来确定这是定长字符串的子字符串还是外层不定长字符串，与之前看到的复杂边界检查代码使用的方法不同。该方法向上遍历当前状态堆栈，并检查超字符串的 indefinite 位，以确定它们是否正在处理外层不定长字符串的子字符串。</p>
+<p>把所有这些放在一起，你可能会明白这是怎么回事……（但这仍然相当微妙。）</p>
+<p>假设我们有一个外层定长构造位串，包含三个原始位串作为子字符串：</p>
+<p><img src="/images/d5df340e41d2/7c7c3c582b4603a1964201438281b46d.png" alt="" loading="lazy"></p>
+<p>当遇到第一个最外层定长构造位串时，代码将分配一个固定大小的缓冲区，足够大以存储构成此字符串的所有剩余输入，在本例中为 42 字节。此时 dest-&gt;Data 指向该缓冲区。</p>
+<p>然后他们分配一个子状态，该子状态获得 dest 指针的副本（不是 dest SecAsn1Item 对象的副本；是指向它的指针的副本），并继续解析第一个子字符串。</p>
+<p>这是一个长度为 1 的原始位串，它触发了 sec_asn1d_parse_bit_string 中的易受攻击路径，并将 dest-&gt;Data 设置为 NULL。状态机跳转到 beforeEndOfContents，然后最终解析下一个子字符串——这次 dest-&gt;Data == NULL。</p>
+<p>现在逻辑以糟糕的方式出错，正如我们在上面的片段中看到的，一个新的 dest-&gt;Data 缓冲区被分配，其大小仅为此子字符串（2 字节），而实际上 dest-&gt;Data 应该已经指向一个足够大以容纳整个外层不定长输入字符串的缓冲区。然后解析此位串的内容并将其复制到该缓冲区中。</p>
+<p>现在我们来到第三个子字符串。dest-&gt;Data 不再为 NULL；但代码现在无法确定缓冲区实际上只（错误地）分配用于保存单个子字符串。它相信不变性：item-&gt;Data 只分配一次，当遇到第一个外层定长字符串时，并且它仅使用这一事实来确定 dest-&gt;Data 是否指向一个足够大的缓冲区以将此后子字符串附加到其中。然后它愉快地附加第三个子字符串，写入仅用于存储第二个子字符串的缓冲区边界之外。</p>
+<p>这为你提供了一个很好的内存损坏原语：你可以导致分配一个受控大小的缓冲区，然后用任意数量的任意字节溢出它。</p>
+<p>以下是触发此问题的 ASN.1 位串编码示例：</p>
+<p>uint8_t concat_bitstrings_constructed_definite_with_zero_len_realloc[]</p>
+<p>= {ASN1_CLASS_UNIVERSAL | ASN1_CONSTRUCTED | ASN1_BIT_STRING, // (0x23)</p>
+<p>0x4a, // initial allocation size</p>
+<p>ASN1_CLASS_UNIVERSAL | ASN1_PRIMITIVE | ASN1_BIT_STRING,</p>
+<p>0x1, // force item-&gt;Data = NULL</p>
+<p>0x0, // number of unused bits in the final byte</p>
+<p>ASN1_CLASS_UNIVERSAL | ASN1_PRIMITIVE | ASN1_BIT_STRING,</p>
+<p>0x2, // this is the reallocation size</p>
+<p>0x0, // number of unused bits in the final byte</p>
+<p>0xff, // only byte of bitstring</p>
+<p>ASN1_CLASS_UNIVERSAL | ASN1_PRIMITIVE | ASN1_BIT_STRING,</p>
+<p>0x41, // 64 actual bytes, plus the remainder, will cause 0x40 byte memcpy one byte in to 2 byte allocation</p>
+<p>0x0, // number of unused bits in the final byte</p>
+<p>0xff,</p>
+<p>0xff,// -- continues for overflow</p>
+<h2 id="为什么-fuzzing-没有发现这个漏洞-">为什么 fuzzing 没有发现这个漏洞？</h2><p>这是一个合理的问题。这段源代码真的很难审计，即使有 diff，也至少花了一周的工作才找出漏洞的真正根本原因。我不确定在代码审计期间我是否能发现这个问题。它非常有问题，但相当微妙，你必须了解很多关于状态机和边界检查规则才能看到它——我想我可能在弄清楚之前就放弃了，去找更容易的东西。</p>
+<p>但触发测试用例在结构上既不复杂也不大，感觉 fuzzer 可以触及。那么为什么没有发现呢？我提出两点供讨论：</p>
+<h3 id="也许它没有被-fuzzing-">也许它没有被 fuzzing？</h3><p>或者至少，它没有以出现在苹果 Security.framework 库中的确切形式被 fuzzing。我知道 Mozilla 和 Google 都对 NSS ASN.1 解析器进行了 fuzzing，并发现了一堆漏洞，但请注意，易受攻击代码的关键部分（sec_asn1d_parse_bit_string 中的&quot;|| (state-&gt;contents_length == 1&quot;）在上游 NSS 中不存在（更多内容见下文）。</p>
+<h3 id="它能被有效地-fuzzing-吗-">它能被有效地 fuzzing 吗？</h3><p>即使你构建了 Security.framework 版本的代码并使用覆盖率引导的 fuzzer，你可能也不会触发任何崩溃。该代码使用自定义堆分配器，你必须要么用系统分配器的直接调用替换它，要么使用 ASAN 的自定义分配器钩子。请注意，<a href="https://searchfox.org/mozilla-central/source/nsprpub/lib/ds/plarena.h#128">上游 NSS 确实这样做</a>，但据我所知，苹果的分支没有。</p>
+<h2 id="历史">历史</h2><p>我不仅对理解漏洞如何工作感兴趣，还对它是如何被引入的感兴趣。这个案例是一个特别引人注目的例子，因为一旦你理解了漏洞，代码结构最初看起来极其可疑。它只存在于苹果的 NSS 分支中，而该更改的唯一影响是引入了一个完美的内存损坏原语。但让我们回顾一下代码的历史，以说服自己这更可能只是一个不幸的事故：</p>
+<p>我能找到的这段代码的最早引用是<a href="https://github.com/jrmuizel/mozilla-cvs-history/blob/5dea64f5a5bc55978a9f4632a5f59679572c7985/security/nss/lib/util/secasn1d.c">这个，它似乎是 2000 年 3 月 31 日 Mozilla CVS 仓库中的初始提交</a>：</p>
+<p>static unsigned long</p>
+<p>sec_asn1d_parse_bit_string (sec_asn1d_state *state,</p>
+<p>const char *buf, unsigned long len)</p>
+<p>{</p>
+<p>unsigned char byte;</p>
+<p>PORT_Assert (state-&gt;pending &gt; 0);</p>
+<p>PORT_Assert (state-&gt;place == beforeBitString);</p>
+<p>if (len == 0) {</p>
+<p>state-&gt;top-&gt;status = needBytes;</p>
+<p>return 0;</p>
+<p>}</p>
+<p>byte = (unsigned char) *buf;</p>
+<p>if (byte &gt; 7) {</p>
+<p>PORT_SetError (SEC_ERROR_BAD_DER);</p>
+<p>state-&gt;top-&gt;status = decodeError;</p>
+<p>return 0;</p>
+<p>}</p>
+<p>state-&gt;bit_string_unused_bits = byte;</p>
+<p>state-&gt;place = duringBitString;</p>
+<p>state-&gt;pending -= 1;</p>
+<p>return 1;</p>
+<p>}</p>
+<p>2001 年 8 月 24 日，代码的形式更改为类似于当前版本，<a href="https://github.com/jrmuizel/mozilla-cvs-history/commit/4f4edc3a5054512a54fda651497d1dafe77f7656">在这个提交中</a><a href="https://github.com/jrmuizel/mozilla-cvs-history/commit/4f4edc3a5054512a54fda651497d1dafe77f7656">带有消息&quot;内存泄漏修复。&quot;</a>：</p>
+<p>static unsigned long</p>
+<p>sec_asn1d_parse_bit_string (sec_asn1d_state *state,</p>
+<p>const char *buf, unsigned long len)</p>
+<p>{</p>
+<p>unsigned char byte;</p>
+<ul>
+<li>PORT_Assert (state-&gt;pending &gt; 0);</li>
+</ul>
+<p>/*PORT_Assert (state-&gt;pending &gt; 0); */</p>
+<p>PORT_Assert (state-&gt;place == beforeBitString);</p>
+<ul>
+<li>if (state-&gt;pending == 0) {</li>
+<li><pre><code>  if (state-&gt;dest != NULL) {
+</code></pre>
+</li>
+<li><pre><code>      SECItem *item = (SECItem *)(state-&gt;dest);
+</code></pre>
+</li>
+<li><pre><code>      item-&gt;data = NULL;
+</code></pre>
+</li>
+<li><pre><code>      item-&gt;len = 0;
+</code></pre>
+</li>
+<li><pre><code>      state-&gt;place = beforeEndOfContents;
+</code></pre>
+</li>
+<li><pre><code>      return 0;
+</code></pre>
+</li>
+<li><pre><code>  }
+</code></pre>
+</li>
+<li>}</li>
+</ul>
+<p>if (len == 0) {</p>
+<p>state-&gt;top-&gt;status = needBytes;</p>
+<p>return 0;</p>
+<p>}</p>
+<p>byte = (unsigned char) *buf;</p>
+<p>if (byte &gt; 7) {</p>
+<p>PORT_SetError (SEC_ERROR_BAD_DER);</p>
+<p>state-&gt;top-&gt;status = decodeError;</p>
+<p>return 0;</p>
+<p>}</p>
+<p>state-&gt;bit_string_unused_bits = byte;</p>
+<p>state-&gt;place = duringBitString;</p>
+<p>state-&gt;pending -= 1;</p>
+<p>return 1;</p>
+<p>}</p>
+<p>这个提交添加了 item-&gt;data = NULL 行，但在这里它仅在 pending == 0 时可到达。我相当确信这是死代码，实际上无法到达（并且他们注释掉的 PORT_Assert 实际上是有效的）。</p>
+<p>beforeBitString 状态（导致调用 sec_asn1d_parse_bit_string 方法）将始终在 afterLength 状态（由 sec_asn1d_prepare_for_contents 实现）之前。在进入 afterLength 状态时，state-&gt;contents_length 等于解析的长度字段，而 sec_asn1d_prepare_for_contents 执行：</p>
+<p>state-&gt;pending = state-&gt;contents_length;</p>
+<p>因此，为了以 state-&gt;pending == 0 到达 sec_asn1d_parse_bit_string，state-&gt;contents_length 在 sec_asn1d_prepare_for_contents 中也必须为 0。</p>
+<p>这意味着在下面的 if/else 决策树中，至少有一个条件必须为真：</p>
+<p>if (state-&gt;contents_length == 0 &amp;&amp; (! state-&gt;indefinite)) {</p>
+<p>/*</p>
+<ul>
+<li>A zero-length simple or constructed string; we are done.</li>
+</ul>
+<p>*/</p>
+<p>state-&gt;place = afterEndOfContents;</p>
+<p>...</p>
+<p>} else if (state-&gt;indefinite) {</p>
+<p>/*</p>
+<ul>
+<li>An indefinite-length string <em>must</em> be constructed!</li>
+</ul>
+<p>*/</p>
+<p>dprintf(&quot;decodeError: prepare for contents indefinite not construncted\n&quot;);</p>
+<p>PORT_SetError (SEC_ERROR_BAD_DER);</p>
+<p>state-&gt;top-&gt;status = decodeError;</p>
+<p>但要求这两个条件都不为真，才能到达最终的 else，这是通过 beforeBitString 状态到达 sec_asn1d_parse_bit_string 的唯一路径：</p>
+<p>} else {</p>
+<p>/*</p>
+<ul>
+<li>A non-zero-length simple string.</li>
+</ul>
+<p>*/</p>
+<p>if (state-&gt;underlying_kind == SEC_ASN1_BIT_STRING)</p>
+<p>state-&gt;place = beforeBitString;</p>
+<p>else</p>
+<p>state-&gt;place = duringLeaf;</p>
+<p>}</p>
+<p>因此，在那个时候（2001 年 8 月 24 日），NSS 代码库有一些死代码，看起来它试图处理解析没有未使用比特字节的 ASN.1 位串。正如我们在这篇文章的其余部分所看到的，这种处理方式非常错误，但这无关紧要，因为代码无法到达。</p>
+<p>我能找到的苹果分支该 NSS 代码的最早引用是在 OS X 10.3（Panther）的 <a href="https://github.com/apple-oss-distributions/SecurityNssAsn1/tree/SecurityNssAsn1-11">SecurityNssAsn1-11</a> 包中，该版本于 2003 年 10 月 24 日发布。在该项目中，我们可以找到一个 CHANGES.apple 文件，它告诉我们<a href="https://github.com/apple-oss-distributions/SecurityNssAsn1/blob/SecurityNssAsn1-11/CHANGES.Apple">更多关于苹果分支起源的信息</a>：</p>
+<p>一般说明</p>
+<hr>
+<ol>
+<li><p>此模块 SecurityNssAsn1 基于 Mozilla 浏览器项目的 Netscape 安全服务（&quot;NSS&quot;）部分。SecurityNssAsn1 所基于的源代码是从 Mozilla CVS 仓库中提取的，截至 2003 年 1 月 21 日的最新版本。SecurityNssAsn1 项目仅包含 NSS 中用于执行 BER 编码和解码的部分，以及编码/解码例程所需的最小支持。</p>
+</li>
+<li><p>SecurityNssAsn1 的目录结构与 NSS 的目录结构有很大不同，使得简单的 diff 来记录更改变得笨拙。仍然可以逐个文件进行 diff。</p>
+</li>
+<li><p>所有苹果更改都通过符号 <strong>APPLE</strong> 标记，要么通过&quot;#ifdef <strong>APPLE</strong>&quot;，要么在注释中。</p>
+</li>
+</ol>
+<p>该文档继续概述了苹果对代码进行的一系列广泛更改，包括重新格式化代码和更改许多 API 以添加新功能。我们还了解到苹果分支代码的日期（2003 年 1 月 21 日），因此我们可以通过 mozilla CVS 仓库的 github 镜像找到<a href="https://github.com/jrmuizel/mozilla-cvs-history/blob/1f25ac6059384ad941cb20481acef0e6b4d46dbd/security/nss/lib/util/secasn1d.c">当时 secasn1d.c 的版本</a>并进行 diff。</p>
+<p>从那个 diff 中，我们可以看到苹果开发人员实际上在这个初始导入中进行了相当重大的更改，表明在导入之前，这段代码经过了一定程度的审查。例如：</p>
+<p>@@ -1584,7 +1692,15 @@</p>
+<p>/*</p>
+<ul>
+<li>If our child was just our end-of-contents octets, we are done.</li>
+</ul>
+<p>*/</p>
+<ul>
+<li><pre><code>  #ifdef  __APPLE__
+</code></pre>
+</li>
+<li><pre><code>  /*
+</code></pre>
+</li>
+<li><pre><code>    * Without the check for !child-&gt;indefinite, this path could
+</code></pre>
+</li>
+<li><pre><code>    * be taken erroneously if the child is indefinite!
+</code></pre>
+</li>
+<li><pre><code>    */
+</code></pre>
+</li>
+<li><pre><code>  if(child-&gt;
+</code></pre>
+</li>
+</ul>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/macOS安全.html" class="tag-link">#macOS安全</a> <a href="/tag/iOS安全.html" class="tag-link">#iOS安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/API安全.html" class="tag-link">#API安全</a> <a href="/tag/Fuzzing.html" class="tag-link">#Fuzzing</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#背景" class="toc-link">
+              <span class="toc-text">背景</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#asn-1-编码" class="toc-link">
+              <span class="toc-text">ASN.1 编码</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#asn-1-位串" class="toc-link">
+              <span class="toc-text">ASN.1 位串</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#解析-asn-1" class="toc-link">
+              <span class="toc-text">解析 ASN.1</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#nss-asn-1-状态机" class="toc-link">
+              <span class="toc-text">NSS ASN.1 状态机</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#缓冲区管理" class="toc-link">
+              <span class="toc-text">缓冲区管理</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#为什么-fuzzing-没有发现这个漏洞-" class="toc-link">
+              <span class="toc-text">为什么 fuzzing 没有发现这个漏洞？</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#也许它没有被-fuzzing-" class="toc-link">也许它没有被 fuzzing？</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#它能被有效地-fuzzing-吗-" class="toc-link">它能被有效地 fuzzing 吗？</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#历史" class="toc-link">
+              <span class="toc-text">历史</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

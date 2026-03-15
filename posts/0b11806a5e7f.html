@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gregor Samsa：利用Java的XML签名验证 - BasicBit</title>
+  <meta name="description" content="Gregor Samsa：利用Java的XML签名验证">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Gregor Samsa：利用Java的XML签名验证</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/11/2
+            </span>
+            <span class="meta-item">Felix Wilhelm</span>
+            <span class="meta-item">密码学, 网络安全, 漏洞分析</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/11/gregor-samsa-exploiting-java-xml.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F11%2Fgregor-samsa-exploiting-java-xml.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Felix Wilhelm，Project Zero</p>
+<p>今年早些时候，我在Java标准库深处发现了一个令人惊讶的攻击面：一个处理不受信任XSLT程序的自定义JIT编译器，在XML签名验证期间暴露给远程攻击者。本文讨论的是<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2290&q=reporter%3Ame&can=1">CVE-2022-34169</a>，这是该JIT编译器中的一个整数截断漏洞，导致许多基于Java的Web应用程序和支持SAML单点登录标准的身份提供商存在任意代码执行风险。</p>
+<p>OpenJDK已于<a href="https://openjdk.org/groups/vulnerability/advisories/2022-07-19">2022年7月</a>修复了该问题。漏洞代码来源Xalan-J使用的Apache BCEL项目也在<a href="https://github.com/apache/commons-bcel/commit/f3267cbcc900f80851d561bdd16b239d936947f5">2022年9月</a>发布了补丁。</p>
+<p>虽然本文讨论的漏洞已修复，但供应商和用户应预期SAML中还会存在更多漏洞。</p>
+<p>从安全研究人员的角度来看，这个漏洞是内存安全语言中整数截断问题的一个例子，其利用方式非常类似于内存损坏。虽然不如C或C++代码库中典型的内存安全问题常见，但内存安全语言中仍然存在&quot;怪异机器&quot;，即使我们进入光明的内存安全未来，这些问题仍将困扰我们。</p>
+<p>在深入探讨漏洞及其利用之前，我先简要概述XML签名和SAML。是什么让XML签名成为如此有趣的目标？我们为什么要关注它们？</p>
+<h2 id="引言">引言</h2><p>XML签名是21世纪初发明的安全协议的典型例子。它们存在高复杂性、大攻击面以及大量可配置功能等问题，这些功能可能以令人惊讶的方式削弱或破坏其安全保证。XML签名的现代使用主要局限于某些晦涩的协议和遗留应用程序，但有一个重要的例外：SAML。SAML（安全断言标记语言）是现代Web应用程序中使用的两个主要单点登录标准之一。虽然其替代方案——基于OAuth的OpenID Connect（OIDC）正日益流行，但SAML仍然是大型企业和复杂集成的实际标准。</p>
+<p>SAML依赖XML签名来保护通过浏览器转发的消息。这使得XML签名验证成为攻击现代多租户SaaS应用程序的一个非常有趣的外部攻击面。虽然理解本文不需要详细了解SAML，但感兴趣的读者可以查看Okta的<a href="https://developer.okta.com/docs/concepts/saml/">理解SAML</a>文章或<a href="https://en.wikipedia.org/wiki/SAML_2.0">SAML 2.0维基</a>条目以更好地理解该协议。</p>
+<p>SAML SSO登录通过在应用程序（称为服务提供商SP）和身份提供商（IdP）之间交换XML文档来工作。当用户尝试登录SP时，服务提供商会创建SAML请求。IdP查看SAML请求，尝试对用户进行身份验证，并将SAML响应发送回SP。成功的响应将包含有关用户的信息，应用程序随后可以使用这些信息授予对其资源的访问权限。</p>
+<p>在最广泛使用的SAML流程（称为SP重定向绑定/IdP POST响应）中，这些文档通过用户的浏览器使用HTTP重定向和POST请求转发。为了防止用户修改，SAML响应的安全关键部分（称为断言）必须由IdP进行加密签名。此外，IdP可能要求SP也对SAML请求进行签名，以防止冒充攻击。</p>
+<p>这意味着IdP和SP都必须解析和验证潜在恶意行为者传递给它们的XML签名。为什么这是个问题？让我们仔细看看XML签名的工作方式：</p>
+<h2 id="xml签名">XML签名</h2><p>大多数签名方案对原始字节流进行操作，并对网络传输的数据进行签名。相反，XML签名标准（称为XMLDsig）试图对签名XML文档的不重要更改具有鲁棒性。这意味着更改签名文档中的空格、行尾或注释不应使其签名失效。</p>
+<p>XML签名由一个特殊的Signature元素组成，示例如下：</p>
+<Signature>
+
+<SignedInfo>
+
+<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+
+<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+
+<Reference URI="#signed-data">
+
+<Transforms>
+
+<p>…</p>
+</Transforms>
+
+<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+
+<p><DigestValue>9bc34549d565d9505b287de0cd20ac77be1d3f2c</DigestValue></p>
+</Reference>
+
+</SignedInfo>
+
+<p><SignatureValue>....</SignatureValue></p>
+<p><KeyInfo><X509Certificate>....</X509Certificate></KeyInfo></p>
+</Signature>
+
+<ul>
+<li>SignedInfo子元素包含CanonicalizationMethod和SignatureMethod元素，以及一个或多个描述完整性保护数据的Reference元素。</li>
+<li>KeyInfo描述签名者密钥，可以包含原始公钥、X509证书或仅密钥ID。</li>
+<li>SignatureValue包含使用CanonicalizationMethod规范化后，使用SignatureMethod对SignedInfo元素进行的加密签名。</li>
+</ul>
+<p>此时，只有SignedInfo元素的完整性受到保护。要了解如何将此保护扩展到实际数据，我们需要查看Reference元素的工作方式：理论上，Reference URI属性可以指向外部文档（分离签名）、作为子元素嵌入的元素（封装签名）或外部文档中的任何元素（被封装签名）。实际上，大多数SAML实现使用被封装签名，Reference URI将指向当前文档树中某处的签名元素。</p>
+<p>在验证或签名期间处理Reference时，引用的内容会通过一系列Transforms传递。XMLDsig支持多种转换，从规范化、base64解码到XPath甚至XSLT。处理完所有转换后，生成的字节流将传递到DigestMethod元素指定的加密哈希函数中，结果存储在DigestValue中。</p>
+<p>这样，由于整个Reference元素是SignedInfo的一部分，其完整性保护也扩展到引用的元素。</p>
+<p>因此，验证XML签名可以分为两个独立的步骤：</p>
+<ul>
+<li>引用验证：遍历所有嵌入的引用，对于每个引用，获取引用的数据，通过Transforms链处理，并计算其哈希摘要。将计算的摘要与存储的DigestValue进行比较，如果不同则失败。</li>
+<li>签名验证：首先使用指定的CanonicalizationMethod算法规范化SignedInfo元素。使用SignatureMethod中指定的算法和KeyInfo中描述的签名者密钥计算SignedInfo的签名。将结果与SignatureValue进行比较，如果不同则失败。</li>
+</ul>
+<p>有趣的是，这两个步骤的顺序可能是特定于实现的。虽然XMLDsig RFC将引用验证列为第一步，但首先执行签名验证可能具有安全优势，我们将在后面看到。</p>
+<p>在SAML的上下文中，正确验证XML签名并确保我们关心的数据受到保护非常困难。这将是后续博客文章的主题，但此时我们想专注于引用验证步骤：</p>
+<p>作为此步骤的一部分，验证签名的应用程序必须在攻击者控制的输入上运行攻击者控制的转换。查看XMLDsig支持的转换列表，有一个看起来特别有趣：XSLT。</p>
+<p>XSLT（可扩展样式表语言转换）是一种功能丰富的基于XML的编程语言，设计用于转换XML文档。在XML签名中嵌入XSLT转换意味着验证器必须在引用的XML数据上运行XSLT程序。</p>
+<p>下面的代码片段展示了一个简单的XSLT转换示例。执行时，它会获取存储在<input>内的每个<data>元素，抓取其内容的第一个字符，并将其作为<output>的一部分返回。因此<input><data>abc</data><data>def</data></input>将被转换为<output><data>a</data><data>d</data></output></p>
+<Transform Algorithm="http://www.w3.org/TR/1999/REC-xslt-19991116">
+
+<p>&lt;xsl:stylesheet xmlns:xsl=&quot;<a href="http://www.w3.org/1999/XSL/Transform">http://www.w3.org/1999/XSL/Transform</a>&quot;</p>
+<p>xmlns=&quot;<a href="http://www.w3.org/TR/xhtml1/strict">http://www.w3.org/TR/xhtml1/strict</a>&quot; exclude-result-prefixes=&quot;foo&quot;</p>
+<p>version=&quot;1.0&quot;&gt;</p>
+<p>&lt;xsl:output encoding=&quot;UTF-8&quot; indent=&quot;no&quot; method=&quot;xml&quot; /&gt;</p>
+<p>&lt;xsl:template match=&quot;/input&quot;&gt;</p>
+<output>
+
+<p>&lt;xsl:for-each select=&quot;data&quot;&gt;</p>
+<p><data>&lt;xsl:value-of select=&quot;substring(.,1,1)&quot; /&gt;</data></p>
+<p></xsl:for-each></p>
+</output>
+
+<p></xsl:template></p>
+<p></xsl:stylesheet></p>
+</Transform>
+
+<p>将功能齐全的语言运行时暴露给外部攻击者似乎是个坏主意，那么让我们看看这个功能在Java的OpenJDK中是如何实现的。</p>
+<h2 id="java中的xslt">Java中的XSLT</h2><p>Java处理XML签名的主要接口是<a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.xml.crypto/javax/xml/crypto/dsig/XMLSignature.html">java.xml.crypto.XMLSignature</a>类及其sign和validate方法。我们主要对validate方法感兴趣，如下所示：</p>
+<p>// <a href="https://github.com/openjdk/jdk/blob/master/src/java.xml.crypto/share/classes/org/jcp/xml/dsig/internal/dom/DOMXMLSignature.java">https://github.com/openjdk/jdk/blob/master/src/java.xml.crypto/share/classes/org/jcp/xml/dsig/internal/dom/DOMXMLSignature.java</a></p>
+<p>@Override</p>
+<p>public boolean validate(XMLValidateContext vc)</p>
+<p>throws XMLSignatureException</p>
+<p>{</p>
+<p>[..]</p>
+<p>// 验证签名</p>
+<p>boolean sigValidity = sv.validate(vc); (A)</p>
+<p>if (!sigValidity) {</p>
+<p>validationStatus = false;</p>
+<p>validated = true;</p>
+<p>return validationStatus;</p>
+<p>}</p>
+<p>// 验证所有引用</p>
+<p>@SuppressWarnings(&quot;unchecked&quot;)</p>
+<p>List<Reference> refs = this.si.getReferences();</p>
+<p>boolean validateRefs = true;</p>
+<p>for (int i = 0, size = refs.size(); validateRefs &amp;&amp; i &lt; size; i++) {</p>
+<p>Reference ref = refs.get(i);</p>
+<p>boolean refValid = ref.validate(vc); (B)</p>
+<p>LOG.debug(&quot;Reference [{}] is valid: {}&quot;, ref.getURI(), refValid);</p>
+<p>validateRefs &amp;= refValid;</p>
+<p>}</p>
+<p>if (!validateRefs) {</p>
+<p>LOG.debug(&quot;无法验证引用&quot;);</p>
+<p>validationStatus = false;</p>
+<p>validated = true;</p>
+<p>return validationStatus;</p>
+<p>}</p>
+<p>[..]</p>
+<p>}</p>
+<p>正如我们所见，validate方法首先在(A)处验证SignedInfo元素的签名，然后在(B)处验证所有引用。这意味着针对XSLT运行时的攻击将需要SignedInfo元素的有效签名，我们稍后将讨论攻击者如何绕过此要求。</p>
+<p>(B)处对ref.validate()的调用最终会进入如下所示的DomReference.validate方法：</p>
+<p>public boolean validate(XMLValidateContext validateContext)</p>
+<p>throws XMLSignatureException</p>
+<p>{</p>
+<p>if (validateContext == null) {</p>
+<p>throw new NullPointerException(&quot;validateContext cannot be null&quot;);</p>
+<p>}</p>
+<p>if (validated) {</p>
+<p>return validationStatus;</p>
+<p>}</p>
+<p>Data data = dereference(validateContext); (D)</p>
+<p>calcDigestValue = transform(data, validateContext); (E)</p>
+<p>[..]</p>
+<p>validationStatus = Arrays.equals(digestValue, calcDigestValue); (F)</p>
+<p>validated = true;</p>
+<p>return validationStatus;</p>
+<p>}</p>
+<p>代码在(D)处获取引用的数据，在(E)处转换它，并在(F)处将结果的摘要与签名中存储的摘要进行比较。大部分复杂性隐藏在(E)处的transform调用背后，该调用遍历Reference中定义的所有Transform元素并执行它们。</p>
+<p>由于这是Java，在到达有趣的部分之前，我们必须经过许多间接层。如果你想跟随并单步执行代码，请查看下面的调用栈：</p>
+<p>at com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl.newTransformer(TemplatesImpl.java:584) at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl.newTransformer(TransformerFactoryImpl.java:818) at com.sun.org.apache.xml.internal.security.transforms.implementations.TransformXSLT.enginePerformTransform(TransformXSLT.java:130) at com.sun.org.apache.xml.internal.security.transforms.Transform.performTransform(Transform.java:316) at org.jcp.xml.dsig.internal.dom.ApacheTransform.transformIt(ApacheTransform.java:188) at org.jcp.xml.dsig.internal.dom.ApacheTransform.transform(ApacheTransform.java:124) at org.jcp.xml.dsig.internal.dom.DOMTransform.transform(DOMTransform.java:173) at org.jcp.xml.dsig.internal.dom.DOMReference.transform(DOMReference.java:457) at org.jcp.xml.dsig.internal.dom.DOMReference.validate(DOMReference.java:387) at org.jcp.xml.dsig.internal.dom.DOMXMLSignature.validate(DOMXMLSignature.java:281)</p>
+<p>如果我们指定XSLT转换且未启用org.jcp.xml.dsig.secureValidation属性（我们稍后会回到这一点），我们将最终进入文件src/java.xml/share/classes/com/sun/org/apache/xalan/internal/xsltc/trax/TransformerFactoryImpl.java，该文件是名为XSLTC的模块的一部分。</p>
+<p>XSLTC（XSLT编译器）最初是<a href="https://xalan.apache.org/">Apache Xalan</a>项目的一部分。OpenJDK分叉了基于Java的XSLT运行时Xalan-J，以提供XSLT支持作为Java标准库的一部分。虽然原始Apache项目有许多OpenJDK分叉不支持的功能，但大部分核心代码是相同的，CVE-2022-34169影响了两个代码库。</p>
+<p>XSLTC负责将XSLT样式表编译成Java类，以提高性能，与基于解释的方法相比。虽然这在大量数据上重复运行相同样式表时具有优势，但在XML签名验证的上下文中，这是一个有些令人惊讶的选择。从攻击者的角度思考，我们现在可以向功能齐全的JIT编译器提供任意输入。这真是一个意想不到的攻击面！</p>
+<h2 id="xsltc中的漏洞">XSLTC中的漏洞</h2><p>/**</p>
+<ul>
+<li><p>当格里高尔·萨姆沙从不安的睡梦中醒来时，他发现自己</p>
+</li>
+<li><p>在床上变成了一只巨大的昆虫。他仰卧着，那坚硬的</p>
+</li>
+<li><p>像铁甲一般的背贴着床，他稍稍抬了抬头，</p>
+</li>
+<li><p>看见自己那穹顶似的棕色肚子分成了好多块弧形的硬片，</p>
+</li>
+<li><p>被子几乎盖不住肚子尖，都快滑下来了。比起偌大的身躯来，</p>
+</li>
+<li><p>他那许多只腿真是细得可怜，都在他眼前无可奈何地舞动着。</p>
+</li>
+<li><p>&quot;我出了什么事啦？&quot;他想。这可不是梦……</p>
+</li>
+</ul>
+<p>*/</p>
+<p>protected final static String DEFAULT_TRANSLET_NAME = &quot;GregorSamsa&quot;;</p>
+<p><a href="https://github.com/openjdk/jdk/blob/98d54e8eb2c37f44f0ffddedfddacd4876f2a027/src/java.xml/share/classes/com/sun/org/apache/xalan/internal/xsltc/trax/TransformerFactoryImpl.java#L128">事实证明</a>，该代码库的作者是卡夫卡的粉丝。</p>
+<p>那么，这个编译过程是什么样的呢？XSLTC将XSLT样式表作为输入，并返回一个JIT编译的Java类（称为translet）作为输出。然后JVM加载这个类，构造它，XSLT运行时通过JIT编译的方法执行转换。</p>
+<p>Java类文件包含所有类方法的JVM字节码、一个描述所有使用常量的所谓常量池，以及其他重要的运行时细节，如其超类名称或访问标志。</p>
+<p>// <a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html">https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html</a></p>
+<p>ClassFile {</p>
+<p>u4             magic;</p>
+<p>u2             minor_version;</p>
+<p>u2             major_version;</p>
+<p>u2             constant_pool_count;</p>
+<p>cp_info        constant_pool[constant_pool_count-1]; // cp_info是可变大小的对象</p>
+<p>u2             access_flags;</p>
+<p>u2             this_class;</p>
+<p>u2             super_class;</p>
+<p>u2             interfaces_count;</p>
+<p>u2             interfaces[interfaces_count];</p>
+<p>u2             fields_count;</p>
+<p>field_info     fields[fields_count];</p>
+<p>u2             methods_count;</p>
+<p>method_info    methods[methods_count];</p>
+<p>u2             attributes_count;</p>
+<p>attribute_info attributes[attributes_count];</p>
+<p>}</p>
+<p>XSLTC依赖Apache字节码工程库（BCEL）动态创建Java类文件。作为编译过程的一部分，XSLT输入中的常量（如字符串或数字）被转换为Java常量，然后存储在常量池中。以下代码片段显示了如何编译XSLT整数表达式：适合字节或短整型的小整数使用bipush或sipush指令内联存储在字节码中。较大的整数使用cp.addInteger方法添加到常量池中：</p>
+<p>// org/apache/xalan/xsltc/compiler/IntExpr.java</p>
+<p>public void translate(ClassGenerator classGen, MethodGenerator methodGen) {</p>
+<p>ConstantPoolGen cpg = classGen.getConstantPool();</p>
+<p>InstructionList il = methodGen.getInstructionList();</p>
+<p>il.append(new PUSH(cpg, _value));</p>
+<p>}</p>
+<p>// org/apache/bcel/internal/generic/PUSH.java</p>
+<p>public PUSH(final ConstantPoolGen cp, final int value) {</p>
+<p>if ((value &gt;= -1) &amp;&amp; (value &lt;= 5)) {</p>
+<p>instruction = InstructionConst.getInstruction(Const.ICONST_0 + value);</p>
+<p>} else if (Instruction.isValidByte(value)) {</p>
+<p>instruction = new BIPUSH((byte) value);</p>
+<p>} else if (Instruction.isValidShort(value)) {</p>
+<p>instruction = new SIPUSH((short) value);</p>
+<p>} else {</p>
+<p>instruction = new LDC(cp.addInteger(value));</p>
+<p>}</p>
+<p>}</p>
+<p>这种方法的问题在于，XSLTC和BCEL都没有正确限制常量池的大小。由于描述常量池大小的constant_pool_count只有2字节长，其最大大小限制为2**16 - 1或65535个条目。实际上，甚至更少的条目是可能的，因为某些常量类型占用两个条目。然而，BCEL的内部常量池表示使用标准Java数组存储常量，并且不对其长度强制执行任何限制。</p>
+<p>当XSLTC处理包含更多常量的样式表，并且在编译过程结束时将BCEL的内部类表示序列化为类文件时，数组长度被截断为短整型，但完整的数组被写出：</p>
+<p>这意味着constant_pool_count现在将包含一个较小的值，并且攻击者控制的常量池部分将被解释为常量池之后的类字段，包括方法和属性定义。</p>
+<h2 id="利用常量池溢出">利用常量池溢出</h2><p>要理解我们如何利用这一点，我们首先需要仔细查看常量池的内容。池中的每个条目都以一个1字节的标签开始，描述常量的类型，后跟实际数据。下表显示了JVM支持的不完整常量类型列表（完整列表请参阅<a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4:~:text=Table%C2%A04.4%2DB.%C2%A0Constant%20pool%20tags%20(by%20tag">官方文档</a>）。不需要全部阅读，但在遍历利用过程时，我们会经常回到这个表格。</p>
+<table>
+<thead>
+<tr>
+<th>常量类型</th>
+<th>标签</th>
+<th>描述</th>
+<th>布局</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.7">CONSTANT_Utf8</a></td>
+<td>1</td>
+<td>可变大小的UTF-8字符串值</td>
+<td>CONSTANT_Utf8_info {<br>u1 tag;<br>u2 length;<br>u1 bytes[length];<br>}</td>
+</tr>
+<tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.4">CONSTANT_Integer</a></td>
+<td>3</td>
+<td>4字节整数</td>
+<td>CONSTANT_Integer_info {<br>u1 tag;<br>u4 bytes;<br>}</td>
+</tr>
+<tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.4">CONSTANT_Float</a></td>
+<td>4</td>
+<td>4字节浮点数</td>
+<td>CONSTANT_Float_info {<br>u1 tag;<br>u4 bytes;<br>}</td>
+</tr>
+<tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.1">CONSTANT_Long</a></td>
+<td>5</td>
+<td>8字节长整型</td>
+<td>CONSTANT_Long_info {<br>u1 tag;<br>u4 high_bytes;<br>u4 low_bytes;<br>}</td>
+</tr>
+<tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.1">CONSTANT_Double</a></td>
+<td>6</td>
+<td>8字节双精度浮点数</td>
+<td>CONSTANT_Double_info {<br>u1 tag;<br>u4 high_bytes;<br>u4 low_bytes;<br>}</td>
+</tr>
+<tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.1">CONSTANT_Class</a></td>
+<td>7</td>
+<td>对类的引用。链接到描述名称的Utf8常量。</td>
+<td>CONSTANT_Class_info {<br>u1 tag;<br>u2 name_index;<br>}</td>
+</tr>
+<tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.3">CONSTANT_String</a></td>
+<td>8</td>
+<td>JVM&quot;字符串&quot;。链接到UTF8常量。</td>
+<td>CONSTANT_String_info {<br>u1 tag;<br>u2 string_index;<br>}</td>
+</tr>
+<tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.2">CONSTANT_Fieldref</a><br><a href="http://constant_methodref">CONSTANT_Methodref</a><br><a href="http://constant_methodref">CONSTANT_InterfaceMethodref</a></td>
+<td>9<br>10<br>11</td>
+<td>对类字段或方法的引用。链接到类常量</td>
+<td>CONSTANT_Fieldref_info {<br>u1 tag;<br>u2 class_index;<br>u2 name_and_type_index;<br>}<br>CONSTANT_Methodref_info {<br>u1 tag;<br>u2 class_index;<br>u2 name_and_type_index;<br>}<br>CONSTANT_InterfaceMethodref_info {<br>u1 tag;<br>u2 class_index;<br>u2 name_and_type_index;<br>}</td>
+</tr>
+<tr>
+<td><a href="http://constant_nameandtype_info">CONSTANT_NameAndType</a></td>
+<td>12</td>
+<td>描述字段或方法。</td>
+<td>CONSTANT_NameAndType_info {<br>u1 tag;<br>u2 name_index;<br>u2 descriptor_index;<br>}</td>
+</tr>
+<tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.8">CONSTANT_MethodHandle</a></td>
+<td>15</td>
+<td>描述方法句柄。</td>
+<td>CONSTANT_MethodHandle_info {<br>u1 tag;<br>u1 reference_kind;<br>u2 reference_index;<br>}</td>
+</tr>
+<tr>
+<td><a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.9">CONSTANT_MethodType</a></td>
+<td>16</td>
+<td>描述方法类型。指向包含方法描述符的UTF8常量。</td>
+<td>CONSTANT_MethodType_info {<br>u1 tag;<br>u2 descriptor_index;<br>}</td>
+</tr>
+</tbody></table>
+<p>利用CVE-2022-34169的完美常量类型应该是动态大小的，包含完全由攻击者控制的内容。不幸的是，这样的类型并不存在。虽然CONSTANT_Utf8是动态大小的，但其内容不是原始字符串表示，而是JVM称为&quot;修改后的UTF-8&quot;的编码格式。这种编码对存储的数据引入了一些重要限制，并排除了空字节，使其在破坏类字段方面大多无用。</p>
+<p>我们能得到的次优选择是具有完全内容控制的固定大小常量类型。CONSTANT_Long似乎是一个明显的候选者，但XSLTC在编译过程中从不创建攻击者控制的长整型常量。相反，我们可以使用大浮点数创建具有（几乎）完全控制内容的CONSTANT_Double条目。这为我们提供了一个很好的原语，可以用类似0x06 0xXX 0xXX 0xXX 0xXX 0xXX 0xXX 0xXX 0xXX 0x06 0xYY 0xYY 0xYY 0xYY 0xYY 0xYY 0xYY 0xYY 0x06 0xZZ 0xZZ 0xZZ 0xZZ 0xZZ 0xZZ 0xZZ 0xZZ的字节模式破坏常量池后面的类字段。</p>
+<p>不幸的是，仅凭这个原语不足以制作有用的类文件，因为常量池之后的字段有要求：</p>
+<p>cp_info        constant_pool[constant_pool_count-1];</p>
+<p>u2             access_flags;</p>
+<p>u2             this_class;</p>
+<p>u2             super_class;</p>
+<p>access_flags是一个大端掩码，描述类的访问权限和属性<a href="https://docs.oracle.com/javase/specs/jvms/se18/html/jvms-4.html#jvms-4.4.7:~:text=Table%C2%A04.1%2DB.%C2%A0Class%20access%20and%20property%20modifiers">标志</a>。</p>
+<p>虽然JVM乐于忽略未知的标志值，但我们需要避免设置像ACC_INTERFACE（0x0200）或ACC_ABSTRACT（0x0400）这样导致类不可用的标志。这意味着我们不能使用CONSTANT_Double条目作为第一个越界常量，因为其标签字节0x06将被解释为这些标志。</p>
+<p>this_class是常量池的索引，必须指向描述此文件定义的类的CONSTANT_Class条目。幸运的是，JVM和XSLTC都不太关心我们假装是哪个类，因此该值可以指向XSLTC最终生成的几乎任何CONSTANT_Class条目。（唯一的限制是它不能是像java.lang这样的受保护命名空间的一部分。）</p>
+<p>super_class是常量池中另一个CONSTANT_Class条目的索引。虽然JVM对任何类都满意，但XSLTC期望这是对org.apache.xalan.xsltc.runtime.AbstractTranslet类的引用，否则类文件的加载和初始化将失败。</p>
+<p>经过大量试验和错误，我最终采用以下方法来满足这些要求：</p>
+<p>CONST_STRING          CONST_DOUBLE</p>
+<p>0x08 0x07 0x02  0x06 0xXX 0xXX 0x00 0x00 0x00 0x00 0xZZ 0xZZ</p>
+<p>access_flags  this_class   super_class  ints_count  fields_count methods_count</p>
+<ol>
+<li>我们制作一个XSLT输入，导致池中有0x10703个常量。这将导致截断的池大小为0x703，索引0x703处的常量开始（由于基于0的索引）将被解释为access_flags。</li>
+<li>在池有0x702个常量时，我们在编译输入期间触发添加新字符串常量。这将首先在索引0x702处创建CONSTANT_Utf8条目，在索引0x703处创建CONSTANT_String条目。String条目将引用前面的Utf8常量，因此其值将是标签字节0x08后跟索引0x07 0x02。这导致可用的access_flags值为0x0807。</li>
+<li>在索引0x704处添加CONSTANT_Double条目。其0x06标签字节将被解释为this_class字段的一部分。接下来的2个字节可用于控制super_class字段的值。通过将接下来的4个字节设置为0x00，我们创建空的接口和字段数组，然后将最后两个字节设置为我们想要定义的方法数量。</li>
+</ol>
+<p>唯一剩下的要求是，我们需要在常量池的索引0x206处添加一个CONSTANT_Class条目，这相对简单。</p>
+<p>下面的片段显示了将覆盖第一个头字段的生成XSLT输入的一部分。在用大量字符串常量填充常量池以获取属性和值之后，jEb元素的CONST_STRING条目最终位于索引0x703。然后对ceiling函数的XSLT函数调用触发在索引0x704处添加受控的CONST_DOUBLE条目：</p>
+<p>&lt;jse jsf=&#39;jsg&#39; … jDL=&#39;jDM&#39; jDN=&#39;jDO&#39; jDP=&#39;jDQ&#39; jDR=&#39;jDS&#39; jDT=&#39;jDU&#39; jDV=&#39;jDW&#39; jDX=&#39;jDY&#39; jDZ=&#39;jEa&#39; /&gt;<jEb /></p>
+<p>&lt;xsl:value-of select=&#39;ceiling(0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008344026969402015)&#39;/&gt;</p>
+<p>我们构造了初始头字段，现在进入了类文件定义的有趣部分：方法表。这是定义类所有方法及其字节码的地方。在XSLTC生成Java类后，XSLT运行时将加载该类并实例化对象，因此实现任意代码执行的最简单方法是创建恶意构造函数。让我们看看方法表，了解如何定义可工作的构造函数：</p>
+<p>ClassFile {</p>
+<p>[...]</p>
+<p>u2             methods_count;</p>
+<p>method_info    methods[methods_count];</p>
+<p>[...]</p>
+<p>}</p>
+<p>method_info {</p>
+<p>u2             access_flags;</p>
+<p>u2             name_index;</p>
+<p>u2             descriptor_index;</p>
+<p>u2             attributes_count;</p>
+<p>attribute_info attributes[attributes_count];</p>
+<p>}</p>
+<p>attribute_info {</p>
+<p>u2 attribute_name_index;</p>
+<p>u4 attribute_length;</p>
+<p>u1 info[attribute_length];</p>
+<p>}</p>
+<p>Code_attribute {</p>
+<p>u2 attribute_name_index;</p>
+<p>u4 attribute_length;</p>
+<p>u2 max_stack;</p>
+<p>u2 max_locals;</p>
+<p>u4 code_length;</p>
+<p>u1 code[code_length];</p>
+<p>u2 exception_table_length;</p>
+<p>{   u2 start_pc;</p>
+<p>u2 end_pc;</p>
+<p>u2 handler_pc;</p>
+<p>u2 catch_type;</p>
+<p>} exception_table[exception_table_length];</p>
+<p>u2 attributes_count;</p>
+<p>attribute_info attributes[attributes_count];</p>
+<p>}</p>
+<p>方法表是method_info结构体的动态大小数组。每个结构体描述方法的access_flags、指向其名称的常量表索引（作为utf8常量），以及另一个指向方法描述符的索引（另一个CONSTANT_Utf8）。</p>
+<p>后面是属性表，这是一个从存储在常量表中的Utf8键到内联存储的动态大小值的动态大小映射。幸运的是，我们需要提供的唯一属性是Code属性，它包含方法的实际字节码。</p>
+<p>回到我们的有效载荷，我们可以看到方法表的开始与常量池表中下一个条目的标签字节对齐。这意味着CONSTANT_Double的0x06标签将破坏第一个方法的access_flag字段，使其对我们不可用。相反，我们必须创建两个方法：第一个作为基本填充物以获得正确的对齐，第二个作为实际的构造函数。幸运的是，JVM忽略未知属性，因此我们可以使用动态大小的属性值。下图显示了我们如何使用一系列CONST_DOUBLE条目创建具有几乎完全控制体的构造函数方法。</p>
+<p>CONST_DOUBLE: 0x06 0x01 0xXX 0xXX 0xYY 0xYY 0x00 0x01 0xZZ</p>
+<p>CONST_DOUBLE: 0x06 0x00 0x00 0x00 0x05 0x00 0x00 0x00 0x00</p>
+<p>CONST_DOUBLE: 0x06 0x00 0x01 0xCC 0xCC 0xDD 0xDD 0x00 0x03</p>
+<p>CONST_DOUBLE: 0x06 0x00 0x00 0x00 0x00 0x04 0x00 0x00 0x00</p>
+<p>CONST_DOUBLE: 0x06 0xCC 0xDD 0xZZ 0xZZ 0xZZ 0xZZ 0xAA 0xAA</p>
+<p>CONST_DOUBLE: 0x06 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA</p>
+<p>CONST_DOUBLE: 0x06 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA</p>
+<p>CONST_DOUBLE: 0x06 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA</p>
+<p>CONST_DOUBLE: 0x06 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA</p>
+<p>第一个方法头</p>
+<p>access_flags 0x0601</p>
+<p>name_index  0xXXXX</p>
+<p>desc_index 0xYYYY</p>
+<p>attr_count 0x0001</p>
+<p>属性 [0]</p>
+<p>name_index 0xZZ06</p>
+<p>length 0x00000005</p>
+<p>data   “\x00\x00\x00\x00\x06”</p>
+<p>第二个方法头</p>
+<p>access_flags 0x0001</p>
+<p>name_index  0xCCCC -&gt; <init></p>
+<p>desc_index 0xDDDD  -&gt; ()V</p>
+<p>attr_count 0x0003</p>
+<p>属性 [0]</p>
+<p>name_index 0x0600</p>
+<p>length 0x00000004</p>
+<p>data   “\x00\x00\x00\x06</p>
+<p>属性 [1]</p>
+<p>name_index 0xCCDD -&gt; Code</p>
+<p>length 0xZZZZZZZZ</p>
+<p>data  有效载荷</p>
+<p>属性 [2] ...</p>
+<p>我们仍然需要绕过一个限制：JVM字节码不能独立工作，而是引用和依赖常量池中的条目。实例化类或调用方法需要池中有相应的常量条目。这是一个问题，因为我们的漏洞不允许我们创建假的常量池条目，因此我们仅限于XSLTC在编译期间添加的常量。</p>
+<p>幸运的是，有一种方法可以向常量池添加任意类和方法引用：Java的XSLT运行时支持调用任意Java方法。由于这显然不安全，此功能受运行时设置保护，并且在签名验证期间始终禁用。</p>
+<p>然而，XSLTC在处理样式表时仍将处理和编译这些函数调用，并且调用仅在运行时被阻止（请参阅<a href="https://github.com/openjdk/jdk/blob/aff5ff14b208b3c2be93d7b4fab8b07c5be12f3e/src/java.xml/share/classes/com/sun/org/apache/xalan/internal/xsltc/compiler/FunctionCall.java#L787">FunctionCall.java</a>中的相应代码）。这意味着我们可以通过添加如下所示的XSLT元素来获取对所有所需方法和类的引用：</p>
+<p>&lt;xsl:value-of select=&quot;rt:exec(rt:getRuntime(),&#39;...&#39;)&quot; xmlns:rt=&quot;java.lang.Runtime&quot;/&gt;</p>
+<p>在我们获得可工作的类文件之前，还需要绕过两个最终检查：</p>
+<ul>
+<li>JVM强制要求子类的每个构造函数在返回之前调用超类构造函数。可以通过在我们的构造函数中从不返回来绕过此检查，要么在末尾添加无限循环，要么抛出异常，这是我在漏洞概念验证中使用的方法。一个稍微更复杂但更干净的方法是向对象池添加对AbstractTranslet构造函数的引用并调用它。这是thanat0s在其<a href="https://noahblog-360-cn.translate.goog/xalan-j-integer-truncation-reproduce-cve-2022-34169/?_x_tr_sch=http&_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=de&_x_tr_pto=wapp">漏洞分析文章</a>中使用的方法。</li>
+<li>最后，我们需要跳过XSLTC输出的其余部分。这可以通过在类属性表中构造一个具有正确大小的单个大属性来完成。</li>
+</ul>
+<p>一旦我们将所有这些链接在一起，我们最终会得到一个签名的XML文档，可以在签名验证期间触发任意JVM字节码的执行。我跳过了一些此漏洞利用的实现细节，因此如果你想重现此漏洞，请查看带有大量注释的<a href="https://bugs.chromium.org/p/project-zero/issues/attachmentText?aid=553654">概念验证</a>脚本。</p>
+<h2 id="影响和限制">影响和限制</h2><p>理论上，每个处理XML签名的未修补Java应用程序都容易受到此漏洞利用的攻击。但是，有两个重要的限制：</p>
+<p>由于引用仅在SignedInfo元素的签名验证后才被处理，因此应用程序可以根据其使用<a href="https://docs.oracle.com/en/java/javase/18/security/java-xml-digital-signature-api-overview-and-tutorial.html#GUID-26946ED1-1BBE-4AFD-B1CA-5A6A46FD7354:~:text=validity%20status%3A%20%22%20%2B%20refValid">KeySelector</a>%3B%0A%20%20%20%20%7D-,Using%20KeySelectors,-KeySelectors%20are)类的方式受到保护。在其KeySelector中使用受信任密钥白名单的应用程序将受到保护，只要这些密钥未被泄露。例如，配置了单个受信任IdP密钥的单租户SAML SP。实际上，许多此类应用程序仍然容易受到攻击，因为它们不直接使用KeySelector，而是在自己的应用程序逻辑中在不受限制的签名验证后强制执行此限制。此时漏洞已经被触发。支持客户提供的身份提供商的多租户SAML应用程序（如大多数现代云SaaS所做的那样）也不受此限制的保护。</p>
+<p>SAML身份提供商只有在支持（并验证）签名的SAML请求时才会受到攻击。</p>
+<p>即使没有CVE-2022-34169，在签名验证期间处理XSLT也很容易被滥用于DoS攻击。因此，可以启用属性org.jcp.xml.dsig.secureValidation以禁止XML签名中的XSLT转换。有趣的是，对于所有JDK版本&lt;17，如果应用程序未在Java安全管理器下运行，则此属性默认为false。由于安全管理器很少用于服务器端应用程序，并且JDK 17仅在一年前发布，我们预计许多应用程序不受此保护。对大型基于Java的SSO提供商的有限测试证实了这一假设。缺乏广泛使用的另一个原因可能是org.jcp.xml.dsig.secureValidation在较新的JDK版本中也禁用了SHA1算法的使用。由于SHA1仍被企业客户广泛使用，在不手动配置合适的jdk.xml.dsig.secureValidationPolicy的情况下简单地启用该属性可能不可行。</p>
+<h2 id="结论">结论</h2><p>XML签名（尤其是SAML）为外部攻击者提供了巨大而复杂的攻击面。尽管Java提供了可用于解决此漏洞的配置选项，但它们很复杂，可能会破坏实际用例，并且默认情况下是关闭的。</p>
+<p>依赖SAML的开发人员应确保他们了解与之相关的风险，并应通过禁用其用例不需要的功能来尽可能减少攻击面。额外的深度防御方法，如早期验证签名密钥、基于白名单的有效转换链方法以及对SAML票证的严格模式验证，可用于进一步加固。</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/漏洞分析.html" class="tag-link">#漏洞分析</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Web安全.html" class="tag-link">#Web安全</a> <a href="/tag/Java安全.html" class="tag-link">#Java安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/API安全.html" class="tag-link">#API安全</a> <a href="/tag/虚拟化安全.html" class="tag-link">#虚拟化安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#引言" class="toc-link">
+              <span class="toc-text">引言</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#xml签名" class="toc-link">
+              <span class="toc-text">XML签名</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#java中的xslt" class="toc-link">
+              <span class="toc-text">Java中的XSLT</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#xsltc中的漏洞" class="toc-link">
+              <span class="toc-text">XSLTC中的漏洞</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#利用常量池溢出" class="toc-link">
+              <span class="toc-text">利用常量池溢出</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#影响和限制" class="toc-link">
+              <span class="toc-text">影响和限制</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0">
+            <a href="#结论" class="toc-link">
+              <span class="toc-text">结论</span>
+              
+            </a>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2025年10月安全更新回顾 - BasicBit</title>
+  <meta name="description" content="2025年10月安全更新回顾">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-no-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">2025年10月安全更新回顾</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2026/3/15
+            </span>
+            
+            <span class="meta-item">云安全, 浏览器安全, 漏洞分析</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://www.zerodayinitiative.com/blog/2025/10/14/the-october-2025-security-update-review" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fwww.zerodayinitiative.com%2Fblog%2F2025%2F10%2F14%2Fthe-october-2025-security-update-review" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>我目前正在爱尔兰科克为Pwn2Own爱尔兰赛做准备，但这并不能阻止补丁星期二的到来。暂时放下你手头安排好的活动，让我们来看看Adobe和微软最新的安全更新。如果你想观看涵盖整个发布内容的完整视频回顾，可以点击这里查看：</p>
+<p><strong>Adobe 2025年10月补丁</strong></p>
+<p>10月份，Adobe发布了12份安全公告，修复了Adobe Connect、Commerce、Creative Cloud Desktop、Bridge、Animate、Experience Manager Screens、Substance 3D Viewer、Substance 3D Modeler、FrameMaker、Illustrator、Dimension和Substance 3D Stager中的36个独立CVE。其中最重要的可能是<a href="https://helpx.adobe.com/security/products/substance3d_stager/apsb25-104.html">Substance 3D Stager</a>的更新，它修复了五个被评为严重级别的代码执行漏洞。<a href="https://helpx.adobe.com/security/products/dimension/apsb25-103.html">Dimension</a>的修复纠正了四个代码执行漏洞。<a href="https://helpx.adobe.com/security/products/illustrator/apsb25-102.html">Illustrator</a>的补丁只包含两个漏洞，但两者都会导致代码执行。<a href="https://helpx.adobe.com/security/products/magento/apsb25-94.html">Commerce</a>的更新也应优先处理，因为它修复了五个不同的CVE，包括两个安全功能绕过漏洞。<a href="https://helpx.adobe.com/security/products/framemaker/apsb25-101.html">FrameMaker</a>的补丁修复了两个严重级别的代码执行漏洞。</p>
+<p><a href="https://helpx.adobe.com/security/products/connect/apsb25-70.html">Connect</a>的更新有三个漏洞，但其中两个只是跨站脚本（XSS）问题。<a href="https://helpx.adobe.com/security/products/animate/apsb25-97.html">Animate</a>的修复有四个漏洞，但只有两个是严重级别。<a href="https://helpx.adobe.com/security/products/substance3d-viewer/apsb25-99.html">Substance 3D Viewer</a>中的四个漏洞有三个被评为严重级别。<a href="https://helpx.adobe.com/security/products/aem-screens/apsb25-98.html">Experience Manager Screens</a>的补丁修复了三个XSS漏洞。<a href="https://helpx.adobe.com/security/products/substance3d-modeler/apsb25-100.html">Substance 3D Modeler</a>补丁修复了一个代码执行漏洞。<a href="https://helpx.adobe.com/security/products/creative-cloud/apsb25-95.html">Creative Cloud</a>补丁也只解决了一个漏洞。最后，<a href="https://helpx.adobe.com/security/products/bridge/apsb25-96.html">Bridge</a>的更新修复了一个代码执行漏洞和一个内存泄漏漏洞。</p>
+<p>Adobe本月修复的所有漏洞在发布时均未被列为公开已知或正遭受主动攻击。Adobe本月发布的所有更新均被列为部署优先级3。</p>
+<p><strong>Microsoft 2025年10月补丁</strong></p>
+<p>本月，微软在Windows和Windows组件、Office和Office组件、Microsoft Edge（基于Chromium）、Azure、Hyper-V、.NET和Visual Studio、Github、Exchange Server、BitLocker以及Xbox中发布了多达177个新CVE。在今天发布的补丁中，16个被评为严重级别，1个被评为中等，其余在严重性上被评为重要级别。其中一个CVE来自Trend ZDI项目。算上发布中列出的第三方更新，CVE总数达到了惊人的195个。</p>
+<p>此次发布代表了微软有史以来最大的月度发布，使其CVE数量超过去年。2025年还剩两个月，这至少将是微软安全补丁第二繁忙的年份，甚至有可能超过2020年（总计1250个CVE）。本月巨大的补丁量可能与Windows 10支持结束有关。微软可能正在为那些仍在运行该操作系统的用户尽可能多地推送补丁。否则，大规模发布似乎已成为微软的新常态。希望这些是高质量的更新，不会对其他软件造成损害或倒退。我们最不需要的就是（更多）人害怕应用安全补丁。</p>
+<p>微软列出了发布时正遭受主动攻击的三个漏洞，以及另外三个公开已知的漏洞。让我们更仔细地看看本月一些更有趣的更新，从正遭受主动攻击的漏洞开始：</p>
+<ul>
+<li><p><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-24990"><strong>CVE-2025-24990</strong></a>** - Windows Agere调制解调器驱动程序权限提升漏洞**<br>此漏洞允许攻击者在安装了Agere调制解调器驱动程序的系统上提升至管理员权限。问题在于这些驱动程序原生搭载在受支持的Windows版本上。由于这些是遗留驱动程序，解决方案是删除有问题的文件。微软没有说明这些攻击的广泛程度，但考虑到易受攻击的文件存在于所有Windows系统上，你应该将其视为广泛的攻击并快速更新。</p>
+</li>
+<li><p><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59230"><strong>CVE-2025-59230</strong></a>** - Windows远程访问连接管理器权限提升漏洞**<br>此权限提升漏洞允许威胁行为者在受影响的系统上以SYSTEM权限执行其代码。这类漏洞通常与代码执行漏洞配对，以完全接管系统。同样，没有迹象表明这些攻击可能有多广泛，因此请快速测试和部署这些补丁——尤其是因为所有版本的Windows都受到影响。</p>
+</li>
+<li><p><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-47827"><strong>CVE-2025-47827</strong></a>** - MITRE CVE-2025-47827：IGEL OS 11之前版本中的安全启动绕过漏洞**<br>这个有点奇怪，但我对它很着迷。IGEL是一个基于Linux的操作系统，设计为以应用程序为中心且模块化。根据供应商的说法，应用程序可以独立于底层操作系统交付。如果有什么不同的话，这使它更加有趣。不知何故，攻击者能够物理访问此配置下的设备，并绕过安全启动功能以获取访问权限。太神奇了。我怀疑这是一次极具针对性的攻击，但这影响了所有受支持的Windows版本，所以不要忽视这个补丁。</p>
+</li>
+<li><p><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59287"><strong>CVE-2025-59287</strong></a>** - Windows Server Update Service (WSUS) 远程代码执行漏洞**<br>此漏洞未被列为正遭受主动攻击，但我怀疑它很快会成为目标。这是一个CVSS 9.8的漏洞，允许远程、未经身份验证的攻击者无需用户交互即可利用代码并提升权限。这意味着它可以在受影响的WSUS服务器之间蠕虫式传播。由于WSUS仍然是任何基础设施的关键部分，对于那些意图造成损害的人来说，它是一个有吸引力的目标。如果你使用WSUS，请毫不犹豫地快速测试和部署此更新。</p>
+</li>
+</ul>
+<p>以下是微软2025年10月发布的CVE完整列表：</p>
+<table>
+<thead>
+<tr>
+<th>CVE</th>
+<th>标题</th>
+<th>严重性</th>
+<th>CVSS</th>
+<th>公开</th>
+<th>被利用</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-47827">CVE-2025-47827 *</a></td>
+<td>MITRE CVE-2025-47827：IGEL OS 11之前版本中的安全启动绕过漏洞</td>
+<td>重要</td>
+<td>4.6</td>
+<td>否</td>
+<td>是</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-24990">CVE-2025-24990</a></td>
+<td>Windows Agere调制解调器驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>是</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59230">CVE-2025-59230</a></td>
+<td>Windows远程访问连接管理器权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>是</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-0033">CVE-2025-0033 *</a></td>
+<td>AMD CVE-2025-0033：SNP初始化期间的RMP损坏</td>
+<td>严重</td>
+<td>8.2</td>
+<td>是</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-2884">CVE-2025-2884 *</a></td>
+<td>Cert CC：CVE-2025-2884 TCG TPM2.0参考实现中的越界读取漏洞</td>
+<td>重要</td>
+<td>5.3</td>
+<td>是</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-24052">CVE-2025-24052</a></td>
+<td>Windows Agere调制解调器驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>是</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59292">CVE-2025-59292</a></td>
+<td>Azure计算库权限提升漏洞</td>
+<td>严重</td>
+<td>8.2</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59218">CVE-2025-59218</a></td>
+<td>Azure Entra ID权限提升漏洞</td>
+<td>严重</td>
+<td>9.6</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59246">CVE-2025-59246</a></td>
+<td>Azure Entra ID权限提升漏洞</td>
+<td>严重</td>
+<td>9.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55321">CVE-2025-55321</a></td>
+<td>Azure Monitor Log Analytics欺骗漏洞</td>
+<td>严重</td>
+<td>8.7</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59247">CVE-2025-59247</a></td>
+<td>Azure PlayFab权限提升漏洞</td>
+<td>严重</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59291">CVE-2025-59291</a></td>
+<td>机密Azure容器实例权限提升漏洞</td>
+<td>严重</td>
+<td>8.2</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59272">CVE-2025-59272</a></td>
+<td>Copilot欺骗漏洞</td>
+<td>严重</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59286">CVE-2025-59286</a></td>
+<td>Copilot欺骗漏洞</td>
+<td>严重</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59252">CVE-2025-59252</a></td>
+<td>M365 Copilot欺骗漏洞</td>
+<td>严重</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59236">CVE-2025-59236</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>严重</td>
+<td>8.4</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59227">CVE-2025-59227</a></td>
+<td>Microsoft Office远程代码执行漏洞</td>
+<td>严重</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59234">CVE-2025-59234</a></td>
+<td>Microsoft Office远程代码执行漏洞</td>
+<td>严重</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2016-9535">CVE-2016-9535 *</a></td>
+<td>MITRE CVE-2016-9535：LibTIFF堆缓冲区溢出漏洞</td>
+<td>严重</td>
+<td>4</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59271">CVE-2025-59271</a></td>
+<td>Redis Enterprise权限提升漏洞</td>
+<td>严重</td>
+<td>8.7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-49708">CVE-2025-49708</a></td>
+<td>Windows图形组件远程代码执行漏洞</td>
+<td>严重</td>
+<td>9.9</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59287">CVE-2025-59287</a></td>
+<td>Windows Server Update Service (WSUS) 远程代码执行漏洞</td>
+<td>严重</td>
+<td>9.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55247">CVE-2025-55247</a></td>
+<td>.NET权限提升漏洞</td>
+<td>重要</td>
+<td>7.3</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55248">CVE-2025-55248</a></td>
+<td>.NET、.NET Framework和Visual Studio信息泄露漏洞</td>
+<td>重要</td>
+<td>4.8</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58724">CVE-2025-58724</a></td>
+<td>Arc启用服务器 - Azure Connected Machine Agent权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-553315">CVE-2025-55315 †</a></td>
+<td>ASP.NET安全功能绕过漏洞</td>
+<td>重要</td>
+<td>9.9</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-47989">CVE-2025-47989 †</a></td>
+<td>Azure Connected Machine Agent权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55697">CVE-2025-55697</a></td>
+<td>Azure本地权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59285">CVE-2025-59285</a></td>
+<td>Azure Monitor Agent权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59494">CVE-2025-59494</a></td>
+<td>Azure Monitor Agent权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55320">CVE-2025-55320</a></td>
+<td>Configuration Manager权限提升漏洞</td>
+<td>重要</td>
+<td>7.2</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59213">CVE-2025-59213</a></td>
+<td>Configuration Manager权限提升漏洞</td>
+<td>重要</td>
+<td>8.4</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59200">CVE-2025-59200</a></td>
+<td>数据共享服务欺骗漏洞</td>
+<td>重要</td>
+<td>7.7</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55681">CVE-2025-55681</a></td>
+<td>桌面窗口管理器权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55698">CVE-2025-55698</a></td>
+<td>DirectX图形内核拒绝服务漏洞</td>
+<td>重要</td>
+<td>7.7</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55678">CVE-2025-55678</a></td>
+<td>DirectX图形内核权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-54132">CVE-2025-54132 *</a></td>
+<td>GitHub CVE-2025-54132：Mermaid图表工具中的任意图像获取漏洞</td>
+<td>重要</td>
+<td>4.4</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58730">CVE-2025-58730</a></td>
+<td>收件箱COM对象（全局内存）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58731">CVE-2025-58731</a></td>
+<td>收件箱COM对象（全局内存）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58732">CVE-2025-58732</a></td>
+<td>收件箱COM对象（全局内存）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58733">CVE-2025-58733</a></td>
+<td>收件箱COM对象（全局内存）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58734">CVE-2025-58734</a></td>
+<td>收件箱COM对象（全局内存）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58735">CVE-2025-58735</a></td>
+<td>收件箱COM对象（全局内存）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58736">CVE-2025-58736</a></td>
+<td>收件箱COM对象（全局内存）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58738">CVE-2025-58738</a></td>
+<td>收件箱COM对象（全局内存）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59282">CVE-2025-59282</a></td>
+<td>Internet Information Services (IIS) 收件箱COM对象（全局内存）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59250">CVE-2025-59250</a></td>
+<td>SQL Server JDBC驱动程序欺骗漏洞</td>
+<td>重要</td>
+<td>8.1</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-48004">CVE-2025-48004</a></td>
+<td>Microsoft Brokering文件系统权限提升漏洞</td>
+<td>重要</td>
+<td>7.4</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59189">CVE-2025-59189</a></td>
+<td>Microsoft Brokering文件系统权限提升漏洞</td>
+<td>重要</td>
+<td>7.4</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59497">CVE-2025-59497</a></td>
+<td>Microsoft Defender for Linux拒绝服务漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58722">CVE-2025-58722</a></td>
+<td>Microsoft DWM核心库权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59254">CVE-2025-59254</a></td>
+<td>Microsoft DWM核心库权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59217">CVE-2025-59217</a></td>
+<td>Microsoft Dynamics 365（本地部署）跨站脚本漏洞</td>
+<td>重要</td>
+<td>7.6</td>
+<td>否</td>
+<td>否</td>
+<td>XSS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59232">CVE-2025-59232</a></td>
+<td>Microsoft Excel信息泄露漏洞</td>
+<td>重要</td>
+<td>7.1</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59235">CVE-2025-59235</a></td>
+<td>Microsoft Excel信息泄露漏洞</td>
+<td>重要</td>
+<td>7.1</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59223">CVE-2025-59223</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59224">CVE-2025-59224</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59225">CVE-2025-59225</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59231">CVE-2025-59231</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59233">CVE-2025-59233</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59243">CVE-2025-59243</a></td>
+<td>Microsoft Excel远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-53782">CVE-2025-53782</a></td>
+<td>Microsoft Exchange Server权限提升漏洞</td>
+<td>重要</td>
+<td>8.4</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59249">CVE-2025-59249</a></td>
+<td>Microsoft Exchange Server权限提升漏洞</td>
+<td>重要</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59248">CVE-2025-59248</a></td>
+<td>Microsoft Exchange Server欺骗漏洞</td>
+<td>重要</td>
+<td>7.5</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-47979">CVE-2025-47979 †</a></td>
+<td>Microsoft故障转移群集信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59188">CVE-2025-59188</a></td>
+<td>Microsoft故障转移群集信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59260">CVE-2025-59260</a></td>
+<td>Microsoft故障转移群集虚拟驱动程序信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59195">CVE-2025-59195</a></td>
+<td>Microsoft图形组件拒绝服务漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59229">CVE-2025-59229</a></td>
+<td>Microsoft Office拒绝服务漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59226">CVE-2025-59226</a></td>
+<td>Microsoft Office Visio远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59238">CVE-2025-59238</a></td>
+<td>Microsoft PowerPoint远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59228">CVE-2025-59228</a></td>
+<td>Microsoft SharePoint远程代码执行漏洞</td>
+<td>重要</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59237">CVE-2025-59237</a></td>
+<td>Microsoft SharePoint远程代码执行漏洞</td>
+<td>重要</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58739">CVE-2025-58739</a></td>
+<td>Microsoft Windows文件资源管理器欺骗漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59214">CVE-2025-59214</a></td>
+<td>Microsoft Windows文件资源管理器欺骗漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59221">CVE-2025-59221</a></td>
+<td>Microsoft Word远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59222">CVE-2025-59222</a></td>
+<td>Microsoft Word远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-54957">CVE-2025-54957 *</a></td>
+<td>MITRE CVE-2025-54957：杜比数字增强音频解码器中的整数溢出漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59489">CVE-2025-59489 *</a></td>
+<td>MITRE：CVE-2025-59489 Unity游戏引擎编辑器漏洞</td>
+<td>重要</td>
+<td>8.4</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59201">CVE-2025-59201</a></td>
+<td>网络连接状态指示器（NCSI）权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59185">CVE-2025-59185</a></td>
+<td>NTLM哈希泄露欺骗漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59244">CVE-2025-59244</a></td>
+<td>NTLM哈希泄露欺骗漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55696">CVE-2025-55696</a></td>
+<td>NtQueryInformation Token函数（ntifs.h）权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-25004">CVE-2025-25004</a></td>
+<td>PowerShell权限提升漏洞</td>
+<td>重要</td>
+<td>7.3</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58718">CVE-2025-58718</a></td>
+<td>远程桌面客户端远程代码执行漏洞</td>
+<td>重要</td>
+<td>8.8</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58737">CVE-2025-58737</a></td>
+<td>远程桌面协议远程代码执行漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59502">CVE-2025-59502</a></td>
+<td>远程过程调用拒绝服务漏洞</td>
+<td>重要</td>
+<td>7.5</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59199">CVE-2025-59199</a></td>
+<td>软件保护平台（SPP）权限提升漏洞</td>
+<td>重要</td>
+<td>8.4</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59184">CVE-2025-59184</a></td>
+<td>存储空间直通信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59192">CVE-2025-59192</a></td>
+<td>Storport.sys驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55240">CVE-2025-55240</a></td>
+<td>Visual Studio权限提升漏洞</td>
+<td>重要</td>
+<td>7.3</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59258">CVE-2025-59258</a></td>
+<td>Windows Active Directory联合服务（ADFS）信息泄露漏洞</td>
+<td>重要</td>
+<td>6.2</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58714">CVE-2025-58714</a></td>
+<td>Windows WinSock辅助功能驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59242">CVE-2025-59242</a></td>
+<td>Windows WinSock辅助功能驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55701">CVE-2025-55701</a></td>
+<td>Windows身份验证权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59275">CVE-2025-59275</a></td>
+<td>Windows身份验证权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59277">CVE-2025-59277</a></td>
+<td>Windows身份验证权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59278">CVE-2025-59278</a></td>
+<td>Windows身份验证权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55330">CVE-2025-55330</a></td>
+<td>Windows BitLocker安全功能绕过漏洞</td>
+<td>重要</td>
+<td>6.1</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55332">CVE-2025-55332</a></td>
+<td>Windows BitLocker安全功能绕过漏洞</td>
+<td>重要</td>
+<td>6.1</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55333">CVE-2025-55333</a></td>
+<td>Windows BitLocker安全功能绕过漏洞</td>
+<td>重要</td>
+<td>6.1</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55337">CVE-2025-55337</a></td>
+<td>Windows BitLocker安全功能绕过漏洞</td>
+<td>重要</td>
+<td>6.1</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55338">CVE-2025-55338</a></td>
+<td>Windows BitLocker安全功能绕过漏洞</td>
+<td>重要</td>
+<td>6.1</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55682">CVE-2025-55682</a></td>
+<td>Windows BitLocker安全功能绕过漏洞</td>
+<td>重要</td>
+<td>6.1</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58728">CVE-2025-58728</a></td>
+<td>Windows蓝牙服务权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59289">CVE-2025-59289</a></td>
+<td>Windows蓝牙服务权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59290">CVE-2025-59290</a></td>
+<td>Windows蓝牙服务权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55680">CVE-2025-55680</a></td>
+<td>Windows云文件迷你筛选器驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>8.4</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55336">CVE-2025-55336</a></td>
+<td>Windows云文件迷你筛选器驱动程序信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58725">CVE-2025-58725</a></td>
+<td>Windows COM+事件系统服务权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-48813">CVE-2025-48813</a></td>
+<td>Windows机密虚拟机欺骗漏洞</td>
+<td>重要</td>
+<td>6.3</td>
+<td>否</td>
+<td>否</td>
+<td>Spoofing</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55326">CVE-2025-55326</a></td>
+<td>Windows连接设备平台服务（Cdpsvc）远程代码执行漏洞</td>
+<td>重要</td>
+<td>7.5</td>
+<td>否</td>
+<td>否</td>
+<td>RCE</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58719">CVE-2025-58719</a></td>
+<td>Windows连接设备平台服务权限提升漏洞</td>
+<td>重要</td>
+<td>4.7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58727">CVE-2025-58727</a></td>
+<td>Windows连接设备平台服务权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59191">CVE-2025-59191</a></td>
+<td>Windows连接设备平台服务权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58720">CVE-2025-58720</a></td>
+<td>Windows加密服务信息泄露漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-50174">CVE-2025-50174</a></td>
+<td>Windows设备关联代理服务权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55677">CVE-2025-55677</a></td>
+<td>Windows设备关联代理服务权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-50175">CVE-2025-50175</a></td>
+<td>Windows数字媒体权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-53150">CVE-2025-53150</a></td>
+<td>Windows数字媒体权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59255">CVE-2025-59255</a></td>
+<td>Windows DWM核心库权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55692">CVE-2025-55692</a></td>
+<td>Windows错误报告服务权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55694">CVE-2025-55694</a></td>
+<td>Windows错误报告服务权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59197">CVE-2025-59197</a></td>
+<td>Windows ETL通道信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59205">CVE-2025-59205</a></td>
+<td>Windows图形组件权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59261">CVE-2025-59261</a></td>
+<td>Windows图形组件权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59241">CVE-2025-59241</a></td>
+<td>Windows健康和优化体验权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-53139">CVE-2025-53139</a></td>
+<td>Windows Hello安全功能绕过漏洞</td>
+<td>重要</td>
+<td>7.7</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55328">CVE-2025-55328</a></td>
+<td>Windows Hyper-V权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-50152">CVE-2025-50152</a></td>
+<td>Windows内核权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55693">CVE-2025-55693</a></td>
+<td>Windows内核权限提升漏洞</td>
+<td>重要</td>
+<td>7.4</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59187">CVE-2025-59187</a></td>
+<td>Windows内核权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59194">CVE-2025-59194</a></td>
+<td>Windows内核权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59207">CVE-2025-59207</a></td>
+<td>Windows内核权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55679">CVE-2025-55679</a></td>
+<td>Windows内核信息泄露漏洞</td>
+<td>重要</td>
+<td>5.1</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55683">CVE-2025-55683</a></td>
+<td>Windows内核信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55699">CVE-2025-55699</a></td>
+<td>Windows内核信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59186">CVE-2025-59186</a></td>
+<td>Windows内核信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55334">CVE-2025-55334</a></td>
+<td>Windows内核安全功能绕过漏洞</td>
+<td>重要</td>
+<td>6.2</td>
+<td>否</td>
+<td>否</td>
+<td>SFB</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-58729">CVE-2025-58729</a></td>
+<td>Windows本地会话管理器（LSM）拒绝服务漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59257">CVE-2025-59257</a></td>
+<td>Windows本地会话管理器（LSM）拒绝服务漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59259">CVE-2025-59259</a></td>
+<td>Windows本地会话管理器（LSM）拒绝服务漏洞</td>
+<td>重要</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+<td>DoS</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59193">CVE-2025-59193</a></td>
+<td>Windows管理服务权限提升漏洞</td>
+<td>重要</td>
+<td>7</td>
+<td>否</td>
+<td>否</td>
+<td>EoP</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59204">CVE-2025-59204</a></td>
+<td>Windows管理服务信息泄露漏洞</td>
+<td>重要</td>
+<td>5.5</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59208">CVE-2025-59208</a></td>
+<td>Windows MapUrlToZone信息泄露漏洞</td>
+<td>重要</td>
+<td>7.1</td>
+<td>否</td>
+<td>否</td>
+<td>Info</td>
+</tr>
+<tr>
+<td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-55339">CVE-2025-55339</a></td>
+<td>Windows网络驱动程序接口规范驱动程序权限提升漏洞</td>
+<td>重要</td>
+<td>7.8</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/云安全.html" class="tag-link">#云安全</a> <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/Edge.html" class="tag-link">#Edge</a> <a href="/tag/Azure安全.html" class="tag-link">#Azure安全</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/XSS.html" class="tag-link">#XSS</a> <a href="/tag/安全研究.html" class="tag-link">#安全研究</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

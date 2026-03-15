@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows注册表探险 #6：内核模式对象 - BasicBit</title>
+  <meta name="description" content="Windows注册表探险 #6：内核模式对象">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">Windows注册表探险 #6：内核模式对象</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2025/4/16
+            </span>
+            <span class="meta-item">Mateusz Jurczyk</span>
+            <span class="meta-item">网络安全, 攻击研究, 防御研究</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2025/04/the-windows-registry-adventure-6-kernel.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2025%2F04%2Fthe-windows-registry-adventure-6-kernel.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Mateusz Jurczyk，Google Project Zero</p>
+<p>欢迎回到 Windows 注册表探险之旅！在本系列的<a href="/2024/12/the-windows-registry-adventure-5-regf.html">上一篇文章</a>中，我们深入探讨了 regf 配置单元格式的内部原理。理解注册表的这一基础方面至关重要，因为它揭示了该机制背后的设计原则及其固有的优缺点。存储在 regf 文件中的数据代表了配置单元的最终状态。了解如何解析这些数据足以处理以此格式编码的静态文件，例如编写自定义的 regf 解析器来检查从硬盘提取的配置单元。然而，对于那些感兴趣于 Windows 在运行时如何管理 regf 文件，而不仅仅是其孤立行为的人来说，还有另一个维度需要探索：在活动配置单元的整个生命周期中分配和维护的大量内核模式对象。这些辅助对象之所以必不可少，原因如下：</p>
+<ul>
+<li>跟踪所有当前加载的配置单元、它们的属性（例如，加载标志）、它们的内存映射以及它们之间的关系（尤其是彼此叠加的差异配置单元）。</li>
+<li>在 Windows 多线程环境中同步对键和配置单元的访问。</li>
+<li>缓存配置单元信息，以便比直接内存映射查找更快地访问。</li>
+<li>将注册表与 NT 对象管理器集成，并支持标准操作（打开/关闭句柄、设置/查询安全描述符、强制执行访问检查等）。</li>
+<li>在待处理事务完全提交到底层配置单元之前，管理其状态。</li>
+</ul>
+<p>为了满足这些多样化的需求，Windows 内核使用了众多相互关联的结构。在本文中，我们将研究其中一些最关键的结构、它们的功能，以及如何使用 WinDbg 有效地枚举和检查它们。需要注意的是，Microsoft 仅通过 ntoskrnl.exe 的 PDB 符号为部分与注册表相关的结构提供了官方定义。在许多情况下，我不得不对相关代码进行逆向工程以恢复结构布局，并推断特定字段和枚举的类型和名称。在整篇文章中，我将明确指出每个结构定义是官方的还是逆向工程得出的。如果您发现任何不准确之处，请告诉我。这里提供的定义主要源自应用了 2022 年 3 月补丁的 Windows Server 2019（内核版本 10.0.17763.2686），这是我进行大部分注册表代码分析时使用的内核版本。然而，该版本与最新的 Windows 11 之间，超过 99% 的注册表结构定义似乎是相同的，因此这些信息也直接适用于最新的系统。</p>
+<h2 id="配置单元结构">配置单元结构</h2><p>鉴于配置单元是注册表对象中最复杂的类型，其内核模式描述符同样复杂且冗长也就不足为奇了。Windows 中主要的配置单元描述符结构，称为 _CMHIVE，占据了相当大的 0x12F8 字节——超过了 x86 系列架构的标准内存页大小 4 KiB。在 _CMHIVE 内部，偏移量 0 处是另一个类型为 _HHIVE 的结构，它占据了 0x600 字节，如下图所示：</p>
+<p><img src="/images/11fb8fbee7fe/ae43ac56c36bdb27d7e0b36fe42c0b8c.png" alt="描述 Windows 注册表内核结构 _CMHIVE 布局的图表。它显示了整体的 _CMHIVE 块，标记总大小为 0x12F8 字节。在此块内，第一部分从偏移量 0x0 到 0x600，标记为 _HHIVE 结构。剩余部分从偏移量 0x600 到 0x12F8，标记为“_CMHIVE 的其余部分”。" loading="lazy"></p>
+<p>这种关系类似于其他常见的 Windows 对象对，例如 _EPROCESS / _KPROCESS 和 _ETHREAD / _KTHREAD。因为 _HHIVE 总是作为更大的 _CMHIVE 结构的一部分进行分配，所以它们的指针类型实际上是可互换的。如果您遇到使用 _HHIVE* 指针的反编译访问超出了该结构的大小，这几乎肯定表明它引用了包含它的 _CMHIVE 对象内的一个字段。</p>
+<p>但是，为什么需要两个不同的结构来表示单个注册表配置单元呢？虽然技术上并非必需，但这种分离可能有助于划分与配置单元不同抽象层相关的字段。具体来说：</p>
+<ul>
+<li>_HHIVE 管理配置单元的低级方面，包括配置单元头、箱（bin）和单元（cell），以及内存映射和与其磁盘对应物的同步状态（例如，脏扇区）。</li>
+<li>_CMHIVE 处理关于配置单元的更抽象的信息，例如安全描述符缓存、指向高级内核对象（如根键控制块（KCB））的指针，以及关联的事务资源管理器（_CM_RM 结构）。</li>
+</ul>
+<p>接下来的小节将更深入地探讨这两个结构的职责和内部工作原理。</p>
+<h3 id="-hhive-结构概述">_HHIVE 结构概述</h3><p>_HHIVE 结构的主要作用是管理配置单元的内存相关状态。这使得更高级别的注册表代码能够执行诸如分配、释放和将单元标记为“脏”等操作，而无需处理低级的实现细节。_HHIVE 结构包含 49 个顶级成员，其中大部分将在下面按较大的组别进行描述：</p>
+<p>0: kd&gt; dt _HHIVE</p>
+<p>nt!_HHIVE</p>
+<p>+0x000 Signature        : Uint4B</p>
+<p>+0x008 GetCellRoutine   : Ptr64     _CELL_DATA*</p>
+<p>+0x010 ReleaseCellRoutine : Ptr64     void</p>
+<p>+0x018 Allocate         : Ptr64     void*</p>
+<p>+0x020 Free             : Ptr64     void</p>
+<p>+0x028 FileWrite        : Ptr64     long</p>
+<p>+0x030 FileRead         : Ptr64     long</p>
+<p>+0x038 HiveLoadFailure  : Ptr64 Void</p>
+<p>+0x040 BaseBlock        : Ptr64 _HBASE_BLOCK</p>
+<p>+0x048 FlusherLock      : _CMSI_RW_LOCK</p>
+<p>+0x050 WriterLock       : _CMSI_RW_LOCK</p>
+<p>+0x058 DirtyVector      : _RTL_BITMAP</p>
+<p>+0x068 DirtyCount       : Uint4B</p>
+<p>+0x06c DirtyAlloc       : Uint4B</p>
+<p>+0x070 UnreconciledVector : _RTL_BITMAP</p>
+<p>+0x080 UnreconciledCount : Uint4B</p>
+<p>+0x084 BaseBlockAlloc   : Uint4B</p>
+<p>+0x088 Cluster          : Uint4B</p>
+<p>+0x08c Flat             : Pos 0, 1 Bit</p>
+<p>+0x08c ReadOnly         : Pos 1, 1 Bit</p>
+<p>+0x08c Reserved         : Pos 2, 6 Bits</p>
+<p>+0x08d DirtyFlag        : UChar</p>
+<p>+0x090 HvBinHeadersUse  : Uint4B</p>
+<p>+0x094 HvFreeCellsUse   : Uint4B</p>
+<p>+0x098 HvUsedCellsUse   : Uint4B</p>
+<p>+0x09c CmUsedCellsUse   : Uint4B</p>
+<p>+0x0a0 HiveFlags        : Uint4B</p>
+<p>+0x0a4 CurrentLog       : Uint4B</p>
+<p>+0x0a8 CurrentLogSequence : Uint4B</p>
+<p>+0x0ac CurrentLogMinimumSequence : Uint4B</p>
+<p>+0x0b0 CurrentLogOffset : Uint4B</p>
+<p>+0x0b4 MinimumLogSequence : Uint4B</p>
+<p>+0x0b8 LogFileSizeCap   : Uint4B</p>
+<p>+0x0bc LogDataPresent   : [2] UChar</p>
+<p>+0x0be PrimaryFileValid : UChar</p>
+<p>+0x0bf BaseBlockDirty   : UChar</p>
+<p>+0x0c0 LastLogSwapTime  : _LARGE_INTEGER</p>
+<p>+0x0c8 FirstLogFile     : Pos 0, 3 Bits</p>
+<p>+0x0c8 SecondLogFile    : Pos 3, 3 Bits</p>
+<p>+0x0c8 HeaderRecovered  : Pos 6, 1 Bit</p>
+<p>+0x0c8 LegacyRecoveryIndicated : Pos 7, 1 Bit</p>
+<p>+0x0c8 RecoveryInformationReserved : Pos 8, 8 Bits</p>
+<p>+0x0c8 RecoveryInformation : Uint2B</p>
+<p>+0x0ca LogEntriesRecovered : [2] UChar</p>
+<p>+0x0cc RefreshCount     : Uint4B</p>
+<p>+0x0d0 StorageTypeCount : Uint4B</p>
+<p>+0x0d4 Version          : Uint4B</p>
+<p>+0x0d8 ViewMap          : _HVP_VIEW_MAP</p>
+<p>+0x110 Storage          : [2] _DUAL</p>
+<h4 id="签名-signature-">签名（Signature）</h4><p>等于 0xBEE0BEE0，它是 _HHIVE / _CMHIVE 结构的唯一签名。在数字取证中，它可能有助于在原始内存转储中识别这些结构，并且是 Windows 注册表实现中又一个<a href="https://devblogs.microsoft.com/oldnewthing/20030808-00/?p=42943">对蜜蜂的引用</a>。</p>
+<h4 id="函数指针">函数指针</h4><p>接下来是六个函数指针，它们在 HvHiveStartFileBacked 和 HvHiveStartMemoryBacked 中初始化，指向用于以下操作的内部内核处理程序：</p>
+<table>
+<thead>
+<tr>
+<th align="left">指针名称</th>
+<th align="left">指针值</th>
+<th align="left">操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">GetCellRoutine</td>
+<td align="left">HvpGetCellPaged 或 HvpGetCellFlat</td>
+<td align="left">将单元索引转换为虚拟地址</td>
+</tr>
+<tr>
+<td align="left">ReleaseCellRoutine</td>
+<td align="left">HvpReleaseCellPaged 或 HvpReleaseCellFlat</td>
+<td align="left">释放先前转换的单元索引</td>
+</tr>
+<tr>
+<td align="left">Allocate</td>
+<td align="left">CmpAllocate</td>
+<td align="left">在全局注册表配额内分配内核内存</td>
+</tr>
+<tr>
+<td align="left">Free</td>
+<td align="left">CmpFree</td>
+<td align="left">在全局注册表配额内释放内核内存</td>
+</tr>
+<tr>
+<td align="left">FileWrite</td>
+<td align="left">CmpFileWrite</td>
+<td align="left">将数据写入配置单元文件</td>
+</tr>
+<tr>
+<td align="left">FileRead</td>
+<td align="left">CmpFileRead</td>
+<td align="left">从配置单元文件读取数据</td>
+</tr>
+</tbody></table>
+<p>正如我们所见，这些函数提供了操作内核内存、单元索引和配置单元文件的基本功能。在我看来，其中最重要的是 GetCellRoutine，其典型目标 HvpGetCellPaged 执行单元映射遍历，以便将单元索引转换为配置单元映射内的相应地址。</p>
+<p>很自然地会想到，如果攻击者能够通过缓冲区溢出或释放后使用（use-after-free）条件破坏这些函数指针，它们可能对利用（exploitation）有用。在 Windows 10 及更早版本中确实如此，但在 Windows 11 中，这些调用现在已去虚拟化，大多数调用点直接引用 HvpGetCellPaged / HvpGetCellFlat 和 HvpReleaseCellPaged / HvpReleaseCellFlat 之一，而不引用指针。这对安全性来说是件好事，因为它完全消除了这些字段在任何攻击场景中的用处。</p>
+<p>以下是 Windows 10 中 GetCellRoutine 调用的示例，在 IDA Pro 中反汇编：</p>
+<p><img src="/images/11fb8fbee7fe/ffd9a4387d096859c37933437ce76936.png" alt="IDA Pro 反汇编视图，显示与 Windows 10 中 GetCellRoutine 调用相关的汇编代码，包含 mov 和 lea 指令，对 CmSetValueKey 的交叉引用，并以调用 __guard_dispatch_icall 结束。" loading="lazy"></p>
+<p>以及 Windows 11 中的相同调用：</p>
+<p><img src="/images/11fb8fbee7fe/d85e63375f30b360e714c4924a2e8622.png" alt="Windows 11 中 GetCellRoutine 调用实现的 IDA Pro 反汇编。汇编代码显示寄存器设置（mov、lea），一个 test 指令后跟条件跳转（jz）。根据条件，代码要么调用 HvlpGetCellFlat 并向前跳转，要么调用 HvlpGetCellPaged。还显示了对 CmSetValueKey 的交叉引用。" loading="lazy"></p>
+<h4 id="配置单元加载失败信息">配置单元加载失败信息</h4><p>这是一个指向公共 _HIVE_LOAD_FAILURE 结构的指针，每次加载配置单元时发生错误，都会将其作为第一个参数传递给 SetFailureLocation 函数。它有助于跟踪给定配置单元哪些有效性检查失败，而无需跟踪整个加载过程。</p>
+<h4 id="基块-base-block-">基块（Base block）</h4><p>指向配置单元头副本的指针，由 _HBASE_BLOCK 结构表示。</p>
+<h4 id="同步锁">同步锁</h4><p>有两个锁，用途如下：</p>
+<ul>
+<li>FlusherLock – 同步在单元内更改数据的客户端与刷新线程（flusher thread）之间对配置单元的访问。</li>
+<li>WriterLock – 同步修改箱/单元布局的写入器之间对配置单元的访问。</li>
+</ul>
+<p>它们的官方类型是 _CMSI_RW_LOCK，但本质上就是 _EX_PUSH_LOCK，并且它们与标准内核 API（如 ExAcquirePushLockSharedEx）一起使用。</p>
+<h4 id="脏块信息">脏块信息</h4><p>在偏移量 0x58 到 0x84 之间，_HHIVE 存储了几个表示内存中和磁盘上配置单元实例之间同步状态的数据结构。</p>
+<h4 id="配置单元标志">配置单元标志</h4><p>首先，偏移量 0x8C 处有两个标志，指示配置单元映射是否是平坦的（flat）以及配置单元是否是只读的。其次，有一个 32 位的 HiveFlags 成员，存储了进一步的标志，据我所知，这些标志未包含在任何公共 Windows 符号中。我设法通过逆向工程推断出我观察到的常量的含义，得到了以下枚举：</p>
+<p>enum _HV_HIVE_FLAGS</p>
+<p>{</p>
+<p>HIVE_VOLATILE                      = 0x1,</p>
+<p>HIVE_NOLAZYFLUSH                   = 0x2,</p>
+<p>HIVE_PRELOADED                     = 0x10,</p>
+<p>HIVE_IS_UNLOADING                  = 0x20,</p>
+<p>HIVE_COMPLETE_UNLOAD_STARTED       = 0x40,</p>
+<p>HIVE_ALL_REFS_DROPPED              = 0x80,</p>
+<p>HIVE_ON_PRELOADED_LIST             = 0x400,</p>
+<p>HIVE_FILE_READ_ONLY                = 0x8000,</p>
+<p>HIVE_SECTION_BACKED                = 0x20000,</p>
+<p>HIVE_DIFFERENCING                  = 0x80000,</p>
+<p>HIVE_IMMUTABLE                     = 0x100000,</p>
+<p>HIVE_FILE_PAGES_MUST_BE_KEPT_LOCAL = 0x800000,</p>
+<p>};</p>
+<p>以下是每个标志的简要说明：</p>
+<ul>
+<li>HIVE_VOLATILE：配置单元仅存在于内存中；例如，为 \Registry 和 \Registry\Machine\HARDWARE 设置。</li>
+<li>HIVE_NOLAZYFLUSH：对配置单元的更改不会自动刷新到磁盘，需要手动刷新；例如，为 \Registry\Machine\SAM 设置。</li>
+<li>HIVE_PRELOADED：配置单元是默认的系统配置单元之一；例如，为 \Registry\Machine\SOFTWARE、\Registry\Machine\SYSTEM 等设置。</li>
+<li>HIVE_IS_UNLOADING：配置单元当前正在另一个线程中加载或卸载，在操作完成前不应访问。</li>
+<li>HIVE_COMPLETE_UNLOAD_STARTED：配置单元的卸载过程已在 CmpCompleteUnloadKey 中启动。</li>
+<li>HIVE_ALL_REFS_DROPPED：通过 KCB 对配置单元的所有引用都已删除。</li>
+<li>HIVE_ON_PRELOADED_LIST：配置单元通过 PreloadedHiveList 字段链接到链表中。</li>
+<li>HIVE_FILE_READ_ONLY：底层配置单元文件是只读的，不应修改；表示配置单元是在设置了 REG_OPEN_READ_ONLY 标志的情况下加载的。</li>
+<li>HIVE_SECTION_BACKED：配置单元使用节视图（section view）映射到内存中。</li>
+<li>HIVE_DIFFERENCING：配置单元是差异配置单元（版本 1.6，加载在 \Registry\WC 下）。</li>
+<li>HIVE_IMMUTABLE：配置单元是不可变的，无法修改；表示它是在设置了 REG_IMMUTABLE 标志的情况下加载的。</li>
+<li>HIVE_FILE_PAGES_MUST_BE_KEPT_LOCAL：内核始终维护配置单元每个页面的本地副本，要么通过将其锁定在物理内存中，要么通过 CoW 机制创建私有副本。</li>
+</ul>
+<h4 id="日志文件信息">日志文件信息</h4><p>在偏移量 0xA4 到 0xCC 之间，有许多与日志文件管理相关的字段，即磁盘上伴随主配置单元文件的 .LOG1/.LOG2 文件。</p>
+<h4 id="配置单元版本">配置单元版本</h4><p>Version 字段存储配置单元的次要版本，理论上应该是 3 到 6 之间的整数。然而，如<a href="/2024/12/the-windows-registry-adventure-5-regf.html">上一篇博客文章</a>所述，可以通过将主版本指定为 0 和任何所需的次要版本，或者诱使内核从日志文件恢复配置单元头，并利用 HvAnalyzeLogFiles 函数比 HvpGetHiveHeader 更宽松这一事实，将其设置为任意的 32 位值。尽管如此，我尚未发现此行为的任何安全影响。</p>
+<h4 id="视图映射-view-map-">视图映射（View map）</h4><p>视图映射保存了关于配置单元如何在内存中映射的所有基本信息。注册表内存管理的具体实现多年来发生了很大变化，其细节在连续的系统版本之间都有所不同。在最新版本中，视图映射由顶级公共结构 _HVP_VIEW_MAP 表示：</p>
+<p>0: kd&gt; dt _HVP_VIEW_MAP</p>
+<p>nt!_HVP_VIEW_MAP</p>
+<p>+0x000 SectionReference : Ptr64 Void</p>
+<p>+0x008 StorageEndFileOffset : Int8B</p>
+<p>+0x010 SectionEndFileOffset : Int8B</p>
+<p>+0x018 ProcessTuple     : Ptr64 _CMSI_PROCESS_TUPLE</p>
+<p>+0x020 Flags            : Uint4B</p>
+<p>+0x028 ViewTree         : _RTL_RB_TREE</p>
+<p>其各自字段的语义如下：</p>
+<ul>
+<li>SectionReference：包含一个对应于配置单元文件的节对象的内核模式句柄，通过 CmSiCreateSectionForFile 中的 ZwCreateSection 创建。</li>
+<li>StorageEndFileOffset：存储在任何给定时间可以通过文件支持的节表示的配置单元的最大大小。初始设置为加载的配置单元的大小，对于可变（普通）配置单元，可以在运行时动态增加或减少。</li>
+<li>SectionEndFileOffset：表示加载时配置单元文件节的大小。在 HvpViewMapStart 中的第一次初始化后永远不会被修改，似乎主要用作防止将不可变配置单元文件扩展到超出其原始大小的保障。</li>
+<li>ProcessTuple：一个类型为 _CMSI_PROCESS_TUPLE 的结构，它标识配置单元节视图的宿主进程。此字段当前始终指向全局 CmpRegistryProcess 对象，该对象对应于系统中承载所有配置单元映射的专用“Registry”进程。然而，如果 Microsoft 选择实现这样的功能，此字段可以实现跨多个进程更细粒度的配置单元映射分离。</li>
+<li>Flags：表示与整个配置单元相关的一组内存管理标志。这些标志没有公开文档；但是，通过逆向工程，我确定了它们的用途如下：<ul>
+<li>VIEW_MAP_HIVE_FILE_IMMUTABLE (0x1)：表示配置单元已作为不可变加载，意味着没有数据会保存回底层配置单元文件。</li>
+<li>VIEW_MAP_MUST_BE_KEPT_LOCAL (0x2)：表示所有配置单元数据必须持久存储在内存中，而不仅仅是通过文件支持的节访问。这可能是为了防止涉及从远程网络共享加载的配置单元的双重获取（double-fetch）条件。</li>
+<li>VIEW_MAP_CONTAINS_LOCKED_PAGES (0x4)：表示配置单元的一些页面当前使用 ZwLockVirtualMemory 锁定在物理内存中。</li>
+</ul>
+</li>
+<li>ViewTree：这是视图树结构的根，其中包含内存中映射的每个连续节视图的描述符。</li>
+</ul>
+<p>总的来说，Windows 中低级配置单元内存管理的实现比最初看起来要复杂。这种复杂性源于内核需要优雅地处理各种边界情况和交互。例如，配置单元可能作为不可变加载，这意味着配置单元可以在内存中操作，但更改不得刷新到磁盘。同时，系统必须支持从 .LOG 文件恢复数据，包括将配置单元扩展到超出其原始磁盘长度的可能性。在运行时，还必须能够高效地修改注册表数据，并根据需要收缩和扩展它。更复杂的是，Windows 根据文件的后备卷对锁定配置单元页面在内存中强制执行不同的规则，仔细平衡最佳内存使用和系统安全保证。这些以及许多其他因素共同导致了配置单元内存管理的复杂性。</p>
+<p>为了更好地理解视图树的组织方式，我们首先分析配置单元映射代码的一般逻辑。</p>
+<h5 id="配置单元映射逻辑">配置单元映射逻辑</h5><p>负责在内存中映射配置单元的主要内核函数是 HvLoadHive。它实现了整体逻辑并协调负责执行更专门任务的各种子例程，顺序如下：</p>
+<ol>
+<li><strong>头验证</strong>：内核读取并检查配置单元的头以确定其完整性，确保配置单元未被篡改或损坏。相关函数：HvpGetHiveHeader。</li>
+<li><strong>日志分析</strong>：内核处理配置单元的事务日志，仔细检查它们以识别任何需要恢复过程的待处理更改或不一致。相关函数：HvAnalyzeLogFiles。</li>
+<li><strong>初始节映射</strong>：基于配置单元文件创建一个节对象，并进一步分割成多个视图，每个视图对齐到 4 KiB 边界并限制在 2 MiB。此时，内核优先创建初始映射，而不关注配置单元内各个箱的精细布局。相关函数：HvpViewMapStart。</li>
+<li><strong>单元映射初始化</strong>：单元映射（一种将单元索引转换为内存地址的组件）被初始化。其条目被配置为指向新创建的视图。相关函数：HvpMapHiveImageFromViewMap。</li>
+<li><strong>日志恢复（如果需要）</strong>：如果先前的日志分析显示需要数据恢复，内核会尝试恢复数据完整性。这是新创建的内存映射可能已经被修改并标记为“脏”的最早时间点，表明其内容已更改，需要与磁盘表示同步。相关函数：HvpPerformLogFileRecovery。</li>
+<li><strong>箱映射</strong>：在这个最后阶段，内核为配置单元内的每个箱建立确定的内存映射，确保每个箱占据连续的内存区域。此过程可能需要创建新视图、消除现有视图或调整其边界以适应箱的特定排列。相关函数：HvpRemapAndEnlistHiveBins。</li>
+</ol>
+<p>现在我们理解了加载过程的主要组成部分，我们可以更详细地检查节视图树的内部结构。</p>
+<h5 id="视图树">视图树</h5><p>让我们考虑一个由三个大小分别为 256 KiB、2 MiB 和 128 KiB 的箱组成的示例配置单元。在第 3 步（“初始节映射”）之后，内核创建的节视图如下：</p>
+<p><img src="/images/11fb8fbee7fe/3b9379672aee6d87ade7ed7ae95585c1.png" alt="说明示例 Windows 注册表配置单元的初始节视图布局的图表。顶部部分显示配置单元布局，包含头、箱 1（256 KB）、箱 2（2 MB）和箱 3（128 KB）。底部部分显示相应的初始内核映射：视图 1（1.996 MiB）跨越箱 1 和箱 2 的大部分，视图 2（388 KiB）跨越箱 2 的末端和箱 3。" loading="lazy"></p>
+<p>正如我们所见，此时内核不关心箱边界或连续性：它需要实现的是使配置单元的每个页面都能通过节视图访问，以便进行日志恢复。简单来说，HvpViewMapStart（或者更具体地说，HvpViewMapCreateViewsForRegion）的工作方式是创建尽可能多的 2 MiB 视图，然后是覆盖文件剩余部分的最后一个视图。因此，在我们的示例中，第一个视图覆盖箱 1 和箱 2 的开头，第二个视图覆盖箱 2 的尾部部分和整个箱 3。需要注意的是，内存连续性仅在单个视图的范围内得到保证，视图 1 和视图 2 可能映射到虚拟地址空间中完全不同的位置。</p>
+<p>稍后在第 6 步中，系统确保在将配置单元移交给客户端之前，每个箱都映射为连续的内存块。这是通过遍历所有箱来完成的，对于当前视图映射中跨越多个视图的每个箱，执行以下操作：</p>
+<ul>
+<li>如果箱的开始和/或结束落在现有视图的中间，则从任一侧截断这些视图。此外，如果有任何视图完全被箱覆盖，则释放它们并将其从树中移除。</li>
+<li>为箱创建一个新的专用节视图，并将其插入视图树。</li>
+</ul>
+<p>在我们假设的场景中，最终的视图布局如下：</p>
+<p><img src="/images/11fb8fbee7fe/958a9d098dc5f6aa9f9b25b220faa5a8.png" alt="显示 Windows 注册表配置单元布局的图表，分为头、箱 1（256KB）、箱 2（2MB）和箱 3（128KB），并带有相应的节视图布局，说明视图 1、视图 2 和视图 3 如何映射到这些箱上。" loading="lazy"></p>
+<p>正如我们所见，内核缩小了视图 1 和 2，并创建了一个对应于箱 2 的新视图 3 来填补空白。节视图描述符的二叉树的最终布局如下图所示：</p>
+<p><img src="/images/11fb8fbee7fe/85efa4411e031e3e3773f976f272e97b.png" alt="显示 Windows 注册表配置单元的节视图描述符最终二叉树布局的图表。视图 3 是根节点，视图 1 是左子节点，视图 2 是右子节点。每个节点框显示与该视图描述符关联的特定有效和整体内存地址范围（十六进制）。" loading="lazy"></p>
+<p>了解了这一点，我们终于可以检查单个视图树条目的结构。它不包含在公共符号中，但我将其命名为 _HVP_VIEW。我逆向工程得出的定义如下：</p>
+<p>struct _HVP_VIEW</p>
+<p>{</p>
+<p>RTL_BALANCED_NODE Node;</p>
+<p>LARGE_INTEGER ViewStartOffset;</p>
+<p>LARGE_INTEGER ViewEndOffset;</p>
+<p>SSIZE_T ValidStartOffset;</p>
+<p>SSIZE_T ValidEndOffset;</p>
+<p>PBYTE MappingAddress;</p>
+<p>SIZE_T LockedPageCount;</p>
+<p>_HVP_VIEW_PAGE_FLAGS PageFlags[];</p>
+<p>};</p>
+<p>每个特定字段的作用记录如下：</p>
+<ul>
+<li>Node：这是用于将所有条目链接到单个红黑树的结构，传递给辅助内核函数，如 RtlRbInsertNodeEx 和 RtlRbRemoveNode。</li>
+<li>ViewStartOffset 和 ViewEndOffset：这对偏移量指定了底层节视图对象在配置单元文件中覆盖的总体字节范围。它们的差异对应于上图中单行中红色和绿色框的累积长度。</li>
+<li>ValidStartOffset 和 ValidEndOffset：这对偏移量指定了通过此视图可访问的配置单元的有效范围，即图中的绿色矩形。它必须是 [ViewStartOffset, ViewEndOffset] 范围的子集，并且可能在重新映射箱时（如本节所示）以及收缩和扩展配置单元时动态变化。</li>
+<li>MappingAddress：这是节视图映射在内存中的基地址，由 ZwMapViewOfSection 返回。它在 _HVP_VIEW_MAP.ProcessTuple 指定的进程上下文中有效（当前始终是“Registry”进程）。它覆盖 [ViewStartOffset, ViewEndOffset] 之间的整个范围，但只有 [ValidStartOffset, ValidEndOffset] 之间的页面是可访问的，节视图的其余部分标记为 PAGE_NOACCESS。</li>
+<li>LockedPageCount：指定在此视图中使用 ZwLockVirtualMemory 锁定在虚拟内存中的页面数。</li>
+<li>PageFlags：一个可变长度数组，为 [ViewStartOffset, ViewEndOffset] 范围内的每个内存页指定一组标志。</li>
+</ul>
+<p>我没有找到任何（非）官方来源记录支持的页面标志集，因此以下是我尝试命名它们并解释其含义：</p>
+<table>
+<thead>
+<tr>
+<th align="left">标志</th>
+<th align="left">值</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">VIEW_PAGE_VALID</td>
+<td align="left">0x1</td>
+<td align="left">指示页面是否有效 – 对于 [ValidStartOffset, ValidEndOffset] 之间的页面为 true，否则为 false。如果此标志被清除，所有其他标志都无关/未使用。<br><br>该标志在以下情况设置：<br>- 在配置单元加载期间创建节视图时，首先是 HvpViewMapStart 中的初始视图，然后是 HvpRemapAndEnlistHiveBins 中特定于箱的视图。<br>- 在 HvpViewMapExtendStorage 中扩展活动配置单元时。<br><br>该标志在以下情况清除：<br>- 在 HvpRemapAndEnlistHiveBins 中修剪现有视图以为新视图腾出空间时。<br>- 在 HvpViewMapShrinkStorage 中收缩配置单元时。</td>
+</tr>
+<tr>
+<td align="left">VIEW_PAGE_COW_BY_CALLER</td>
+<td align="left">0x2</td>
+<td align="left">指示内核是否通过写时复制（CoW）机制维护页面的副本，由客户端操作发起，例如修改单元中数据的注册表操作，从而导致页面被标记为脏。<br><br>该标志在以下情况设置：<br>- 在弄脏配置单元单元时，在 HvpViewMapMakeViewRangeCOWByCaller 中。<br><br>该标志在以下情况清除：<br>- 在将注册表更改刷新到磁盘时，在 HvpViewMapMakeViewRangeUnCOWByCaller 中。</td>
+</tr>
+<tr>
+<td align="left">VIEW_PAGE_COW_BY_POLICY</td>
+<td align="left">0x4</td>
+<td align="left">指示内核是否通过写时复制（CoW）机制维护页面的副本，这是由所有非本地配置单元（从系统卷以外的卷加载的配置单元）的页面必须始终保留在内存中的策略所要求的。<br><br>该标志在以下情况设置：<br>- 在 HvpViewMapMakeViewRangeValid 中，作为在内存中保留配置单元页面本地副本的替代方式（如果锁定失败，或者调用者不希望页面被锁定）。<br>- 在 HvpViewMapMakeViewRangeCOWByCaller 中，当将先前锁定的页面转换为“按策略 CoW”状态时。<br>- 在 HvpMappedViewConvertRegionFromLockedToCOWByPolicy 中，当在每 60 秒运行一次的线程中（由 CmpLazyLocalizeIntervalInSeconds 指示）延迟地将先前锁定的页面转换为“按策略 CoW”状态时。<br><br>该标志在以下情况清除：<br>- 在 HvpViewMapMakeViewRangeUnCOWByPolicy 中，目前似乎只发生在从系统卷加载的配置单元中，即全局 CmpWellKnownVolumeList 数组中列出的“\SystemRoot”和“\OSDataRoot”。</td>
+</tr>
+<tr>
+<td align="left">VIEW_PAGE_WRITABLE</td>
+<td align="left">0x8</td>
+<td align="left">指示页面当前是否标记为可写，通常是由于页面上尚未刷新到磁盘的修改操作的结果。<br><br>该标志在以下情况设置：<br>- 在 HvpViewMapMakeViewRangeCOWByCaller 中，当将单元标记为脏时。<br><br>该标志在以下情况清除：<br>- 在 HvpViewMapMakeViewRangeUnCOWByCaller 中，当将配置单元更改刷新到磁盘时。<br>- 在 HvpViewMapSealRange 中，当因各种原因将内存设置为只读时（执行日志文件恢复后等）。</td>
+</tr>
+<tr>
+<td align="left">VIEW_PAGE_LOCKED</td>
+<td align="left">0x10</td>
+<td align="left">指示页面当前是否锁定在物理内存中。<br><br>该标志在以下情况设置：<br>- 在 HvpViewMapMakeViewRangeValid 中，如果调用者请求页面锁定，并且 Registry 进程的 64 MiB 工作集中还有足够的空间。实际上，这归结为锁定 HvpViewMapStart 中为所有应用程序配置单元以及系统磁盘卷之外的普通配置单元创建的初始 2 MiB 配置单元映射。<br><br>该标志在以下情况清除：<br>- 每当页面状态在以下函数中更改为按策略 CoW 或无效时：<br>  - HvpViewMapMakeViewRangeCOWByCaller<br>  - HvpMappedViewConvertRegionFromLockedToCOWByPolicy<br>  - HvpViewMapMakeViewRangeUnCOWByPolicy<br>  - HvpViewMapMakeViewRangeInvalid</td>
+</tr>
+</tbody></table>
+<p>大多数标志的语义都很直接，但也许 VIEW_PAGE_COW_BY_POLICY 和 VIEW_PAGE_LOCKED 需要稍长的解释。这两个标志是互斥的，它们代表了实现相同目标的几乎相同的方式：确保每个配置单元页面的副本保留在内存或页面文件中。在正常情况下，内核可以简单地以其默认形式创建必要的节视图，并让内存管理子系统决定如何最有效地处理它们的页面。然而，注册表的保证之一是，一旦配置单元被加载，只要它在系统中处于活动状态，它就必须保持可操作。另一方面，节视图具有（部分）底层数据可能被内核完全驱逐，并稍后从原始存储介质（如硬盘）重新读取的特性。因此，可以想象这样一种情况：</p>
+<ul>
+<li>配置单元从可移动驱动器（例如 CD-ROM 或闪存驱动器）或网络共享加载，</li>
+<li>由于其他应用程序的高内存压力，一些配置单元页面从内存中被驱逐，</li>
+<li>带有配置单元文件的可移动驱动器从系统中弹出，</li>
+<li>客户端随后尝试操作配置单元，但其部分内容不可用，无法再次从原始源获取。</li>
+</ul>
+<p>这可能会导致一些严重的问题，并使注册表代码以意外的方式失败。这也将构成一个安全漏洞：内核假设一旦它打开并清理了配置单元文件，其内容在配置单元使用期间保持一致。这是通过以独占访问方式打开文件来实现的，但如果 Windows 内存管理器曾经重新读取配置单元数据，恶意的可移动驱动器或攻击者控制的网络共享可能会忽略独占性请求，并在第二次读取时提供不同的无效数据。这将导致一种“双重获取”条件，并可能导致内核内存损坏。</p>
+<p>为了解决可靠性和安全问题，Windows 确保永远不会驱逐那些无法保证独占访问的配置单元的页面。这涵盖了从系统卷以外的位置加载的配置单元，并且自 Windows 10 19H1 起，也涵盖了所有应用程序配置单元，无论文件位置如何。实现这一点的第一种方法是使用 ZwLockVirtualMemory 调用直接将页面锁定在物理内存中。它用于加载配置单元时创建的初始 ≤ 2 MiB 节视图，直到当前设置为 64 MiB 的 Registry 进程的工作集限制。第二种方法是利用写时复制机制——即将相关页面标记为 <a href="https://learn.microsoft.com/en-us/windows/win32/memory/memory-protection-constants#PAGE_WRITECOPY">PAGE_WRITECOPY</a>，然后使用 HvpViewMapTouchPages 辅助函数接触每个页面。这会导致内存管理器创建每个内存页面的私有副本，其中包含与原始数据相同的数据，从而防止它们对注册表操作不可用。</p>
+<p>在这两种类型的驻留页面中，CoW 类型在长期内实际上成为默认选项。最终大多数页面都会收敛到这种状态，即使它们最初是锁定的。这是因为锁定的页面在多种情况下会转换为 CoW，例如，当由每 60 秒运行的后台 CmpDoLocalizeNextHive 线程转换时，或者在修改单元期间。另一方面，一旦页面转换到 CoW 状态，它就永远不会恢复为锁定状态。下图说明了从可移动/远程存储加载的配置单元中页面驻留状态之间的转换：</p>
+<p><img src="/images/11fb8fbee7fe/5737b0dae1ec0a345e4db29b9b24ad62.png" alt="状态转换图，说明了 Windows 注册表数据管理上下文中的数据状态，如 VALID、LOCKED 和 COW（写时复制），以及转换，如加载、弄脏和刷新。" loading="lazy"></p>
+<p>对于从系统卷加载的普通配置单元（即未设置 VIEW_MAP_MUST_BE_KEPT_LOCAL 标志），状态机要简单得多：</p>
+<p><img src="/images/11fb8fbee7fe/ab6a916fd5cf71db294e80ae4b40bafd.png" alt="普通 Windows 注册表配置单元加载的简化状态机图（未设置 VIEW_MAP_MUST_BE_KEPT_LOCAL 标志）。它显示“加载”操作导致“VALID”状态。“弄脏”操作转换到组合的“VALID/WRITABLE/COW_BY_CALLER”状态，“刷新”操作返回到“VALID”状态。" loading="lazy"></p>
+<p>顺便提一下，<a href="https://project-zero.issues.chromium.org/issues/42451731">CVE-2024-43452</a> 是一个有趣的漏洞，它利用了页面驻留保护逻辑中的一个缺陷。该漏洞的出现是因为一些数据不能保证驻留在内存中，并且可能在箱映射期间从远程 SMB 共享获取两次。这发生在配置单元加载过程的早期，在页面驻留保护完全到位之前。内核信任第二次读取的数据而不重新验证，允许其被恶意设置为无效值，从而导致内核内存损坏。</p>
+<h4 id="单元映射-cell-maps-">单元映射（Cell maps）</h4><p>正如<a href="/2024/12/the-windows-registry-adventure-5-regf.html">第 5 部分</a>所讨论的，几乎每个单元都包含对配置单元中其他单元的引用，形式为单元索引。因此，几乎每个注册表操作都涉及多轮将单元索引转换为其相应的虚拟地址，以便遍历注册表结构。节视图存储在红黑树中，因此搜索复杂度为 O(log n)。这看起来不错，但如果我们考虑到在典型系统上，注册表的读取频率远高于扩展/收缩，那么很明显，以较低效的插入/删除为代价进一步优化搜索操作是有意义的。这正是</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/Windows安全.html" class="tag-link">#Windows安全</a> <a href="/tag/内存安全.html" class="tag-link">#内存安全</a> <a href="/tag/UAF.html" class="tag-link">#UAF</a> <a href="/tag/CVE.html" class="tag-link">#CVE</a> <a href="/tag/硬件安全.html" class="tag-link">#硬件安全</a> <a href="/tag/API安全.html" class="tag-link">#API安全</a> <a href="/tag/漏洞利用.html" class="tag-link">#漏洞利用</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#配置单元结构" class="toc-link">
+              <span class="toc-text">配置单元结构</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#-hhive-结构概述" class="toc-link">_HHIVE 结构概述</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#签名-signature-" class="toc-link">签名（Signature）</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#函数指针" class="toc-link">函数指针</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#配置单元加载失败信息" class="toc-link">配置单元加载失败信息</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#基块-base-block-" class="toc-link">基块（Base block）</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#同步锁" class="toc-link">同步锁</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#脏块信息" class="toc-link">脏块信息</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#配置单元标志" class="toc-link">配置单元标志</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#日志文件信息" class="toc-link">日志文件信息</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#配置单元版本" class="toc-link">配置单元版本</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#视图映射-view-map-" class="toc-link">视图映射（View map）</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-2">
+                    <a href="#单元映射-cell-maps-" class="toc-link">单元映射（Cell maps）</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>

